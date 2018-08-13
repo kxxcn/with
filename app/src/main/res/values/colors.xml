@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="tab_plan">#b2caff</color>
+    <color name="tab_girl">#ffb2c5</color>
+    <color name="tab_write">#acf9cb</color>
+    <color name="tab_boy">#d097e5</color>
+    <color name="tab_setting">#f7cc76</color>
+
+    <color name="bg_plan">#b2caff</color>
+    <color name="bg_girl">#ffb2c5</color>
+    <color name="bg_write">#acf9cb</color>
+    <color name="bg_boy">#d097e5</color>
+    <color name="bg_setting">#f7cc76</color>
+</resources>
