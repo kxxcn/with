@@ -6,11 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.main.MainActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        style="@style/VerticalLinearLayout"
         android:layout_weight="9">
 
         <dev.kxxcn.app_with.util.SwipeViewPager
@@ -21,8 +20,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        style="@style/VerticalLinearLayout"
         android:layout_weight="1">
 
         <com.roughike.bottombar.BottomBar
