@@ -5,4 +5,5 @@ package dev.kxxcn.app_with.util;
  */
 public class Constants {
 	public static final String TAG = "kxxcn";
+	public static final String SIMPLE_DATE_FORMAT = "yyyy-MM-dd";
 }
