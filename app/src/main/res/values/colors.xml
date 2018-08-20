@@ -15,4 +15,6 @@
     <color name="bg_write">#acf9cb</color>
     <color name="bg_boy">#d097e5</color>
     <color name="bg_setting">#f7cc76</color>
+
+    <color name="btn_bottom_item">#d6cfcf</color>
 </resources>

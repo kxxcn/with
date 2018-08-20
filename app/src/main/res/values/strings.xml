@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">위드</string>
+
+    <string name="title">W I T H</string>
+    <string name="title_write">W R I T E</string>
+    <string name="title_you">Y O U</string>
+    <string name="title_me">M E</string>
+    <string name="title_setting">S E T T I N G</string>
+
+    <string name="hint_write">함께했던 소중한 추억을 기록하세요.</string>
+
+    <string name="format_today">%s년 %s월 %s일</string>
+
+    <string name="btn_primary">기본</string>
+    <string name="btn_gallery">사진첩</string>
+    <string name="btn_font">글꼴</string>
+    <string name="btn_color">색상</string>
 </resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="background_edit">
+        <item>#FFFFFF</item>
+        <item>#000000</item>
+        <item>#595959</item>
+        <item>#948a54</item>
+        <item>#ddd9c3</item>
+        <item>#17375e</item>
+        <item>#558ed5</item>
+        <item>#c6d9f1</item>
+        <item>#95b3d7</item>
+        <item>#953735</item>
+        <item>#d99694</item>
+        <item>#f2dcdb</item>
+        <item>#77933c</item>
+        <item>#c3d69b</item>
+        <item>#ebf1de</item>
+        <item>#604a7b</item>
+        <item>#ccc1da</item>
+        <item>#31859c</item>
+        <item>#93cddd</item>
+        <item>#dbeef4</item>
+        <item>#fdeada</item>
+    </string-array>
+</resources>
