@@ -23,8 +23,11 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	public static final int BOY = 3;
 	public static final int SETTING = 4;
 
-	public MainPagerAdapter(FragmentManager fm) {
+	private MainContract.OnClickCallback callback;
+
+	public MainPagerAdapter(FragmentManager fm, MainContract.OnClickCallback callback) {
 		super(fm);
+		this.callback = callback;
 	}
 
 	@Override
@@ -35,7 +38,9 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 			case GIRL:
 				return GirlFragment.newInstance();
 			case WRITE:
-				return WriteFragment.newInstance();
+				WriteFragment fragment = WriteFragment.newInstance();
+				fragment.setOnClickCallbackListener(callback);
+				return fragment;
 			case BOY:
 				return BoyFragment.newInstance();
 			case SETTING:
