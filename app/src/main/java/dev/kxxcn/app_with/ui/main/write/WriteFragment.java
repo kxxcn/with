@@ -58,6 +58,8 @@ public class WriteFragment extends Fragment implements MainContract.OnItemClickL
 	@BindView(R.id.ll_meta)
 	LinearLayout ll_meta;
 
+	private Context mContext;
+
 	private WriteAdapter adapter;
 
 	private MainContract.OnClickCallback mClickCallback;
@@ -91,14 +93,15 @@ public class WriteFragment extends Fragment implements MainContract.OnItemClickL
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
+		mContext = context;
 		colors = getResources().getStringArray(R.array.background_edit);
 	}
 
 	private void initUI() {
 		String[] today = SystemUtils.getDate().split("-");
 		tv_date.setText(String.format(getString(R.string.format_today), today[0], today[1], today[2]));
-		rv_theme.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-		rv_theme.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL));
+		rv_theme.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+		rv_theme.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.HORIZONTAL));
 		adapter = new WriteAdapter(color_imgs, this, TYPE_PRIMARY);
 		rv_theme.setAdapter(adapter);
 	}
@@ -177,7 +180,7 @@ public class WriteFragment extends Fragment implements MainContract.OnItemClickL
 			case TYPE_GALLERY:
 				break;
 			case TYPE_FONT:
-				Typeface typeface = ResourcesCompat.getFont(getContext(), fonts[position]);
+				Typeface typeface = ResourcesCompat.getFont(mContext, fonts[position]);
 				et_write.setTypeface(typeface);
 				tv_date.setTypeface(typeface);
 				tv_place.setTypeface(typeface);
