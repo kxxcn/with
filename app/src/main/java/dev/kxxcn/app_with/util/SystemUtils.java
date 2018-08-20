@@ -2,8 +2,13 @@ package dev.kxxcn.app_with.util;
 
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import dev.kxxcn.app_with.WithApplication;
 
+import static dev.kxxcn.app_with.util.Constants.SIMPLE_DATE_FORMAT;
 import static dev.kxxcn.app_with.util.Constants.TAG;
 
 /**
@@ -50,5 +55,12 @@ public class SystemUtils {
 
 			return sb.toString();
 		}
+	}
+
+	public static String getDate() {
+		long now = System.currentTimeMillis();
+		Date date = new Date(now);
+		SimpleDateFormat format = new SimpleDateFormat(SIMPLE_DATE_FORMAT, Locale.KOREA);
+		return format.format(date);
 	}
 }
