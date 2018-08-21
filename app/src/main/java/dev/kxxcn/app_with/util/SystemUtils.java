@@ -1,5 +1,6 @@
 package dev.kxxcn.app_with.util;
 
+import android.app.Activity;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -62,5 +63,11 @@ public class SystemUtils {
 		Date date = new Date(now);
 		SimpleDateFormat format = new SimpleDateFormat(SIMPLE_DATE_FORMAT, Locale.KOREA);
 		return format.format(date);
+	}
+
+	public static void onFinish(Activity activity){
+		activity.moveTaskToBack(true);
+		activity.finish();
+		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 }
