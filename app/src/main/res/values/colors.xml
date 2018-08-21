@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="default_background">#fafafa</color>
+    <color name="default_font">#9b9b9b</color>
+
     <color name="tab_plan">#b2caff</color>
     <color name="tab_girl">#ffb2c5</color>
     <color name="tab_write">#acf9cb</color>

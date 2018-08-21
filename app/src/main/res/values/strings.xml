@@ -15,4 +15,9 @@
     <string name="btn_gallery">사진첩</string>
     <string name="btn_font">글꼴</string>
     <string name="btn_color">색상</string>
+
+    <string name="dialog_yes">예</string>
+    <string name="dialog_no">아니오</string>
+    <string name="dialog_delete_contents">작성된 내용을 지우시겠습니까?</string>
+    <string name="dialog_want_to_quit">위드를 종료하시겠습니까?</string>
 </resources>
