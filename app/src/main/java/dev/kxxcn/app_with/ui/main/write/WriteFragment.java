@@ -1,6 +1,7 @@
 package dev.kxxcn.app_with.ui.main.write;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.ui.main.MainContract;
+import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
 
@@ -32,10 +34,13 @@ import dev.kxxcn.app_with.util.SystemUtils;
  */
 public class WriteFragment extends Fragment implements MainContract.OnItemClickListener {
 
+	private static final int DEFAULT_FONT_SIZE = 36;
+
 	public static final int TYPE_PRIMARY = 0;
 	public static final int TYPE_GALLERY = 1;
 	public static final int TYPE_FONT = 2;
 	public static final int TYPE_COLOR = 3;
+	public static final int TYPE_RESET = 4;
 
 	@BindView(R.id.rv_theme)
 	RecyclerView rv_theme;
@@ -61,8 +66,6 @@ public class WriteFragment extends Fragment implements MainContract.OnItemClickL
 	private Context mContext;
 
 	private WriteAdapter adapter;
-
-	private MainContract.OnClickCallback mClickCallback;
 
 	String[] colors;
 
@@ -98,6 +101,11 @@ public class WriteFragment extends Fragment implements MainContract.OnItemClickL
 	}
 
 	private void initUI() {
+		et_write.setTextColor(getResources().getColor(R.color.default_font));
+		et_write.setHintTextColor(getResources().getColor(R.color.default_font));
+		tv_date.setTextColor(getResources().getColor(R.color.default_font));
+		tv_place.setTextColor(getResources().getColor(R.color.default_font));
+
 		String[] today = SystemUtils.getDate().split("-");
 		tv_date.setText(String.format(getString(R.string.format_today), today[0], today[1], today[2]));
 		rv_theme.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
@@ -106,14 +114,9 @@ public class WriteFragment extends Fragment implements MainContract.OnItemClickL
 		rv_theme.setAdapter(adapter);
 	}
 
-	public void setOnClickCallbackListener(MainContract.OnClickCallback listener) {
-		this.mClickCallback = listener;
-	}
-
 	@OnClick(R.id.ib_cancel)
 	public void onCancel() {
-		et_write.setText(null);
-		mClickCallback.onClickCallback();
+		DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_contents), positiveListener, null);
 	}
 
 	@OnClick(R.id.ib_save)
@@ -193,5 +196,23 @@ public class WriteFragment extends Fragment implements MainContract.OnItemClickL
 				break;
 		}
 	}
+
+	DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			et_write.setText(null);
+			et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, DEFAULT_FONT_SIZE);
+			et_write.setTypeface(null);
+			tv_date.setTypeface(null);
+			tv_place.setTypeface(null);
+			ll_edittext.setBackgroundColor(getResources().getColor(R.color.default_background));
+			ll_meta.setBackgroundColor(getResources().getColor(R.color.default_background));
+			et_write.setTextColor(getResources().getColor(R.color.default_font));
+			et_write.setHintTextColor(getResources().getColor(R.color.default_font));
+			tv_date.setTextColor(getResources().getColor(R.color.default_font));
+			tv_place.setTextColor(getResources().getColor(R.color.default_font));
+			adapter.onChangedData(null, TYPE_RESET);
+		}
+	};
 
 }

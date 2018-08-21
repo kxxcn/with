@@ -146,14 +146,22 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 	}
 
 	public void onChangedData(int[] imgs, int type) {
-		imgList.clear();
-		for (int img : imgs) {
-			imgList.add(img);
+		if (type == WriteFragment.TYPE_RESET) {
+			Arrays.fill(clickArrays, false);
+			TYPE_PRIMARY_POSITION = INIT;
+			TYPE_GALLERY_POSITION = INIT;
+			TYPE_FONT_POSITION = INIT;
+			TYPE_COLOR_POSITION = INIT;
+		} else {
+			imgList.clear();
+			for (int img : imgs) {
+				imgList.add(img);
+			}
+			clickArrays = new boolean[imgList.size()];
+			this.type = type;
+			Arrays.fill(clickArrays, false);
+			setItem(type);
 		}
-		clickArrays = new boolean[imgList.size()];
-		this.type = type;
-		Arrays.fill(clickArrays, false);
-		setItem(type);
 		notifyDataSetChanged();
 	}
 
