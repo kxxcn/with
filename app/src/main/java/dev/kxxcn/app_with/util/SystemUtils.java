@@ -1,12 +1,14 @@
 package dev.kxxcn.app_with.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.WithApplication;
 
 import static dev.kxxcn.app_with.util.Constants.SIMPLE_DATE_FORMAT;
@@ -65,9 +67,13 @@ public class SystemUtils {
 		return format.format(date);
 	}
 
-	public static void onFinish(Activity activity){
+	public static void onFinish(Activity activity) {
 		activity.moveTaskToBack(true);
 		activity.finish();
 		android.os.Process.killProcess(android.os.Process.myPid());
+	}
+
+	public static void displayError(Context context, String className, String message) {
+		Dlog.e(String.format(context.getString(R.string.log_failed_request), className, message));
 	}
 }
