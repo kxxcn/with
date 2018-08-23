@@ -3,6 +3,7 @@
           package="dev.kxxcn.app_with">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".WithApplication"
@@ -20,6 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ui.splash.SplashActivity"/>
+        <activity android:name=".ui.login.LoginActivity"/>
     </application>
 
 </manifest>
