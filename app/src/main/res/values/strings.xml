@@ -20,4 +20,11 @@
     <string name="dialog_no">아니오</string>
     <string name="dialog_delete_contents">작성된 내용을 지우시겠습니까?</string>
     <string name="dialog_want_to_quit">위드를 종료하시겠습니까?</string>
+
+    <string name="log_failed_request">%s : %s</string>
+    
+    <string name="toast_checking_album">사진첩을 조회 중입니다.</string>
+
+    <string name="system_setting">설정</string>
+    <string name="system_denied_permission">"권한 허가를 거부하시면 이 서비스를 이용하실 수 없습니다.\n\n[설정] > [권한]에서 권한을 켜십시오."</string>
 </resources>
