@@ -2,6 +2,7 @@ package dev.kxxcn.app_with.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -75,5 +76,18 @@ public class SystemUtils {
 
 	public static void displayError(Context context, String className, String message) {
 		Dlog.e(String.format(context.getString(R.string.log_failed_request), className, message));
+	}
+
+	public static int getSoftButtonsBarHeight(Activity activity) {
+		DisplayMetrics metrics = new DisplayMetrics();
+		activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		int usableHeight = metrics.heightPixels;
+		activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+		int realHeight = metrics.heightPixels;
+		if (realHeight > usableHeight)
+			return realHeight - usableHeight;
+		else
+			return 0;
+
 	}
 }
