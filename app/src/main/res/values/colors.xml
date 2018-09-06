@@ -20,4 +20,20 @@
     <color name="bg_setting">#f7cc76</color>
 
     <color name="btn_bottom_item">#d6cfcf</color>
+    <color name="btn_gender">#ffffff</color>
+    <color name="btn_start">#ffffff</color>
+    <color name="btn_male">#93b8ff</color>
+    <color name="btn_female">#ffd3f0</color>
+
+    <color name="text_gender">#ffffff</color>
+    <color name="text_start">#ffffff</color>
+    <color name="text_welcome">#727171</color>
+    <color name="text_auth_number">#ffd3f0</color>
+    <color name="text_auth_input">#ffffff</color>
+
+    <color name="selected_circleindicator">#ffffff</color>
+    <color name="unselected_circleindicator">#84797d</color>
+
+    <color name="box_helper">#93b8ff</color>
+    <color name="box_primary">#baffd1</color>
 </resources>

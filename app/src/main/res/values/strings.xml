@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">위드</string>
+    <string name="app_developer">ⓒ k x x c n</string>
 
     <string name="title">W I T H</string>
     <string name="title_write">W R I T E</string>
@@ -15,6 +16,10 @@
     <string name="btn_gallery">사진첩</string>
     <string name="btn_font">글꼴</string>
     <string name="btn_color">색상</string>
+    <string name="btn_male">남 자</string>
+    <string name="btn_female">여 자</string>
+    <string name="btn_signup">시작하기</string>
+    <string name="btn_auth">인증하기</string>
 
     <string name="dialog_yes">예</string>
     <string name="dialog_no">아니오</string>
@@ -22,9 +27,16 @@
     <string name="dialog_want_to_quit">위드를 종료하시겠습니까?</string>
 
     <string name="log_failed_request">%s : %s</string>
-    
+
     <string name="toast_checking_album">사진첩을 조회 중입니다.</string>
+    <string name="toast_choice_gender">성별을 선택하세요.</string>
+    <string name="toast_check_auth_number">인증번호를 확인하세요.</string>
+    <string name="toast_input_auth_number">인증번호를 입력하세요.</string>
+    <string name="toast_invalid_auth_number">유효하지 않은 인증번호입니다.</string>
 
     <string name="system_setting">설정</string>
     <string name="system_denied_permission">"권한 허가를 거부하시면 이 서비스를 이용하실 수 없습니다.\n\n[설정] > [권한]에서 권한을 켜십시오."</string>
+
+    <string name="text_welcome">위드를 찾아주신 커플 여러분들을 환영합니다.</string>
+    <string name="text_auth">연인에게 전달받은 번호를 입력하세요.\n\n또는, 연인에게 인증번호를 전달하세요.</string>
 </resources>
