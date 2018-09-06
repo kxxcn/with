@@ -10,6 +10,8 @@ public class Constants {
 	public static final String SIMPLE_DATE_FORMAT = "yyyy-MM-dd";
 	public static final String READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
 
+	public static final int DELAY = 2000;
+
 	public enum TypeFilter {
 		PRIMARY,
 		GALLERY,
