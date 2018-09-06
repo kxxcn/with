@@ -16,4 +16,19 @@ public interface LoginContract {
 	interface Presenter extends BasePresenter {
 		void setPermission(Activity activity, String... permission);
 	}
+
+	@FunctionalInterface
+	interface OnItemClickListener {
+		void onItemClickListener(int type);
+	}
+
+	@FunctionalInterface
+	interface OnSetValueListener {
+		void onSetValueListener(String key);
+	}
+
+	@FunctionalInterface
+	interface OnAuthenticationListener {
+		void onAuthenticationListener(boolean isSuccess);
+	}
 }

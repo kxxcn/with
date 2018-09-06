@@ -1,7 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        tools:background="@drawable/background"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_welcome"
+            style="@style/VerticalLinearLayout"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/hoonsaemaulundong"
+                android:text="@string/text_welcome"
+                android:textColor="@color/text_welcome"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/VerticalLinearLayout"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <dev.kxxcn.app_with.util.SwipeViewPager
+                    android:id="@+id/vp_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <me.relex.circleindicator.CircleIndicator
+                    android:id="@+id/cic_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom"
+                    app:ci_drawable="@color/selected_circleindicator"
+                    app:ci_drawable_unselected="@color/unselected_circleindicator"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/VerticalLinearLayout"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <com.unstoppable.submitbuttonview.SubmitButton
+                android:id="@+id/btn_signup"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                app:buttonText="@string/btn_signup"
+                app:buttonTextSize="18sp"
+                app:progressStyle="loading"/>
+
+            <com.unstoppable.submitbuttonview.SubmitButton
+                android:id="@+id/btn_auth"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:visibility="gone"
+                app:buttonText="@string/btn_auth"
+                app:buttonTextSize="18sp"
+                app:progressStyle="loading"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_hidden"
+            style="@style/VerticalLinearLayout"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
