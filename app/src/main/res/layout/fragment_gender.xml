@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <dev.kxxcn.app_with.util.StateButton
+        android:id="@+id/btn_male"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_margin="1dp"
+        android:fontFamily="@font/hoonsaemaulundong"
+        android:text="@string/btn_male"
+        android:textSize="18sp"
+        app:normalStrokeColor="@color/btn_gender"
+        app:normalStrokeWidth="1dp"
+        app:normalTextColor="@color/text_gender"
+        app:pressedBackgroundColor="@color/btn_male"
+        app:pressedStrokeColor="@color/btn_gender"
+        app:pressedStrokeWidth="1dp"
+        app:pressedTextColor="@color/btn_gender"/>
+
+    <dev.kxxcn.app_with.util.StateButton
+        android:id="@+id/btn_female"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_margin="1dp"
+        android:fontFamily="@font/hoonsaemaulundong"
+        android:text="@string/btn_female"
+        android:textSize="18sp"
+        app:normalStrokeColor="@color/btn_gender"
+        app:normalStrokeWidth="1dp"
+        app:normalTextColor="@color/text_gender"
+        app:pressedBackgroundColor="@color/btn_female"
+        app:pressedStrokeColor="@color/btn_gender"
+        app:pressedStrokeWidth="1dp"
+        app:pressedTextColor="@color/btn_gender"/>
+
+</LinearLayout>
