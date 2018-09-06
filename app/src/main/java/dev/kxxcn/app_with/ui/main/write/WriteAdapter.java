@@ -1,5 +1,6 @@
 package dev.kxxcn.app_with.ui.main.write;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.ui.main.MainContract;
+import dev.kxxcn.app_with.util.Constants;
 
 /**
  * Created by kxxcn on 2018-08-14.
@@ -24,24 +26,22 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 
 	private View view;
 
-	private int type;
+	private Constants.TypeFilter typeFilter;
 
 	private int TYPE_PRIMARY_POSITION = INIT;
 	private int TYPE_GALLERY_POSITION = INIT;
 	private int TYPE_FONT_POSITION = INIT;
 	private int TYPE_COLOR_POSITION = INIT;
 
-	private ArrayList<Integer> imgList = new ArrayList<>(0);
+	private ArrayList<Bitmap> imgList = new ArrayList<>(0);
 
 	private MainContract.OnItemClickListener mOnItemClickListener;
 
 	private boolean[] clickArrays;
 
-	public WriteAdapter(int[] imgs, MainContract.OnItemClickListener listener, int type) {
-		for (int img : imgs) {
-			this.imgList.add(img);
-		}
-		this.type = type;
+	public WriteAdapter(ArrayList<Bitmap> imgs, MainContract.OnItemClickListener listener, Constants.TypeFilter typeFilter) {
+		this.imgList = imgs;
+		this.typeFilter = typeFilter;
 		this.mOnItemClickListener = listener;
 		clickArrays = new boolean[imgList.size()];
 	}
@@ -54,29 +54,29 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-		holder.iv_item.setBackgroundResource(imgList.get(holder.getAdapterPosition()));
-		if (clickArrays[holder.getAdapterPosition()]) {
+	public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+		holder.iv_item.setImageBitmap(imgList.get(holder.getLayoutPosition()));
+
+		if (clickArrays[holder.getLayoutPosition()]) {
 			holder.iv_check.setVisibility(View.VISIBLE);
 			setView(holder.iv_check);
 		} else {
 			holder.iv_check.setVisibility(View.GONE);
 		}
-		holder.iv_item.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (getView() != null) {
-					getView().setVisibility(View.GONE);
-				}
-				holder.iv_check.setVisibility(View.VISIBLE);
-				setView(holder.iv_check);
-				Arrays.fill(clickArrays, false);
-				setPosition(type, holder.getAdapterPosition());
-				clickArrays[holder.getAdapterPosition()] = true;
-				mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), type);
+
+		holder.iv_item.setOnClickListener(v -> {
+			if (getView() != null) {
+				getView().setVisibility(View.GONE);
 			}
+			holder.iv_check.setVisibility(View.VISIBLE);
+			setView(holder.iv_check);
+			Arrays.fill(clickArrays, false);
+			setPosition(typeFilter, holder.getLayoutPosition());
+			clickArrays[holder.getLayoutPosition()] = true;
+			mOnItemClickListener.onItemClickListener(holder.getLayoutPosition(), typeFilter);
 		});
 	}
+
 
 	@Override
 	public int getItemCount() {
@@ -91,41 +91,43 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 		return view;
 	}
 
-	private void setPosition(int type, int position) {
-		switch (type) {
-			case WriteFragment.TYPE_PRIMARY:
+	private void setPosition(Constants.TypeFilter typeFilter, int position) {
+		switch (typeFilter) {
+			case PRIMARY:
 				TYPE_PRIMARY_POSITION = position;
+				TYPE_GALLERY_POSITION = INIT;
 				break;
-			case WriteFragment.TYPE_GALLERY:
+			case GALLERY:
 				TYPE_GALLERY_POSITION = position;
+				TYPE_PRIMARY_POSITION = INIT;
 				break;
-			case WriteFragment.TYPE_FONT:
+			case FONT:
 				TYPE_FONT_POSITION = position;
 				break;
-			case WriteFragment.TYPE_COLOR:
+			case COLOR:
 				TYPE_COLOR_POSITION = position;
 				break;
 		}
 	}
 
-	private void setItem(int type) {
-		switch (type) {
-			case WriteFragment.TYPE_PRIMARY:
+	private void setItem(Constants.TypeFilter typeFilter) {
+		switch (typeFilter) {
+			case PRIMARY:
 				if (TYPE_PRIMARY_POSITION != INIT) {
 					clickArrays[TYPE_PRIMARY_POSITION] = true;
 				}
 				break;
-			case WriteFragment.TYPE_GALLERY:
+			case GALLERY:
 				if (TYPE_GALLERY_POSITION != INIT) {
 					clickArrays[TYPE_GALLERY_POSITION] = true;
 				}
 				break;
-			case WriteFragment.TYPE_FONT:
+			case FONT:
 				if (TYPE_FONT_POSITION != INIT) {
 					clickArrays[TYPE_FONT_POSITION] = true;
 				}
 				break;
-			case WriteFragment.TYPE_COLOR:
+			case COLOR:
 				if (TYPE_COLOR_POSITION != INIT) {
 					clickArrays[TYPE_COLOR_POSITION] = true;
 				}
@@ -145,22 +147,19 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 		}
 	}
 
-	public void onChangedData(int[] imgs, int type) {
-		if (type == WriteFragment.TYPE_RESET) {
+	public void onChangedData(ArrayList<Bitmap> imgs, Constants.TypeFilter typeFilter) {
+		if (typeFilter == Constants.TypeFilter.RESET) {
 			Arrays.fill(clickArrays, false);
 			TYPE_PRIMARY_POSITION = INIT;
 			TYPE_GALLERY_POSITION = INIT;
 			TYPE_FONT_POSITION = INIT;
 			TYPE_COLOR_POSITION = INIT;
 		} else {
-			imgList.clear();
-			for (int img : imgs) {
-				imgList.add(img);
-			}
+			imgList = imgs;
 			clickArrays = new boolean[imgList.size()];
-			this.type = type;
+			this.typeFilter = typeFilter;
 			Arrays.fill(clickArrays, false);
-			setItem(type);
+			setItem(typeFilter);
 		}
 		notifyDataSetChanged();
 	}
