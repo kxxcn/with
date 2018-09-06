@@ -6,6 +6,7 @@ import dev.kxxcn.app_with.util.Constants;
  * Created by kxxcn on 2018-08-14.
  */
 public interface MainContract {
+	@FunctionalInterface
 	interface OnItemClickListener {
 		void onItemClickListener(int position, Constants.TypeFilter typeFilter);
 	}
