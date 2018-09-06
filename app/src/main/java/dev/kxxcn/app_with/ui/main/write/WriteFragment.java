@@ -242,21 +242,18 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	}
 
-	DialogInterface.OnClickListener positiveListener = new DialogInterface.OnClickListener() {
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			Glide.with(mContext).load(R.color.default_background).into(iv_background);
-			et_write.setText(null);
-			et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, default_font_size);
-			et_write.setTypeface(null);
-			tv_date.setTypeface(null);
-			tv_place.setTypeface(null);
-			et_write.setTextColor(getResources().getColor(R.color.default_font));
-			et_write.setHintTextColor(getResources().getColor(R.color.default_font));
-			tv_date.setTextColor(getResources().getColor(R.color.default_font));
-			tv_place.setTextColor(getResources().getColor(R.color.default_font));
-			adapter.onChangedData(null, Constants.TypeFilter.RESET);
-		}
+	DialogInterface.OnClickListener positiveListener = (dialog, which) -> {
+		Glide.with(mContext).load(R.color.default_background).into(iv_background);
+		et_write.setText(null);
+		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, default_font_size);
+		et_write.setTypeface(null);
+		tv_date.setTypeface(null);
+		tv_place.setTypeface(null);
+		et_write.setTextColor(getResources().getColor(R.color.default_font));
+		et_write.setHintTextColor(getResources().getColor(R.color.default_font));
+		tv_date.setTextColor(getResources().getColor(R.color.default_font));
+		tv_place.setTextColor(getResources().getColor(R.color.default_font));
+		adapter.onChangedData(null, Constants.TypeFilter.RESET);
 	};
 
 	private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
