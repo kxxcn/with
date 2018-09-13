@@ -23,12 +23,16 @@ public class LoginPagerAdapter extends FragmentStatePagerAdapter {
 
 	private LoginContract.OnAuthenticationListener mAuthListener;
 
+	private String identifier;
+
 	public LoginPagerAdapter(FragmentManager fm, LoginContract.OnItemClickListener itemClickListener,
-							 LoginContract.OnSetValueListener valueListener, LoginContract.OnAuthenticationListener authListener) {
+							 LoginContract.OnSetValueListener valueListener, LoginContract.OnAuthenticationListener authListener,
+							 String identifier) {
 		super(fm);
 		this.mItemClickListener = itemClickListener;
 		this.mValueListener = valueListener;
 		this.mAuthListener = authListener;
+		this.identifier = identifier;
 	}
 
 	@Override
@@ -39,7 +43,7 @@ public class LoginPagerAdapter extends FragmentStatePagerAdapter {
 				genderFragment.setOnItemClickListener(mItemClickListener);
 				return genderFragment;
 			case AUTH:
-				AuthFragment authFragment = AuthFragment.newInstance();
+				AuthFragment authFragment = AuthFragment.newInstance(identifier);
 				authFragment.setOnValueListener(mValueListener);
 				authFragment.setOnAuthenticationListener(mAuthListener);
 				return authFragment;
