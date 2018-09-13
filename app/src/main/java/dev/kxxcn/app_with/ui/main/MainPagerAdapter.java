@@ -46,7 +46,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 				femaleFragment.setOnPageChangeListener(listener);
 				return femaleFragment;
 			case WRITE:
-				WriteFragment writeFragment = WriteFragment.newInstance();
+				WriteFragment writeFragment = WriteFragment.newInstance(identifier);
 				writeFragment.setOnPageChangeListener(listener);
 				return writeFragment;
 			case MALE:

@@ -36,6 +36,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.DataRepository;
+import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.ui.main.MainPagerAdapter;
@@ -45,6 +46,9 @@ import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
 
+import static dev.kxxcn.app_with.util.Constants.FONTS;
+import static dev.kxxcn.app_with.util.Constants.IDENTIFIER;
+
 /**
  * Created by kxxcn on 2018-08-13.
  */
@@ -52,7 +56,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	private static final int THRESHOLD_COUNT = 10;
 
-	private float default_font_size;
 
 	@BindView(R.id.rv_theme)
 	RecyclerView rv_theme;
@@ -92,8 +95,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	private String[] colors;
 
-	private int[] fonts = {R.font.redletterbox, R.font.maplestory, R.font.flowerroad, R.font.whayangyunwha, R.font.poetandme,
-			R.font.hoonsaemaulundong, R.font.mobrrextra, R.font.ppikkeutppikkeut, R.font.hoonslimskinny, R.font.babyheart};
 	private int[] font_imgs = {R.drawable.font_1, R.drawable.font_2, R.drawable.font_3, R.drawable.font_4, R.drawable.font_5,
 			R.drawable.font_6, R.drawable.font_7, R.drawable.font_8, R.drawable.font_9, R.drawable.font_10};
 	private int[] color_imgs = {R.drawable.color_1, R.drawable.color_2, R.drawable.color_3, R.drawable.color_4, R.drawable.color_5,
@@ -101,7 +102,13 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			R.drawable.color_12, R.drawable.color_13, R.drawable.color_14, R.drawable.color_15, R.drawable.color_16, R.drawable.color_17,
 			R.drawable.color_18, R.drawable.color_19, R.drawable.color_20, R.drawable.color_21};
 
+	private float default_font_size;
+
+	private int mLetterFont = -1;
+	private int mLetterColor = -1;
+
 	private boolean isBackground = true;
+
 	public boolean isCompletedCheck = false;
 
 	private Constants.TypeFilter typeFilter;
@@ -126,8 +133,14 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		this.mListener = listener;
 	}
 
-	public static WriteFragment newInstance() {
-		return new WriteFragment();
+	public static WriteFragment newInstance(String identifier) {
+		WriteFragment fragment = new WriteFragment();
+
+		Bundle args = new Bundle();
+		args.putString(IDENTIFIER, identifier);
+		fragment.setArguments(args);
+
+		return fragment;
 	}
 
 	@Nullable
@@ -187,8 +200,9 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	}
 
 	@OnClick(R.id.ib_save)
-	public void onSave() {
-
+	public void onSaveDiary() {
+		mPresenter.onSaveDiary(new Diary(getArguments().getString(IDENTIFIER), et_write.getText().toString(),
+				mLetterFont, mLetterColor, et_write.getTextSize()));
 	}
 
 	@OnClick(R.id.ib_size_down)
@@ -250,7 +264,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	}
 
 	DialogInterface.OnClickListener positiveListener = (dialog, which) -> {
-		Glide.with(mContext).load(R.color.default_background).into(iv_background);
+		iv_background.setBackgroundResource(R.color.default_background);
 		et_write.setText(null);
 		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, default_font_size);
 		et_write.setTypeface(null);
@@ -294,12 +308,14 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 				Glide.with(mContext).load(galleryBitmapList.get(position)).apply(glideOptions).into(iv_background);
 				break;
 			case FONT:
-				Typeface typeface = ResourcesCompat.getFont(mContext, fonts[position]);
+				mLetterFont = position;
+				Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[position]);
 				et_write.setTypeface(typeface);
 				tv_date.setTypeface(typeface);
 				tv_place.setTypeface(typeface);
 				break;
 			case COLOR:
+				mLetterColor = position;
 				et_write.setTextColor(Color.parseColor(colors[position]));
 				et_write.setHintTextColor(Color.parseColor(colors[position]));
 				tv_date.setTextColor(Color.parseColor(colors[position]));
