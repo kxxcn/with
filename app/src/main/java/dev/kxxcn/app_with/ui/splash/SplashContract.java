@@ -1,5 +1,7 @@
 package dev.kxxcn.app_with.ui.splash;
 
+import android.app.Activity;
+
 import dev.kxxcn.app_with.ui.BasePresenter;
 import dev.kxxcn.app_with.ui.BaseView;
 
@@ -8,7 +10,7 @@ import dev.kxxcn.app_with.ui.BaseView;
  */
 public interface SplashContract {
 	interface View extends BaseView<Presenter> {
-		void showRegisteredUser();
+		void showRegisteredUser(int gender);
 
 		void showUnregisteredUser();
 
@@ -17,5 +19,13 @@ public interface SplashContract {
 
 	interface Presenter extends BasePresenter {
 		void isRegisteredUser(String uniqueIdentifier);
+
+		void setPermission(Activity activity, OnPermissionListener onPermissionListener, String... permission);
+	}
+
+	interface OnPermissionListener {
+		void onGranted();
+
+		void onDenied();
 	}
 }

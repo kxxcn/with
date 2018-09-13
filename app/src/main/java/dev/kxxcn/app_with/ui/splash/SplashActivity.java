@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -18,13 +19,17 @@ import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.login.LoginActivity;
 import dev.kxxcn.app_with.ui.main.MainActivity;
 import dev.kxxcn.app_with.util.SystemUtils;
+import dev.kxxcn.app_with.util.threading.UiThread;
+
+import static dev.kxxcn.app_with.util.Constants.DELAY_TOAST;
+import static dev.kxxcn.app_with.util.Constants.READ_EXTERNAL_STORAGE;
 
 /**
  * Created by kxxcn on 2018-08-22.
  */
 public class SplashActivity extends AppCompatActivity implements SplashContract.View {
 
-	public static String uniqueIdentifier;
+	private String uniqueIdentifier;
 
 	@BindView(R.id.iv_splash)
 	ImageView iv_splash;
@@ -54,18 +59,34 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
 		uniqueIdentifier = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-		mPresenter.isRegisteredUser(uniqueIdentifier);
+		mPresenter.setPermission(this, new SplashContract.OnPermissionListener() {
+			@Override
+			public void onGranted() {
+				mPresenter.isRegisteredUser(uniqueIdentifier);
+			}
+
+			@Override
+			public void onDenied() {
+				Toast.makeText(SplashActivity.this, getString(R.string.system_denied_permission), Toast.LENGTH_SHORT).show();
+				UiThread.getInstance().postDelayed(() -> SystemUtils.onFinish(SplashActivity.this), DELAY_TOAST);
+			}
+		}, READ_EXTERNAL_STORAGE);
 	}
 
 	@Override
-	public void showRegisteredUser() {
-		startActivity(new Intent(SplashActivity.this, MainActivity.class));
+	public void showRegisteredUser(int gender) {
+		Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+		intent.putExtra(MainActivity.EXTRA_GENDER, gender);
+		intent.putExtra(MainActivity.EXTRA_IDENTIFIER, uniqueIdentifier);
+		startActivity(intent);
 		finish();
 	}
 
 	@Override
 	public void showUnregisteredUser() {
-		startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+		Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+		intent.putExtra(LoginActivity.EXTRA_IDENTIFIER, uniqueIdentifier);
+		startActivity(intent);
 		finish();
 	}
 

@@ -1,7 +1,10 @@
 package dev.kxxcn.app_with.ui.splash;
 
+import android.app.Activity;
+
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.DataSource;
+import dev.kxxcn.app_with.util.PermissionUtils;
 
 /**
  * Created by kxxcn on 2018-09-06.
@@ -23,10 +26,10 @@ public class SplashPresenter implements SplashContract.Presenter {
 		if (mSplashView == null)
 			return;
 
-		mDataRepository.isRegisteredUser(new DataSource.GetResultCallback() {
+		mDataRepository.isRegisteredUser(new DataSource.GetGenderCallback() {
 			@Override
-			public void onSuccess() {
-				mSplashView.showRegisteredUser();
+			public void onSuccess(int gender) {
+				mSplashView.showRegisteredUser(gender);
 			}
 
 			@Override
@@ -40,6 +43,11 @@ public class SplashPresenter implements SplashContract.Presenter {
 			}
 		}, uniqueIdentifier);
 
+	}
+
+	@Override
+	public void setPermission(Activity activity, SplashContract.OnPermissionListener onPermissionListener, String... permission) {
+		PermissionUtils.authorization(activity, onPermissionListener, permission);
 	}
 
 }
