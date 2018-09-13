@@ -1,7 +1,5 @@
 package dev.kxxcn.app_with.ui.login;
 
-import android.app.Activity;
-
 import dev.kxxcn.app_with.ui.BasePresenter;
 import dev.kxxcn.app_with.ui.BaseView;
 
@@ -14,7 +12,7 @@ public interface LoginContract {
 	}
 
 	interface Presenter extends BasePresenter {
-		void setPermission(Activity activity, String... permission);
+
 	}
 
 	@FunctionalInterface

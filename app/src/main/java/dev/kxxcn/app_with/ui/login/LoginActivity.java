@@ -31,8 +31,7 @@ import dev.kxxcn.app_with.util.TransitionUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 import me.relex.circleindicator.CircleIndicator;
 
-import static dev.kxxcn.app_with.util.Constants.DELAY;
-import static dev.kxxcn.app_with.util.Constants.READ_EXTERNAL_STORAGE;
+import static dev.kxxcn.app_with.util.Constants.DELAY_NETWORK;
 
 /**
  * Created by kxxcn on 2018-08-22.
@@ -41,6 +40,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 	private static final int INIT = -723;
 	private static final int KEY_LENGTH = 8;
+
+	public static final String EXTRA_IDENTIFIER = "IDENTIFIER";
 
 	@BindView(R.id.rl_root)
 	RelativeLayout rl_root;
@@ -100,8 +101,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 		new LoginPresenter(this);
 
-		mPresenter.setPermission(this, READ_EXTERNAL_STORAGE);
-
 		initUI();
 	}
 
@@ -119,9 +118,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 					btn_auth.reset();
 					authFragment.setEnabledEditText(true);
 				}
-			}, DELAY);
+			}, DELAY_NETWORK);
 		}
-		);
+				, getIntent().getStringExtra(EXTRA_IDENTIFIER));
 		authFragment = (AuthFragment) adapter.getItem(LoginPagerAdapter.AUTH);
 		vp_login.setPagingEnabled(false);
 		vp_login.setAdapter(adapter);
