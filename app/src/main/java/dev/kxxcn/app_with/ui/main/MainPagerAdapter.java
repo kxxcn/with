@@ -4,8 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import dev.kxxcn.app_with.ui.main.boy.BoyFragment;
-import dev.kxxcn.app_with.ui.main.girl.GirlFragment;
+import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
+import dev.kxxcn.app_with.ui.main.female.FemaleFragment;
+import dev.kxxcn.app_with.ui.main.male.MaleFragment;
 import dev.kxxcn.app_with.ui.main.plan.PlanFragment;
 import dev.kxxcn.app_with.ui.main.setting.SettingFragment;
 import dev.kxxcn.app_with.ui.main.write.WriteFragment;
@@ -18,13 +19,21 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	private static final int COUNT = 5;
 
 	public static final int PLAN = 0;
-	public static final int GIRL = 1;
+	public static final int FEMALE = 1;
 	public static final int WRITE = 2;
-	public static final int BOY = 3;
+	public static final int MALE = 3;
 	public static final int SETTING = 4;
 
-	public MainPagerAdapter(FragmentManager fm) {
+	private boolean gender;
+	private String identifier;
+
+	private MainContract.OnPageChangeListener listener;
+
+	public MainPagerAdapter(FragmentManager fm, int gender, String identifier, MainContract.OnPageChangeListener listener) {
 		super(fm);
+		this.gender = gender == GenderFragment.FEMALE;
+		this.identifier = identifier;
+		this.listener = listener;
 	}
 
 	@Override
@@ -32,12 +41,18 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 		switch (position) {
 			case PLAN:
 				return PlanFragment.newInstance();
-			case GIRL:
-				return GirlFragment.newInstance();
+			case FEMALE:
+				FemaleFragment femaleFragment = FemaleFragment.newInstance(gender, identifier);
+				femaleFragment.setOnPageChangeListener(listener);
+				return femaleFragment;
 			case WRITE:
-				return WriteFragment.newInstance();
-			case BOY:
-				return BoyFragment.newInstance();
+				WriteFragment writeFragment = WriteFragment.newInstance();
+				writeFragment.setOnPageChangeListener(listener);
+				return writeFragment;
+			case MALE:
+				MaleFragment maleFragment = MaleFragment.newInstance(!gender, identifier);
+				maleFragment.setOnPageChangeListener(listener);
+				return maleFragment;
 			case SETTING:
 				return SettingFragment.newInstance();
 		}
