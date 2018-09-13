@@ -10,4 +10,8 @@ public interface MainContract {
 	interface OnItemClickListener {
 		void onItemClickListener(int position, Constants.TypeFilter typeFilter);
 	}
+
+	interface OnPageChangeListener {
+		void onPageChangeListener(int type);
+	}
 }
