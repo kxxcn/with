@@ -31,4 +31,15 @@
         <item name="android:layout_margin">10dp</item>
     </style>
 
+    <style name="WriteFloatingActionButton" parent="Widget.Design.FloatingActionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="elevation">7dp</item>
+        <item name="pressedTranslationZ">14dp</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:src">@drawable/fab_write</item>
+        <item name="backgroundTint">#ffffff</item>
+    </style>
+
 </resources>
