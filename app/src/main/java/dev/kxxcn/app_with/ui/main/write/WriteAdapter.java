@@ -33,7 +33,7 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 	private int TYPE_FONT_POSITION = INIT;
 	private int TYPE_COLOR_POSITION = INIT;
 
-	private ArrayList<Bitmap> imgList = new ArrayList<>(0);
+	private ArrayList<Bitmap> imgList;
 
 	private MainContract.OnItemClickListener mOnItemClickListener;
 
