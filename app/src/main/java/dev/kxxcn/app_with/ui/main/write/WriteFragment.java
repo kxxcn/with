@@ -38,6 +38,7 @@ import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.main.MainContract;
+import dev.kxxcn.app_with.ui.main.MainPagerAdapter;
 import dev.kxxcn.app_with.util.Constants;
 import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
@@ -109,6 +110,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	private LinearLayoutManager mLayoutManager;
 
+	private MainContract.OnPageChangeListener mListener;
+
 	@Override
 	public void setPresenter(WriteContract.Presenter presenter) {
 		this.mPresenter = presenter;
@@ -117,6 +120,10 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	@Override
 	public void showLoadingIndicator(boolean isShowing) {
 
+	}
+
+	public void setOnPageChangeListener(MainContract.OnPageChangeListener listener) {
+		this.mListener = listener;
 	}
 
 	public static WriteFragment newInstance() {
@@ -254,6 +261,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		tv_date.setTextColor(getResources().getColor(R.color.default_font));
 		tv_place.setTextColor(getResources().getColor(R.color.default_font));
 		adapter.onChangedData(null, Constants.TypeFilter.RESET);
+		mListener.onPageChangeListener(MainPagerAdapter.PLAN);
 	};
 
 	private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
@@ -329,7 +337,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 				int thumbsDataCol = imageCursor.getColumnIndex(MediaStore.Images.Media.DATA);
 				int thumbsImageIDCol = imageCursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
-
 
 				do {
 					thumbsData = imageCursor.getString(thumbsDataCol);
