@@ -30,7 +30,7 @@ import dev.kxxcn.app_with.util.SystemUtils;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
-import static dev.kxxcn.app_with.ui.splash.SplashActivity.uniqueIdentifier;
+import static dev.kxxcn.app_with.util.Constants.IDENTIFIER;
 
 /**
  * Created by kxxcn on 2018-08-29.
@@ -90,10 +90,16 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 		}
 	}
 
-	public static AuthFragment newInstance() {
+	public static AuthFragment newInstance(String identifier) {
+		AuthFragment fragment = new AuthFragment();
+		Bundle args = new Bundle();
+		args.putString(IDENTIFIER, identifier);
+		fragment.setArguments(args);
+
 		if (fragmentReference == null) {
-			fragmentReference = new WeakReference<>(new AuthFragment());
+			fragmentReference = new WeakReference<>(fragment);
 		}
+
 		return fragmentReference.get();
 	}
 
@@ -121,7 +127,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	}
 
 	private void initUI() {
-		mPresenter.onCreatePairingKey(uniqueIdentifier);
+		mPresenter.onCreatePairingKey(getArguments().getString(IDENTIFIER));
 		et_key.addTextChangedListener(watcher);
 	}
 
@@ -137,7 +143,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	public void onAuthenticate(String key, int gender) {
 		KeyboardUtils.hideKeyboard(mActivity, et_key);
 		setLoading(true);
-		mPresenter.onAuthenticate(uniqueIdentifier, key, gender);
+		mPresenter.onAuthenticate(getArguments().getString(IDENTIFIER), key, gender);
 	}
 
 	private void setLoading(boolean isLoading) {
