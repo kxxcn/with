@@ -9,7 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +19,7 @@ import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.login.LoginActivity;
 import dev.kxxcn.app_with.ui.main.MainActivity;
+import dev.kxxcn.app_with.util.ImageUtils;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 
@@ -55,7 +57,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
 		new SplashPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
-		Glide.with(this).load(R.drawable.splash).into(iv_splash);
+		ImageUtils.setGlide(this, R.drawable.splash, iv_splash, new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
 
 		uniqueIdentifier = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 

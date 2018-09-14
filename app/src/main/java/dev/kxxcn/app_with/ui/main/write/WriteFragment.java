@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.lang.ref.WeakReference;
@@ -43,6 +43,7 @@ import dev.kxxcn.app_with.ui.main.MainPagerAdapter;
 import dev.kxxcn.app_with.util.Constants;
 import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
+import dev.kxxcn.app_with.util.ImageUtils;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
 
@@ -55,7 +56,6 @@ import static dev.kxxcn.app_with.util.Constants.IDENTIFIER;
 public class WriteFragment extends Fragment implements WriteContract.View {
 
 	private static final int THRESHOLD_COUNT = 10;
-
 
 	@BindView(R.id.rv_theme)
 	RecyclerView rv_theme;
@@ -101,6 +101,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			R.drawable.color_6, R.drawable.color_7, R.drawable.color_8, R.drawable.color_9, R.drawable.color_10, R.drawable.color_11,
 			R.drawable.color_12, R.drawable.color_13, R.drawable.color_14, R.drawable.color_15, R.drawable.color_16, R.drawable.color_17,
 			R.drawable.color_18, R.drawable.color_19, R.drawable.color_20, R.drawable.color_21};
+	private int[] color_default = {R.drawable.color_default};
 
 	private float default_font_size;
 
@@ -186,7 +187,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		adapter = new WriteAdapter(colorBitmapList, onItemClickListener, Constants.TypeFilter.PRIMARY);
 		rv_theme.setAdapter(adapter);
 
-		glideOptions = new RequestOptions().centerCrop();
+		glideOptions = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE);
 	}
 
 	public void setGalleryBitmapList(boolean isCompletedCheck, ArrayList<Bitmap> galleryBitmapList) {
@@ -206,12 +207,12 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	}
 
 	@OnClick(R.id.ib_size_down)
-	public void onDownSize() {
+	public void onDecreaseSize() {
 		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, et_write.getTextSize() - 5);
 	}
 
 	@OnClick(R.id.ib_size_up)
-	public void onUpSize() {
+	public void onIncreaseSize() {
 		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, et_write.getTextSize() + 5);
 	}
 
@@ -264,7 +265,11 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	}
 
 	DialogInterface.OnClickListener positiveListener = (dialog, which) -> {
-		iv_background.setBackgroundResource(R.color.default_background);
+		ImageUtils.setGlide(mContext, ImageProcessingHelper.convertToBitmap(mContext
+				, Constants.TypeFilter.PRIMARY
+				, color_default, null).get(0)
+				, iv_background, glideOptions);
+
 		et_write.setText(null);
 		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, default_font_size);
 		et_write.setTypeface(null);
@@ -302,10 +307,10 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	private MainContract.OnItemClickListener onItemClickListener = (position, typeFilter) -> {
 		switch (typeFilter) {
 			case PRIMARY:
-				Glide.with(mContext).load(colorBitmapList.get(position)).apply(glideOptions).into(iv_background);
+				ImageUtils.setGlide(mContext, colorBitmapList.get(position), iv_background, glideOptions);
 				break;
 			case GALLERY:
-				Glide.with(mContext).load(galleryBitmapList.get(position)).apply(glideOptions).into(iv_background);
+				ImageUtils.setGlide(mContext, galleryBitmapList.get(position), iv_background, glideOptions);
 				break;
 			case FONT:
 				mLetterFont = position;
