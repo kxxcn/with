@@ -36,13 +36,13 @@ public class AuthPresenter implements AuthContract.Presenter {
 			@Override
 			public void onNetworkFailure() {
 				mAuthView.showLoadingIndicator(false);
-				mAuthView.showFailuredRequest(THROWABLE_NETWORK);
+				mAuthView.showFailedRequest(THROWABLE_NETWORK);
 			}
 
 			@Override
 			public void onFailure(Throwable throwable) {
 				mAuthView.showLoadingIndicator(false);
-				mAuthView.showFailuredRequest(throwable.getMessage());
+				mAuthView.showFailedRequest(throwable.getMessage());
 			}
 		}, uniqueIdentifier);
 	}
@@ -60,12 +60,12 @@ public class AuthPresenter implements AuthContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				mAuthView.showFailuredRequest(throwable.getMessage());
+				mAuthView.showFailedRequest(throwable.getMessage());
 			}
 
 			@Override
 			public void onRequestFailure(String stat) {
-				mAuthView.showFailuredAuthenticate(stat);
+				mAuthView.showFailedAuthenticate(stat);
 			}
 		}, uniqueIdentifier, key, gender);
 	}

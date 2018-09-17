@@ -10,11 +10,11 @@ public interface AuthContract {
 	interface View extends BaseView<Presenter> {
 		void showSuccessfulPairingKeyRequest(String key);
 
-		void showFailuredRequest(String throwable);
+		void showFailedRequest(String throwable);
 
 		void showSuccessfulAuthenticate();
 
-		void showFailuredAuthenticate(String stat);
+		void showFailedAuthenticate(String stat);
 	}
 
 	interface Presenter extends BasePresenter {

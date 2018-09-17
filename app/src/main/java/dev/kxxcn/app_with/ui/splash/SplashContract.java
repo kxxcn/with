@@ -14,7 +14,7 @@ public interface SplashContract {
 
 		void showUnregisteredUser();
 
-		void showFailuredRequest(String throwable);
+		void showFailedRequest(String throwable);
 	}
 
 	interface Presenter extends BasePresenter {

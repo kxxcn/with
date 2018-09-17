@@ -1,6 +1,5 @@
 package dev.kxxcn.app_with.ui.login.auth;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -66,6 +65,8 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 
 	private LoginContract.OnAuthenticationListener mAuthListener;
 
+	private Bundle args;
+
 	public void setOnValueListener(LoginContract.OnSetValueListener listener) {
 		this.mValueListener = listener;
 	}
@@ -111,12 +112,13 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 
 		new AuthPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
+		args = getArguments();
+
 		initUI();
 
 		return view;
 	}
 
-	@SuppressLint("HardwareIds")
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
@@ -127,7 +129,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	}
 
 	private void initUI() {
-		mPresenter.onCreatePairingKey(getArguments().getString(IDENTIFIER));
+		mPresenter.onCreatePairingKey(args.getString(IDENTIFIER));
 		et_key.addTextChangedListener(watcher);
 	}
 
@@ -143,7 +145,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	public void onAuthenticate(String key, int gender) {
 		KeyboardUtils.hideKeyboard(mActivity, et_key);
 		setLoading(true);
-		mPresenter.onAuthenticate(getArguments().getString(IDENTIFIER), key, gender);
+		mPresenter.onAuthenticate(args.getString(IDENTIFIER), key, gender);
 	}
 
 	private void setLoading(boolean isLoading) {
@@ -160,7 +162,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	}
 
 	@Override
-	public void showFailuredRequest(String throwable) {
+	public void showFailedRequest(String throwable) {
 		SystemUtils.displayError(mContext, getClass().getName(), throwable);
 	}
 
@@ -171,7 +173,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	}
 
 	@Override
-	public void showFailuredAuthenticate(String stat) {
+	public void showFailedAuthenticate(String stat) {
 		Toast.makeText(mActivity, stat, Toast.LENGTH_SHORT).show();
 		mAuthListener.onAuthenticationListener(false);
 		setLoading(false);

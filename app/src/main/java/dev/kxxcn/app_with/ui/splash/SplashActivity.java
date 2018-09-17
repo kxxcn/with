@@ -93,7 +93,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 	}
 
 	@Override
-	public void showFailuredRequest(String throwable) {
+	public void showFailedRequest(String throwable) {
 		SystemUtils.displayError(this, getClass().getName(), throwable);
 	}
 

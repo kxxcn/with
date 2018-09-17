@@ -34,7 +34,7 @@ public class SplashPresenter implements SplashContract.Presenter {
 
 			@Override
 			public void onFailure(Throwable throwable) {
-				mSplashView.showFailuredRequest(throwable.getMessage());
+				mSplashView.showFailedRequest(throwable.getMessage());
 			}
 
 			@Override
