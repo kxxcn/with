@@ -1,5 +1,6 @@
 package dev.kxxcn.app_with.ui.main.write;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -16,17 +17,21 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.ybq.android.spinkit.style.ThreeBounce;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -43,11 +48,14 @@ import dev.kxxcn.app_with.ui.main.MainPagerAdapter;
 import dev.kxxcn.app_with.util.Constants;
 import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
-import dev.kxxcn.app_with.util.ImageUtils;
+import dev.kxxcn.app_with.util.KeyboardUtils;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
 
+import static dev.kxxcn.app_with.util.Constants.COLOR_IMGS;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
+import static dev.kxxcn.app_with.util.Constants.FONT_IMGS;
+import static dev.kxxcn.app_with.util.Constants.GENDER;
 import static dev.kxxcn.app_with.util.Constants.IDENTIFIER;
 
 /**
@@ -55,7 +63,7 @@ import static dev.kxxcn.app_with.util.Constants.IDENTIFIER;
  */
 public class WriteFragment extends Fragment implements WriteContract.View {
 
-	private static final int THRESHOLD_COUNT = 10;
+	private static final int THRESHOLD_COUNT = 15;
 
 	@BindView(R.id.rv_theme)
 	RecyclerView rv_theme;
@@ -76,7 +84,25 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	@BindView(R.id.btn_item_bottom)
 	StateButton btn_item_bottom;
 
+	@BindView(R.id.progressbar)
+	ProgressBar progressBar;
+
+	@BindView(R.id.ib_cancel)
+	ImageButton ib_cancel;
+	@BindView(R.id.ib_background)
+	ImageButton ib_background;
+	@BindView(R.id.ib_place)
+	ImageButton ib_place;
+	@BindView(R.id.ib_font)
+	ImageButton ib_font;
+	@BindView(R.id.ib_size_down)
+	ImageButton ib_size_down;
+	@BindView(R.id.ib_size_up)
+	ImageButton ib_size_up;
+
 	private WriteContract.Presenter mPresenter;
+
+	private Activity mActivity;
 
 	private Context mContext;
 
@@ -89,26 +115,22 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	private ArrayList<Bitmap> fontBitmapList = new ArrayList<>(0);
 	private ArrayList<Bitmap> galleryBitmapList = new ArrayList<>(0);
 
-	private static int loadCount = 0;
+	private static int loadCount;
 
 	private static boolean isSearchDoneGallery = false;
 
 	private String[] colors;
 
-	private int[] font_imgs = {R.drawable.font_1, R.drawable.font_2, R.drawable.font_3, R.drawable.font_4, R.drawable.font_5,
-			R.drawable.font_6, R.drawable.font_7, R.drawable.font_8, R.drawable.font_9, R.drawable.font_10};
-	private int[] color_imgs = {R.drawable.color_1, R.drawable.color_2, R.drawable.color_3, R.drawable.color_4, R.drawable.color_5,
-			R.drawable.color_6, R.drawable.color_7, R.drawable.color_8, R.drawable.color_9, R.drawable.color_10, R.drawable.color_11,
-			R.drawable.color_12, R.drawable.color_13, R.drawable.color_14, R.drawable.color_15, R.drawable.color_16, R.drawable.color_17,
-			R.drawable.color_18, R.drawable.color_19, R.drawable.color_20, R.drawable.color_21};
 	private int[] color_default = {R.drawable.color_default};
 
 	private float default_font_size;
 
-	private int mLetterFont = -1;
-	private int mLetterColor = -1;
+	private int mFontStyle = -1;
+	private int mFontColor = -1;
+	private int mPrimaryPosition = -1;
 
 	private boolean isBackground = true;
+	private boolean isClickedRegistration = false;
 
 	public boolean isCompletedCheck = false;
 
@@ -118,7 +140,11 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	private LinearLayoutManager mLayoutManager;
 
-	private MainContract.OnPageChangeListener mListener;
+	private MainContract.OnPageChangeListener changeListener;
+
+	private MainContract.OnRegisteredDiary registerListener;
+
+	private Bundle args;
 
 	@Override
 	public void setPresenter(WriteContract.Presenter presenter) {
@@ -127,17 +153,26 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@Override
 	public void showLoadingIndicator(boolean isShowing) {
-
+		if (isShowing) {
+			progressBar.setVisibility(View.VISIBLE);
+		} else {
+			progressBar.setVisibility(View.GONE);
+		}
 	}
 
 	public void setOnPageChangeListener(MainContract.OnPageChangeListener listener) {
-		this.mListener = listener;
+		this.changeListener = listener;
 	}
 
-	public static WriteFragment newInstance(String identifier) {
+	public void setOnRegisteredDiary(MainContract.OnRegisteredDiary listener) {
+		this.registerListener = listener;
+	}
+
+	public static WriteFragment newInstance(boolean gender, String identifier) {
 		WriteFragment fragment = new WriteFragment();
 
 		Bundle args = new Bundle();
+		args.putBoolean(GENDER, gender);
 		args.putString(IDENTIFIER, identifier);
 		fragment.setArguments(args);
 
@@ -162,6 +197,9 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		super.onAttach(context);
 		mContext = context;
 		colors = getResources().getStringArray(R.array.background_edit);
+		if (context instanceof Activity) {
+			mActivity = (Activity) context;
+		}
 	}
 
 	private void initUI() {
@@ -169,8 +207,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		task.setListener(this::setGalleryBitmapList);
 		task.execute();
 
-		colorBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.PRIMARY, color_imgs, null);
-		fontBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.FONT, font_imgs, null);
+		colorBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.PRIMARY, COLOR_IMGS, null);
+		fontBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.FONT, FONT_IMGS, null);
 
 		default_font_size = et_write.getTextSize();
 		et_write.setTextColor(getResources().getColor(R.color.default_font));
@@ -188,6 +226,45 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		rv_theme.setAdapter(adapter);
 
 		glideOptions = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE);
+
+		progressBar.setIndeterminateDrawable(new ThreeBounce());
+	}
+
+	private void initComponent(boolean isMove) {
+		ImageProcessingHelper.setGlide(mContext,
+				ImageProcessingHelper.convertToBitmap(
+						mContext,
+						Constants.TypeFilter.PRIMARY,
+						color_default,
+						null)
+						.get(0), iv_background, glideOptions);
+
+		et_write.setText(null);
+		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, default_font_size);
+		et_write.setTypeface(null);
+		tv_date.setTypeface(null);
+		tv_place.setTypeface(null);
+		et_write.setTextColor(getResources().getColor(R.color.default_font));
+		et_write.setHintTextColor(getResources().getColor(R.color.default_font));
+		tv_date.setTextColor(getResources().getColor(R.color.default_font));
+		tv_place.setTextColor(getResources().getColor(R.color.default_font));
+		adapter.onChangedData(null, Constants.TypeFilter.RESET);
+		mFontStyle = -1;
+		mFontColor = -1;
+		mPrimaryPosition = -1;
+		if (isMove) {
+			changeListener.onPageChangeListener(MainPagerAdapter.PLAN);
+		}
+	}
+
+	private void setEnabledComponent(boolean isEnable) {
+		et_write.setEnabled(isEnable);
+		ib_cancel.setEnabled(isEnable);
+		ib_background.setEnabled(isEnable);
+		ib_font.setEnabled(isEnable);
+		ib_place.setEnabled(isEnable);
+		ib_size_down.setEnabled(isEnable);
+		ib_size_up.setEnabled(isEnable);
 	}
 
 	public void setGalleryBitmapList(boolean isCompletedCheck, ArrayList<Bitmap> galleryBitmapList) {
@@ -201,9 +278,22 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	}
 
 	@OnClick(R.id.ib_save)
-	public void onSaveDiary() {
-		mPresenter.onSaveDiary(new Diary(getArguments().getString(IDENTIFIER), et_write.getText().toString(),
-				mLetterFont, mLetterColor, et_write.getTextSize()));
+	public void onRegisterDiary() {
+		KeyboardUtils.hideKeyboard(mActivity, et_write);
+		if (!isClickedRegistration) {
+			isClickedRegistration = true;
+			args = getArguments();
+			if (args != null) {
+				if (!TextUtils.isEmpty(et_write.getText())) {
+					setEnabledComponent(false);
+					mPresenter.onRegisterDiary(new Diary(args.getString(IDENTIFIER), et_write.getText().toString(),
+							SystemUtils.getDate(), mFontStyle, mFontColor, et_write.getTextSize(), mPrimaryPosition, ""));
+				} else {
+					isClickedRegistration = false;
+					Toast.makeText(mContext, getString(R.string.toast_write_diary), Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
 	}
 
 	@OnClick(R.id.ib_size_down)
@@ -265,22 +355,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	}
 
 	DialogInterface.OnClickListener positiveListener = (dialog, which) -> {
-		ImageUtils.setGlide(mContext, ImageProcessingHelper.convertToBitmap(mContext
-				, Constants.TypeFilter.PRIMARY
-				, color_default, null).get(0)
-				, iv_background, glideOptions);
-
-		et_write.setText(null);
-		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, default_font_size);
-		et_write.setTypeface(null);
-		tv_date.setTypeface(null);
-		tv_place.setTypeface(null);
-		et_write.setTextColor(getResources().getColor(R.color.default_font));
-		et_write.setHintTextColor(getResources().getColor(R.color.default_font));
-		tv_date.setTextColor(getResources().getColor(R.color.default_font));
-		tv_place.setTextColor(getResources().getColor(R.color.default_font));
-		adapter.onChangedData(null, Constants.TypeFilter.RESET);
-		mListener.onPageChangeListener(MainPagerAdapter.PLAN);
+		initComponent(true);
 	};
 
 	private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
@@ -307,20 +382,22 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	private MainContract.OnItemClickListener onItemClickListener = (position, typeFilter) -> {
 		switch (typeFilter) {
 			case PRIMARY:
-				ImageUtils.setGlide(mContext, colorBitmapList.get(position), iv_background, glideOptions);
+				mPrimaryPosition = position;
+				ImageProcessingHelper.setGlide(mContext, colorBitmapList.get(position), iv_background, glideOptions);
 				break;
 			case GALLERY:
-				ImageUtils.setGlide(mContext, galleryBitmapList.get(position), iv_background, glideOptions);
+				mPrimaryPosition = -1;
+				ImageProcessingHelper.setGlide(mContext, galleryBitmapList.get(position), iv_background, glideOptions);
 				break;
 			case FONT:
-				mLetterFont = position;
+				mFontStyle = position;
 				Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[position]);
 				et_write.setTypeface(typeface);
 				tv_date.setTypeface(typeface);
 				tv_place.setTypeface(typeface);
 				break;
 			case COLOR:
-				mLetterColor = position;
+				mFontColor = position;
 				et_write.setTextColor(Color.parseColor(colors[position]));
 				et_write.setHintTextColor(Color.parseColor(colors[position]));
 				tv_date.setTextColor(Color.parseColor(colors[position]));
@@ -328,6 +405,23 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 				break;
 		}
 	};
+
+	@Override
+	public void showSuccessfulRegister() {
+		isClickedRegistration = false;
+		setEnabledComponent(true);
+		Toast.makeText(mContext, getString(R.string.toast_register_diary), Toast.LENGTH_SHORT).show();
+		initComponent(false);
+		boolean isFemale = args.getBoolean(GENDER);
+		registerListener.onRegisteredDiary(isFemale, isFemale ? MainPagerAdapter.FEMALE : MainPagerAdapter.MALE);
+	}
+
+	@Override
+	public void showFailedRequest(String throwable) {
+		isClickedRegistration = false;
+		setEnabledComponent(true);
+		SystemUtils.displayError(mContext, getClass().getName(), throwable);
+	}
 
 	static class GetThumbInfoTask extends AsyncTask<Void, Void, Void> {
 
@@ -366,14 +460,15 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 						thumbList.add(thumbsData);
 					}
 				} while (imageCursor.moveToNext());
+
+				imageCursor.close();
 			}
 
-			imageCursor.close();
+			loadCount = thumbList.size() - 1;
 
 			settingLoadList();
 
 			listener.onGetThumbInfoTaskListener(true, ImageProcessingHelper.convertToBitmap(context, Constants.TypeFilter.GALLERY, null, loadList));
-
 
 			return null;
 		}
@@ -390,13 +485,11 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	private static void settingLoadList() {
 		for (int i = 0; i < THRESHOLD_COUNT; i++) {
-			if (loadCount < thumbList.size()) {
-				loadList.add(thumbList.get(loadCount));
-				loadCount++;
-			} else if (loadCount == thumbList.size()) {
+			if (loadCount < 0) {
 				isSearchDoneGallery = true;
 			} else {
-				break;
+				loadList.add(thumbList.get(loadCount));
+				loadCount--;
 			}
 		}
 	}
