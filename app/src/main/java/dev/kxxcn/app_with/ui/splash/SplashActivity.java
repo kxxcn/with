@@ -19,7 +19,7 @@ import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.login.LoginActivity;
 import dev.kxxcn.app_with.ui.main.MainActivity;
-import dev.kxxcn.app_with.util.ImageUtils;
+import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 
@@ -57,7 +57,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
 		new SplashPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
-		ImageUtils.setGlide(this, R.drawable.splash, iv_splash, new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
+		ImageProcessingHelper.setGlide(this, R.drawable.splash, iv_splash, new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
 
 		uniqueIdentifier = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 

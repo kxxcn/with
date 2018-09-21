@@ -26,7 +26,7 @@ import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.ui.login.auth.AuthFragment;
 import dev.kxxcn.app_with.ui.main.MainActivity;
 import dev.kxxcn.app_with.util.DialogUtils;
-import dev.kxxcn.app_with.util.ImageUtils;
+import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.SwipeViewPager;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.TransitionUtils;
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 	private void initUI() {
 		registerView(rl_root);
-		ImageUtils.setGlide(this, R.drawable.background, iv_background, new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
+		ImageProcessingHelper.setGlide(this, R.drawable.background, iv_background, new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
 		adapter = new LoginPagerAdapter(getSupportFragmentManager(), type -> this.mGender = type,
 				key -> this.key = key, isSuccess -> {
 			btn_auth.doResult(isSuccess);
