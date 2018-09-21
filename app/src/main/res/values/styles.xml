@@ -34,12 +34,50 @@
     <style name="WriteFloatingActionButton" parent="Widget.Design.FloatingActionButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="elevation">7dp</item>
-        <item name="pressedTranslationZ">14dp</item>
-        <item name="android:layout_margin">20dp</item>
+        <item name="elevation">10dp</item>
+        <item name="pressedTranslationZ">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginBottom">50dp</item>"
         <item name="android:layout_gravity">bottom|end</item>
         <item name="android:src">@drawable/fab_write</item>
-        <item name="backgroundTint">#ffffff</item>
+        <item name="backgroundTint">@color/bg_tint_fab</item>
+    </style>
+
+    <style name="RadioRealButtonGroup">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="rrbg_backgroundColor">@color/default_background</item>
+        <item name="rrbg_dividerColor">@android:color/black</item>
+        <item name="rrbg_dividerPadding">10dp</item>
+        <item name="rrbg_dividerSize">1dp</item>
+        <item name="rrbg_radius">1dp</item>
+        <item name="rrbg_selectorSize">0dp</item>
+    </style>
+
+    <style name="RadioRealButtonCollect">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="rrb_drawable">@drawable/ic_collect_non_clicked</item>
+    </style>
+
+    <style name="RadioRealButtonExpand">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="rrb_drawable">@drawable/ic_expand_clicked</item>
+    </style>
+
+    <style name="PlaceTextView" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="DateTextView" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>

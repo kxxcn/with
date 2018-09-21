@@ -11,6 +11,7 @@
     <string name="hint_write">함께했던 소중한 추억을 기록하세요.</string>
 
     <string name="format_today">%s년 %s월 %s일</string>
+    <string name="format_day">%s일</string>
 
     <string name="btn_primary">기본</string>
     <string name="btn_gallery">사진첩</string>
@@ -33,6 +34,8 @@
     <string name="toast_check_auth_number">인증번호를 확인하세요.</string>
     <string name="toast_input_auth_number">인증번호를 입력하세요.</string>
     <string name="toast_invalid_auth_number">유효하지 않은 인증번호입니다.</string>
+    <string name="toast_write_diary">일기를 작성하세요.</string>
+    <string name="toast_register_diary">일기가 등록되었습니다.</string>
 
     <string name="system_setting">설정</string>
     <string name="system_denied_permission">"권한 허가를 거부하시면 이 서비스를 이용하실 수 없습니다.\n\n[설정] > [권한]에서 권한을 켜십시오."</string>
