@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
-import dev.kxxcn.app_with.ui.main.female.FemaleFragment;
-import dev.kxxcn.app_with.ui.main.male.MaleFragment;
+import dev.kxxcn.app_with.ui.main.letter.female.FemaleFragment;
+import dev.kxxcn.app_with.ui.main.letter.male.MaleFragment;
 import dev.kxxcn.app_with.ui.main.plan.PlanFragment;
 import dev.kxxcn.app_with.ui.main.setting.SettingFragment;
 import dev.kxxcn.app_with.ui.main.write.WriteFragment;
@@ -27,13 +27,16 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	private boolean gender;
 	private String identifier;
 
-	private MainContract.OnPageChangeListener listener;
+	private MainContract.OnPageChangeListener onPageChangeListener;
 
-	public MainPagerAdapter(FragmentManager fm, int gender, String identifier, MainContract.OnPageChangeListener listener) {
+	private MainContract.OnRegisteredDiary onRegisteredDiary;
+
+	public MainPagerAdapter(FragmentManager fm, int gender, String identifier, MainContract.OnPageChangeListener onPageChangeListener, MainContract.OnRegisteredDiary onRegisteredDiary) {
 		super(fm);
 		this.gender = gender == GenderFragment.FEMALE;
 		this.identifier = identifier;
-		this.listener = listener;
+		this.onPageChangeListener = onPageChangeListener;
+		this.onRegisteredDiary = onRegisteredDiary;
 	}
 
 	@Override
@@ -43,15 +46,16 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 				return PlanFragment.newInstance();
 			case FEMALE:
 				FemaleFragment femaleFragment = FemaleFragment.newInstance(gender, identifier);
-				femaleFragment.setOnPageChangeListener(listener);
+				femaleFragment.setOnPageChangeListener(onPageChangeListener);
 				return femaleFragment;
 			case WRITE:
-				WriteFragment writeFragment = WriteFragment.newInstance(identifier);
-				writeFragment.setOnPageChangeListener(listener);
+				WriteFragment writeFragment = WriteFragment.newInstance(gender, identifier);
+				writeFragment.setOnPageChangeListener(onPageChangeListener);
+				writeFragment.setOnRegisteredDiary(onRegisteredDiary);
 				return writeFragment;
 			case MALE:
 				MaleFragment maleFragment = MaleFragment.newInstance(!gender, identifier);
-				maleFragment.setOnPageChangeListener(listener);
+				maleFragment.setOnPageChangeListener(onPageChangeListener);
 				return maleFragment;
 			case SETTING:
 				return SettingFragment.newInstance();
