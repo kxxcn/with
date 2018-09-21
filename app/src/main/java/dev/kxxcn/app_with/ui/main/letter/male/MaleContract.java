@@ -1,4 +1,6 @@
-package dev.kxxcn.app_with.ui.main.male;
+package dev.kxxcn.app_with.ui.main.letter.male;
+
+import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.ui.BasePresenter;
@@ -9,7 +11,9 @@ import dev.kxxcn.app_with.ui.BaseView;
  */
 public interface MaleContract {
 	interface View extends BaseView<Presenter> {
-		void showSuccessfulDiary(Diary diary);
+		void showSuccessfulLoadDiary(List<Diary> diaryList);
+
+		void showFailedRequest(String throwable);
 	}
 
 	interface Presenter extends BasePresenter {
