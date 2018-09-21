@@ -9,6 +9,12 @@ public interface MainContract {
 	@FunctionalInterface
 	interface OnItemClickListener {
 		void onItemClickListener(int position, Constants.TypeFilter typeFilter);
+
+	}
+
+	@FunctionalInterface
+	interface OnRegisteredDiary {
+		void onRegisteredDiary(boolean gender, int type);
 	}
 
 	interface OnPageChangeListener {
