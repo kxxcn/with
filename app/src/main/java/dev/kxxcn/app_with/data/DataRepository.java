@@ -1,5 +1,9 @@
 package dev.kxxcn.app_with.data;
 
+import java.util.List;
+
+import dev.kxxcn.app_with.data.model.diary.Diary;
+
 /**
  * Created by kxxcn on 2018-08-20.
  */
@@ -58,8 +62,46 @@ public class DataRepository {
 		}, uniqueIdentifier, key, gender);
 	}
 
-	public void isRegisteredUser(DataSource.GetResultCallback callback, String uniqueIdentifier) {
-		dataSource.isRegisteredUser(new DataSource.GetResultCallback() {
+	public void isRegisteredUser(DataSource.GetGenderCallback callback, String uniqueIdentifier) {
+		dataSource.isRegisteredUser(new DataSource.GetGenderCallback() {
+			@Override
+			public void onSuccess(int gender) {
+				callback.onSuccess(gender);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+
+			@Override
+			public void onRequestFailure(String stat) {
+				callback.onRequestFailure(stat);
+			}
+		}, uniqueIdentifier);
+	}
+
+	public void onGetDiary(DataSource.GetDiaryCallback callback, int flag, String uniqueIdentifier) {
+		dataSource.onGetDiary(new DataSource.GetDiaryCallback() {
+			@Override
+			public void onSuccess(List<Diary> diaryList) {
+				callback.onSuccess(diaryList);
+			}
+
+			@Override
+			public void onFailure(Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+
+			@Override
+			public void onNetworkFailure() {
+				callback.onNetworkFailure();
+			}
+		}, flag, uniqueIdentifier);
+	}
+
+	public void onRegisterDiary(DataSource.GetResultCallback callback, Diary diary) {
+		dataSource.onRegisterDiary(new DataSource.GetResultCallback() {
 			@Override
 			public void onSuccess() {
 				callback.onSuccess();
@@ -74,7 +116,7 @@ public class DataRepository {
 			public void onRequestFailure(String stat) {
 				callback.onRequestFailure(stat);
 			}
-		}, uniqueIdentifier);
+		}, diary);
 	}
 
 }
