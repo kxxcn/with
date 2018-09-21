@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/VerticalLinearLayout"
+        android:layout_weight="7">
+
+        <TextView
+            android:id="@+id/tv_letter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="9sp"
+            tools:ignore="SmallSp"
+            tools:text="This is test code."/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/VerticalLinearLayout"
+        android:layout_weight="3"
+        android:gravity="center_vertical|end">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textSize="15sp"
+            tools:text="7일"/>
+
+    </LinearLayout>
+
+</LinearLayout>
