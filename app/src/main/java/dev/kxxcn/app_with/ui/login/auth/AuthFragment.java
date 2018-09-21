@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.style.ThreeBounce;
+
 import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
@@ -131,6 +133,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	private void initUI() {
 		mPresenter.onCreatePairingKey(args.getString(IDENTIFIER));
 		et_key.addTextChangedListener(watcher);
+		progressBar.setIndeterminateDrawable(new ThreeBounce());
 	}
 
 	public void setEnabledEditText(boolean isEnabled) {
