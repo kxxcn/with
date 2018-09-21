@@ -64,18 +64,34 @@
                     style="@style/VerticalLinearLayout"
                     android:layout_weight="7">
 
-                    <EditText
-                        android:id="@+id/et_write"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:hint="@string/hint_write"
-                        android:inputType="textMultiLine"
-                        android:padding="30dp">
+                        android:layout_height="match_parent">
 
-                        <requestFocus/>
-                    </EditText>
+                        <EditText
+                            android:id="@+id/et_write"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:hint="@string/hint_write"
+                            android:inputType="textMultiLine"
+                            android:padding="30dp">
+
+                            <requestFocus/>
+                        </EditText>
+
+                        <com.github.ybq.android.spinkit.SpinKitView
+                            android:id="@+id/progressbar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="40dp"
+                            android:visibility="gone"
+                            app:SpinKit_Color="@color/progressbar_default"/>
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -90,10 +106,7 @@
 
                         <TextView
                             android:id="@+id/tv_place"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:textSize="12sp"
+                            style="@style/PlaceTextView"
                             tools:text="어딘가에서"/>
 
                     </LinearLayout>
@@ -105,10 +118,7 @@
 
                         <TextView
                             android:id="@+id/tv_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="20dp"
-                            android:textSize="12sp"
+                            style="@style/DateTextView"
                             tools:text="2018년 3월 7일"/>
 
                     </LinearLayout>
