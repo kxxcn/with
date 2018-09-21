@@ -10,6 +10,8 @@ public class APIPersistence {
 	public static final String GET_KEY = "getPairingKey.php";
 	public static final String AUTHENTICATE_KEY = "authenticateKey.php";
 	public static final String IS_REGISTERED_USER = "isRegisteredUser.php";
+	public static final String GET_DIARY = "getDiary.php";
+	public static final String SAVE_DIARY = "registerDiary.php";
 
 	public static final String THROWABLE_NETWORK = "Network Error";
 }

@@ -1,8 +1,12 @@
 package dev.kxxcn.app_with.data.remote;
 
+import java.util.List;
+
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import dev.kxxcn.app_with.data.DataSource;
+import dev.kxxcn.app_with.data.model.diary.Diary;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,7 +39,10 @@ public class RemoteDataSource extends DataSource {
 			@Override
 			public void onResponse(Call<dev.kxxcn.app_with.data.model.pairing.Response> call, Response<dev.kxxcn.app_with.data.model.pairing.Response> response) {
 				if (response.isSuccessful()) {
-					callback.onSuccess(response.body().getKey());
+					dev.kxxcn.app_with.data.model.pairing.Response res = response.body();
+					if (res != null) {
+						callback.onSuccess(res.getKey());
+					}
 				} else {
 					callback.onNetworkFailure();
 				}
@@ -56,11 +63,19 @@ public class RemoteDataSource extends DataSource {
 			@Override
 			public void onResponse(Call<dev.kxxcn.app_with.data.model.result.Response> call, Response<dev.kxxcn.app_with.data.model.result.Response> response) {
 				if (response.isSuccessful()) {
-					if (response.body().getRc() == 200) {
-						callback.onSuccess();
+					dev.kxxcn.app_with.data.model.result.Response res = response.body();
+					if (res != null) {
+						if (res.getRc() == 200) {
+							callback.onSuccess();
 
-					} else if (response.body().getRc() == 201) {
-						callback.onRequestFailure(response.body().getStat());
+						} else if (res.getRc() == 201) {
+							callback.onRequestFailure(res.getStat());
+						}
+					}
+				} else {
+					ResponseBody res = response.errorBody();
+					if (res != null) {
+						callback.onRequestFailure(res.toString());
 					}
 				}
 			}
@@ -74,17 +89,76 @@ public class RemoteDataSource extends DataSource {
 
 	@ParametersAreNonnullByDefault
 	@Override
-	public void isRegisteredUser(GetResultCallback callback, String uniqueIdentifier) {
+	public void isRegisteredUser(GetGenderCallback callback, String uniqueIdentifier) {
 		Call<dev.kxxcn.app_with.data.model.result.Response> call = service.isRegisteredUser(uniqueIdentifier);
 		call.enqueue(new Callback<dev.kxxcn.app_with.data.model.result.Response>() {
 			@Override
 			public void onResponse(Call<dev.kxxcn.app_with.data.model.result.Response> call, Response<dev.kxxcn.app_with.data.model.result.Response> response) {
 				if (response.isSuccessful()) {
-					if (response.body().getRc() == 200) {
-						callback.onSuccess();
+					dev.kxxcn.app_with.data.model.result.Response res = response.body();
+					if (res != null) {
+						if (res.getRc() == 200) {
+							callback.onSuccess(Integer.parseInt(res.getStat()));
+						} else if (res.getRc() == 201) {
+							callback.onRequestFailure(res.getStat());
+						}
+					}
+				} else {
+					ResponseBody res = response.errorBody();
+					if (res != null) {
+						callback.onRequestFailure(res.toString());
+					}
+				}
+			}
 
-					} else if (response.body().getRc() == 201) {
-						callback.onRequestFailure(response.body().getStat());
+			@Override
+			public void onFailure(Call<dev.kxxcn.app_with.data.model.result.Response> call, Throwable t) {
+				callback.onFailure(t);
+			}
+		});
+	}
+
+	@ParametersAreNonnullByDefault
+	@Override
+	public void onGetDiary(GetDiaryCallback callback, int flag, String uniqueIdentifier) {
+		Call<List<Diary>> call = service.getDiary(flag, uniqueIdentifier);
+		call.enqueue(new Callback<List<Diary>>() {
+			@Override
+			public void onResponse(Call<List<Diary>> call, Response<List<Diary>> response) {
+				if (response.isSuccessful()) {
+					callback.onSuccess(response.body());
+				} else {
+					callback.onNetworkFailure();
+				}
+			}
+
+			@Override
+			public void onFailure(Call<List<Diary>> call, Throwable t) {
+				callback.onFailure(t);
+			}
+		});
+	}
+
+	@ParametersAreNonnullByDefault
+	@Override
+	public void onRegisterDiary(GetResultCallback callback, Diary diary) {
+		Call<dev.kxxcn.app_with.data.model.result.Response> call = service.saveDiary(diary);
+		call.enqueue(new Callback<dev.kxxcn.app_with.data.model.result.Response>() {
+			@Override
+			public void onResponse(Call<dev.kxxcn.app_with.data.model.result.Response> call, Response<dev.kxxcn.app_with.data.model.result.Response> response) {
+				if (response.isSuccessful()) {
+					dev.kxxcn.app_with.data.model.result.Response res = response.body();
+					if (res != null) {
+						if (res.getRc() == 200) {
+							callback.onSuccess();
+						} else if (res.getRc() == 201) {
+							callback.onRequestFailure(res.getStat());
+						}
+					}
+				} else {
+					ResponseBody res = response.errorBody();
+					if (res != null) {
+						callback.onRequestFailure(res.toString());
 					}
 				}
 			}
