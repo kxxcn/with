@@ -19,6 +19,7 @@ import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
 import com.github.ybq.android.spinkit.style.ThreeBounce;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,6 +32,7 @@ import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.ui.main.MainPagerAdapter;
+import dev.kxxcn.app_with.ui.main.letter.CollectAdapter;
 import dev.kxxcn.app_with.ui.main.letter.ExpandAdapter;
 import dev.kxxcn.app_with.util.SystemUtils;
 
@@ -49,6 +51,8 @@ public class FemaleFragment extends Fragment implements FemaleContract.View {
 
 	@BindView(R.id.fab_write)
 	FloatingActionButton fab_write;
+	@BindView(R.id.fab_refresh)
+	FloatingActionButton fab_refresh;
 
 	@BindView(R.id.vp_letter)
 	ViewPager vp_letter;
@@ -71,6 +75,10 @@ public class FemaleFragment extends Fragment implements FemaleContract.View {
 	private MainContract.OnPageChangeListener mListener;
 
 	private Bundle args;
+
+	private CollectAdapter mCollectAdapter;
+
+	private ExpandAdapter mExpandAdapter;
 
 	@Override
 	public void setPresenter(FemaleContract.Presenter presenter) {
@@ -134,16 +142,34 @@ public class FemaleFragment extends Fragment implements FemaleContract.View {
 		if (args.getBoolean(GENDER)) {
 			tv_title.setText(getString(R.string.title_me));
 			fab_write.setVisibility(View.VISIBLE);
+			fab_refresh.setVisibility(View.GONE);
 		} else {
 			tv_title.setText(getString(R.string.title_you));
 			fab_write.setVisibility(View.GONE);
+			fab_refresh.setVisibility(View.VISIBLE);
 		}
+
 		progressBar.setIndeterminateDrawable(new ThreeBounce());
+
+		mCollectAdapter = new CollectAdapter(getChildFragmentManager(), new ArrayList<>(0));
+		vp_letter.setAdapter(mCollectAdapter);
+		vp_letter.setPageTransformer(true, new CubeOutTransformer());
+
+		mExpandAdapter = new ExpandAdapter(mContext, new ArrayList<>(0));
+		rv_letter.setAdapter(mExpandAdapter);
+		rv_letter.setLayoutManager(new GridLayoutManager(mContext, 3));
 	}
 
 	@OnClick(R.id.fab_write)
 	public void showPageToWrite() {
 		mListener.onPageChangeListener(MainPagerAdapter.WRITE);
+	}
+
+	@OnClick(R.id.fab_refresh)
+	public void onRefresh() {
+		if (args != null) {
+			mPresenter.onGetDiary(args.getBoolean(GENDER) ? 0 : 1, getArguments().getString(IDENTIFIER));
+		}
 	}
 
 	@OnClick(R.id.rrb_expand)
@@ -164,10 +190,8 @@ public class FemaleFragment extends Fragment implements FemaleContract.View {
 
 	@Override
 	public void showSuccessfulLoadDiary(List<Diary> diaryList) {
-		vp_letter.setAdapter(new FemaleAdapter(getFragmentManager(), diaryList));
-		vp_letter.setPageTransformer(true, new CubeOutTransformer());
-		rv_letter.setAdapter(new ExpandAdapter(mContext, diaryList));
-		rv_letter.setLayoutManager(new GridLayoutManager(mContext, 3));
+		mCollectAdapter.onChangedData(diaryList);
+		mExpandAdapter.onChangedData(diaryList);
 	}
 
 	@Override

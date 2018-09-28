@@ -39,7 +39,6 @@
 
     </LinearLayout>
 
-
     <LinearLayout
         style="@style/VerticalLinearLayout"
         android:layout_weight="7">
@@ -63,6 +62,11 @@
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_write"
                 style="@style/WriteFloatingActionButton"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_refresh"
+                style="@style/RefreshFloatingActionButton"
+                android:visibility="gone"/>
 
             <com.github.ybq.android.spinkit.SpinKitView
                 android:id="@+id/progressbar"
