@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -26,6 +27,10 @@ import static dev.kxxcn.app_with.util.Constants.FONTS;
  * Created by kxxcn on 2018-09-20.
  */
 public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder> {
+
+	private static final String PREFIX_MONTH = "0";
+
+	private static final int TWO_LETTERS = 2;
 
 	private Context mContext;
 
@@ -57,17 +62,33 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 		}
 		if (mDiaryList.get(holder.getAdapterPosition()).getFontColor() != -1) {
 			holder.tv_letter.setTextColor(Color.parseColor(colors[mDiaryList.get(holder.getAdapterPosition()).getFontColor()]));
-			holder.tv_date.setTextColor(Color.parseColor(colors[mDiaryList.get(holder.getAdapterPosition()).getFontColor()]));
+			holder.tv_month.setTextColor(Color.parseColor(colors[mDiaryList.get(holder.getAdapterPosition()).getFontColor()]));
+			holder.tv_day.setTextColor(Color.parseColor(colors[mDiaryList.get(holder.getAdapterPosition()).getFontColor()]));
 		}
 		holder.tv_letter.setText(mDiaryList.get(holder.getAdapterPosition()).getLetter());
-		String[] days = mDiaryList.get(holder.getAdapterPosition()).getLetterDate().split("-");
-		holder.tv_date.setText(String.format(mContext.getString(R.string.format_day), days[2]));
+		String[] date = mDiaryList.get(holder.getAdapterPosition()).getLetterDate().split("-");
+		if (date[1].startsWith(PREFIX_MONTH)) {
+			date[1] = date[1].substring(1, date[1].length());
+		}
+		holder.tv_month.setText(String.format(mContext.getString(R.string.format_month), date[1]));
+		if (date[1].length() == TWO_LETTERS) {
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.tv_day.getLayoutParams();
+			params.leftMargin = 4;
+			holder.tv_day.setLayoutParams(params);
+		}
+		holder.tv_day.setText(date[2]);
 	}
 
 	@Override
 	public int getItemCount() {
 		return mDiaryList.size();
 	}
+
+	public void onChangedData(List<Diary> diaryList) {
+		mDiaryList = diaryList;
+		notifyDataSetChanged();
+	}
+
 
 	static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -76,8 +97,10 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 
 		@BindView(R.id.tv_letter)
 		TextView tv_letter;
-		@BindView(R.id.tv_date)
-		TextView tv_date;
+		@BindView(R.id.tv_month)
+		TextView tv_month;
+		@BindView(R.id.tv_day)
+		TextView tv_day;
 
 		public ViewHolder(View itemView) {
 			super(itemView);
