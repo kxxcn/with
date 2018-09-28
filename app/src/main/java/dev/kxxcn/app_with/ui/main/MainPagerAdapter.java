@@ -3,7 +3,7 @@ package dev.kxxcn.app_with.ui.main;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
 import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
@@ -15,7 +15,7 @@ import dev.kxxcn.app_with.ui.main.write.WriteFragment;
 /**
  * Created by kxxcn on 2018-08-13.
  */
-public class MainPagerAdapter extends FragmentPagerAdapter {
+public class MainPagerAdapter extends FragmentStatePagerAdapter {
 
 	private static final int COUNT = 5;
 	private static final int FLAG_MALE = 0;
