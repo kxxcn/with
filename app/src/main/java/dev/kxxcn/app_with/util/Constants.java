@@ -19,6 +19,8 @@ public class Constants {
 	public static final int[] FONT_IMGS = {R.drawable.font_1, R.drawable.font_2, R.drawable.font_3, R.drawable.font_4, R.drawable.font_5,
 			R.drawable.font_6, R.drawable.font_7, R.drawable.font_8, R.drawable.font_9, R.drawable.font_10};
 
+	public static final int[] COLOR_DEFAULT = {R.drawable.color_default};
+
 	public static final String TAG = "kxxcn";
 	public static final String SIMPLE_DATE_FORMAT = "yyyy-MM-dd";
 	public static final String READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -27,7 +29,7 @@ public class Constants {
 
 	public static final int DELAY_NETWORK = 2000;
 	public static final int DELAY_TOAST = 2000;
-	public static final int DELAY_REGISTRATION = 1000;
+	public static final int DELAY_REGISTRATION = 1200;
 
 	public enum TypeFilter {
 		PRIMARY,
