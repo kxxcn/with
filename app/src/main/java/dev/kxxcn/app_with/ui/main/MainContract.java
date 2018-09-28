@@ -14,7 +14,7 @@ public interface MainContract {
 
 	@FunctionalInterface
 	interface OnRegisteredDiary {
-		void onRegisteredDiary(boolean gender, int type);
+		void onRegisteredDiary(int type);
 	}
 
 	interface OnPageChangeListener {
