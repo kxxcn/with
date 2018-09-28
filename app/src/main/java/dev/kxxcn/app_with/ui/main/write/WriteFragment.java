@@ -52,6 +52,7 @@ import dev.kxxcn.app_with.util.KeyboardUtils;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
 
+import static dev.kxxcn.app_with.util.Constants.COLOR_DEFAULT;
 import static dev.kxxcn.app_with.util.Constants.COLOR_IMGS;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
 import static dev.kxxcn.app_with.util.Constants.FONT_IMGS;
@@ -120,8 +121,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	private static boolean isSearchDoneGallery = false;
 
 	private String[] colors;
-
-	private int[] color_default = {R.drawable.color_default};
 
 	private float default_font_size;
 
@@ -235,7 +234,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 				ImageProcessingHelper.convertToBitmap(
 						mContext,
 						Constants.TypeFilter.PRIMARY,
-						color_default,
+						COLOR_DEFAULT,
 						null)
 						.get(0), iv_background, glideOptions);
 
@@ -413,7 +412,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		Toast.makeText(mContext, getString(R.string.toast_register_diary), Toast.LENGTH_SHORT).show();
 		initComponent(false);
 		boolean isFemale = args.getBoolean(GENDER);
-		registerListener.onRegisteredDiary(isFemale, isFemale ? MainPagerAdapter.FEMALE : MainPagerAdapter.MALE);
+		registerListener.onRegisteredDiary(isFemale ? MainPagerAdapter.FEMALE : MainPagerAdapter.MALE);
 	}
 
 	@Override
