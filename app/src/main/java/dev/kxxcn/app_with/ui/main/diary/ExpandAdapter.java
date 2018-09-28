@@ -1,4 +1,4 @@
-package dev.kxxcn.app_with.ui.main.letter;
+package dev.kxxcn.app_with.ui.main.diary;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -38,6 +38,8 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 
 	private String[] colors;
 
+	private String defaults;
+
 	public ExpandAdapter(Context context, List<Diary> diaryList) {
 		this.mContext = context;
 		this.mDiaryList = diaryList;
@@ -48,6 +50,7 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_expand, parent, false);
 		colors = mContext.getResources().getStringArray(R.array.background_edit);
+		defaults = mContext.getResources().getString(R.string.background_default);
 		return new ViewHolder(view);
 	}
 
@@ -55,16 +58,25 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 		if (mDiaryList.get(holder.getAdapterPosition()).getPrimaryPosition() != -1) {
 			holder.ll_root.setBackgroundResource(COLOR_IMGS[mDiaryList.get(holder.getAdapterPosition()).getPrimaryPosition()]);
+		} else {
+			holder.ll_root.setBackgroundColor(mContext.getResources().getColor(R.color.bg_default));
 		}
+
 		if (mDiaryList.get(holder.getAdapterPosition()).getFontStyle() != -1) {
 			Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[mDiaryList.get(holder.getAdapterPosition()).getFontStyle()]);
 			holder.tv_letter.setTypeface(typeface);
 		}
+
+		int color;
 		if (mDiaryList.get(holder.getAdapterPosition()).getFontColor() != -1) {
-			holder.tv_letter.setTextColor(Color.parseColor(colors[mDiaryList.get(holder.getAdapterPosition()).getFontColor()]));
-			holder.tv_month.setTextColor(Color.parseColor(colors[mDiaryList.get(holder.getAdapterPosition()).getFontColor()]));
-			holder.tv_day.setTextColor(Color.parseColor(colors[mDiaryList.get(holder.getAdapterPosition()).getFontColor()]));
+			color = Color.parseColor(colors[mDiaryList.get(holder.getAdapterPosition()).getFontColor()]);
+		} else {
+			color = Color.parseColor(defaults);
 		}
+		holder.tv_letter.setTextColor(color);
+		holder.tv_month.setTextColor(color);
+		holder.tv_day.setTextColor(color);
+
 		holder.tv_letter.setText(mDiaryList.get(holder.getAdapterPosition()).getLetter());
 		String[] date = mDiaryList.get(holder.getAdapterPosition()).getLetterDate().split("-");
 		if (date[1].startsWith(PREFIX_MONTH)) {

@@ -1,4 +1,4 @@
-package dev.kxxcn.app_with.ui.main.letter;
+package dev.kxxcn.app_with.ui.main.diary;
 
 import android.content.Context;
 import android.graphics.Color;
