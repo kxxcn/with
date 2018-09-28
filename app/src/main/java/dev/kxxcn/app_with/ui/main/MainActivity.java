@@ -9,8 +9,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
-import dev.kxxcn.app_with.ui.main.letter.female.FemaleFragment;
-import dev.kxxcn.app_with.ui.main.letter.male.MaleFragment;
 import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.SwipeViewPager;
 import dev.kxxcn.app_with.util.SystemUtils;
@@ -46,14 +44,8 @@ public class MainActivity extends AppCompatActivity {
 				getIntent().getStringExtra(EXTRA_IDENTIFIER), type -> {
 			vp_main.setCurrentItem(type);
 			bottomBar.selectTabAtPosition(type);
-		}, (isFemale, type) -> {
-			if (isFemale) {
-				FemaleFragment femaleFragment = (FemaleFragment) adapter.getItem(MainPagerAdapter.FEMALE);
-				femaleFragment.onRegisteredDiary();
-			} else {
-				MaleFragment maleFragment = (MaleFragment) adapter.getItem(MainPagerAdapter.MALE);
-				maleFragment.onRegisteredDiary();
-			}
+		}, type -> {
+			adapter.onRegisteredDiary(type, getIntent().getStringExtra(EXTRA_IDENTIFIER));
 			UiThread.getInstance().postDelayed(() -> {
 				vp_main.setCurrentItem(type);
 				bottomBar.selectTabAtPosition(type);
