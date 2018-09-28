@@ -11,7 +11,7 @@
     <string name="hint_write">함께했던 소중한 추억을 기록하세요.</string>
 
     <string name="format_today">%s년 %s월 %s일</string>
-    <string name="format_day">%s일</string>
+    <string name="format_month">%s월</string>
 
     <string name="btn_primary">기본</string>
     <string name="btn_gallery">사진첩</string>

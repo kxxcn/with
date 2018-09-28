@@ -43,6 +43,18 @@
         <item name="backgroundTint">@color/bg_tint_fab</item>
     </style>
 
+    <style name="RefreshFloatingActionButton" parent="Widget.Design.FloatingActionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="elevation">10dp</item>
+        <item name="pressedTranslationZ">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginBottom">50dp</item>"
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:src">@drawable/fab_refresh</item>
+        <item name="backgroundTint">@color/bg_tint_fab</item>
+    </style>
+
     <style name="RadioRealButtonGroup">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
