@@ -23,4 +23,7 @@
         <item>#dbeef4</item>
         <item>#fdeada</item>
     </string-array>
+    <string name="background_default">
+        <item>#757575</item>
+    </string>
 </resources>
