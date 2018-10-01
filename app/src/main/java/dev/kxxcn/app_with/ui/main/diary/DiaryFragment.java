@@ -112,7 +112,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View {
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_male, container, false);
+		View view = inflater.inflate(R.layout.fragment_diary, container, false);
 		ButterKnife.bind(this, view);
 		new DiaryPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
