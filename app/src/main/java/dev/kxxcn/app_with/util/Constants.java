@@ -30,6 +30,7 @@ public class Constants {
 	public static final int DELAY_NETWORK = 2000;
 	public static final int DELAY_TOAST = 2000;
 	public static final int DELAY_REGISTRATION = 1200;
+	public static final int DELAY_CHNAGE_MONTH = 500;
 
 	public enum TypeFilter {
 		PRIMARY,
