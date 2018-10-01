@@ -42,4 +42,10 @@
     <color name="box_primary">#baffd1</color>
 
     <color name="progressbar_default">#373740</color>
+
+    <color name="calendar_selection">#4c4c4c</color>
+
+    <color name="circle_daily">#7cffaa</color>
+    <color name="circle_saturday">#82c2ff</color>
+    <color name="circle_sunday">#ff6363</color>
 </resources>

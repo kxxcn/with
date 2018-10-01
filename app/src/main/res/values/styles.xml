@@ -78,6 +78,18 @@
         <item name="rrb_drawable">@drawable/ic_expand_clicked</item>
     </style>
 
+    <style name="RadioRealButtonCalendar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="rrb_drawable">@drawable/ic_cal_clicked</item>
+    </style>
+
+    <style name="RadioRealButtonTodo">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="rrb_drawable">@drawable/ic_todo_non_clicked</item>
+    </style>
+
     <style name="PlaceTextView" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

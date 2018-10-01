@@ -12,6 +12,7 @@
 
     <string name="format_today">%s년 %s월 %s일</string>
     <string name="format_month">%s월</string>
+    <string name="format_year_month">%s년 %s월</string>
 
     <string name="btn_primary">기본</string>
     <string name="btn_gallery">사진첩</string>
@@ -21,6 +22,7 @@
     <string name="btn_female">여 자</string>
     <string name="btn_signup">시작하기</string>
     <string name="btn_auth">인증하기</string>
+    <string name="btn_registration">등록하기</string>
 
     <string name="dialog_yes">예</string>
     <string name="dialog_no">아니오</string>
@@ -42,4 +44,12 @@
 
     <string name="text_welcome">위드를 찾아주신 커플 여러분들을 환영합니다.</string>
     <string name="text_auth">연인에게 전달받은 번호를 입력하세요.\n\n또는, 연인에게 인증번호를 전달하세요.</string>
+
+    <string name="label_mon">M O N</string>
+    <string name="label_tue">T U E</string>
+    <string name="label_wed">W E D</string>
+    <string name="label_thu">T H U</string>
+    <string name="label_fri">F R I</string>
+    <string name="label_sat">S A T</string>
+    <string name="label_sun">S U N</string>
 </resources>
