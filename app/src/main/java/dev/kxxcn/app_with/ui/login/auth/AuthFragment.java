@@ -16,8 +16,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.ybq.android.spinkit.style.ThreeBounce;
-
 import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
@@ -31,7 +29,7 @@ import dev.kxxcn.app_with.util.SystemUtils;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
-import static dev.kxxcn.app_with.util.Constants.IDENTIFIER;
+import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
 
 /**
  * Created by kxxcn on 2018-08-29.
@@ -96,7 +94,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	public static AuthFragment newInstance(String identifier) {
 		AuthFragment fragment = new AuthFragment();
 		Bundle args = new Bundle();
-		args.putString(IDENTIFIER, identifier);
+		args.putString(KEY_IDENTIFIER, identifier);
 		fragment.setArguments(args);
 
 		if (fragmentReference == null) {
@@ -131,9 +129,8 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	}
 
 	private void initUI() {
-		mPresenter.onCreatePairingKey(args.getString(IDENTIFIER));
+		mPresenter.onCreatePairingKey(args.getString(KEY_IDENTIFIER));
 		et_key.addTextChangedListener(watcher);
-		progressBar.setIndeterminateDrawable(new ThreeBounce());
 	}
 
 	public void setEnabledEditText(boolean isEnabled) {
@@ -148,7 +145,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	public void onAuthenticate(String key, int gender) {
 		KeyboardUtils.hideKeyboard(mActivity, et_key);
 		setLoading(true);
-		mPresenter.onAuthenticate(args.getString(IDENTIFIER), key, gender);
+		mPresenter.onAuthenticate(args.getString(KEY_IDENTIFIER), key, gender);
 	}
 
 	private void setLoading(boolean isLoading) {

@@ -3,6 +3,12 @@ package dev.kxxcn.app_with.data;
 import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
+import dev.kxxcn.app_with.data.model.plan.Plan;
+import dev.kxxcn.app_with.data.model.result.ResponseResult;
+import io.reactivex.Single;
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 
 /**
  * Created by kxxcn on 2018-08-20.
@@ -24,99 +30,48 @@ public class DataRepository {
 		return dataRepository;
 	}
 
-	public void onCreatePairingKey(final DataSource.GetKeyCallback callback, String uniqueIdentifier) {
-		dataSource.onCreatePairingKey(new DataSource.GetKeyCallback() {
-			@Override
-			public void onSuccess(String key) {
-				callback.onSuccess(key);
-			}
-
-			@Override
-			public void onNetworkFailure() {
-				callback.onNetworkFailure();
-			}
-
-			@Override
-			public void onFailure(Throwable throwable) {
-				callback.onFailure(throwable);
-			}
-		}, uniqueIdentifier);
+	public Single<ResponsePairing> onCreatePairingKey(String uniqueIdentifier) {
+		return dataSource.onCreatePairingKey(uniqueIdentifier);
 	}
 
-	public void onAuthenticate(final DataSource.GetResultCallback callback, String uniqueIdentifier, String key, int gender) {
-		dataSource.onAuthenticate(new DataSource.GetResultCallback() {
-			@Override
-			public void onSuccess() {
-				callback.onSuccess();
-			}
-
-			@Override
-			public void onFailure(Throwable throwable) {
-				callback.onFailure(throwable);
-			}
-
-			@Override
-			public void onRequestFailure(String stat) {
-				callback.onRequestFailure(stat);
-			}
-		}, uniqueIdentifier, key, gender);
+	public Single<ResponseResult> onAuthenticate(String uniqueIdentifier, String key, int gender) {
+		return dataSource.onAuthenticate(uniqueIdentifier, key, gender);
 	}
 
-	public void isRegisteredUser(DataSource.GetGenderCallback callback, String uniqueIdentifier) {
-		dataSource.isRegisteredUser(new DataSource.GetGenderCallback() {
-			@Override
-			public void onSuccess(int gender) {
-				callback.onSuccess(gender);
-			}
-
-			@Override
-			public void onFailure(Throwable throwable) {
-				callback.onFailure(throwable);
-			}
-
-			@Override
-			public void onRequestFailure(String stat) {
-				callback.onRequestFailure(stat);
-			}
-		}, uniqueIdentifier);
+	public Single<ResponseResult> isRegisteredUser(String uniqueIdentifier) {
+		return dataSource.isRegisteredUser(uniqueIdentifier);
 	}
 
-	public void onGetDiary(DataSource.GetDiaryCallback callback, int flag, String uniqueIdentifier) {
-		dataSource.onGetDiary(new DataSource.GetDiaryCallback() {
-			@Override
-			public void onSuccess(List<Diary> diaryList) {
-				callback.onSuccess(diaryList);
-			}
-
-			@Override
-			public void onFailure(Throwable throwable) {
-				callback.onFailure(throwable);
-			}
-
-			@Override
-			public void onNetworkFailure() {
-				callback.onNetworkFailure();
-			}
-		}, flag, uniqueIdentifier);
+	public Single<List<Diary>> onGetDiary(int flag, String uniqueIdentifier) {
+		return dataSource.onGetDiary(flag, uniqueIdentifier);
 	}
 
-	public void onRegisterDiary(DataSource.GetResultCallback callback, Diary diary) {
-		dataSource.onRegisterDiary(new DataSource.GetResultCallback() {
-			@Override
-			public void onSuccess() {
-				callback.onSuccess();
-			}
+	public Single<ResponseResult> onRegisterDiary(Diary diary) {
+		return dataSource.onRegisterDiary(diary);
+	}
 
-			@Override
-			public void onFailure(Throwable throwable) {
-				callback.onFailure(throwable);
-			}
+	public Single<ResponseResult> onRegisterPlan(Plan plan) {
+		return dataSource.onRegisterPlan(plan);
+	}
 
-			@Override
-			public void onRequestFailure(String stat) {
-				callback.onRequestFailure(stat);
-			}
-		}, diary);
+	public Single<List<Plan>> onGetPlan(String identifier) {
+		return dataSource.onGetPlan(identifier);
+	}
+
+	public Single<ResponseResult> uploadImage(MultipartBody.Part body) {
+		return dataSource.uploadImage(body);
+	}
+
+	public Single<ResponseBody> onGetImage(String fileName) {
+		return dataSource.onGetImage(fileName);
+	}
+
+	public Single<ResponseResult> onRemoveDiary(int id) {
+		return dataSource.onRemoveDiary(id);
+	}
+
+	public Single<ResponseResult> onRemovePlan(int id) {
+		return dataSource.onRemovePlan(id);
 	}
 
 }

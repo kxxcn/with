@@ -4,6 +4,28 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="color_1">#ffffff</color>
+    <color name="color_2">#000000</color>
+    <color name="color_3">#595959</color>
+    <color name="color_4">#948a54</color>
+    <color name="color_5">#ddd9c3</color>
+    <color name="color_6">#17375e</color>
+    <color name="color_7">#558ed5</color>
+    <color name="color_8">#c6d9f1</color>
+    <color name="color_9">#95b3d7</color>
+    <color name="color_10">#953735</color>
+    <color name="color_11">#d99694</color>
+    <color name="color_12">#f2dcdb</color>
+    <color name="color_13">#77933c</color>
+    <color name="color_14">#c3d69b</color>
+    <color name="color_15">#ebf1de</color>
+    <color name="color_16">#604a7b</color>
+    <color name="color_17">#ccc1da</color>
+    <color name="color_18">#31859c</color>
+    <color name="color_19">#93cddd</color>
+    <color name="color_20">#dbeef4</color>
+    <color name="color_21">#fdeada</color>
+
     <color name="default_background">#fafafa</color>
     <color name="default_font">#9b9b9b</color>
 
@@ -22,6 +44,10 @@
     <color name="bg_setting">#f7cc76</color>
     <color name="bg_tint_fab">#ffffff</color>
     <color name="bg_default">#ffffff</color>
+    <color name="bg_plan_scrollview">#eeeeee</color>
+    <color name="bg_plan_line1">#c1d6ff</color>
+    <color name="bg_plan_line2">#ffcb93</color>
+    <color name="bg_setting_row">#eeeeee</color>
 
     <color name="btn_bottom_item">#d6cfcf</color>
     <color name="btn_gender">#ffffff</color>
@@ -34,6 +60,9 @@
     <color name="text_welcome">#727171</color>
     <color name="text_auth_number">#ffd3f0</color>
     <color name="text_auth_input">#ffffff</color>
+    <color name="text_plan_month">#c6c4c4</color>
+    <color name="text_delete">#000000</color>
+    <color name="text_setting">#bdbdbd</color>
 
     <color name="selected_circleindicator">#ffffff</color>
     <color name="unselected_circleindicator">#84797d</color>
@@ -45,7 +74,16 @@
 
     <color name="calendar_selection">#4c4c4c</color>
 
-    <color name="circle_daily">#7cffaa</color>
+    <color name="circle_daily">#4de23f</color>
     <color name="circle_saturday">#82c2ff</color>
     <color name="circle_sunday">#ff6363</color>
+
+    <color name="division_line">#d6cfcf</color>
+
+    <color name="tfb_panel">#e0e0e0</color>
+    <color name="tfb_primary">#616161</color>
+    <color name="tfb_secondary">#9e9e9e</color>
+
+    <color name="toggle_off">#dadbda</color>
+    <color name="toggle_on">#4ebb7f</color>
 </resources>

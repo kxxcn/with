@@ -3,57 +3,38 @@ package dev.kxxcn.app_with.data;
 import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
+import dev.kxxcn.app_with.data.model.plan.Plan;
+import dev.kxxcn.app_with.data.model.result.ResponseResult;
+import io.reactivex.Single;
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 
 /**
  * Created by kxxcn on 2018-08-20.
  */
 public abstract class DataSource {
-	public interface GetCommonCallback {
-		void onSuccess();
 
-		void onFailure(Throwable throwable);
-	}
+	public abstract Single<ResponsePairing> onCreatePairingKey(String uniqueIdentifier);
 
-	public interface GetKeyCallback {
-		void onSuccess(String key);
+	public abstract Single<ResponseResult> onAuthenticate(String uniqueIdentifier, String key, int gender);
 
-		void onFailure(Throwable throwable);
+	public abstract Single<ResponseResult> isRegisteredUser(String uniqueIdentifier);
 
-		void onNetworkFailure();
-	}
+	public abstract Single<List<Diary>> onGetDiary(int flag, String uniqueIdentifier);
 
-	public interface GetResultCallback {
-		void onSuccess();
+	public abstract Single<ResponseResult> onRegisterDiary(Diary diary);
 
-		void onFailure(Throwable throwable);
+	public abstract Single<ResponseResult> onRegisterPlan(Plan plan);
 
-		void onRequestFailure(String stat);
-	}
+	public abstract Single<List<Plan>> onGetPlan(String uniqueIdentifier);
 
-	public interface GetGenderCallback {
-		void onSuccess(int gender);
+	public abstract Single<ResponseResult> uploadImage(MultipartBody.Part body);
 
-		void onFailure(Throwable throwable);
+	public abstract Single<ResponseBody> onGetImage(String fileName);
 
-		void onRequestFailure(String stat);
-	}
+	public abstract Single<ResponseResult> onRemoveDiary(int id);
 
-	public interface GetDiaryCallback {
-		void onSuccess(List<Diary> diaryList);
+	public abstract Single<ResponseResult> onRemovePlan(int id);
 
-		void onFailure(Throwable throwable);
-
-		void onNetworkFailure();
-	}
-
-
-	public abstract void onCreatePairingKey(GetKeyCallback callback, String uniqueIdentifier);
-
-	public abstract void onAuthenticate(GetResultCallback callback, String uniqueIdentifier, String key, int gender);
-
-	public abstract void isRegisteredUser(GetGenderCallback callback, String uniqueIdentifier);
-
-	public abstract void onGetDiary(GetDiaryCallback callback, int flag, String uniqueIdentifier);
-
-	public abstract void onRegisterDiary(GetResultCallback callback, Diary diary);
 }

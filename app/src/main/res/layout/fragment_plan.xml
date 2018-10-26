@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -18,7 +20,64 @@
 
     <LinearLayout
         style="@style/VerticalLinearLayout"
-        android:layout_weight="10">
+        android:layout_weight="9"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/VerticalLinearLayout"
+            android:layout_weight="1">
+
+            <co.ceryle.radiorealbutton.RadioRealButtonGroup
+                style="@style/RadioRealButtonGroup">
+
+                <co.ceryle.radiorealbutton.RadioRealButton
+                    android:id="@+id/rrb_calendar"
+                    style="@style/RadioRealButtonCalendar"/>
+
+                <co.ceryle.radiorealbutton.RadioRealButton
+                    android:id="@+id/rrb_todo"
+                    style="@style/RadioRealButtonTodo"/>
+
+            </co.ceryle.radiorealbutton.RadioRealButtonGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/VerticalLinearLayout"
+            android:layout_weight="9">
+
+            <RelativeLayout
+                android:id="@+id/rl_plan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/mcv_plan"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:mcv_selectionColor="@color/calendar_selection"
+                    app:mcv_showOtherDates="all"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_plan"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"/>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_refresh"
+                    style="@style/RefreshFloatingActionButton2"
+                    android:visibility="visible"/>
+
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/progressbar"
+                    style="@style/SpinKitViewProgressbar"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

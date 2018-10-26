@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,7 +33,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.github.ybq.android.spinkit.style.ThreeBounce;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -52,12 +53,13 @@ import dev.kxxcn.app_with.util.KeyboardUtils;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
 
+import static dev.kxxcn.app_with.ui.main.write.WriteAdapter.INIT;
 import static dev.kxxcn.app_with.util.Constants.COLOR_DEFAULT;
 import static dev.kxxcn.app_with.util.Constants.COLOR_IMGS;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
 import static dev.kxxcn.app_with.util.Constants.FONT_IMGS;
-import static dev.kxxcn.app_with.util.Constants.GENDER;
-import static dev.kxxcn.app_with.util.Constants.IDENTIFIER;
+import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
+import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
 
 /**
  * Created by kxxcn on 2018-08-13.
@@ -122,6 +124,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	private String[] colors;
 
+	private String mGalleryName = "";
+
 	private float default_font_size;
 
 	private int mFontStyle = -1;
@@ -130,6 +134,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	private boolean isBackground = true;
 	private boolean isClickedRegistration = false;
+	private boolean isStop = true;
 
 	public boolean isCompletedCheck = false;
 
@@ -171,8 +176,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		WriteFragment fragment = new WriteFragment();
 
 		Bundle args = new Bundle();
-		args.putBoolean(GENDER, gender);
-		args.putString(IDENTIFIER, identifier);
+		args.putBoolean(KEY_GENDER, gender);
+		args.putString(KEY_IDENTIFIER, identifier);
 		fragment.setArguments(args);
 
 		return fragment;
@@ -216,7 +221,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		tv_place.setTextColor(getResources().getColor(R.color.default_font));
 
 		String[] today = SystemUtils.getDate().split("-");
-		tv_date.setText(String.format(getString(R.string.format_today), today[0], today[1], today[2]));
+		tv_date.setText(String.format(getString(R.string.format_date), today[0], today[1], today[2]));
 		mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
 		rv_theme.addOnScrollListener(onScrollListener);
 		rv_theme.setLayoutManager(mLayoutManager);
@@ -225,8 +230,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		rv_theme.setAdapter(adapter);
 
 		glideOptions = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE);
-
-		progressBar.setIndeterminateDrawable(new ThreeBounce());
 	}
 
 	private void initComponent(boolean isMove) {
@@ -251,6 +254,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		mFontStyle = -1;
 		mFontColor = -1;
 		mPrimaryPosition = -1;
+		mGalleryName = "";
 		if (isMove) {
 			changeListener.onPageChangeListener(MainPagerAdapter.PLAN);
 		}
@@ -285,8 +289,13 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			if (args != null) {
 				if (!TextUtils.isEmpty(et_write.getText())) {
 					setEnabledComponent(false);
-					mPresenter.onRegisterDiary(new Diary(args.getString(IDENTIFIER), et_write.getText().toString(),
-							SystemUtils.getDate(), mFontStyle, mFontColor, et_write.getTextSize(), mPrimaryPosition, ""));
+					if (adapter.TYPE_GALLERY_POSITION != INIT) {
+						mGalleryName = mPresenter.getGalleryName(args.getString(KEY_IDENTIFIER));
+						mPresenter.onUploadImage(mContext, galleryBitmapList.get(adapter.TYPE_GALLERY_POSITION), mGalleryName);
+					} else {
+						mPresenter.onRegisterDiary(new Diary(args.getString(KEY_IDENTIFIER), et_write.getText().toString(),
+								SystemUtils.getDate(), mFontStyle, mFontColor, et_write.getTextSize(), mPrimaryPosition, mGalleryName));
+					}
 				} else {
 					isClickedRegistration = false;
 					Toast.makeText(mContext, getString(R.string.toast_write_diary), Toast.LENGTH_SHORT).show();
@@ -353,9 +362,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	}
 
-	DialogInterface.OnClickListener positiveListener = (dialog, which) -> {
-		initComponent(true);
-	};
+	private DialogInterface.OnClickListener positiveListener = (dialog, which) -> initComponent(true);
 
 	private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
 		@Override
@@ -364,14 +371,18 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			if (typeFilter != null && typeFilter == Constants.TypeFilter.GALLERY) {
 				if (!isSearchDoneGallery) {
 					if ((mLayoutManager.getChildCount() + mLayoutManager.findFirstVisibleItemPosition()) >= mLayoutManager.getItemCount()) {
-						SystemUtils.Dlog.i("Called end!");
 						loadList.clear();
-
-						settingLoadList();
-
-						galleryBitmapList.addAll(ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.GALLERY, null, loadList));
-
-						adapter.onChangedData(galleryBitmapList, Constants.TypeFilter.GALLERY);
+						Thread thread = new Thread(() -> {
+							isStop = false;
+							settingLoadList();
+							galleryBitmapList.addAll(ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.GALLERY, null, loadList));
+							loadGalleryHandler.sendEmptyMessage(0);
+						});
+						if (isStop) {
+							thread.start();
+						} else {
+							Toast.makeText(mActivity, getString(R.string.toast_checking_album), Toast.LENGTH_SHORT).show();
+						}
 					}
 				}
 			}
@@ -411,7 +422,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		setEnabledComponent(true);
 		Toast.makeText(mContext, getString(R.string.toast_register_diary), Toast.LENGTH_SHORT).show();
 		initComponent(false);
-		boolean isFemale = args.getBoolean(GENDER);
+		boolean isFemale = args.getBoolean(KEY_GENDER);
 		registerListener.onRegisteredDiary(isFemale ? MainPagerAdapter.FEMALE : MainPagerAdapter.MALE);
 	}
 
@@ -420,6 +431,12 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		isClickedRegistration = false;
 		setEnabledComponent(true);
 		SystemUtils.displayError(mContext, getClass().getName(), throwable);
+	}
+
+	@Override
+	public void showSuccessfulUpload() {
+		mPresenter.onRegisterDiary(new Diary(args.getString(KEY_IDENTIFIER), et_write.getText().toString(),
+				SystemUtils.getDate(), mFontStyle, mFontColor, et_write.getTextSize(), mPrimaryPosition, mGalleryName));
 	}
 
 	static class GetThumbInfoTask extends AsyncTask<Void, Void, Void> {
@@ -466,9 +483,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			loadCount = thumbList.size() - 1;
 
 			settingLoadList();
-
 			listener.onGetThumbInfoTaskListener(true, ImageProcessingHelper.convertToBitmap(context, Constants.TypeFilter.GALLERY, null, loadList));
-
 			return null;
 		}
 
@@ -480,6 +495,27 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		interface GetThumbInfoTaskListener {
 			void onGetThumbInfoTaskListener(boolean isCompletedCheck, ArrayList<Bitmap> galleryBitmapList);
 		}
+	}
+
+	private final LoadGallery loadGalleryHandler = new LoadGallery(this);
+
+	private static class LoadGallery extends Handler {
+		private WeakReference<Fragment> fragmentWeakReference;
+
+		public LoadGallery(Fragment fragment) {
+			this.fragmentWeakReference = new WeakReference<>(fragment);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			WriteFragment fragment = (WriteFragment) fragmentWeakReference.get();
+			fragment.handleMessage();
+		}
+	}
+
+	private void handleMessage() {
+		adapter.onChangedData(galleryBitmapList, Constants.TypeFilter.GALLERY);
+		isStop = true;
 	}
 
 	private static void settingLoadList() {

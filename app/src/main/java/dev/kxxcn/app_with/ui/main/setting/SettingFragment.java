@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dev.kxxcn.app_with.R;
 
 /**
@@ -16,7 +17,7 @@ import dev.kxxcn.app_with.R;
  */
 public class SettingFragment extends Fragment {
 
-	public static SettingFragment newInstance(){
+	public static SettingFragment newInstance() {
 		return new SettingFragment();
 	}
 
@@ -27,6 +28,26 @@ public class SettingFragment extends Fragment {
 		ButterKnife.bind(this, view);
 
 		return view;
+	}
+
+	@OnClick({R.id.tv_profile, R.id.iv_profile})
+	public void onProfile() {
+
+	}
+
+	@OnClick({R.id.tv_notice, R.id.iv_notice})
+	public void onNotice() {
+
+	}
+
+	@OnClick({R.id.tv_information, R.id.iv_information})
+	public void onInformation() {
+
+	}
+
+	@OnClick({R.id.tv_sign_out, R.id.iv_sign_out})
+	public void onSignOut() {
+
 	}
 
 }

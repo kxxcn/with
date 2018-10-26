@@ -75,7 +75,7 @@ public class SystemUtils {
 	}
 
 	public static void displayError(Context context, String className, String message) {
-		Dlog.e(String.format(context.getString(R.string.log_failed_request), className, message));
+		Dlog.e(String.format(context.getString(R.string.format_failed_request), className, message));
 	}
 
 	public static int getSoftButtonsBarHeight(Activity activity) {

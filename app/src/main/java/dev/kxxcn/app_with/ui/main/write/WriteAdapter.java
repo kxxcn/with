@@ -22,14 +22,14 @@ import dev.kxxcn.app_with.util.Constants;
  */
 public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> {
 
-	private static final int INIT = -723;
+	public static final int INIT = -723;
 
 	private View view;
 
 	private Constants.TypeFilter typeFilter;
 
-	private int TYPE_PRIMARY_POSITION = INIT;
-	private int TYPE_GALLERY_POSITION = INIT;
+	public int TYPE_PRIMARY_POSITION = INIT;
+	public int TYPE_GALLERY_POSITION = INIT;
 	private int TYPE_FONT_POSITION = INIT;
 	private int TYPE_COLOR_POSITION = INIT;
 
@@ -135,18 +135,6 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 		}
 	}
 
-	static class ViewHolder extends RecyclerView.ViewHolder {
-		@BindView(R.id.iv_item)
-		ImageView iv_item;
-		@BindView(R.id.iv_check)
-		ImageView iv_check;
-
-		public ViewHolder(View itemView) {
-			super(itemView);
-			ButterKnife.bind(this, itemView);
-		}
-	}
-
 	public void onChangedData(ArrayList<Bitmap> imgs, Constants.TypeFilter typeFilter) {
 		if (typeFilter == Constants.TypeFilter.RESET) {
 			Arrays.fill(clickArrays, false);
@@ -162,6 +150,18 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 			setItem(typeFilter);
 		}
 		notifyDataSetChanged();
+	}
+
+	static class ViewHolder extends RecyclerView.ViewHolder {
+		@BindView(R.id.iv_item)
+		ImageView iv_item;
+		@BindView(R.id.iv_check)
+		ImageView iv_check;
+
+		private ViewHolder(View itemView) {
+			super(itemView);
+			ButterKnife.bind(this, itemView);
+		}
 	}
 
 }

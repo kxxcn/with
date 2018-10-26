@@ -13,15 +13,21 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.request.RequestOptions;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.model.diary.Diary;
-import dev.kxxcn.app_with.util.Constants;
+import dev.kxxcn.app_with.data.model.image.Image;
+import dev.kxxcn.app_with.util.ImageProcessingHelper;
 
+import static dev.kxxcn.app_with.util.Constants.COLOR_IMGS;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
 
 /**
@@ -30,9 +36,11 @@ import static dev.kxxcn.app_with.util.Constants.FONTS;
 public class CollectFragment extends Fragment {
 
 	public static final String EXTRA_DIARY = "EXTRA_DIARY";
+	public static final String EXTRA_POSITION = "EXTRA_POSITION";
+	public static final String EXTRA_IMAGE_LIST = "EXTRA_IMAGE_LIST";
 
-	@BindView(R.id.ll_root)
-	LinearLayout ll_root;
+	@BindView(R.id.iv_background)
+	ImageView iv_background;
 
 	@BindView(R.id.tv_letter)
 	TextView tv_letter;
@@ -43,7 +51,17 @@ public class CollectFragment extends Fragment {
 
 	private Diary mDiary;
 
+	private ArrayList<Image> imageList;
+
 	private String[] colors;
+
+	private boolean isSettingImage = false;
+
+	private DiaryContract.OnGetImageCallback mCallback;
+
+	private RequestOptions options = new RequestOptions().centerCrop();
+
+	private Bundle args;
 
 	@Nullable
 	@Override
@@ -51,9 +69,10 @@ public class CollectFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_collect, container, false);
 		ButterKnife.bind(this, view);
 
-		Bundle args = getArguments();
+		args = getArguments();
 		if (args != null) {
 			mDiary = args.getParcelable(EXTRA_DIARY);
+			imageList = args.getParcelableArrayList(EXTRA_IMAGE_LIST);
 		}
 
 		colors = getResources().getStringArray(R.array.background_edit);
@@ -71,9 +90,19 @@ public class CollectFragment extends Fragment {
 
 	private void initUI() {
 		if (mDiary.getPrimaryPosition() != -1) {
-			ll_root.setBackgroundResource(Constants.COLOR_IMGS[mDiary.getPrimaryPosition()]);
+			iv_background.setBackgroundResource(COLOR_IMGS[mDiary.getPrimaryPosition()]);
 		} else if (!TextUtils.isEmpty(mDiary.getGalleryName())) {
-
+			String galleryName = mDiary.getGalleryName();
+			for (Image image : imageList) {
+				if (image.getFileName().equals(galleryName)) {
+					ImageProcessingHelper.setGlide(mContext, image.getBitmap(), iv_background, options);
+					isSettingImage = true;
+					break;
+				}
+			}
+			if (!isSettingImage) {
+				mCallback.onGetImageCallback(galleryName);
+			}
 		}
 		if (mDiary.getFontStyle() != -1) {
 			Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[mDiary.getFontStyle()]);
@@ -87,7 +116,11 @@ public class CollectFragment extends Fragment {
 		tv_letter.setTextSize(TypedValue.COMPLEX_UNIT_PX, mDiary.getFontSize());
 		tv_letter.setText(mDiary.getLetter());
 		String[] today = mDiary.getLetterDate().split("-");
-		tv_date.setText(String.format(getString(R.string.format_today), today[0], today[1], today[2]));
+		tv_date.setText(String.format(getString(R.string.format_date), today[0], today[1], today[2]));
+	}
+
+	public void setOnGetImageCallback(DiaryContract.OnGetImageCallback callback) {
+		this.mCallback = callback;
 	}
 
 }

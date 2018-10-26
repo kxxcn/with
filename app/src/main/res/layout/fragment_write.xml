@@ -43,186 +43,190 @@
 
     <LinearLayout
         style="@style/VerticalLinearLayout"
-        android:layout_weight="7"
+        android:layout_weight="9"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/iv_background"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    style="@style/VerticalLinearLayout"
-                    android:layout_weight="7">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <EditText
-                            android:id="@+id/et_write"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@android:color/transparent"
-                            android:gravity="center"
-                            android:hint="@string/hint_write"
-                            android:inputType="textMultiLine"
-                            android:padding="30dp">
-
-                            <requestFocus/>
-                        </EditText>
-
-                        <com.github.ybq.android.spinkit.SpinKitView
-                            android:id="@+id/progressbar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginBottom="40dp"
-                            android:visibility="gone"
-                            app:SpinKit_Color="@color/progressbar_default"/>
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/VerticalLinearLayout"
-                    android:layout_weight="1">
-
-                    <LinearLayout
-                        style="@style/HorizontalLinearLayout"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/tv_place"
-                            style="@style/PlaceTextView"
-                            tools:text="어딘가에서"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        style="@style/HorizontalLinearLayout"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical|end">
-
-                        <TextView
-                            android:id="@+id/tv_date"
-                            style="@style/DateTextView"
-                            tools:text="2018년 3월 7일"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/VerticalLinearLayout"
-        android:layout_weight="1"
-        android:gravity="center">
-
-        <ImageButton
-            android:id="@+id/ib_background"
-            style="@style/IconImageButton"
-            android:background="@drawable/ic_background"/>
-
-        <ImageButton
-            android:id="@+id/ib_place"
-            style="@style/IconImageButton"
-            android:background="@drawable/ic_place"/>
-
-        <ImageButton
-            android:id="@+id/ib_font"
-            style="@style/IconImageButton"
-            android:background="@drawable/ic_font"/>
-
-        <ImageButton
-            android:id="@+id/ib_size_down"
-            style="@style/IconImageButton"
-            android:background="@drawable/ic_size_down"/>
-
-        <ImageButton
-            android:id="@+id/ib_size_up"
-            style="@style/IconImageButton"
-            android:background="@drawable/ic_size_up"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/VerticalLinearLayout"
-        android:layout_weight="2">
-
         <LinearLayout
-            style="@style/HorizontalLinearLayout"
-            android:layout_weight="2"
-            android:orientation="vertical">
+            style="@style/VerticalLinearLayout"
+            android:layout_weight="7">
 
-            <LinearLayout
-                style="@style/VerticalLinearLayout"
-                android:layout_weight="1"
-                android:gravity="center">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <dev.kxxcn.app_with.util.StateButton
-                    android:id="@+id/btn_item_top"
+                <ImageView
+                    android:id="@+id/iv_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:text="@string/btn_primary"
-                    app:normalStrokeColor="@color/btn_bottom_item"
-                    app:normalStrokeWidth="1dp"
-                    app:normalTextColor="@color/btn_bottom_item"
-                    app:pressedStrokeColor="@color/btn_bottom_item"
-                    app:pressedStrokeWidth="1dp"
-                    app:pressedTextColor="@color/btn_bottom_item"/>
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <LinearLayout
+                        style="@style/VerticalLinearLayout"
+                        android:layout_weight="7">
 
-            <LinearLayout
-                style="@style/VerticalLinearLayout"
-                android:layout_weight="1"
-                android:gravity="center">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                <dev.kxxcn.app_with.util.StateButton
-                    android:id="@+id/btn_item_bottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:text="@string/btn_gallery"
-                    app:normalStrokeColor="@color/btn_bottom_item"
-                    app:normalStrokeWidth="1dp"
-                    app:normalTextColor="@color/btn_bottom_item"
-                    app:pressedStrokeColor="@color/btn_bottom_item"
-                    app:pressedStrokeWidth="1dp"
-                    app:pressedTextColor="@color/btn_bottom_item"/>
+                            <EditText
+                                android:id="@+id/et_write"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@android:color/transparent"
+                                android:gravity="center"
+                                android:hint="@string/hint_write"
+                                android:inputType="textMultiLine"
+                                android:padding="30dp">
 
-            </LinearLayout>
+                                <requestFocus/>
+                            </EditText>
+
+                            <com.github.ybq.android.spinkit.SpinKitView
+                                android:id="@+id/progressbar"
+                                style="@style/SpinKitViewProgressbar"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="40dp"
+                                android:visibility="gone"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/VerticalLinearLayout"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            style="@style/HorizontalLinearLayout"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/tv_place"
+                                style="@style/PlaceTextView"
+                                tools:text="어딘가에서"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            style="@style/HorizontalLinearLayout"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical|end">
+
+                            <TextView
+                                android:id="@+id/tv_date"
+                                style="@style/DateTextView"
+                                tools:text="2018년 3월 7일"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            style="@style/HorizontalLinearLayout"
-            android:layout_weight="8">
+            style="@style/VerticalLinearLayout"
+            android:layout_weight="1"
+            android:gravity="center">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_theme"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"/>
+            <ImageButton
+                android:id="@+id/ib_background"
+                style="@style/IconImageButton"
+                android:background="@drawable/ic_background"/>
+
+            <ImageButton
+                android:id="@+id/ib_place"
+                style="@style/IconImageButton"
+                android:background="@drawable/ic_place"/>
+
+            <ImageButton
+                android:id="@+id/ib_font"
+                style="@style/IconImageButton"
+                android:background="@drawable/ic_font"/>
+
+            <ImageButton
+                android:id="@+id/ib_size_down"
+                style="@style/IconImageButton"
+                android:background="@drawable/ic_size_down"/>
+
+            <ImageButton
+                android:id="@+id/ib_size_up"
+                style="@style/IconImageButton"
+                android:background="@drawable/ic_size_up"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/VerticalLinearLayout"
+            android:layout_weight="2">
+
+            <LinearLayout
+                style="@style/HorizontalLinearLayout"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/VerticalLinearLayout"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <dev.kxxcn.app_with.util.StateButton
+                        android:id="@+id/btn_item_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:text="@string/btn_primary"
+                        app:normalStrokeColor="@color/btn_bottom_item"
+                        app:normalStrokeWidth="1dp"
+                        app:normalTextColor="@color/btn_bottom_item"
+                        app:pressedStrokeColor="@color/btn_bottom_item"
+                        app:pressedStrokeWidth="1dp"
+                        app:pressedTextColor="@color/btn_bottom_item"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/VerticalLinearLayout"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <dev.kxxcn.app_with.util.StateButton
+                        android:id="@+id/btn_item_bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:text="@string/btn_gallery"
+                        app:normalStrokeColor="@color/btn_bottom_item"
+                        app:normalStrokeWidth="1dp"
+                        app:normalTextColor="@color/btn_bottom_item"
+                        app:pressedStrokeColor="@color/btn_bottom_item"
+                        app:pressedStrokeWidth="1dp"
+                        app:pressedTextColor="@color/btn_bottom_item"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/HorizontalLinearLayout"
+                android:layout_weight="8">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_theme"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

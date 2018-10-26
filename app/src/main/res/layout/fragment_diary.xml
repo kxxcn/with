@@ -64,8 +64,18 @@
                     android:visibility="gone"/>
 
                 <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_delete"
+                    style="@style/DeleteFloatingActionButton"
+                    android:visibility="invisible"/>
+
+                <android.support.design.widget.FloatingActionButton
                     android:id="@+id/fab_write"
-                    style="@style/WriteFloatingActionButton"/>
+                    style="@style/WriteFloatingActionButton"
+                    android:visibility="invisible"/>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_pack"
+                    style="@style/PackFloatingActionButton"/>
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/fab_refresh"
@@ -74,11 +84,9 @@
 
                 <com.github.ybq.android.spinkit.SpinKitView
                     android:id="@+id/progressbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/SpinKitViewProgressbar"
                     android:layout_gravity="center"
-                    android:visibility="gone"
-                    app:SpinKit_Color="@color/progressbar_default"/>
+                    android:visibility="gone"/>
 
             </FrameLayout>
 

@@ -17,6 +17,7 @@ public interface MainContract {
 		void onRegisteredDiary(int type);
 	}
 
+	@FunctionalInterface
 	interface OnPageChangeListener {
 		void onPageChangeListener(int type);
 	}

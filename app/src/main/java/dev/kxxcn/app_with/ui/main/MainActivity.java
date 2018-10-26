@@ -2,6 +2,7 @@ package dev.kxxcn.app_with.ui.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.LinearLayout;
 
 import com.roughike.bottombar.BottomBar;
 
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
 	public static final String EXTRA_GENDER = "GENDER";
 	public static final String EXTRA_IDENTIFIER = "IDENTIFIER";
+
+	@BindView(R.id.ll_bottom)
+	LinearLayout ll_bottom;
 
 	@BindView(R.id.vp_main)
 	SwipeViewPager vp_main;
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 		});
 
 		vp_main.setPagingEnabled(false);
-		vp_main.setOffscreenPageLimit(3);
+		vp_main.setOffscreenPageLimit(4);
 		vp_main.setAdapter(adapter);
 
 		bottomBar.setActiveTabColor(getResources().getColor(R.color.tab_active));

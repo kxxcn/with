@@ -2,14 +2,16 @@ package dev.kxxcn.app_with.data.remote;
 
 import java.util.List;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import dev.kxxcn.app_with.data.DataSource;
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
+import dev.kxxcn.app_with.data.model.plan.Plan;
+import dev.kxxcn.app_with.data.model.result.ResponseResult;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by kxxcn on 2018-08-20.
@@ -31,143 +33,82 @@ public class RemoteDataSource extends DataSource {
 		return remoteDataSource;
 	}
 
-	@ParametersAreNonnullByDefault
 	@Override
-	public void onCreatePairingKey(final GetKeyCallback callback, String uniqueIdentifier) {
-		Call<dev.kxxcn.app_with.data.model.pairing.Response> call = service.createPairingKey(uniqueIdentifier);
-		call.enqueue(new Callback<dev.kxxcn.app_with.data.model.pairing.Response>() {
-			@Override
-			public void onResponse(Call<dev.kxxcn.app_with.data.model.pairing.Response> call, Response<dev.kxxcn.app_with.data.model.pairing.Response> response) {
-				if (response.isSuccessful()) {
-					dev.kxxcn.app_with.data.model.pairing.Response res = response.body();
-					if (res != null) {
-						callback.onSuccess(res.getKey());
-					}
-				} else {
-					callback.onNetworkFailure();
-				}
-			}
-
-			@Override
-			public void onFailure(Call<dev.kxxcn.app_with.data.model.pairing.Response> call, Throwable t) {
-				callback.onFailure(t);
-			}
-		});
+	public Single<ResponsePairing> onCreatePairingKey(String uniqueIdentifier) {
+		return service.createPairingKey(uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
 	}
 
-	@ParametersAreNonnullByDefault
 	@Override
-	public void onAuthenticate(GetResultCallback callback, String uniqueIdentifier, String key, int gender) {
-		Call<dev.kxxcn.app_with.data.model.result.Response> call = service.authenticateKey(uniqueIdentifier, key, gender);
-		call.enqueue(new Callback<dev.kxxcn.app_with.data.model.result.Response>() {
-			@Override
-			public void onResponse(Call<dev.kxxcn.app_with.data.model.result.Response> call, Response<dev.kxxcn.app_with.data.model.result.Response> response) {
-				if (response.isSuccessful()) {
-					dev.kxxcn.app_with.data.model.result.Response res = response.body();
-					if (res != null) {
-						if (res.getRc() == 200) {
-							callback.onSuccess();
-
-						} else if (res.getRc() == 201) {
-							callback.onRequestFailure(res.getStat());
-						}
-					}
-				} else {
-					ResponseBody res = response.errorBody();
-					if (res != null) {
-						callback.onRequestFailure(res.toString());
-					}
-				}
-			}
-
-			@Override
-			public void onFailure(Call<dev.kxxcn.app_with.data.model.result.Response> call, Throwable t) {
-				callback.onFailure(t);
-			}
-		});
+	public Single<ResponseResult> onAuthenticate(String uniqueIdentifier, String key, int gender) {
+		return service.authenticateKey(uniqueIdentifier, key, gender)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
 	}
 
-	@ParametersAreNonnullByDefault
 	@Override
-	public void isRegisteredUser(GetGenderCallback callback, String uniqueIdentifier) {
-		Call<dev.kxxcn.app_with.data.model.result.Response> call = service.isRegisteredUser(uniqueIdentifier);
-		call.enqueue(new Callback<dev.kxxcn.app_with.data.model.result.Response>() {
-			@Override
-			public void onResponse(Call<dev.kxxcn.app_with.data.model.result.Response> call, Response<dev.kxxcn.app_with.data.model.result.Response> response) {
-				if (response.isSuccessful()) {
-					dev.kxxcn.app_with.data.model.result.Response res = response.body();
-					if (res != null) {
-						if (res.getRc() == 200) {
-							callback.onSuccess(Integer.parseInt(res.getStat()));
-						} else if (res.getRc() == 201) {
-							callback.onRequestFailure(res.getStat());
-						}
-					}
-				} else {
-					ResponseBody res = response.errorBody();
-					if (res != null) {
-						callback.onRequestFailure(res.toString());
-					}
-				}
-			}
-
-			@Override
-			public void onFailure(Call<dev.kxxcn.app_with.data.model.result.Response> call, Throwable t) {
-				callback.onFailure(t);
-			}
-		});
+	public Single<ResponseResult> isRegisteredUser(String uniqueIdentifier) {
+		return service.isRegisteredUser(uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
 	}
 
-	@ParametersAreNonnullByDefault
 	@Override
-	public void onGetDiary(GetDiaryCallback callback, int flag, String uniqueIdentifier) {
-		Call<List<Diary>> call = service.getDiary(flag, uniqueIdentifier);
-		call.enqueue(new Callback<List<Diary>>() {
-			@Override
-			public void onResponse(Call<List<Diary>> call, Response<List<Diary>> response) {
-				if (response.isSuccessful()) {
-					callback.onSuccess(response.body());
-				} else {
-					callback.onNetworkFailure();
-				}
-			}
-
-			@Override
-			public void onFailure(Call<List<Diary>> call, Throwable t) {
-				callback.onFailure(t);
-			}
-		});
+	public Single<List<Diary>> onGetDiary(int flag, String uniqueIdentifier) {
+		return service.getDiary(flag, uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
 	}
 
-	@ParametersAreNonnullByDefault
 	@Override
-	public void onRegisterDiary(GetResultCallback callback, Diary diary) {
-		Call<dev.kxxcn.app_with.data.model.result.Response> call = service.saveDiary(diary);
-		call.enqueue(new Callback<dev.kxxcn.app_with.data.model.result.Response>() {
-			@Override
-			public void onResponse(Call<dev.kxxcn.app_with.data.model.result.Response> call, Response<dev.kxxcn.app_with.data.model.result.Response> response) {
-				if (response.isSuccessful()) {
-					dev.kxxcn.app_with.data.model.result.Response res = response.body();
-					if (res != null) {
-						if (res.getRc() == 200) {
-							callback.onSuccess();
-						} else if (res.getRc() == 201) {
-							callback.onRequestFailure(res.getStat());
-						}
-					}
-				} else {
-					ResponseBody res = response.errorBody();
-					if (res != null) {
-						callback.onRequestFailure(res.toString());
-					}
-				}
-			}
+	public Single<ResponseResult> onRegisterDiary(Diary diary) {
+		return service.registerDiary(diary)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
 
-			@Override
-			public void onFailure(Call<dev.kxxcn.app_with.data.model.result.Response> call, Throwable t) {
-				callback.onFailure(t);
-			}
-		});
+	@Override
+	public Single<ResponseResult> onRegisterPlan(Plan plan) {
+		return service.registerPlan(plan)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<List<Plan>> onGetPlan(String uniqueIdentifier) {
+		return service.getPlan(uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<ResponseResult> uploadImage(MultipartBody.Part body) {
+		return service.uploadImage(body)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public synchronized Single<ResponseBody> onGetImage(String fileName) {
+		return service.getImage(fileName)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<ResponseResult> onRemoveDiary(int id) {
+		return service.removeDiary(id)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+
+	@Override
+	public Single<ResponseResult> onRemovePlan(int id) {
+		return service.removePlan(id)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
 	}
 
 }

@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -18,11 +21,13 @@ public class ImageProcessingHelper {
 	private static final int REQ_WIDTH = 300;
 	private static final int REQ_HEIGHT = 50;
 
-	public static ArrayList<Bitmap> convertToBitmap(Context context, Constants.TypeFilter typeFilter, int[] resources, ArrayList<String> thumbsData) {
+	public static synchronized ArrayList<Bitmap> convertToBitmap(Context context, Constants.TypeFilter typeFilter, int[] resources, ArrayList<String> thumbsData) {
 		final ArrayList<Bitmap> imgList = new ArrayList<>(0);
+		final ArrayList<String> copyTothumbsData = new ArrayList<>(0);
 		if (typeFilter == Constants.TypeFilter.GALLERY) {
-			for (String thumb : thumbsData) {
-				imgList.add(decodeSampledBitmapFromFile(thumb, REQ_WIDTH, REQ_HEIGHT));
+			copyTothumbsData.addAll(thumbsData);
+			for (String thumb : copyTothumbsData) {
+				imgList.add(decodeBitmapFromFile(thumb, REQ_WIDTH, REQ_HEIGHT));
 			}
 		} else {
 			for (int res : resources) {
@@ -56,7 +61,7 @@ public class ImageProcessingHelper {
 		return inSampleSize;
 	}
 
-	private static Bitmap decodeSampledBitmapFromFile(String pathName, int reqWidth, int reqHeight) {
+	private static Bitmap decodeBitmapFromFile(String pathName, int reqWidth, int reqHeight) {
 		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
@@ -72,6 +77,24 @@ public class ImageProcessingHelper {
 
 	public static <T> void setGlide(Context context, T t, ImageView view, RequestOptions options) {
 		Glide.with(context).load(t).apply(options).into(view);
+	}
+
+	public static String convertToJPEG(Context context, Bitmap bitmap, String name) {
+		File storage = context.getCacheDir();
+
+		String fileName = name + ".jpg";
+		File tempFile = new File(storage, fileName);
+		try {
+			if (tempFile.createNewFile()) {
+				FileOutputStream out = new FileOutputStream(tempFile);
+				bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+				out.close();
+			}
+		} catch (IOException | NullPointerException e) {
+			e.printStackTrace();
+		}
+
+		return tempFile.getAbsolutePath();
 	}
 
 }

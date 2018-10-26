@@ -1,9 +1,8 @@
 package dev.kxxcn.app_with.ui.login.auth;
 
 import dev.kxxcn.app_with.data.DataRepository;
-import dev.kxxcn.app_with.data.DataSource;
-
-import static dev.kxxcn.app_with.data.remote.APIPersistence.THROWABLE_NETWORK;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by kxxcn on 2018-08-29.
@@ -26,25 +25,16 @@ public class AuthPresenter implements AuthContract.Presenter {
 
 		mAuthView.showLoadingIndicator(true);
 
-		mDataRepository.onCreatePairingKey(new DataSource.GetKeyCallback() {
-			@Override
-			public void onSuccess(String key) {
-				mAuthView.showLoadingIndicator(false);
-				mAuthView.showSuccessfulPairingKeyRequest(key);
-			}
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-			@Override
-			public void onNetworkFailure() {
-				mAuthView.showLoadingIndicator(false);
-				mAuthView.showFailedRequest(THROWABLE_NETWORK);
-			}
+		Disposable disposable = mDataRepository.onCreatePairingKey(uniqueIdentifier)
+				.subscribe(response -> {
+					mAuthView.showSuccessfulPairingKeyRequest(response.getKey());
+					mAuthView.showLoadingIndicator(false);
+					compositeDisposable.dispose();
+				}, throwable -> mAuthView.showFailedRequest(throwable.getMessage()));
 
-			@Override
-			public void onFailure(Throwable throwable) {
-				mAuthView.showLoadingIndicator(false);
-				mAuthView.showFailedRequest(throwable.getMessage());
-			}
-		}, uniqueIdentifier);
+		compositeDisposable.add(disposable);
 	}
 
 	@Override
@@ -52,22 +42,22 @@ public class AuthPresenter implements AuthContract.Presenter {
 		if (mAuthView == null)
 			return;
 
-		mDataRepository.onAuthenticate(new DataSource.GetResultCallback() {
-			@Override
-			public void onSuccess() {
-				mAuthView.showSuccessfulAuthenticate();
-			}
+		mAuthView.showLoadingIndicator(true);
 
-			@Override
-			public void onFailure(Throwable throwable) {
-				mAuthView.showFailedRequest(throwable.getMessage());
-			}
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-			@Override
-			public void onRequestFailure(String stat) {
-				mAuthView.showFailedAuthenticate(stat);
-			}
-		}, uniqueIdentifier, key, gender);
+		Disposable disposable = mDataRepository.onAuthenticate(uniqueIdentifier, key, gender)
+				.subscribe(response -> {
+					if (response.getRc() == 200) {
+						mAuthView.showSuccessfulAuthenticate();
+					} else if (response.getRc() == 201) {
+						mAuthView.showFailedAuthenticate(response.getStat());
+					}
+					mAuthView.showLoadingIndicator(false);
+					compositeDisposable.dispose();
+				}, throwable -> mAuthView.showFailedRequest(throwable.getMessage()));
+
+		compositeDisposable.add(disposable);
 	}
 
 }

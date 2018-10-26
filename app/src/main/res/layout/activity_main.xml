@@ -20,6 +20,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_bottom"
         style="@style/VerticalLinearLayout"
         android:layout_weight="1">
 

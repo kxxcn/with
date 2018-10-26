@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_plan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="6">
+
+        <ScrollView
+            android:id="@+id/sv_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_plan_scrollview">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_day_of_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/maplestory"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/label_mon"/>
+
+                <TextView
+                    android:id="@+id/tv_day"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/drawable_circle_daily"
+                    android:fontFamily="@font/maplestory"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="@id/tv_day_of_week"
+                    app:layout_constraintRight_toRightOf="@id/tv_day_of_week"
+                    app:layout_constraintTop_toBottomOf="@id/tv_day_of_week"
+                    tools:text="23"/>
+
+                <ImageButton
+                    android:id="@+id/ib_registration"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/ic_registration"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_day"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"/>
+
+                <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                    android:id="@+id/tfb_plan"
+                    style="@style/HorizontalConstraintParent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    app:iconSignifier="@drawable/ic_todo"
+                    app:labelText="@string/hint_plan"
+                    app:layout_constraintBottom_toTopOf="@id/tfb_place"
+                    app:layout_constraintTop_toBottomOf="@id/tv_day"
+                    app:panelBackgroundColor="@color/tfb_panel"
+                    app:primaryColor="@color/tfb_primary"
+                    app:secondaryColor="@color/tfb_secondary">
+
+                    <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                        android:id="@+id/eet_plan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                    android:id="@+id/tfb_place"
+                    style="@style/HorizontalConstraintParent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    app:iconSignifier="@drawable/ic_place"
+                    app:labelText="@string/hint_place"
+                    app:layout_constraintBottom_toTopOf="@id/tfb_time"
+                    app:layout_constraintTop_toBottomOf="@id/tfb_plan"
+                    app:panelBackgroundColor="@color/tfb_panel"
+                    app:primaryColor="@color/tfb_primary"
+                    app:secondaryColor="@color/tfb_secondary">
+
+                    <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                        android:id="@+id/eet_place"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                    android:id="@+id/tfb_time"
+                    style="@style/HorizontalConstraintParent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    app:iconSignifier="@drawable/ic_time"
+                    app:labelText="@string/hint_time"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tfb_place"
+                    app:panelBackgroundColor="@color/tfb_panel"
+                    app:primaryColor="@color/tfb_primary"
+                    app:secondaryColor="@color/tfb_secondary">
+
+                    <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                        android:id="@+id/eet_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/progressbar"
+                    style="@style/SpinKitViewProgressbar"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </ScrollView>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

@@ -31,7 +31,31 @@
         <item name="android:layout_margin">10dp</item>
     </style>
 
+    <style name="DeleteFloatingActionButton" parent="Widget.Design.FloatingActionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="elevation">10dp</item>
+        <item name="pressedTranslationZ">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginBottom">175dp</item>"
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:src">@drawable/fab_delete</item>
+        <item name="backgroundTint">@color/bg_tint_fab</item>
+    </style>
+
     <style name="WriteFloatingActionButton" parent="Widget.Design.FloatingActionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="elevation">10dp</item>
+        <item name="pressedTranslationZ">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginBottom">120dp</item>"
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:src">@drawable/fab_write</item>
+        <item name="backgroundTint">@color/bg_tint_fab</item>
+    </style>
+
+    <style name="PackFloatingActionButton" parent="Widget.Design.FloatingActionButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="elevation">10dp</item>
@@ -39,7 +63,7 @@
         <item name="android:layout_marginEnd">20dp</item>
         <item name="android:layout_marginBottom">50dp</item>"
         <item name="android:layout_gravity">bottom|end</item>
-        <item name="android:src">@drawable/fab_write</item>
+        <item name="android:src">@drawable/fab_pack</item>
         <item name="backgroundTint">@color/bg_tint_fab</item>
     </style>
 
@@ -51,6 +75,19 @@
         <item name="android:layout_marginEnd">20dp</item>
         <item name="android:layout_marginBottom">50dp</item>"
         <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:src">@drawable/fab_refresh</item>
+        <item name="backgroundTint">@color/bg_tint_fab</item>
+    </style>
+
+    <style name="RefreshFloatingActionButton2" parent="Widget.Design.FloatingActionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="elevation">10dp</item>
+        <item name="pressedTranslationZ">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginBottom">50dp</item>"
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentEnd">true</item>
         <item name="android:src">@drawable/fab_refresh</item>
         <item name="backgroundTint">@color/bg_tint_fab</item>
     </style>
@@ -102,6 +139,80 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginEnd">20dp</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="VerticalDivisionLine">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:background">@color/division_line</item>
+    </style>
+
+    <style name="HorizontalDivisionLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:background">@color/division_line</item>
+    </style>
+
+    <style name="ScheduleHintEditText">
+        <item name="android:layout_width">250dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:inputType">text</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="HorizontalConstraintParent">
+        <item name="layout_constraintLeft_toLeftOf">parent</item>
+        <item name="layout_constraintRight_toRightOf">parent</item>
+    </style>
+
+    <style name="VerticalConstraintParent">
+        <item name="layout_constraintTop_toTopOf">parent</item>
+        <item name="layout_constraintBottom_toBottomOf">parent</item>
+    </style>
+
+    <style name="SpinKitViewProgressbar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="SpinKit_Color">@color/progressbar_default</item>
+        <item name="SpinKit_Style">ThreeBounce</item>
+    </style>
+
+    <style name="SettingTitleTextView" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@color/bg_setting_row</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/text_setting</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+
+    <style name="SettingContentTextView" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+    </style>
+
+    <style name="SettingToggleButton">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="tbAsDefaultOn">true</item>
+        <item name="tbBorderWidth">1dp</item>
+        <item name="tbOffBorderColor">@color/toggle_off</item>
+        <item name="tbOnColor">@color/toggle_on</item>
     </style>
 
 </resources>

@@ -1,12 +1,12 @@
 package dev.kxxcn.app_with.ui.main.diary;
 
-import java.util.List;
+import android.graphics.BitmapFactory;
+
+import java.io.InputStream;
 
 import dev.kxxcn.app_with.data.DataRepository;
-import dev.kxxcn.app_with.data.DataSource;
-import dev.kxxcn.app_with.data.model.diary.Diary;
-
-import static dev.kxxcn.app_with.data.remote.APIPersistence.THROWABLE_NETWORK;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by kxxcn on 2018-09-28.
@@ -30,25 +30,64 @@ public class DiaryPresenter implements DiaryContract.Presenter {
 
 		mDiaryView.showLoadingIndicator(true);
 
-		mDataRepository.onGetDiary(new DataSource.GetDiaryCallback() {
-			@Override
-			public void onSuccess(List<Diary> diaryList) {
-				mDiaryView.showLoadingIndicator(false);
-				mDiaryView.showSuccessfulLoadDiary(diaryList);
-			}
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-			@Override
-			public void onNetworkFailure() {
-				mDiaryView.showLoadingIndicator(false);
-				mDiaryView.showFailedRequest(THROWABLE_NETWORK);
-			}
+		Disposable disposable = mDataRepository.onGetDiary(flag, uniqueIdentifier)
+				.subscribe(diaryList -> {
+							mDiaryView.showSuccessfulLoadDiary(diaryList);
+							mDiaryView.showLoadingIndicator(false);
+							compositeDisposable.dispose();
+						},
+						throwable -> mDiaryView.showFailedRequest(throwable.getMessage()));
 
-			@Override
-			public void onFailure(Throwable throwable) {
-				mDiaryView.showLoadingIndicator(false);
-				mDiaryView.showFailedRequest(throwable.getMessage());
-			}
-		}, flag, uniqueIdentifier);
+		compositeDisposable.add(disposable);
 	}
-	
+
+	@Override
+	public void onDeleteDiary(int id) {
+		if (mDiaryView == null)
+			return;
+
+		mDiaryView.showLoadingIndicator(true);
+
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+		Disposable disposable = mDataRepository.onRemoveDiary(id)
+				.subscribe(
+						responseResult -> {
+							if (responseResult.getRc() == 200) {
+								mDiaryView.showSuccessfulRemoveDiary();
+							} else if (responseResult.getRc() == 201) {
+								mDiaryView.showFailedRequest(responseResult.getStat());
+							}
+
+							mDiaryView.showLoadingIndicator(false);
+							compositeDisposable.dispose();
+						}, throwable -> mDiaryView.showFailedRequest(throwable.getMessage())
+				);
+
+		compositeDisposable.add(disposable);
+	}
+
+	@Override
+	public void onGetImage(String fileName) {
+		if (mDiaryView == null)
+			return;
+
+		mDiaryView.showLoadingIndicator(true);
+
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+		Disposable disposable = mDataRepository.onGetImage(fileName)
+				.subscribe(responseBody -> {
+							InputStream is = responseBody.byteStream();
+							mDiaryView.showSuccessfulLoadImage(fileName, BitmapFactory.decodeStream(is));
+							mDiaryView.showLoadingIndicator(false);
+							compositeDisposable.dispose();
+						},
+						throwable -> mDiaryView.showFailedRequest(throwable.getMessage()));
+
+		compositeDisposable.add(disposable);
+	}
+
 }

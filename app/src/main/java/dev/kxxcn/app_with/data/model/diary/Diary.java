@@ -3,12 +3,15 @@ package dev.kxxcn.app_with.data.model.diary;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import dev.kxxcn.app_with.data.model.image.Image;
+
 /**
  * Created by kxxcn on 2018-09-13.
  */
 public class Diary implements Parcelable {
 
-	private String device_id;
+	private int id;
+	private String writer;
 	private String letter;
 	private String letterDate;
 	private int fontStyle;
@@ -16,9 +19,10 @@ public class Diary implements Parcelable {
 	private float fontSize;
 	private int primaryPosition;
 	private String galleryName;
+	private Image image;
 
-	public Diary(String device_id, String letter, String letterDate, int fontStyle, int fontColor, float fontSize, int primaryPosition, String galleryName) {
-		this.device_id = device_id;
+	public Diary(String writer, String letter, String letterDate, int fontStyle, int fontColor, float fontSize, int primaryPosition, String galleryName) {
+		this.writer = writer;
 		this.letter = letter;
 		this.letterDate = letterDate;
 		this.fontStyle = fontStyle;
@@ -28,8 +32,12 @@ public class Diary implements Parcelable {
 		this.galleryName = galleryName;
 	}
 
-	public String getDevice_id() {
-		return device_id;
+	public int getId() {
+		return id;
+	}
+
+	public String getWriter() {
+		return writer;
 	}
 
 	public String getLetter() {
@@ -60,12 +68,20 @@ public class Diary implements Parcelable {
 		return galleryName;
 	}
 
+	public void setImage(Image image) {
+		this.image = image;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
 	public static Creator<Diary> getCREATOR() {
 		return CREATOR;
 	}
 
 	protected Diary(Parcel in) {
-		device_id = in.readString();
+		writer = in.readString();
 		letter = in.readString();
 		letterDate = in.readString();
 		fontStyle = in.readInt();
@@ -73,6 +89,7 @@ public class Diary implements Parcelable {
 		fontSize = in.readFloat();
 		primaryPosition = in.readInt();
 		galleryName = in.readString();
+		image = in.readParcelable(Image.class.getClassLoader());
 	}
 
 	public static final Creator<Diary> CREATOR = new Creator<Diary>() {
@@ -94,7 +111,7 @@ public class Diary implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeString(device_id);
+		dest.writeString(writer);
 		dest.writeString(letter);
 		dest.writeString(letterDate);
 		dest.writeInt(fontStyle);
@@ -102,6 +119,7 @@ public class Diary implements Parcelable {
 		dest.writeFloat(fontSize);
 		dest.writeInt(primaryPosition);
 		dest.writeString(galleryName);
+		dest.writeValue(image);
 	}
 
 }
