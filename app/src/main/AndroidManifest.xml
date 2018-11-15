@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="dev.kxxcn.app_with">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:name=".WithApplication"
@@ -25,6 +29,21 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.main.setting.version.VersionActivity"/>
+        <activity android:name=".ui.main.setting.version.clause.ClauseActivity"/>
+        <activity android:name=".ui.main.setting.version.license.LicenseActivity"/>
+        <activity android:name=".ui.main.setting.version.policy.PolicyActivity"/>
+        <activity
+            android:name=".ui.main.setting.profile.ProfileActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <service
+            android:name=".data.remote.MyFirebaseMessagingService"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

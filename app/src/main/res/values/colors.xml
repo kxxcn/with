@@ -48,17 +48,31 @@
     <color name="bg_plan_line1">#c1d6ff</color>
     <color name="bg_plan_line2">#ffcb93</color>
     <color name="bg_setting_row">#eeeeee</color>
+    <color name="bg_january">#efecb7</color>
+    <color name="bg_february">#9da6c7</color>
+    <color name="bg_march">#eedfdf</color>
+    <color name="bg_april">#9ed59b</color>
+    <color name="bg_may">#c6efef</color>
+    <color name="bg_june">#aea197</color>
+    <color name="bg_july">#dc98bb</color>
+    <color name="bg_august">#e6bd66</color>
+    <color name="bg_september">#c7c1dd</color>
+    <color name="bg_october">#d97974</color>
+    <color name="bg_november">#eed873</color>
+    <color name="bg_december">#e3e0f1</color>
 
+    <color name="btn_start">#727171</color>
+    <color name="btn_auth">#0cad7b</color>
     <color name="btn_bottom_item">#d6cfcf</color>
-    <color name="btn_gender">#ffffff</color>
-    <color name="btn_start">#ffffff</color>
+    <color name="btn_gender">#727171</color>
     <color name="btn_male">#93b8ff</color>
     <color name="btn_female">#ffd3f0</color>
+    <color name="btn_registration">#0cad7b</color>
 
-    <color name="text_gender">#ffffff</color>
+    <color name="text_gender">#616161</color>
     <color name="text_start">#ffffff</color>
     <color name="text_welcome">#727171</color>
-    <color name="text_auth_number">#ffd3f0</color>
+    <color name="text_auth_number">#d88abe</color>
     <color name="text_auth_input">#ffffff</color>
     <color name="text_plan_month">#c6c4c4</color>
     <color name="text_delete">#000000</color>
@@ -71,6 +85,7 @@
     <color name="box_primary">#baffd1</color>
 
     <color name="progressbar_default">#373740</color>
+    <color name="progressbar_registration">#0cad7b</color>
 
     <color name="calendar_selection">#4c4c4c</color>
 

@@ -26,7 +26,7 @@ public interface PlanContract {
 
 		ArrayList<CalendarDay> setEvents(List<Plan> planList);
 
-		void onDeletePlan(int id);
+		void deletePlan(int id);
 	}
 
 	interface OnRegistrationCallback {

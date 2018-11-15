@@ -18,8 +18,8 @@ public interface AuthContract {
 	}
 
 	interface Presenter extends BasePresenter {
-		void onCreatePairingKey(String uniqueIdentifier);
+		void createPairingKey(String uniqueIdentifier, String token);
 
-		void onAuthenticate(String uniqueIdentifier, String key, int gender);
+		void authenticate(String uniqueIdentifier, String key, int gender, String token);
 	}
 }

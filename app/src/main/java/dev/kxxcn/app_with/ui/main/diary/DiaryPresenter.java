@@ -1,9 +1,5 @@
 package dev.kxxcn.app_with.ui.main.diary;
 
-import android.graphics.BitmapFactory;
-
-import java.io.InputStream;
-
 import dev.kxxcn.app_with.data.DataRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -24,7 +20,7 @@ public class DiaryPresenter implements DiaryContract.Presenter {
 	}
 
 	@Override
-	public void onGetDiary(int flag, String uniqueIdentifier) {
+	public void getDiary(int flag, String uniqueIdentifier) {
 		if (mDiaryView == null)
 			return;
 
@@ -32,19 +28,23 @@ public class DiaryPresenter implements DiaryContract.Presenter {
 
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-		Disposable disposable = mDataRepository.onGetDiary(flag, uniqueIdentifier)
+		Disposable disposable = mDataRepository.getDiary(flag, uniqueIdentifier)
 				.subscribe(diaryList -> {
 							mDiaryView.showSuccessfulLoadDiary(diaryList);
 							mDiaryView.showLoadingIndicator(false);
 							compositeDisposable.dispose();
 						},
-						throwable -> mDiaryView.showFailedRequest(throwable.getMessage()));
+						throwable -> {
+							mDiaryView.showFailedRequest(throwable.getMessage());
+							mDiaryView.showLoadingIndicator(false);
+							compositeDisposable.dispose();
+						});
 
 		compositeDisposable.add(disposable);
 	}
 
 	@Override
-	public void onDeleteDiary(int id) {
+	public void deleteDiary(int id) {
 		if (mDiaryView == null)
 			return;
 
@@ -52,7 +52,7 @@ public class DiaryPresenter implements DiaryContract.Presenter {
 
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-		Disposable disposable = mDataRepository.onRemoveDiary(id)
+		Disposable disposable = mDataRepository.removeDiary(id)
 				.subscribe(
 						responseResult -> {
 							if (responseResult.getRc() == 200) {
@@ -70,24 +70,39 @@ public class DiaryPresenter implements DiaryContract.Presenter {
 	}
 
 	@Override
-	public void onGetImage(String fileName) {
+	public void getNickname(String uniqueIdentifier) {
 		if (mDiaryView == null)
 			return;
 
-		mDiaryView.showLoadingIndicator(true);
-
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-		Disposable disposable = mDataRepository.onGetImage(fileName)
-				.subscribe(responseBody -> {
-							InputStream is = responseBody.byteStream();
-							mDiaryView.showSuccessfulLoadImage(fileName, BitmapFactory.decodeStream(is));
-							mDiaryView.showLoadingIndicator(false);
+		Disposable disposable = mDataRepository.getTitle(uniqueIdentifier)
+				.subscribe(responseTitle -> {
+							mDiaryView.showSuccessfulGetNickname(responseTitle);
 							compositeDisposable.dispose();
 						},
-						throwable -> mDiaryView.showFailedRequest(throwable.getMessage()));
+						throwable -> {
+							mDiaryView.showFailedRequest(throwable.getMessage());
+							compositeDisposable.dispose();
+						});
 
 		compositeDisposable.add(disposable);
+	}
+
+	@Override
+	public String formattedNickname(String nickname) {
+		StringBuilder nicknameBuilder = new StringBuilder();
+		for (int i = 0; i < nickname.length(); i++) {
+			nicknameBuilder.append(nickname.charAt(i));
+			// 특수문자 구분
+			if (Character.isLetterOrDigit(nickname.charAt(i))) {
+				if (i != nickname.length() - 1) {
+					nicknameBuilder.append(" ");
+				}
+			}
+		}
+
+		return nicknameBuilder.toString();
 	}
 
 }

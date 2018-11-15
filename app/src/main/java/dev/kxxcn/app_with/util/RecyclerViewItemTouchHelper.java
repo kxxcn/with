@@ -14,6 +14,7 @@ public class RecyclerViewItemTouchHelper extends ItemTouchHelper.SimpleCallback 
 
 	private RecyclerViewItemTouchHelperListener mListener;
 
+
 	public RecyclerViewItemTouchHelper(int dragDirs, int swipeDirs, RecyclerViewItemTouchHelperListener listener) {
 		super(dragDirs, swipeDirs);
 		this.mListener = listener;
@@ -28,7 +29,6 @@ public class RecyclerViewItemTouchHelper extends ItemTouchHelper.SimpleCallback 
 	public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
 		if (viewHolder != null) {
 			final View foregroundView = ((PlanAdapter.ViewHolder) viewHolder).cv_foreground;
-
 			getDefaultUIUtil().onSelected(foregroundView);
 		}
 	}
@@ -53,14 +53,13 @@ public class RecyclerViewItemTouchHelper extends ItemTouchHelper.SimpleCallback 
 							RecyclerView.ViewHolder viewHolder, float dX, float dY,
 							int actionState, boolean isCurrentlyActive) {
 		final View foregroundView = ((PlanAdapter.ViewHolder) viewHolder).cv_foreground;
-
 		getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
 				actionState, isCurrentlyActive);
 	}
 
 	@Override
 	public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-		mListener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
+		mListener.onSwiped(viewHolder, direction, viewHolder.getLayoutPosition());
 	}
 
 	@Override

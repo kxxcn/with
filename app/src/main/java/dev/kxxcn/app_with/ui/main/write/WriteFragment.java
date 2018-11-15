@@ -3,10 +3,14 @@ package dev.kxxcn.app_with.ui.main.write;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +19,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,18 +29,20 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.ybq.android.spinkit.SpinKitView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,23 +50,30 @@ import butterknife.OnClick;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.geocode.Addrdetail;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
+import dev.kxxcn.app_with.ui.BasePresenter;
 import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.ui.main.MainPagerAdapter;
 import dev.kxxcn.app_with.util.Constants;
 import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.KeyboardUtils;
+import dev.kxxcn.app_with.util.LayoutUtils;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
 
 import static dev.kxxcn.app_with.ui.main.write.WriteAdapter.INIT;
+import static dev.kxxcn.app_with.util.Constants.ACCESS_COARSE_LOCATION;
+import static dev.kxxcn.app_with.util.Constants.ACCESS_FINE_LOCATION;
 import static dev.kxxcn.app_with.util.Constants.COLOR_DEFAULT;
 import static dev.kxxcn.app_with.util.Constants.COLOR_IMGS;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
 import static dev.kxxcn.app_with.util.Constants.FONT_IMGS;
 import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
+import static dev.kxxcn.app_with.util.Constants.POSITION_CENTER;
+import static dev.kxxcn.app_with.util.Constants.POSITION_TOP;
 
 /**
  * Created by kxxcn on 2018-08-13.
@@ -88,7 +102,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	StateButton btn_item_bottom;
 
 	@BindView(R.id.progressbar)
-	ProgressBar progressBar;
+	SpinKitView progressBar;
 
 	@BindView(R.id.ib_cancel)
 	ImageButton ib_cancel;
@@ -118,6 +132,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	private ArrayList<Bitmap> fontBitmapList = new ArrayList<>(0);
 	private ArrayList<Bitmap> galleryBitmapList = new ArrayList<>(0);
 
+	private List<String> locationList = new ArrayList<>(0);
+
 	private static int loadCount;
 
 	private static boolean isSearchDoneGallery = false;
@@ -125,16 +141,22 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	private String[] colors;
 
 	private String mGalleryName = "";
+	private String mLetterDate;
+
+	private Location location;
 
 	private float default_font_size;
 
 	private int mFontStyle = -1;
 	private int mFontColor = -1;
 	private int mPrimaryPosition = -1;
+	private int mLetterPosition = POSITION_CENTER;
+	private int mLocationPosition = 0;
 
 	private boolean isBackground = true;
 	private boolean isClickedRegistration = false;
 	private boolean isStop = true;
+	private boolean isProcessing = false;
 
 	public boolean isCompletedCheck = false;
 
@@ -149,6 +171,14 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	private MainContract.OnRegisteredDiary registerListener;
 
 	private Bundle args;
+
+	// 최소 GPS 정보 업데이트 거리 10미터
+	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
+
+	// 최소 GPS 정보 업데이트 시간 밀리세컨이므로 1분
+	private static final long MIN_TIME_BW_UPDATES = 1000 * 60;
+
+	private LocationManager locationManager;
 
 	@Override
 	public void setPresenter(WriteContract.Presenter presenter) {
@@ -201,18 +231,25 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		super.onAttach(context);
 		mContext = context;
 		colors = getResources().getStringArray(R.array.background_edit);
+		locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 		if (context instanceof Activity) {
 			mActivity = (Activity) context;
 		}
 	}
 
 	private void initUI() {
-		GetThumbInfoTask task = new GetThumbInfoTask(mContext);
-		task.setListener(this::setGalleryBitmapList);
-		task.execute();
+		ViewTreeObserver viewTreeObserver = iv_background.getViewTreeObserver();
+		viewTreeObserver.addOnGlobalLayoutListener(() -> {
+			if (!isProcessing) {
+				isProcessing = true;
+				GetThumbInfoTask task = new GetThumbInfoTask(mContext);
+				task.setListener(this::setGalleryBitmapList);
+				task.execute(iv_background.getWidth(), iv_background.getHeight());
+			}
+		});
 
-		colorBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.PRIMARY, COLOR_IMGS, null);
-		fontBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.FONT, FONT_IMGS, null);
+		colorBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.PRIMARY, COLOR_IMGS, null, 0, 0);
+		fontBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.FONT, FONT_IMGS, null, 0, 0);
 
 		default_font_size = et_write.getTextSize();
 		et_write.setTextColor(getResources().getColor(R.color.default_font));
@@ -222,6 +259,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 		String[] today = SystemUtils.getDate().split("-");
 		tv_date.setText(String.format(getString(R.string.format_date), today[0], today[1], today[2]));
+		locationList.add(String.format(getString(R.string.text_location), getString(R.string.text_somewhere)));
+		tv_place.setText(locationList.get(mLocationPosition));
 		mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
 		rv_theme.addOnScrollListener(onScrollListener);
 		rv_theme.setLayoutManager(mLayoutManager);
@@ -230,6 +269,23 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		rv_theme.setAdapter(adapter);
 
 		glideOptions = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE);
+
+		mPresenter.setPermission(mActivity, new BasePresenter.OnPermissionListener() {
+			@Override
+			public void onGranted() {
+				String query = requestLocations();
+				if (query != null) {
+					mPresenter.convertCoordToAddress(query);
+				}
+			}
+
+			@Override
+			public void onDenied() {
+				SystemUtils.Dlog.d("onDenied!");
+			}
+		}, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION);
+
+		mLetterDate = SystemUtils.getDate();
 	}
 
 	private void initComponent(boolean isMove) {
@@ -238,7 +294,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 						mContext,
 						Constants.TypeFilter.PRIMARY,
 						COLOR_DEFAULT,
-						null)
+						null, 0, 0)
 						.get(0), iv_background, glideOptions);
 
 		et_write.setText(null);
@@ -255,9 +311,14 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		mFontColor = -1;
 		mPrimaryPosition = -1;
 		mGalleryName = "";
+		mLetterDate = SystemUtils.getDate();
+		String[] today = SystemUtils.getDate().split("-");
+		tv_date.setText(String.format(getString(R.string.format_date), today[0], today[1], today[2]));
 		if (isMove) {
 			changeListener.onPageChangeListener(MainPagerAdapter.PLAN);
 		}
+		mLetterPosition = POSITION_CENTER;
+		et_write.setLayoutParams(LayoutUtils.getRelativeLayoutParams(mLetterPosition));
 	}
 
 	private void setEnabledComponent(boolean isEnable) {
@@ -291,10 +352,10 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 					setEnabledComponent(false);
 					if (adapter.TYPE_GALLERY_POSITION != INIT) {
 						mGalleryName = mPresenter.getGalleryName(args.getString(KEY_IDENTIFIER));
-						mPresenter.onUploadImage(mContext, galleryBitmapList.get(adapter.TYPE_GALLERY_POSITION), mGalleryName);
+						mPresenter.uploadImage(mContext, galleryBitmapList.get(adapter.TYPE_GALLERY_POSITION), mGalleryName);
 					} else {
-						mPresenter.onRegisterDiary(new Diary(args.getString(KEY_IDENTIFIER), et_write.getText().toString(),
-								SystemUtils.getDate(), mFontStyle, mFontColor, et_write.getTextSize(), mPrimaryPosition, mGalleryName));
+						mPresenter.registerDiary(new Diary(args.getString(KEY_IDENTIFIER), et_write.getText().toString(), mLetterDate,
+								locationList.get(mLocationPosition), mFontStyle, mFontColor, et_write.getTextSize(), mPrimaryPosition, mGalleryName, mLetterPosition));
 					}
 				} else {
 					isClickedRegistration = false;
@@ -359,7 +420,74 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_place)
 	public void onViewPlace() {
+		mLocationPosition++;
+		if (mLocationPosition >= locationList.size()) {
+			mLocationPosition = 0;
+		}
+		tv_place.setText(locationList.get(mLocationPosition));
+	}
 
+	private String requestLocations() {
+		int gpsCheck = ContextCompat.checkSelfPermission(mContext, ACCESS_COARSE_LOCATION);
+		if (gpsCheck != PackageManager.PERMISSION_DENIED) {
+			locationManager.requestLocationUpdates(
+					LocationManager.NETWORK_PROVIDER,
+					MIN_TIME_BW_UPDATES,
+					MIN_DISTANCE_CHANGE_FOR_UPDATES,
+					new LocationListener() {
+						@Override
+						public void onLocationChanged(Location location) {
+
+						}
+
+						@Override
+						public void onStatusChanged(String provider, int status, Bundle extras) {
+
+						}
+
+						@Override
+						public void onProviderEnabled(String provider) {
+
+						}
+
+						@Override
+						public void onProviderDisabled(String provider) {
+
+						}
+					});
+
+			if (locationManager != null) {
+				location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+				if (location != null) {
+					return String.format(getString(R.string.param_geocode), location.getLongitude(), location.getLatitude());
+				}
+			}
+		}
+
+		return null;
+	}
+
+	@OnClick(R.id.ib_adjustment)
+	public void onAdjustText() {
+		if (mLetterPosition == POSITION_TOP) {
+			mLetterPosition = POSITION_CENTER;
+		} else {
+			mLetterPosition++;
+		}
+		et_write.setLayoutParams(LayoutUtils.getRelativeLayoutParams(mLetterPosition));
+	}
+
+	@OnClick({R.id.ll_date, R.id.tv_date})
+	public void onDisplayCalendar() {
+		DialogUtils.showDatePickerDialog(mContext, (view, year, month, dayOfMonth) -> {
+			String strYear = String.valueOf(year);
+			String strMonth = String.valueOf(month + 1);
+			String strDay = String.valueOf(dayOfMonth);
+			strMonth = strMonth.length() == 1 ? "0" + strMonth : strMonth;
+			strDay = strDay.length() == 1 ? "0" + strDay : strDay;
+			mLetterDate = String.format(getString(R.string.format_date2), strYear, strMonth, strDay);
+			tv_date.setText(String.format(getString(R.string.format_date), strYear, strMonth, strDay));
+		});
 	}
 
 	private DialogInterface.OnClickListener positiveListener = (dialog, which) -> initComponent(true);
@@ -375,7 +503,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 						Thread thread = new Thread(() -> {
 							isStop = false;
 							settingLoadList();
-							galleryBitmapList.addAll(ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.GALLERY, null, loadList));
+							galleryBitmapList.addAll(ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.GALLERY, null, loadList, 0, 0));
 							loadGalleryHandler.sendEmptyMessage(0);
 						});
 						if (isStop) {
@@ -412,6 +540,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 				et_write.setHintTextColor(Color.parseColor(colors[position]));
 				tv_date.setTextColor(Color.parseColor(colors[position]));
 				tv_place.setTextColor(Color.parseColor(colors[position]));
+				progressBar.setColor(Color.parseColor(colors[position]));
 				break;
 		}
 	};
@@ -435,11 +564,31 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@Override
 	public void showSuccessfulUpload() {
-		mPresenter.onRegisterDiary(new Diary(args.getString(KEY_IDENTIFIER), et_write.getText().toString(),
-				SystemUtils.getDate(), mFontStyle, mFontColor, et_write.getTextSize(), mPrimaryPosition, mGalleryName));
+		mPresenter.registerDiary(new Diary(args.getString(KEY_IDENTIFIER), et_write.getText().toString(), SystemUtils.getDate(),
+				locationList.get(mLocationPosition), mFontStyle, mFontColor, et_write.getTextSize(), mPrimaryPosition, mGalleryName, mLetterPosition));
 	}
 
-	static class GetThumbInfoTask extends AsyncTask<Void, Void, Void> {
+	@Override
+	public void showSuccessfulLoadLocation(Addrdetail addressDetail) {
+		if (!TextUtils.isEmpty(addressDetail.getCountry())) {
+			locationList.add(String.format(getString(R.string.text_location), addressDetail.getCountry()));
+		}
+		if (!TextUtils.isEmpty(addressDetail.getSido())) {
+			locationList.add(String.format(getString(R.string.text_location), addressDetail.getSido()));
+
+		}
+		if (!TextUtils.isEmpty(addressDetail.getSigugun())) {
+			locationList.add(String.format(getString(R.string.text_location), addressDetail.getSigugun()));
+
+		}
+		if (!TextUtils.isEmpty(addressDetail.getDongmyun())) {
+			locationList.add(String.format(getString(R.string.text_location), addressDetail.getDongmyun()));
+		}
+		mLocationPosition++;
+		tv_place.setText(locationList.get(mLocationPosition));
+	}
+
+	static class GetThumbInfoTask extends AsyncTask<Integer, Integer, Void> {
 
 		private WeakReference<Context> contextWeakReference;
 
@@ -455,7 +604,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		}
 
 		@Override
-		protected Void doInBackground(Void... voids) {
+		protected Void doInBackground(Integer... integers) {
 			Context context = contextWeakReference.get();
 			String[] proj = {MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA,
 					MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.SIZE};
@@ -483,7 +632,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			loadCount = thumbList.size() - 1;
 
 			settingLoadList();
-			listener.onGetThumbInfoTaskListener(true, ImageProcessingHelper.convertToBitmap(context, Constants.TypeFilter.GALLERY, null, loadList));
+			listener.onGetThumbInfoTaskListener(true,
+					ImageProcessingHelper.convertToBitmap(context, Constants.TypeFilter.GALLERY, null, loadList, integers[0], integers[1]));
 			return null;
 		}
 

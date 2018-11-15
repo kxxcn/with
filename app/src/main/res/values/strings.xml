@@ -1,19 +1,22 @@
 <resources>
     <string name="app_name">위드</string>
+    <string name="app_name_en">with</string>
     <string name="app_developer">ⓒ k x x c n</string>
 
-    <string name="title">W I T H</string>
-    <string name="title_write">W R I T E</string>
-    <string name="title_you">Y O U</string>
-    <string name="title_me">M E</string>
-    <string name="title_setting">S E T T I N G</string>
+    <string name="title">WITH</string>
+    <string name="title_write">WRITE</string>
+    <string name="title_you">YOU</string>
+    <string name="title_me">ME</string>
+    <string name="title_setting">SETTING</string>
 
     <string name="hint_write">함께했던 소중한 추억을 기록하세요.</string>
     <string name="hint_plan">일정을 입력하세요.</string>
     <string name="hint_time">시간을 입력하세요.</string>
     <string name="hint_place">장소를 입력하세요.</string>
+    <string name="hint_nickname">애칭을 입력하세요.</string>
 
     <string name="format_date">%s년 %s월 %s일</string>
+    <string name="format_date2">%s-%s-%s</string>
     <string name="format_month">%s월</string>
     <string name="format_year_month">%s년 %s월</string>
     <string name="format_time_set1">%d%s</string>
@@ -43,7 +46,8 @@
     <string name="toast_input_auth_number">인증번호를 입력하세요.</string>
     <string name="toast_invalid_auth_number">유효하지 않은 인증번호입니다.</string>
     <string name="toast_write_diary">일기를 작성하세요.</string>
-    <string name="toast_register_diary">새 글이 등록되었습니다.</string>
+    <string name="toast_register_diary">새 일기가 등록되었습니다.</string>
+    <string name="toast_register_plan">새 일정이 등록되었습니다.</string>
     <string name="toast_input_plan">일정을 입력하세요.</string>
     <string name="toast_input_all">모든 항목을 입력하세요.</string>
 
@@ -65,6 +69,15 @@
     <string name="text_sign_out">탈퇴하기</string>
     <string name="text_latest">최신 버전 사용 중</string>
     <string name="text_update">업데이트</string>
+    <string name="text_clause">이용약관</string>
+    <string name="text_policy">개인정보처리방침</string>
+    <string name="text_license">오픈소스 라이선스</string>
+    <string name="text_current">현재버전 : %s</string>
+    <string name="text_version">최신버전 : %s</string>
+    <string name="text_failure_load_version">버전정보를 가져올 수 없습니다.</string>
+    <string name="text_location">%s에서</string>
+    <string name="text_somewhere">어딘가</string>
+    <string name="text_nickname">커플 애칭으로 상단 타이틀을 변경해보아요.</string>
 
     <string name="label_mon">M O N</string>
     <string name="label_tue">T U E</string>
@@ -73,4 +86,10 @@
     <string name="label_fri">F R I</string>
     <string name="label_sat">S A T</string>
     <string name="label_sun">S U N</string>
+
+    <string name="param_download_image_url">%s%s.jpg</string>
+    <string name="param_geocode">%e,%e</string>
+
+    <string name="notification_name_notice">알림</string>
+    <string name="notification_name_admin">공지사항</string>
 </resources>

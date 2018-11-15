@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
+import dev.kxxcn.app_with.ui.BasePresenter;
 import dev.kxxcn.app_with.ui.login.LoginActivity;
 import dev.kxxcn.app_with.ui.main.MainActivity;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
@@ -61,7 +62,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
 		uniqueIdentifier = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-		mPresenter.setPermission(this, new SplashContract.OnPermissionListener() {
+		mPresenter.setPermission(this, new BasePresenter.OnPermissionListener() {
 			@Override
 			public void onGranted() {
 				mPresenter.isRegisteredUser(uniqueIdentifier);

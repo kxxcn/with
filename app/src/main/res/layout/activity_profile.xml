@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/VerticalLinearLayout"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/TopTextView"
+                android:layout_centerInParent="true"
+                android:text="@string/text_profile"/>
+
+            <ImageButton
+                android:id="@+id/ib_back"
+                style="@style/BackImageButton"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/VerticalLinearLayout"
+        android:layout_weight="9">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_explain"
+                    style="@style/HorizontalConstraintParent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/namsan"
+                    android:text="@string/text_nickname"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/iv_explain"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_explain"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/profile"
+                    app:layout_constraintTop_toBottomOf="@id/tv_explain"/>
+
+                <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                    android:id="@+id/tfb_me"
+                    style="@style/HorizontalConstraintParent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    app:labelText="@string/hint_nickname"
+                    app:layout_constraintBottom_toTopOf="@id/tfb_you"
+                    app:layout_constraintTop_toBottomOf="@id/iv_explain"
+                    app:panelBackgroundColor="@color/tfb_panel"
+                    app:primaryColor="@color/tfb_primary"
+                    app:secondaryColor="@color/tfb_secondary"
+                    tools:iconSignifier="@drawable/ic_boy">
+
+                    <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                        android:id="@+id/eet_me"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/namsan"
+                        tools:text="M E"/>
+
+                </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                    android:id="@+id/tfb_you"
+                    style="@style/HorizontalConstraintParent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    app:labelText="@string/hint_nickname"
+                    app:layout_constraintTop_toBottomOf="@id/tfb_me"
+                    app:panelBackgroundColor="@color/tfb_panel"
+                    app:primaryColor="@color/tfb_primary"
+                    app:secondaryColor="@color/tfb_secondary"
+                    tools:iconSignifier="@drawable/ic_girl">
+
+                    <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                        android:id="@+id/eet_you"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/namsan"
+                        tools:text="Y O U"/>
+
+                </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
+                <com.unstoppable.submitbuttonview.SubmitButton
+                    android:id="@+id/btn_registration"
+                    style="@style/HorizontalConstraintParent"
+                    android:layout_width="200dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    app:buttonColor="@color/btn_registration"
+                    app:buttonText="@string/btn_registration"
+                    app:buttonTextSize="18sp"
+                    app:layout_constraintTop_toBottomOf="@id/tfb_you"
+                    app:progressStyle="loading"/>
+
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/pb_registration"
+                    style="@style/FillConstraintParent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:SpinKit_Color="@color/progressbar_registration"
+                    app:SpinKit_Style="WanderingCubes"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>

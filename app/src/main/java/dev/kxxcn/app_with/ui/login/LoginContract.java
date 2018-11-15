@@ -12,7 +12,6 @@ public interface LoginContract {
 	}
 
 	interface Presenter extends BasePresenter {
-
 	}
 
 	@FunctionalInterface

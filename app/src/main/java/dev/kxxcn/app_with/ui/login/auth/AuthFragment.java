@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
@@ -52,6 +54,8 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 
 	@BindView(R.id.et_key)
 	ExtendedEditText et_key;
+
+	private String mToken;
 
 	private boolean isLoading = false;
 
@@ -92,12 +96,11 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	}
 
 	public static AuthFragment newInstance(String identifier) {
-		AuthFragment fragment = new AuthFragment();
-		Bundle args = new Bundle();
-		args.putString(KEY_IDENTIFIER, identifier);
-		fragment.setArguments(args);
-
 		if (fragmentReference == null) {
+			AuthFragment fragment = new AuthFragment();
+			Bundle args = new Bundle();
+			args.putString(KEY_IDENTIFIER, identifier);
+			fragment.setArguments(args);
 			fragmentReference = new WeakReference<>(fragment);
 		}
 
@@ -129,7 +132,10 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	}
 
 	private void initUI() {
-		mPresenter.onCreatePairingKey(args.getString(KEY_IDENTIFIER));
+		FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> {
+			mToken = instanceIdResult.getToken();
+			mPresenter.createPairingKey(args.getString(KEY_IDENTIFIER), mToken);
+		});
 		et_key.addTextChangedListener(watcher);
 	}
 
@@ -145,7 +151,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	public void onAuthenticate(String key, int gender) {
 		KeyboardUtils.hideKeyboard(mActivity, et_key);
 		setLoading(true);
-		mPresenter.onAuthenticate(args.getString(KEY_IDENTIFIER), key, gender);
+		mPresenter.authenticate(args.getString(KEY_IDENTIFIER), key, gender, mToken);
 	}
 
 	private void setLoading(boolean isLoading) {

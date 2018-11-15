@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/VerticalLinearLayout"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/TopTextView"
+                android:layout_centerInParent="true"
+                android:text="@string/text_information"/>
+
+            <ImageButton
+                android:id="@+id/ib_back"
+                style="@style/BackImageButton"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/VerticalLinearLayout"
+        android:layout_weight="9">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/bg_setting_row"
+                app:layout_constraintBottom_toTopOf="@id/tv_clause"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/ic_launcher_foreground"
+                    app:layout_constraintBottom_toTopOf="@id/tv_current"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed"/>
+
+                <TextView
+                    android:id="@+id/tv_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/tv_latest"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_icon"
+                    tools:text="현재버전 : 1.0.0"/>
+
+                <TextView
+                    android:id="@+id/tv_latest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_current"
+                    tools:text="최신버전 : 1.0.0"/>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_clause"
+                style="@style/SettingContentTextView"
+                android:text="@string/text_clause"
+                app:layout_constraintBottom_toTopOf="@id/tv_policy"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"/>
+
+            <ImageView
+                android:id="@+id/iv_clause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_arrow_right"
+                app:layout_constraintBottom_toBottomOf="@id/tv_clause"
+                app:layout_constraintEnd_toEndOf="@id/tv_clause"
+                app:layout_constraintTop_toTopOf="@id/tv_clause"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_setting_row"
+                app:layout_constraintBottom_toTopOf="@id/tv_policy"
+                app:layout_constraintTop_toBottomOf="@id/tv_clause"/>
+
+            <TextView
+                android:id="@+id/tv_policy"
+                style="@style/SettingContentTextView"
+                android:text="@string/text_policy"
+                app:layout_constraintBottom_toTopOf="@id/tv_license"
+                app:layout_constraintTop_toBottomOf="@id/tv_clause"/>
+
+            <ImageView
+                android:id="@+id/iv_policy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_arrow_right"
+                app:layout_constraintBottom_toBottomOf="@id/tv_policy"
+                app:layout_constraintEnd_toEndOf="@id/tv_policy"
+                app:layout_constraintTop_toTopOf="@id/tv_policy"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_setting_row"
+                app:layout_constraintBottom_toTopOf="@id/tv_license"
+                app:layout_constraintTop_toBottomOf="@id/tv_policy"/>
+
+            <TextView
+                android:id="@+id/tv_license"
+                style="@style/SettingContentTextView"
+                android:text="@string/text_license"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_policy"/>
+
+            <ImageView
+                android:id="@+id/iv_license"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_arrow_right"
+                app:layout_constraintBottom_toBottomOf="@id/tv_license"
+                app:layout_constraintEnd_toEndOf="@id/tv_license"
+                app:layout_constraintTop_toTopOf="@id/tv_license"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/bg_setting_row"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_license"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

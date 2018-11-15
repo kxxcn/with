@@ -1,21 +1,26 @@
 package dev.kxxcn.app_with.ui.main;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
 
 import com.roughike.bottombar.BottomBar;
+import com.squareup.otto.Subscribe;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
+import dev.kxxcn.app_with.util.BusProvider;
 import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.SwipeViewPager;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.TransitionUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 
+import static dev.kxxcn.app_with.data.remote.APIPersistence.ID_NOTIFY;
 import static dev.kxxcn.app_with.util.Constants.DELAY_REGISTRATION;
 
 /**
@@ -25,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
 	public static final String EXTRA_GENDER = "GENDER";
 	public static final String EXTRA_IDENTIFIER = "IDENTIFIER";
+
+	public static final String TYPE_DIARY = "diary";
+	public static final String TYPE_PLAN = "plan";
 
 	@BindView(R.id.ll_bottom)
 	LinearLayout ll_bottom;
@@ -37,12 +45,15 @@ public class MainActivity extends AppCompatActivity {
 
 	private MainPagerAdapter adapter;
 
+	private NotificationManager mNotificationManager;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		TransitionUtils.fade(this);
 		ButterKnife.bind(this);
+		BusProvider.getInstance().register(this);
 
 		adapter = new MainPagerAdapter(getSupportFragmentManager(), getIntent().getIntExtra(EXTRA_GENDER, GenderFragment.MALE),
 				getIntent().getStringExtra(EXTRA_IDENTIFIER), type -> {
@@ -54,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 				vp_main.setCurrentItem(type);
 				bottomBar.selectTabAtPosition(type);
 			}, DELAY_REGISTRATION);
-		});
+		}, type -> adapter.onRegisteredNickname());
 
 		vp_main.setPagingEnabled(false);
 		vp_main.setOffscreenPageLimit(4);
@@ -80,11 +91,41 @@ public class MainActivity extends AppCompatActivity {
 					break;
 			}
 		});
+
+		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		cancelNotification();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		// To prevent "TransactionTooLargeException".
+		outState.clear();
 	}
 
 	@Override
 	public void onBackPressed() {
 		DialogUtils.showAlertDialog(this, getString(R.string.dialog_want_to_quit), (dialog, which) -> SystemUtils.onFinish(MainActivity.this), null);
+	}
+
+	@Subscribe
+	public void onSubscribe(String type) {
+		if (type.equals(TYPE_DIARY)) {
+			adapter.onReloadDiary(getIntent().getIntExtra(EXTRA_GENDER, GenderFragment.MALE), getIntent().getStringExtra(EXTRA_IDENTIFIER));
+		} else if (type.equals(TYPE_PLAN)) {
+			adapter.onReloadPlan();
+		}
+	}
+
+	private void cancelNotification() {
+		if (mNotificationManager != null) {
+			mNotificationManager.cancel(ID_NOTIFY);
+		}
 	}
 
 }

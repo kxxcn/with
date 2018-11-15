@@ -6,9 +6,14 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.nickname.Nickname;
 import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
 import dev.kxxcn.app_with.data.model.plan.Plan;
 import dev.kxxcn.app_with.data.model.result.ResponseResult;
+import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
+import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
+import dev.kxxcn.app_with.util.Constants;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -29,15 +34,20 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.AUTHENTICATE_KEY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_IMAGE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_KEY;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_NOTIFICATION_INFORMATION;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_PLAN;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_TITLE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GSON_DATE_FORMAT;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.IS_REGISTERED_USER;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_IMAGE;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_NICKNAME;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SERVER_URL;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_RECEIVE_NOTIFICATION;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_TOKEN;
 
 /**
  * Created by kxxcn on 2018-08-20.
@@ -69,13 +79,15 @@ public interface APIService {
 
 	@FormUrlEncoded
 	@POST(GET_KEY)
-	Single<ResponsePairing> createPairingKey(@Field("uniqueIdentifier") String uniqueIdentifier);
+	Single<ResponsePairing> createPairingKey(@Field("uniqueIdentifier") String uniqueIdentifier,
+											 @Field("token") String token);
 
 	@FormUrlEncoded
 	@POST(AUTHENTICATE_KEY)
 	Single<ResponseResult> authenticateKey(@Field("uniqueIdentifier") String uniqueIdentifier,
 										   @Field("pair") String pair,
-										   @Field("gender") int gender);
+										   @Field("gender") int gender,
+										   @Field("token") String token);
 
 	@FormUrlEncoded
 	@POST(IS_REGISTERED_USER)
@@ -112,5 +124,27 @@ public interface APIService {
 	@FormUrlEncoded
 	@POST(REMOVE_PLAN)
 	Single<ResponseResult> removePlan(@Field("id") int id);
+
+	@FormUrlEncoded
+	@POST(GET_NOTIFICATION_INFORMATION)
+	Single<ResponseSetting> getNotificationInformation(@Field("uniqueIdentifier") String uniqueIdentifier);
+
+	@FormUrlEncoded
+	@POST(UPDATE_RECEIVE_NOTIFICATION)
+	Completable updateReceiveNotification(@Field("uniqueIdentifier") String uniqueIdentifier,
+										  @Field("which") Constants.NotificationFilter which,
+										  @Field("on") boolean isOn);
+
+	@FormUrlEncoded
+	@POST(UPDATE_TOKEN)
+	Single<ResponseResult> updateToken(@Field("uniqueIdentifier") String uniqueIdentifier,
+									   @Field("newToken") String newToken);
+
+	@FormUrlEncoded
+	@POST(GET_TITLE)
+	Single<ResponseNickname> getTitle(@Field("uniqueIdentifier") String uniqueIdentifier);
+
+	@POST(REGISTER_NICKNAME)
+	Single<ResponseResult> registerNickname(@Body Nickname nickname);
 
 }

@@ -19,7 +19,7 @@ public class AuthPresenter implements AuthContract.Presenter {
 	}
 
 	@Override
-	public void onCreatePairingKey(String uniqueIdentifier) {
+	public void createPairingKey(String uniqueIdentifier, String token) {
 		if (mAuthView == null)
 			return;
 
@@ -27,7 +27,7 @@ public class AuthPresenter implements AuthContract.Presenter {
 
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-		Disposable disposable = mDataRepository.onCreatePairingKey(uniqueIdentifier)
+		Disposable disposable = mDataRepository.createPairingKey(uniqueIdentifier, token)
 				.subscribe(response -> {
 					mAuthView.showSuccessfulPairingKeyRequest(response.getKey());
 					mAuthView.showLoadingIndicator(false);
@@ -38,7 +38,7 @@ public class AuthPresenter implements AuthContract.Presenter {
 	}
 
 	@Override
-	public void onAuthenticate(String uniqueIdentifier, String key, int gender) {
+	public void authenticate(String uniqueIdentifier, String key, int gender, String token) {
 		if (mAuthView == null)
 			return;
 
@@ -46,7 +46,7 @@ public class AuthPresenter implements AuthContract.Presenter {
 
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-		Disposable disposable = mDataRepository.onAuthenticate(uniqueIdentifier, key, gender)
+		Disposable disposable = mDataRepository.authenticate(uniqueIdentifier, key, gender, token)
 				.subscribe(response -> {
 					if (response.getRc() == 200) {
 						mAuthView.showSuccessfulAuthenticate();

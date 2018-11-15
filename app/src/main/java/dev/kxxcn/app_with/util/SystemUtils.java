@@ -2,16 +2,27 @@ package dev.kxxcn.app_with.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
+import android.os.PowerManager;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.Window;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.WithApplication;
+import dev.kxxcn.app_with.ui.main.MainContract;
 
+import static android.content.Context.VIBRATOR_SERVICE;
 import static dev.kxxcn.app_with.util.Constants.SIMPLE_DATE_FORMAT;
 import static dev.kxxcn.app_with.util.Constants.TAG;
 
@@ -78,7 +89,31 @@ public class SystemUtils {
 		Dlog.e(String.format(context.getString(R.string.format_failed_request), className, message));
 	}
 
-	public static int getSoftButtonsBarHeight(Activity activity) {
+	public static void addOnGlobalLayoutListener(Activity activity, View root, MainContract.OnKeyboardListener listener) {
+		ViewTreeObserver.OnGlobalLayoutListener mGlobalListener = () -> {
+			Rect r = new Rect();
+			root.getWindowVisibleDisplayFrame(r);
+
+			int heightDiff = root.getRootView().getHeight() - (r.bottom - r.top);
+
+			Rect CheckRect = new Rect();
+			Window window = activity.getWindow();
+			window.getDecorView().getWindowVisibleDisplayFrame(CheckRect);
+			int statusBarHeight = CheckRect.top;
+
+			int keyboardThreshold = statusBarHeight + getSoftButtonsBarHeight(activity);
+
+			int keyboardHeight = heightDiff - keyboardThreshold;
+			if (keyboardHeight != 0) {
+				listener.onHideKeyboard();
+			} else {
+				listener.onShowKeyboard();
+			}
+		};
+		root.getViewTreeObserver().addOnGlobalLayoutListener(mGlobalListener);
+	}
+
+	private static int getSoftButtonsBarHeight(Activity activity) {
 		DisplayMetrics metrics = new DisplayMetrics();
 		activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int usableHeight = metrics.heightPixels;
@@ -88,6 +123,43 @@ public class SystemUtils {
 			return realHeight - usableHeight;
 		else
 			return 0;
+	}
 
+	public static String getRawFile(Context context, int resource, String charsetName) {
+		String data = null;
+		InputStream is = context.getResources().openRawResource(resource);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		int i;
+		try {
+			i = is.read();
+			while (i != -1) {
+				byteArrayOutputStream.write(i);
+				i = is.read();
+			}
+			data = new String(byteArrayOutputStream.toByteArray(), charsetName);
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	private static final String WAKELOCK_TAG = "wakelock";
+
+	public static void onAcquire(Context context) {
+		PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+		if (pm != null) {
+			PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK
+					| PowerManager.ACQUIRE_CAUSES_WAKEUP, WAKELOCK_TAG);
+			wakeLock.acquire(3000);
+			wakeLock.release();
+		}
+	}
+
+	public static void onVibrate(Context context, long time) {
+		Vibrator vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
+		if (vibrator != null) {
+			vibrator.vibrate(time);
+		}
 	}
 }

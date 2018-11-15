@@ -30,7 +30,7 @@
                 android:id="@+id/tv_welcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/hoonsaemaulundong"
+                android:fontFamily="@font/nanummyeongjo"
                 android:text="@string/text_welcome"
                 android:textColor="@color/text_welcome"/>
 
@@ -71,6 +71,7 @@
                 android:id="@+id/btn_signup"
                 android:layout_width="200dp"
                 android:layout_height="60dp"
+                app:buttonColor="@color/btn_start"
                 app:buttonText="@string/btn_signup"
                 app:buttonTextSize="18sp"
                 app:progressStyle="loading"/>
@@ -80,6 +81,7 @@
                 android:layout_width="200dp"
                 android:layout_height="60dp"
                 android:visibility="gone"
+                app:buttonColor="@color/btn_auth"
                 app:buttonText="@string/btn_auth"
                 app:buttonTextSize="18sp"
                 app:progressStyle="loading"/>

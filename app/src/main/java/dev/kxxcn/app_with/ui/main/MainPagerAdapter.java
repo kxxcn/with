@@ -34,15 +34,19 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 
 	private MainContract.OnRegisteredDiary onRegisteredDiary;
 
+	private MainContract.OnRegisteredNickname onRegisteredNickname;
+
 	private DiaryFragment femaleFragment;
 	private DiaryFragment maleFragment;
 
-	public MainPagerAdapter(FragmentManager fm, int gender, String identifier, MainContract.OnPageChangeListener onPageChangeListener, MainContract.OnRegisteredDiary onRegisteredDiary) {
+	public MainPagerAdapter(FragmentManager fm, int gender, String identifier, MainContract.OnPageChangeListener onPageChangeListener,
+							MainContract.OnRegisteredDiary onRegisteredDiary, MainContract.OnRegisteredNickname onRegisteredNickname) {
 		super(fm);
 		this.isFemale = gender == GenderFragment.FEMALE;
 		this.identifier = identifier;
 		this.onPageChangeListener = onPageChangeListener;
 		this.onRegisteredDiary = onRegisteredDiary;
+		this.onRegisteredNickname = onRegisteredNickname;
 	}
 
 	@Override
@@ -64,7 +68,9 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 				maleFragment.setOnPageChangeListener(onPageChangeListener);
 				return maleFragment;
 			case SETTING:
-				return SettingFragment.newInstance();
+				SettingFragment settingFragment = SettingFragment.newInstance(isFemale, identifier);
+				settingFragment.setOnRegisteredNickname(onRegisteredNickname);
+				return settingFragment;
 		}
 		return null;
 	}
@@ -92,6 +98,21 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	public void onRegisteredDiary(int type, String identifier) {
 		DiaryFragment fragment = type == FEMALE ? femaleFragment : maleFragment;
 		fragment.onRegisteredDiary(FLAG_ME, identifier);
+	}
+
+	public void onReloadDiary(int type, String identifier) {
+		DiaryFragment fragment = type == FEMALE ? maleFragment : femaleFragment;
+		fragment.onReloadDiary(identifier);
+	}
+
+	public void onReloadPlan() {
+		PlanFragment fragment = (PlanFragment) getItem(PLAN);
+		fragment.onReloadPlan();
+	}
+
+	public void onRegisteredNickname() {
+		femaleFragment.onRegisteredNickname();
+		maleFragment.onRegisteredNickname();
 	}
 
 }

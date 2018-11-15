@@ -28,7 +28,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter {
 
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-		Disposable disposable = mDataRepository.onRegisterPlan(plan)
+		Disposable disposable = mDataRepository.registerPlan(plan)
 				.subscribe(response -> {
 					if (response.getRc() == 200) {
 						mDetailView.showSuccessfulRegister();

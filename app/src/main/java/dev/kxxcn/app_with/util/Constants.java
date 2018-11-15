@@ -8,8 +8,8 @@ import dev.kxxcn.app_with.R;
  * Created by kxxcn on 2018-08-13.
  */
 public class Constants {
-	public static final int[] FONTS = {R.font.redletterbox, R.font.maplestory, R.font.flowerroad, R.font.whayangyunwha, R.font.poetandme,
-			R.font.hoonsaemaulundong, R.font.mobrrextra, R.font.ppikkeutppikkeut, R.font.hoonslimskinny, R.font.babyheart};
+	public static final int[] FONTS = {R.font.dohyeon, R.font.flowerroad, R.font.godo, R.font.godomaum, R.font.jua,
+			R.font.shinb, R.font.yanolja, R.font.nanummyeongjo, R.font.namsan, R.font.nanumsquare};
 
 	public static final int[] COLOR_IMGS = {R.drawable.color_1, R.drawable.color_2, R.drawable.color_3, R.drawable.color_4, R.drawable.color_5,
 			R.drawable.color_6, R.drawable.color_7, R.drawable.color_8, R.drawable.color_9, R.drawable.color_10, R.drawable.color_11,
@@ -31,14 +31,21 @@ public class Constants {
 	public static final String SIMPLE_DATE_FORMAT = "yyyy-MM-dd";
 	public static final String SIMPLE_TIME_FORMAT = "yyyyMMddhhmmss";
 	public static final String READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
+	public static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+	public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
 	public static final String KEY_GENDER = "KEY_GENDER";
 	public static final String KEY_IDENTIFIER = "KEY_IDENTIFIER";
+	public static final String CHARSET_EUCKR = "EUC-KR";
+	public static final String CHARSET_UTF8 = "UTF-8";
 
 	public static final int DELAY_NETWORK = 2000;
 	public static final int DELAY_TOAST = 2000;
 	public static final int DELAY_REGISTRATION = 1200;
 	public static final int DELAY_CHNAGE_MONTH = 500;
 	public static final int DELAY_SCROLL = 500;
+	public static final int POSITION_CENTER = 0;
+	public static final int POSITION_BOTTOM = 1;
+	public static final int POSITION_TOP = 2;
 
 	public enum TypeFilter {
 		PRIMARY,
@@ -46,5 +53,11 @@ public class Constants {
 		FONT,
 		COLOR,
 		RESET
+	}
+
+	public enum NotificationFilter {
+		NOTICE_WITH,
+		NOTICE,
+		NOTICE_EVENT
 	}
 }

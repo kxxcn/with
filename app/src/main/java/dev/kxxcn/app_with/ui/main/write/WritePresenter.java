@@ -1,5 +1,6 @@
 package dev.kxxcn.app_with.ui.main.write;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 
@@ -11,6 +12,7 @@ import java.util.Locale;
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
+import dev.kxxcn.app_with.util.PermissionUtils;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import okhttp3.MediaType;
@@ -34,7 +36,7 @@ public class WritePresenter implements WriteContract.Presenter {
 	}
 
 	@Override
-	public void onRegisterDiary(Diary diary) {
+	public void registerDiary(Diary diary) {
 		if (mWriteView == null)
 			return;
 
@@ -42,7 +44,7 @@ public class WritePresenter implements WriteContract.Presenter {
 
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-		Disposable disposable = mDataRepository.onRegisterDiary(diary)
+		Disposable disposable = mDataRepository.registerDiary(diary)
 				.subscribe(response -> {
 					if (response.getRc() == 200) {
 						mWriteView.showSuccessfulRegister();
@@ -51,7 +53,11 @@ public class WritePresenter implements WriteContract.Presenter {
 					}
 					mWriteView.showLoadingIndicator(false);
 					compositeDisposable.dispose();
-				}, throwable -> mWriteView.showFailedRequest(throwable.getMessage()));
+				}, throwable -> {
+					mWriteView.showFailedRequest(throwable.getMessage());
+					mWriteView.showLoadingIndicator(false);
+					compositeDisposable.dispose();
+				});
 
 		compositeDisposable.add(disposable);
 	}
@@ -65,7 +71,10 @@ public class WritePresenter implements WriteContract.Presenter {
 	}
 
 	@Override
-	public void onUploadImage(Context context, Bitmap uploadImage, String fileName) {
+	public void uploadImage(Context context, Bitmap uploadImage, String fileName) {
+		if (mWriteView == null)
+			return;
+
 		File file = new File(ImageProcessingHelper.convertToJPEG(context, uploadImage, fileName));
 		RequestBody reqFile = RequestBody.create(MediaType.parse("image/jpg"), file);
 		MultipartBody.Part body = MultipartBody.Part.createFormData("upload", file.getName(), reqFile);
@@ -83,9 +92,39 @@ public class WritePresenter implements WriteContract.Presenter {
 					}
 					mWriteView.showLoadingIndicator(false);
 					compositeDisposable.dispose();
-				}, throwable -> mWriteView.showFailedRequest(throwable.getMessage()));
+				}, throwable -> {
+					mWriteView.showFailedRequest(throwable.getMessage());
+					mWriteView.showLoadingIndicator(false);
+					compositeDisposable.dispose();
+				});
 
 		compositeDisposable.add(disposable);
+	}
+
+	@Override
+	public void convertCoordToAddress(String query) {
+		if (mWriteView == null)
+			return;
+
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+		Disposable disposable = mDataRepository.convertCoordToAddress(query)
+				.subscribe(
+						responseGeocode -> {
+							mWriteView.showSuccessfulLoadLocation(responseGeocode.getResult().getItems().get(0).getAddrdetail());
+						},
+						throwable -> {
+							mWriteView.showFailedRequest(throwable.getMessage());
+							compositeDisposable.dispose();
+						}
+				);
+
+		compositeDisposable.add(disposable);
+	}
+
+	@Override
+	public void setPermission(Activity activity, OnPermissionListener onPermissionListener, String... permission) {
+		PermissionUtils.authorization(activity, onPermissionListener, permission);
 	}
 
 }

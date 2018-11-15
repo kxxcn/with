@@ -1,0 +1,99 @@
+roughike - BottomBar
+https://github.com/roughike/BottomBar
+Copyright 2016 Iiro Krankka
+Apache License 2.0
+
+Butter Knife
+http://jakewharton.github.io/butterknife/
+Copyright 2013 Jake Wharton
+Apache License 2.0
+
+Retrofit2
+http://square.github.io/retrofit/
+Copyright 2013 Square, Inc.
+Apache License 2.0
+
+TedPermission
+https://github.com/ParkSangGwon/TedPermission
+Copyright 2017 Ted Park
+Apache License 2.0
+
+Glide
+https://github.com/bumptech/glide
+Copyright 2014 Google, Inc. All rights reserved.
+Copyright 2012 Jake Wharton
+Copyright 2011 The Android Open Source Project
+Copyright (c) 2013 Xcellent Creations, Inc.
+Copyright (c) 1994 Anthony Dekker
+Apache License 2.0
+MIT License
+
+ongakuer - CircleIndicator
+https://github.com/ongakuer/CircleIndicator
+Apache License 2.0
+
+HITGIF - TextFieldBoxes
+https://github.com/HITGIF/TextFieldBoxes
+Copyright 2017 Carbonylgroup Studio
+Apache License 2.0
+
+Someonewow - SubmitButton
+https://github.com/Someonewow/SubmitButton
+Copyright 2017 Unstoppable
+Apache License 2.0
+
+JSR305
+https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305/3.0.2
+Apache License 2.0
+
+ybq - Spinkit
+https://github.com/ybq/Android-SpinKit
+Copyright 2016 ybq
+MIT License
+
+ceryle - RadioRealButton
+https://github.com/ceryle/RadioRealButton
+Apache License 2.0
+
+ToxicBakery - ViewPagerTransforms
+https://github.com/ToxicBakery/ViewPagerTransforms
+Apache License 2.0
+
+prolificinteractive - material calendarview
+https://github.com/prolificinteractive/material-calendarview
+Copyright 2018 Prolific Interactive
+https://github.com/prolificinteractive/material-calendarview/blob/master/LICENSE
+
+RxJava
+https://github.com/ReactiveX/RxJava
+Copyright 2016-present, RxJava Contributors.
+Apache License 2.0
+
+zcweng - ToggleButton
+https://github.com/zcweng/ToggleButton
+Copyright 2016 ToggleButton
+MIT License
+
+ToggleButton
+https://github.com/zcweng/ToggleButton
+Copyright (c) 2016 ToggleButton
+MIT License
+
+Otto
+https://github.com/square/otto
+Copyright 2012 Square, Inc.
+Copyright 2010 Google, Inc.
+Apache License 2.0
+
+Jsoup
+https://jsoup.org/download
+Copyright © 2009 - 2017 Jonathan Hedley
+MIT License
+
+네이버 나눔글꼴
+Copyright (c) 2010, NAVER Corporation (https://www.navercorp.com/),
+with Reserved Font Name Nanum, Naver Nanum, NanumGothic, Naver NanumGothic, NanumMyeongjo, Naver NanumMyeongjo, NanumBrush, Naver NanumBrush, NanumPen, Naver NanumPen, Naver NanumGothicEco, NanumGothicEco, Naver NanumMyeongjoEco, NanumMyeongjoEco, Naver NanumGothicLight, NanumGothicLight, NanumBarunGothic, Naver NanumBarunGothic,
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
+SIL OPEN FONT LICENSE
+Version 1.1 - 26 February 2007

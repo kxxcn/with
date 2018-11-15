@@ -23,9 +23,5 @@ public interface SplashContract {
 		void setPermission(Activity activity, OnPermissionListener onPermissionListener, String... permission);
 	}
 
-	interface OnPermissionListener {
-		void onGranted();
 
-		void onDenied();
-	}
 }

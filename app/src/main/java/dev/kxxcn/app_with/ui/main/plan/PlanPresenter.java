@@ -33,12 +33,16 @@ public class PlanPresenter implements PlanContract.Presenter {
 
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-		Disposable disposable = mDataRepository.onGetPlan(identifier)
+		Disposable disposable = mDataRepository.getPlan(identifier)
 				.subscribe(planList -> {
 					mPlanView.showSuccessfulLoadPlan(planList);
 					mPlanView.showLoadingIndicator(false);
 					compositeDisposable.dispose();
-				}, throwable -> mPlanView.showFailedRequest(throwable.getMessage()));
+				}, throwable -> {
+					mPlanView.showFailedRequest(throwable.getMessage());
+					mPlanView.showLoadingIndicator(false);
+					compositeDisposable.dispose();
+				});
 
 		compositeDisposable.add(disposable);
 	}
@@ -60,7 +64,7 @@ public class PlanPresenter implements PlanContract.Presenter {
 	}
 
 	@Override
-	public void onDeletePlan(int id) {
+	public void deletePlan(int id) {
 		if (mPlanView == null)
 			return;
 
@@ -68,7 +72,7 @@ public class PlanPresenter implements PlanContract.Presenter {
 
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-		Disposable disposable = mDataRepository.onRemovePlan(id)
+		Disposable disposable = mDataRepository.removePlan(id)
 				.subscribe(
 						responseResult -> {
 							if (responseResult.getRc() == 200) {

@@ -16,11 +16,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -52,6 +54,8 @@ import static dev.kxxcn.app_with.util.Constants.TAG_DIALOG;
  */
 public class PlanFragment extends Fragment implements PlanContract.View, PlanContract.OnRegistrationCallback, RecyclerViewItemTouchHelper.RecyclerViewItemTouchHelperListener {
 
+	private static WeakReference<PlanFragment> fragmentReference = null;
+
 	@BindView(R.id.mcv_plan)
 	MaterialCalendarView mcv_plan;
 
@@ -81,14 +85,17 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 
 	private int mPosition = -1;
 
+
 	public static PlanFragment newInstance(String identifier) {
-		PlanFragment fragment = new PlanFragment();
+		if (fragmentReference == null) {
+			PlanFragment fragment = new PlanFragment();
+			Bundle args = new Bundle();
+			args.putString(KEY_IDENTIFIER, identifier);
+			fragment.setArguments(args);
+			fragmentReference = new WeakReference<>(fragment);
+		}
 
-		Bundle args = new Bundle();
-		args.putString(KEY_IDENTIFIER, identifier);
-		fragment.setArguments(args);
-
-		return fragment;
+		return fragmentReference.get();
 	}
 
 	@Override
@@ -133,10 +140,6 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 		mcv_plan.setOnDateChangedListener(selectedListener);
 		mcv_plan.state().edit().setMinimumDate(CalendarDay.from(2018, 10, 1)).commit();
 		mcv_plan.setTitleFormatter(calendarDay -> String.format(getString(R.string.format_month), String.valueOf(calendarDay.getMonth())));
-		mcv_plan.addDecorators(
-				new TodayDecoratorHelper(mContext),
-				new SundayDecoratorHelper(),
-				new SaturdayDecoratorHelper());
 		mcv_plan.setOnMonthChangedListener((materialCalendarView, calendarDay) -> {
 			if (tv_previous != null) {
 				rl_plan.removeView(tv_previous);
@@ -163,8 +166,7 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 		rv_plan.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 		rv_plan.setAdapter(mPlanAdapter);
 
-		ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerViewItemTouchHelper(0, ItemTouchHelper.LEFT, this);
-		new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(rv_plan);
+		new ItemTouchHelper(new RecyclerViewItemTouchHelper(0, ItemTouchHelper.LEFT, this)).attachToRecyclerView(rv_plan);
 	}
 
 	private OnDateSelectedListener selectedListener = (materialCalendarView, calendarDay, b) -> {
@@ -202,9 +204,14 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 	public void showSuccessfulLoadPlan(List<Plan> planList) {
 		Collections.sort(planList, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
 		mcv_plan.removeDecorators();
-		mcv_plan.addDecorator(new EventDecoratorHelper(Color.RED, mPresenter.setEvents(planList)));
+		mcv_plan.addDecorators(
+				new EventDecoratorHelper(Color.RED, mPresenter.setEvents(planList)),
+				new TodayDecoratorHelper(mContext),
+				new SundayDecoratorHelper(),
+				new SaturdayDecoratorHelper());
 		mPlanAdapter.onChangedData(planList);
 	}
+
 
 	@Override
 	public void showFailedRequest(String throwable) {
@@ -220,6 +227,7 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 
 	@Override
 	public void onRegistrationCallback() {
+		Toast.makeText(mContext, getString(R.string.toast_register_plan), Toast.LENGTH_SHORT).show();
 		mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
 	}
 
@@ -232,7 +240,10 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 		}
 	}
 
-	private DialogInterface.OnClickListener positiveListener = (dialog, which) -> mPresenter.onDeletePlan(mPlanAdapter.onNotifyDeleteData(mPosition));
+	private DialogInterface.OnClickListener positiveListener = (dialog, which) -> mPresenter.deletePlan(mPlanAdapter.onNotifyDataDeleted(mPosition));
 
+	public void onReloadPlan() {
+		mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
+	}
 
 }

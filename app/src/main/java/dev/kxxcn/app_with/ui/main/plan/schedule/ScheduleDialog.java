@@ -25,6 +25,8 @@ import com.github.ybq.android.spinkit.style.ThreeBounce;
 
 import org.threeten.bp.DayOfWeek;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -206,14 +208,15 @@ public class ScheduleDialog extends DialogFragment implements ScheduleContract.V
 	@OnClick(R.id.ib_registration)
 	public void onRegisterPlan() {
 		if (mEnabled) {
-			eet_plan.requestFocus();
 			if (!TextUtils.isEmpty(eet_plan.getText()) && !TextUtils.isEmpty(eet_place.getText()) && !TextUtils.isEmpty(eet_time.getText())) {
+				eet_plan.requestFocus();
 				KeyboardUtils.hideKeyboard(mActivity, eet_plan);
 				Bundle args = getArguments();
 				if (args != null) {
 					mPresenter.onRegisterPlan(new Plan(args.getString(KEY_IDENTIFIER), eet_plan.getText().toString(), eet_place.getText().toString(), eet_time.getText().toString(), args.getString(KEY_DATE)));
 				}
 			} else {
+				setFocusToEmptyEditText(TextUtils.isEmpty(eet_plan.getText()), TextUtils.isEmpty(eet_place.getText()), TextUtils.isEmpty(eet_time.getText()));
 				Toast.makeText(mContext, getString(R.string.toast_input_all), Toast.LENGTH_SHORT).show();
 			}
 		}
@@ -242,7 +245,7 @@ public class ScheduleDialog extends DialogFragment implements ScheduleContract.V
 	}
 
 	private TimePickerDialog.OnTimeSetListener timeSetListener = (view, hourOfDay, minute) -> {
-		String AM_PM = hourOfDay > STANDARD_TIME ? STRING_PM : STRING_AM;
+		String AM_PM = hourOfDay >= STANDARD_TIME ? STRING_PM : STRING_AM;
 		int hour = hourOfDay > STANDARD_TIME ? hourOfDay - STANDARD_TIME : hourOfDay;
 		if (minute == 0) {
 			eet_time.setText(String.format(getString(R.string.format_time_set1), hour, AM_PM));
@@ -254,5 +257,20 @@ public class ScheduleDialog extends DialogFragment implements ScheduleContract.V
 			eet_time.setText(String.format(getString(R.string.format_time_set2), hour, min, AM_PM));
 		}
 	};
+
+	private void setFocusToEmptyEditText(boolean isEmptyPlan, boolean isEmptyPlace, boolean isEmptyTime) {
+		View view = null;
+		if (isEmptyPlan) {
+			eet_plan.requestFocus();
+			view = eet_plan;
+		} else if (isEmptyPlace) {
+			eet_place.requestFocus();
+			view = eet_place;
+		} else if (isEmptyTime) {
+			eet_time.requestFocus();
+			view = eet_time;
+		}
+		KeyboardUtils.hideKeyboard(mActivity, Objects.requireNonNull(view));
+	}
 
 }

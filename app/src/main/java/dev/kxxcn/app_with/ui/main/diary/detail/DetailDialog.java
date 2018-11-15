@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
@@ -21,15 +22,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
 
-import java.util.HashMap;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.model.diary.Diary;
-import dev.kxxcn.app_with.data.model.image.Image;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
+import dev.kxxcn.app_with.util.LayoutUtils;
 
+import static dev.kxxcn.app_with.data.remote.APIPersistence.DOWNLOAD_IMAGE_URL;
 import static dev.kxxcn.app_with.util.Constants.COLORS;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
 
@@ -39,6 +39,9 @@ import static dev.kxxcn.app_with.util.Constants.FONTS;
 public class DetailDialog extends DialogFragment {
 
 	private static final String KEY_DIARY = "KEY_DIARY";
+
+	@BindView(R.id.cl_root)
+	ConstraintLayout cl_root;
 
 	@BindView(R.id.iv_background)
 	ImageView iv_background;
@@ -55,8 +58,6 @@ public class DetailDialog extends DialogFragment {
 	private Diary mDiary;
 
 	private String[] colors;
-
-	HashMap<String, Image> mImageHashMap;
 
 	private RequestOptions options = new RequestOptions().centerCrop();
 
@@ -106,10 +107,6 @@ public class DetailDialog extends DialogFragment {
 		}
 	}
 
-	public void setImageList(HashMap<String, Image> imageHashMap) {
-		this.mImageHashMap = imageHashMap;
-	}
-
 	private void initUI() {
 		Bundle args = getArguments();
 		if (args != null) {
@@ -118,21 +115,27 @@ public class DetailDialog extends DialogFragment {
 				if (mDiary.getPrimaryPosition() != -1) {
 					iv_background.setBackgroundColor(getResources().getColor(COLORS[mDiary.getPrimaryPosition()]));
 				} else if (!TextUtils.isEmpty(mDiary.getGalleryName())) {
-					ImageProcessingHelper.setGlide(mContext, mImageHashMap.get(mDiary.getGalleryName()).getBitmap(), iv_background, options);
+					ImageProcessingHelper.setGlide(mContext,
+							String.format(mContext.getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, mDiary.getGalleryName()),
+							iv_background, options);
 				}
 				if (mDiary.getFontStyle() != -1) {
 					Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[mDiary.getFontStyle()]);
 					tv_letter.setTypeface(typeface);
 					tv_date.setTypeface(typeface);
+					tv_place.setTypeface(typeface);
 				}
 				if (mDiary.getFontColor() != -1) {
 					tv_letter.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
 					tv_date.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
+					tv_place.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
 				}
+				LayoutUtils.setViewPosition(cl_root, mDiary.getLetterPosition(), tv_letter, tv_place);
 				tv_letter.setTextSize(TypedValue.COMPLEX_UNIT_PX, mDiary.getFontSize());
 				tv_letter.setText(mDiary.getLetter());
 				String[] date = mDiary.getLetterDate().split("-");
 				tv_date.setText(String.format(getString(R.string.format_date), date[0], date[1], date[2]));
+				tv_place.setText(mDiary.getLetterPlace());
 			}
 		}
 	}

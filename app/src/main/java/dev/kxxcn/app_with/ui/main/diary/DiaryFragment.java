@@ -1,7 +1,6 @@
 package dev.kxxcn.app_with.ui.main.diary;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,14 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
+import com.github.ybq.android.spinkit.SpinKitView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,7 +30,7 @@ import co.ceryle.radiorealbutton.RadioRealButton;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.model.diary.Diary;
-import dev.kxxcn.app_with.data.model.image.Image;
+import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.ui.main.MainPagerAdapter;
@@ -47,7 +45,7 @@ import static dev.kxxcn.app_with.util.Constants.TAG_DIALOG;
 /**
  * Created by kxxcn on 2018-09-28.
  */
-public class DiaryFragment extends Fragment implements DiaryContract.View, DiaryContract.OnLetterClickListener, DiaryContract.OnGetImageCallback {
+public class DiaryFragment extends Fragment implements DiaryContract.View, DiaryContract.OnLetterClickListener {
 
 	private static WeakReference<DiaryFragment> fragmentReference = null;
 
@@ -70,7 +68,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	RecyclerView rv_letter;
 
 	@BindView(R.id.progressbar)
-	ProgressBar progressBar;
+	SpinKitView progressBar;
 
 	@BindView(R.id.rrb_expand)
 	RadioRealButton rrb_expand;
@@ -89,15 +87,12 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 
 	private ExpandAdapter mExpandAdapter;
 
-	private List<Diary> mDiaryList;
+	private List<Diary> mDiaryList = new ArrayList<>(0);
 
 	private boolean isFabOpen;
 
 	private Animation fab_open, fab_close;
 
-	private HashMap<String, Image> imageHashMap = new HashMap<>(0);
-
-	private ArrayList<Image> mImageList = new ArrayList<>(0);
 
 	@Override
 	public void setPresenter(DiaryContract.Presenter presenter) {
@@ -117,7 +112,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 		this.mListener = listener;
 	}
 
-	public static DiaryFragment newInstance(boolean isFemale, String identifier) {
+	public static DiaryFragment newInstance(boolean isFemale, @NonNull String identifier) {
 		DiaryFragment fragment = new DiaryFragment();
 
 		Bundle args = new Bundle();
@@ -139,7 +134,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 
 		args = getArguments();
 		if (args != null) {
-			mPresenter.onGetDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
+			mPresenter.getDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
 		}
 
 		initUI();
@@ -154,6 +149,8 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	}
 
 	private void initUI() {
+		mPresenter.getNickname(args.getString(KEY_IDENTIFIER));
+
 		if (args.getBoolean(KEY_GENDER)) {
 			tv_title.setText(getString(R.string.title_me));
 			fab_pack.setVisibility(View.VISIBLE);
@@ -164,11 +161,11 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 			fab_refresh.setVisibility(View.VISIBLE);
 		}
 
-		mCollectAdapter = new CollectAdapter(getChildFragmentManager(), getEmptyList(), mImageList, this);
+		mCollectAdapter = new CollectAdapter(getChildFragmentManager(), mDiaryList);
 		vp_letter.setAdapter(mCollectAdapter);
 		vp_letter.setPageTransformer(true, new CubeOutTransformer());
 
-		mExpandAdapter = new ExpandAdapter(mContext, getEmptyList(), this, this);
+		mExpandAdapter = new ExpandAdapter(mContext, mDiaryList, this);
 		rv_letter.setAdapter(mExpandAdapter);
 		rv_letter.setLayoutManager(new GridLayoutManager(mContext, 3));
 
@@ -208,7 +205,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	public void onDelete() {
 		DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_diary),
 				(dialog, which) -> {
-					mPresenter.onDeleteDiary(mDiaryList.get(vp_letter.getCurrentItem()).getId());
+					mPresenter.deleteDiary(mDiaryList.get(vp_letter.getCurrentItem()).getId());
 					animatingFab();
 				}, null);
 	}
@@ -216,7 +213,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	@OnClick(R.id.fab_refresh)
 	public void onRefresh() {
 		if (args != null) {
-			mPresenter.onGetDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
+			mPresenter.getDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
 		}
 	}
 
@@ -258,38 +255,31 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	@Override
 	public void showSuccessfulRemoveDiary() {
 		if (args != null) {
-			mPresenter.onGetDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
+			mPresenter.getDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
 		}
 	}
 
+	@Override
+	public void showSuccessfulGetNickname(ResponseNickname responseNickname) {
+		tv_title.setText(args.getBoolean(KEY_GENDER) ? responseNickname.getMyNickname() : responseNickname.getYourNickname());
+	}
+
 	public void onRegisteredDiary(int flag, String identifier) {
-		mPresenter.onGetDiary(flag, identifier);
+		mPresenter.getDiary(flag, identifier);
+	}
+
+	public void onReloadDiary(String uniqueIdentifier) {
+		mPresenter.getDiary(1, uniqueIdentifier);
+	}
+
+	public void onRegisteredNickname() {
+		mPresenter.getNickname(args.getString(KEY_IDENTIFIER));
 	}
 
 	@Override
 	public void onLetterClick(int position) {
 		DetailDialog dialog = DetailDialog.newInstance(mDiaryList.get(position));
-		dialog.setImageList(imageHashMap);
 		dialog.show(getChildFragmentManager(), TAG_DIALOG);
-	}
-
-	private <T> List<T> getEmptyList() {
-		return new ArrayList<>(0);
-	}
-
-	@Override
-	public void onGetImageCallback(String fileName) {
-		mPresenter.onGetImage(fileName);
-	}
-
-	@Override
-	public void showSuccessfulLoadImage(String fileName, Bitmap bitmap) {
-		Image image = new Image(fileName, bitmap);
-		imageHashMap.put(fileName, image);
-		mImageList.add(image);
-
-		mCollectAdapter.onChangedImage(mImageList);
-		mExpandAdapter.onChangedImage(imageHashMap);
 	}
 
 }

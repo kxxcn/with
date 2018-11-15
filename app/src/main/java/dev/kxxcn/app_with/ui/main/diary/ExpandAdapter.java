@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,18 +14,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.model.diary.Diary;
-import dev.kxxcn.app_with.data.model.image.Image;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
+import dev.kxxcn.app_with.util.LayoutUtils;
 
+import static dev.kxxcn.app_with.data.remote.APIPersistence.DOWNLOAD_IMAGE_URL;
 import static dev.kxxcn.app_with.util.Constants.COLORS;
 import static dev.kxxcn.app_with.util.Constants.COLOR_DEFAULT;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
@@ -36,7 +38,6 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 
 	private static final String PREFIX_MONTH = "0";
 
-	private static final int DST_WIDTH = 20;
 	private Context mContext;
 
 	private List<Diary> mDiaryList;
@@ -47,17 +48,12 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 
 	private DiaryContract.OnLetterClickListener mListener;
 
-	private DiaryContract.OnGetImageCallback mCallback;
-
-	private HashMap<String, Image> mImageHashMap = new HashMap<>(0);
-
 	private RequestOptions options = new RequestOptions().centerCrop();
 
-	public ExpandAdapter(Context context, List<Diary> diaryList, DiaryContract.OnLetterClickListener listener, DiaryContract.OnGetImageCallback callback) {
+	public ExpandAdapter(Context context, List<Diary> diaryList, DiaryContract.OnLetterClickListener listener) {
 		this.mContext = context;
 		this.mDiaryList = diaryList;
 		this.mListener = listener;
-		this.mCallback = callback;
 	}
 
 	@NonNull
@@ -71,38 +67,38 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-		if (mDiaryList.get(holder.getAdapterPosition()).getPrimaryPosition() != -1) {
-			holder.iv_background.setBackgroundColor(mContext.getResources().getColor(COLORS[mDiaryList.get(holder.getAdapterPosition()).getPrimaryPosition()]));
-		} else if (!TextUtils.isEmpty(mDiaryList.get(holder.getAdapterPosition()).getGalleryName())) {
-			String galleryName = mDiaryList.get(holder.getAdapterPosition()).getGalleryName();
-			if (mImageHashMap.get(galleryName) == null) {
-				mCallback.onGetImageCallback(galleryName);
-			} else {
-				ImageProcessingHelper.setGlide(mContext, mImageHashMap.get(galleryName).getBitmap(), holder.iv_background, options);
-			}
+		if (mDiaryList.get(holder.getLayoutPosition()).getPrimaryPosition() != -1) {
+			Glide.with(mContext).clear(holder.iv_background);
+			holder.iv_background.setBackgroundColor(mContext.getResources().getColor(COLORS[mDiaryList.get(holder.getLayoutPosition()).getPrimaryPosition()]));
+		} else if (!TextUtils.isEmpty(mDiaryList.get(holder.getLayoutPosition()).getGalleryName())) {
+			String galleryName = mDiaryList.get(holder.getLayoutPosition()).getGalleryName();
+			ImageProcessingHelper.setGlide(mContext,
+					String.format(mContext.getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, galleryName),
+					holder.iv_background, options);
 		} else {
-			holder.iv_background.setBackgroundColor(COLOR_DEFAULT[0]);
+			Glide.with(mContext).clear(holder.iv_background);
+			holder.iv_background.setBackgroundResource(COLOR_DEFAULT[0]);
 		}
 
-		if (mDiaryList.get(holder.getAdapterPosition()).getFontStyle() != -1) {
-			Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[mDiaryList.get(holder.getAdapterPosition()).getFontStyle()]);
+		if (mDiaryList.get(holder.getLayoutPosition()).getFontStyle() != -1) {
+			Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[mDiaryList.get(holder.getLayoutPosition()).getFontStyle()]);
 			holder.tv_letter.setTypeface(typeface);
 		} else {
 			holder.tv_letter.setTypeface(null);
 		}
 
 		int color;
-		if (mDiaryList.get(holder.getAdapterPosition()).getFontColor() != -1) {
-			color = Color.parseColor(colors[mDiaryList.get(holder.getAdapterPosition()).getFontColor()]);
+		if (mDiaryList.get(holder.getLayoutPosition()).getFontColor() != -1) {
+			color = Color.parseColor(colors[mDiaryList.get(holder.getLayoutPosition()).getFontColor()]);
 		} else {
 			color = Color.parseColor(defaults);
 		}
+		LayoutUtils.setViewPosition2(holder.cl_root, mDiaryList.get(holder.getLayoutPosition()).getLetterPosition(), holder.tv_letter, holder.tv_day);
 		holder.tv_letter.setTextColor(color);
+		holder.tv_letter.setText(mDiaryList.get(holder.getLayoutPosition()).getLetter());
 		holder.tv_month.setTextColor(color);
 		holder.tv_day.setTextColor(color);
-
-		holder.tv_letter.setText(mDiaryList.get(holder.getAdapterPosition()).getLetter());
-		String[] date = mDiaryList.get(holder.getAdapterPosition()).getLetterDate().split("-");
+		String[] date = mDiaryList.get(holder.getLayoutPosition()).getLetterDate().split("-");
 		if (date[1].startsWith(PREFIX_MONTH)) {
 			date[1] = date[1].substring(1, date[1].length());
 		}
@@ -120,12 +116,10 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 		notifyDataSetChanged();
 	}
 
-	public void onChangedImage(HashMap<String, Image> imageHashMap) {
-		this.mImageHashMap = imageHashMap;
-		notifyDataSetChanged();
-	}
-
 	static class ViewHolder extends RecyclerView.ViewHolder {
+		@BindView(R.id.cl_root)
+		ConstraintLayout cl_root;
+
 		@BindView(R.id.iv_background)
 		ImageView iv_background;
 

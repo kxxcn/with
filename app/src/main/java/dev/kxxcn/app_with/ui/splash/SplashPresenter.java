@@ -41,15 +41,18 @@ public class SplashPresenter implements SplashContract.Presenter {
 						}
 					} else if (response.getRc() == 201) {
 						mSplashView.showFailedRequest(response.getStat());
+						mSplashView.showUnregisteredUser();
 					}
 					compositeDisposable.dispose();
-				}, throwable -> mSplashView.showFailedRequest(throwable.getMessage()));
+				}, throwable -> {
+					mSplashView.showFailedRequest(throwable.getMessage());
+				});
 
 		compositeDisposable.add(disposable);
 	}
 
 	@Override
-	public void setPermission(Activity activity, SplashContract.OnPermissionListener onPermissionListener, String... permission) {
+	public void setPermission(Activity activity, OnPermissionListener onPermissionListener, String... permission) {
 		PermissionUtils.authorization(activity, onPermissionListener, permission);
 	}
 

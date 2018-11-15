@@ -18,16 +18,13 @@ import java.util.ArrayList;
  */
 public class ImageProcessingHelper {
 
-	private static final int REQ_WIDTH = 300;
-	private static final int REQ_HEIGHT = 50;
-
-	public static synchronized ArrayList<Bitmap> convertToBitmap(Context context, Constants.TypeFilter typeFilter, int[] resources, ArrayList<String> thumbsData) {
+	public static synchronized ArrayList<Bitmap> convertToBitmap(Context context, Constants.TypeFilter typeFilter, int[] resources, ArrayList<String> thumbsData, int req_width, int req_height) {
 		final ArrayList<Bitmap> imgList = new ArrayList<>(0);
-		final ArrayList<String> copyTothumbsData = new ArrayList<>(0);
+		final ArrayList<String> copyToThumbsData = new ArrayList<>(0);
 		if (typeFilter == Constants.TypeFilter.GALLERY) {
-			copyTothumbsData.addAll(thumbsData);
-			for (String thumb : copyTothumbsData) {
-				imgList.add(decodeBitmapFromFile(thumb, REQ_WIDTH, REQ_HEIGHT));
+			copyToThumbsData.addAll(thumbsData);
+			for (String thumb : copyToThumbsData) {
+				imgList.add(decodeBitmapFromFile(thumb, req_width, req_height));
 			}
 		} else {
 			for (int res : resources) {
@@ -39,8 +36,7 @@ public class ImageProcessingHelper {
 		return imgList;
 	}
 
-	private static int calculateInSampleSize(
-			BitmapFactory.Options options, int reqWidth, int reqHeight) {
+	private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
 		// Raw height and width of image
 		final int height = options.outHeight;
 		final int width = options.outWidth;
@@ -72,6 +68,7 @@ public class ImageProcessingHelper {
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
+
 		return BitmapFactory.decodeFile(pathName, options);
 	}
 

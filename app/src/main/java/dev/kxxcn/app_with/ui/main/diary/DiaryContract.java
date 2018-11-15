@@ -1,10 +1,9 @@
 package dev.kxxcn.app_with.ui.main.diary;
 
-import android.graphics.Bitmap;
-
 import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.ui.BasePresenter;
 import dev.kxxcn.app_with.ui.BaseView;
 
@@ -17,24 +16,22 @@ public interface DiaryContract {
 
 		void showFailedRequest(String throwable);
 
-		void showSuccessfulLoadImage(String fileName, Bitmap bitmap);
-
 		void showSuccessfulRemoveDiary();
+
+		void showSuccessfulGetNickname(ResponseNickname responseNickname);
 	}
 
 	interface Presenter extends BasePresenter {
-		void onGetDiary(int flag, String uniqueIdentifier);
+		void getDiary(int flag, String uniqueIdentifier);
 
-		void onDeleteDiary(int id);
+		void deleteDiary(int id);
 
-		void onGetImage(String fileName);
+		void getNickname(String uniqueIdentifier);
+
+		String formattedNickname(String nickname);
 	}
 
 	interface OnLetterClickListener {
 		void onLetterClick(int position);
-	}
-
-	interface OnGetImageCallback {
-		void onGetImageCallback(String fileName);
 	}
 }

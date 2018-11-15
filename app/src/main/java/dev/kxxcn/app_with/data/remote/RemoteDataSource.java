@@ -4,9 +4,15 @@ import java.util.List;
 
 import dev.kxxcn.app_with.data.DataSource;
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.geocode.ResponseGeocode;
+import dev.kxxcn.app_with.data.model.nickname.Nickname;
 import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
 import dev.kxxcn.app_with.data.model.plan.Plan;
 import dev.kxxcn.app_with.data.model.result.ResponseResult;
+import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
+import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
+import dev.kxxcn.app_with.util.Constants;
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -22,8 +28,11 @@ public class RemoteDataSource extends DataSource {
 
 	private APIService service;
 
+	private OpenAPIService openAPIService;
+
 	private RemoteDataSource() {
 		this.service = APIService.Factory.create();
+		this.openAPIService = OpenAPIService.Factory.create();
 	}
 
 	public static synchronized RemoteDataSource getInstance() {
@@ -34,15 +43,15 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public Single<ResponsePairing> onCreatePairingKey(String uniqueIdentifier) {
-		return service.createPairingKey(uniqueIdentifier)
+	public Single<ResponsePairing> createPairingKey(String uniqueIdentifier, String token) {
+		return service.createPairingKey(uniqueIdentifier, token)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
 	@Override
-	public Single<ResponseResult> onAuthenticate(String uniqueIdentifier, String key, int gender) {
-		return service.authenticateKey(uniqueIdentifier, key, gender)
+	public Single<ResponseResult> authenticate(String uniqueIdentifier, String key, int gender, String token) {
+		return service.authenticateKey(uniqueIdentifier, key, gender, token)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
 	}
@@ -55,28 +64,28 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public Single<List<Diary>> onGetDiary(int flag, String uniqueIdentifier) {
+	public Single<List<Diary>> getDiary(int flag, String uniqueIdentifier) {
 		return service.getDiary(flag, uniqueIdentifier)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
 	@Override
-	public Single<ResponseResult> onRegisterDiary(Diary diary) {
+	public Single<ResponseResult> registerDiary(Diary diary) {
 		return service.registerDiary(diary)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
 	@Override
-	public Single<ResponseResult> onRegisterPlan(Plan plan) {
+	public Single<ResponseResult> registerPlan(Plan plan) {
 		return service.registerPlan(plan)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
 	@Override
-	public Single<List<Plan>> onGetPlan(String uniqueIdentifier) {
+	public Single<List<Plan>> getPlan(String uniqueIdentifier) {
 		return service.getPlan(uniqueIdentifier)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
@@ -90,14 +99,14 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public synchronized Single<ResponseBody> onGetImage(String fileName) {
+	public synchronized Single<ResponseBody> getImage(String fileName) {
 		return service.getImage(fileName)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
 	@Override
-	public Single<ResponseResult> onRemoveDiary(int id) {
+	public Single<ResponseResult> removeDiary(int id) {
 		return service.removeDiary(id)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
@@ -105,8 +114,50 @@ public class RemoteDataSource extends DataSource {
 
 
 	@Override
-	public Single<ResponseResult> onRemovePlan(int id) {
+	public Single<ResponseResult> removePlan(int id) {
 		return service.removePlan(id)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<ResponseSetting> getNotificationInformation(String uniqueIdentifier) {
+		return service.getNotificationInformation(uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Completable updateReceiveNotification(String uniqueIdentifier, Constants.NotificationFilter which, boolean isOn) {
+		return service.updateReceiveNotification(uniqueIdentifier, which, isOn)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<ResponseGeocode> convertCoordToAddress(String query) {
+		return openAPIService.convertCoordToAddress("UTF-8", "latlng", query)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<ResponseResult> updateToken(String uniqueIdentifier, String newToken) {
+		return service.updateToken(uniqueIdentifier, newToken)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<ResponseNickname> getTitle(String uniqueIdentifier) {
+		return service.getTitle(uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<ResponseResult> registerNickname(Nickname nickname) {
+		return service.registerNickname(nickname)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
 	}

@@ -3,8 +3,6 @@ package dev.kxxcn.app_with.data.model.diary;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import dev.kxxcn.app_with.data.model.image.Image;
-
 /**
  * Created by kxxcn on 2018-09-13.
  */
@@ -14,22 +12,25 @@ public class Diary implements Parcelable {
 	private String writer;
 	private String letter;
 	private String letterDate;
+	private String letterPlace;
 	private int fontStyle;
 	private int fontColor;
 	private float fontSize;
 	private int primaryPosition;
 	private String galleryName;
-	private Image image;
+	private int letterPosition;
 
-	public Diary(String writer, String letter, String letterDate, int fontStyle, int fontColor, float fontSize, int primaryPosition, String galleryName) {
+	public Diary(String writer, String letter, String letterDate, String letterPlace, int fontStyle, int fontColor, float fontSize, int primaryPosition, String galleryName, int letterPosition) {
 		this.writer = writer;
 		this.letter = letter;
 		this.letterDate = letterDate;
+		this.letterPlace = letterPlace;
 		this.fontStyle = fontStyle;
 		this.fontColor = fontColor;
 		this.fontSize = fontSize;
 		this.primaryPosition = primaryPosition;
 		this.galleryName = galleryName;
+		this.letterPosition = letterPosition;
 	}
 
 	public int getId() {
@@ -46,6 +47,10 @@ public class Diary implements Parcelable {
 
 	public String getLetterDate() {
 		return letterDate;
+	}
+
+	public String getLetterPlace() {
+		return letterPlace;
 	}
 
 	public int getFontStyle() {
@@ -68,12 +73,8 @@ public class Diary implements Parcelable {
 		return galleryName;
 	}
 
-	public void setImage(Image image) {
-		this.image = image;
-	}
-
-	public Image getImage() {
-		return image;
+	public int getLetterPosition() {
+		return letterPosition;
 	}
 
 	public static Creator<Diary> getCREATOR() {
@@ -84,12 +85,13 @@ public class Diary implements Parcelable {
 		writer = in.readString();
 		letter = in.readString();
 		letterDate = in.readString();
+		letterPlace = in.readString();
 		fontStyle = in.readInt();
 		fontColor = in.readInt();
 		fontSize = in.readFloat();
 		primaryPosition = in.readInt();
 		galleryName = in.readString();
-		image = in.readParcelable(Image.class.getClassLoader());
+		letterPosition = in.readInt();
 	}
 
 	public static final Creator<Diary> CREATOR = new Creator<Diary>() {
@@ -114,12 +116,13 @@ public class Diary implements Parcelable {
 		dest.writeString(writer);
 		dest.writeString(letter);
 		dest.writeString(letterDate);
+		dest.writeString(letterPlace);
 		dest.writeInt(fontStyle);
 		dest.writeInt(fontColor);
 		dest.writeFloat(fontSize);
 		dest.writeInt(primaryPosition);
 		dest.writeString(galleryName);
-		dest.writeValue(image);
+		dest.writeInt(letterPosition);
 	}
 
 }

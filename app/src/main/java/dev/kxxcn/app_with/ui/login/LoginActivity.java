@@ -2,13 +2,10 @@ package dev.kxxcn.app_with.ui.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -23,8 +20,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_with.R;
+import dev.kxxcn.app_with.data.DataRepository;
+import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.login.auth.AuthFragment;
 import dev.kxxcn.app_with.ui.main.MainActivity;
+import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.SwipeViewPager;
@@ -38,12 +38,12 @@ import static dev.kxxcn.app_with.util.Constants.DELAY_NETWORK;
 /**
  * Created by kxxcn on 2018-08-22.
  */
-public class LoginActivity extends AppCompatActivity implements LoginContract.View {
+public class LoginActivity extends AppCompatActivity implements LoginContract.View, MainContract.OnKeyboardListener {
 
 	private static final int INIT = -723;
 	private static final int KEY_LENGTH = 8;
 
-	public static final String EXTRA_IDENTIFIER = "IDENTIFIER";
+	public static final String EXTRA_IDENTIFIER = "EXTRA_IDENTIFIER";
 
 	@BindView(R.id.rl_root)
 	RelativeLayout rl_root;
@@ -76,10 +76,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 	private int mGender = INIT;
 
-	private boolean isAuth = false;
-
-	private ViewTreeObserver.OnGlobalLayoutListener mGlobalListener;
-
 	private LoginPagerAdapter adapter;
 
 	private AuthFragment authFragment;
@@ -101,7 +97,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 		TransitionUtils.fade(this);
 		ButterKnife.bind(this);
 
-		new LoginPresenter(this);
+		new LoginPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
 		initUI();
 	}
@@ -114,7 +110,10 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 			btn_auth.doResult(isSuccess);
 			UiThread.getInstance().postDelayed(() -> {
 				if (isSuccess) {
-					startActivity(new Intent(LoginActivity.this, MainActivity.class));
+					Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+					intent.putExtra(MainActivity.EXTRA_GENDER, mGender);
+					intent.putExtra(MainActivity.EXTRA_IDENTIFIER, getIntent().getStringExtra(EXTRA_IDENTIFIER));
+					startActivity(intent);
 					finish();
 				} else {
 					btn_auth.reset();
@@ -130,37 +129,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 	}
 
 	private void registerView(final View root) {
-		if (mGlobalListener == null) {
-			mGlobalListener = () -> {
-				Rect r = new Rect();
-				// 해당 루트뷰에서 윈도우가 보이는 영역을 얻어옴
-				root.getWindowVisibleDisplayFrame(r);
-
-				// 루트뷰의 실제 높이와, 윈도우 영역의 높이를 비교
-				// 키보드는 윈도우 영역에 위치하므로 뷰와 윈도우의 높이비교를 통해 키보드의 여부를 알 수 있다.
-				int heightDiff = root.getRootView().getHeight() - (r.bottom - r.top);
-
-				// Status Bar 높이 구하기
-				Rect CheckRect = new Rect();
-				Window window = getWindow();
-				window.getDecorView().getWindowVisibleDisplayFrame(CheckRect);
-				int statusBarHeight = CheckRect.top;
-
-				int keyboardThreshold = statusBarHeight + SystemUtils.getSoftButtonsBarHeight(LoginActivity.this);
-
-				// keyboardThreshold는 윈도우가 기본적으로 차지하고있는 영역(StatusBar / Soft Back Button)
-				int keyboardHeight = heightDiff - keyboardThreshold;
-				if (keyboardHeight != 0) {
-					ll_welcome.setVisibility(View.GONE);
-					ll_hidden.setVisibility(View.VISIBLE);
-				} else {
-					ll_welcome.setVisibility(View.VISIBLE);
-					ll_hidden.setVisibility(View.GONE);
-				}
-			};
-		}
-
-		root.getViewTreeObserver().addOnGlobalLayoutListener(mGlobalListener);
+		SystemUtils.addOnGlobalLayoutListener(this, root, this);
 	}
 
 	@Override
@@ -204,6 +173,18 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 			authFragment.setEnabledEditText(false);
 			authFragment.onAuthenticate(key, mGender);
 		}
+	}
+
+	@Override
+	public void onShowKeyboard() {
+		ll_welcome.setVisibility(View.VISIBLE);
+		ll_hidden.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void onHideKeyboard() {
+		ll_welcome.setVisibility(View.GONE);
+		ll_hidden.setVisibility(View.VISIBLE);
 	}
 
 }

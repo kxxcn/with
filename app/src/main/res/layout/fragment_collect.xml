@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root"
+    android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
@@ -12,54 +13,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_letter"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/tv_place"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Hello"/>
 
-        <LinearLayout
-            style="@style/VerticalLinearLayout"
-            android:layout_weight="9">
+    <TextView
+        android:id="@+id/tv_place"
+        style="@style/PlaceTextView"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="어딘가에서"/>
 
-            <TextView
-                android:id="@+id/tv_letter"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="10dp"/>
+    <TextView
+        android:id="@+id/tv_date"
+        style="@style/DateTextView"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="2018년 3월 7일"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/VerticalLinearLayout"
-            android:layout_weight="1">
-
-            <LinearLayout
-                style="@style/HorizontalLinearLayout"
-                android:layout_weight="1"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/tv_place"
-                    style="@style/PlaceTextView"
-                    tools:text="어딘가에서"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/HorizontalLinearLayout"
-                android:layout_weight="1"
-                android:gravity="center_vertical|end">
-
-                <TextView
-                    android:id="@+id/tv_date"
-                    style="@style/DateTextView"
-                    tools:text="2018년 3월 7일"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

@@ -9,7 +9,6 @@ public interface MainContract {
 	@FunctionalInterface
 	interface OnItemClickListener {
 		void onItemClickListener(int position, Constants.TypeFilter typeFilter);
-
 	}
 
 	@FunctionalInterface
@@ -21,4 +20,16 @@ public interface MainContract {
 	interface OnPageChangeListener {
 		void onPageChangeListener(int type);
 	}
+
+	@FunctionalInterface
+	interface OnRegisteredNickname {
+		void onRegisteredNickname(int type);
+	}
+
+	interface OnKeyboardListener {
+		void onShowKeyboard();
+
+		void onHideKeyboard();
+	}
+
 }

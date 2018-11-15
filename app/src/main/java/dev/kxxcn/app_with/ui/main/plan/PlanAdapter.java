@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,6 +25,10 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 	private Context mContext;
 
 	private List<Plan> mPlanList;
+
+	private int[] resourcesOfMonth = {R.drawable.ic_january, R.drawable.ic_february, R.drawable.ic_march,
+			R.drawable.ic_april, R.drawable.ic_may, R.drawable.ic_june, R.drawable.ic_july, R.drawable.ic_august,
+			R.drawable.ic_september, R.drawable.ic_october, R.drawable.ic_november, R.drawable.ic_december};
 
 	private String mIdentifier;
 
@@ -43,16 +48,17 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 		if (holder.getLayoutPosition() == 0) {
-			holder.tv_month.setVisibility(View.VISIBLE);
-			holder.tv_month.setText(String.format(mContext.getString(R.string.format_month), getFormattedMonth(mPlanList.get(0).getDate().split("-")[1])));
+			holder.iv_month.setVisibility(View.VISIBLE);
+			String month = mPlanList.get(0).getDate().split("-")[1];
+			setBackgroundMonthTextView(Integer.parseInt(month), holder.iv_month);
 		} else {
 			String month = mPlanList.get(holder.getLayoutPosition()).getDate().split("-")[1];
 			String compareMonth = mPlanList.get(holder.getLayoutPosition() - 1).getDate().split("-")[1];
 			if (!month.equals(compareMonth)) {
-				holder.tv_month.setVisibility(View.VISIBLE);
-				holder.tv_month.setText(String.format(mContext.getString(R.string.format_month), getFormattedMonth(mPlanList.get(holder.getLayoutPosition()).getDate().split("-")[1])));
+				holder.iv_month.setVisibility(View.VISIBLE);
+				setBackgroundMonthTextView(Integer.parseInt(month), holder.iv_month);
 			} else {
-				holder.tv_month.setVisibility(View.GONE);
+				holder.iv_month.setVisibility(View.GONE);
 			}
 		}
 		if (mIdentifier.equals(mPlanList.get(holder.getLayoutPosition()).getWriter())) {
@@ -80,7 +86,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 		notifyDataSetChanged();
 	}
 
-	public int onNotifyDeleteData(int position) {
+	public int onNotifyDataDeleted(int position) {
 		int id = mPlanList.get(position).getId();
 		mPlanList.remove(position);
 		notifyItemRemoved(position);
@@ -88,19 +94,17 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 		return id;
 	}
 
-	private String getFormattedMonth(String month) {
-		if (month.startsWith("0")) {
-			month = month.substring(1, month.length());
-		}
-		return month;
+	private void setBackgroundMonthTextView(int month, ImageView monthIv) {
+		monthIv.setBackgroundResource(resourcesOfMonth[month - 1]);
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
 		@BindView(R.id.cv_foreground)
 		public CardView cv_foreground;
 
-		@BindView(R.id.tv_month)
-		TextView tv_month;
+		@BindView(R.id.iv_month)
+		ImageView iv_month;
+
 		@BindView(R.id.tv_plan)
 		TextView tv_plan;
 		@BindView(R.id.tv_date)
