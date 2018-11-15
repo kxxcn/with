@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.unstoppable.submitbuttonview.SubmitButton;
 
@@ -25,6 +26,7 @@ import dev.kxxcn.app_with.data.model.nickname.Nickname;
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.main.MainContract;
+import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.KeyboardUtils;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.TransitionUtils;
@@ -118,6 +120,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 			tfb_me.setIconSignifier(R.drawable.ic_boy);
 			tfb_you.setIconSignifier(R.drawable.ic_girl);
 		}
+
+		ImageProcessingHelper.setGlide(this, R.drawable.profile, iv_explain, new RequestOptions());
 	}
 
 	private void enableComponent(boolean enable) {
