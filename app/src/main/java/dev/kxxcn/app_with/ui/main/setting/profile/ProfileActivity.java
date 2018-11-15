@@ -131,6 +131,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 		eet_you.setEnabled(enable);
 		ib_back.setEnabled(enable);
 		btn_registration.setEnabled(enable);
+		btn_registration.setClickable(enable);
 	}
 
 	private void registerView(final View root) {
