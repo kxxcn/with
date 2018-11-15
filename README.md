@@ -3,7 +3,7 @@ WITH
 <br>
 ![Logo](website/static/logo.png)
 <br><br>
-#### WITH is a couples diary application that provides space for only two.
+#### WITH is a couples diary application that provides space for only two. ####
 Tell your heart that you could not express it to your loved ones.
 <br><br>
 *★ Diary*<br>
@@ -13,7 +13,7 @@ Tell your heart that you could not express it to your loved ones.
 > Register an important appointment or anniversary and share it with your loved ones.
 
 
-### ※ Access permission
+### ※ Access permission ###
 [Required access rights]
 
 - READ EXTERNAL STORAGE: This is the permission required to import photos.
