@@ -23,7 +23,7 @@
     <string name="format_time_set2">%d:%s%s</string>
     <string name="format_failed_request">%s : %s</string>
 
-    <string name="btn_primary">기본</string>
+    <string name="btn_primary">배경</string>
     <string name="btn_gallery">사진첩</string>
     <string name="btn_font">글꼴</string>
     <string name="btn_color">색상</string>
