@@ -101,4 +101,9 @@
 
     <color name="toggle_off">#dadbda</color>
     <color name="toggle_on">#4ebb7f</color>
+
+    <color name="seekbar_bubble">#81d4fa</color>
+    <color name="seekbar_bubble_text">#757575</color>
+    <color name="seekbar_track">#ff94c2</color>
+    <color name="seekbar_second_track">#ffff78</color>
 </resources>

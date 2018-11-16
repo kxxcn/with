@@ -50,6 +50,7 @@
     <string name="toast_register_plan">새 일정이 등록되었습니다.</string>
     <string name="toast_input_plan">일정을 입력하세요.</string>
     <string name="toast_input_all">모든 항목을 입력하세요.</string>
+    <string name="toast_choice_gallery">사진을 선택하세요.</string>
 
     <string name="system_setting">설정</string>
     <string name="system_denied_permission">"권한 허가를 거부하시면 이 서비스를 이용하실 수 없습니다.\n\n[설정] > [권한]에서 권한을 켜십시오."</string>
@@ -78,6 +79,7 @@
     <string name="text_location">%s에서</string>
     <string name="text_somewhere">어딘가</string>
     <string name="text_nickname">커플 애칭으로 상단 타이틀을 변경해보아요.</string>
+    <string name="text_blur">사진에 흐림 효과를 주세요.</string>
 
     <string name="label_mon">M O N</string>
     <string name="label_tue">T U E</string>
