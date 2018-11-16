@@ -46,13 +46,18 @@ public class VersionActivity extends AppCompatActivity {
 	private void initUI() {
 		String currentVersion = getIntent().getStringExtra(EXTRA_CURRENT);
 		String latestVersion = getIntent().getStringExtra(EXTRA_LATEST);
-		if (currentVersion.equals(latestVersion)) {
-			tv_current.setText(String.format(getString(R.string.format_current), currentVersion));
-			tv_latest.setText(String.format(getString(R.string.format_latest), latestVersion));
-		} else {
-			btn_update.setVisibility(View.VISIBLE);
-			tv_current.setVisibility(View.GONE);
-			tv_latest.setVisibility(View.GONE);
+		try {
+			if (currentVersion.equals(latestVersion)) {
+				tv_current.setText(String.format(getString(R.string.format_current), currentVersion));
+				tv_latest.setText(String.format(getString(R.string.format_latest), latestVersion));
+			} else {
+				btn_update.setVisibility(View.VISIBLE);
+				tv_current.setVisibility(View.GONE);
+				tv_latest.setVisibility(View.GONE);
+			}
+		} catch (NullPointerException e) {
+			tv_current.setText(getString(R.string.text_failure_load_version));
+			e.printStackTrace();
 		}
 	}
 
