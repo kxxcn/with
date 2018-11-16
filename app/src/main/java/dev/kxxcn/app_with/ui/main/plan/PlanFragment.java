@@ -85,7 +85,6 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 
 	private int mPosition = -1;
 
-
 	public static PlanFragment newInstance(String identifier) {
 		if (fragmentReference == null) {
 			PlanFragment fragment = new PlanFragment();
@@ -137,10 +136,6 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 			mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
 		}
 
-		mcv_plan.addDecorators(
-				new TodayDecoratorHelper(mContext),
-				new SundayDecoratorHelper(),
-				new SaturdayDecoratorHelper());
 		mcv_plan.setOnDateChangedListener(selectedListener);
 		mcv_plan.state().edit().setMinimumDate(CalendarDay.from(2018, 10, 1)).commit();
 		mcv_plan.setTitleFormatter(calendarDay -> String.format(getString(R.string.format_month), String.valueOf(calendarDay.getMonth())));
@@ -219,6 +214,10 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 
 	@Override
 	public void showFailedRequest(String throwable) {
+		mcv_plan.addDecorators(
+				new TodayDecoratorHelper(mContext),
+				new SundayDecoratorHelper(),
+				new SaturdayDecoratorHelper());
 		SystemUtils.displayError(mContext, getClass().getName(), throwable);
 	}
 
