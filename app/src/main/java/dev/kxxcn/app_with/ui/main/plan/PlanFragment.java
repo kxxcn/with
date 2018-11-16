@@ -137,6 +137,10 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 			mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
 		}
 
+		mcv_plan.addDecorators(
+				new TodayDecoratorHelper(mContext),
+				new SundayDecoratorHelper(),
+				new SaturdayDecoratorHelper());
 		mcv_plan.setOnDateChangedListener(selectedListener);
 		mcv_plan.state().edit().setMinimumDate(CalendarDay.from(2018, 10, 1)).commit();
 		mcv_plan.setTitleFormatter(calendarDay -> String.format(getString(R.string.format_month), String.valueOf(calendarDay.getMonth())));
