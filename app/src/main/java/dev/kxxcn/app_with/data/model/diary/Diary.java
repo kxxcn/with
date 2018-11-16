@@ -18,9 +18,10 @@ public class Diary implements Parcelable {
 	private float fontSize;
 	private int primaryPosition;
 	private String galleryName;
+	private int galleryBlur;
 	private int letterPosition;
 
-	public Diary(String writer, String letter, String letterDate, String letterPlace, int fontStyle, int fontColor, float fontSize, int primaryPosition, String galleryName, int letterPosition) {
+	public Diary(String writer, String letter, String letterDate, String letterPlace, int fontStyle, int fontColor, float fontSize, int primaryPosition, String galleryName, int galleryBlur, int letterPosition) {
 		this.writer = writer;
 		this.letter = letter;
 		this.letterDate = letterDate;
@@ -30,6 +31,7 @@ public class Diary implements Parcelable {
 		this.fontSize = fontSize;
 		this.primaryPosition = primaryPosition;
 		this.galleryName = galleryName;
+		this.galleryBlur = galleryBlur;
 		this.letterPosition = letterPosition;
 	}
 
@@ -73,6 +75,10 @@ public class Diary implements Parcelable {
 		return galleryName;
 	}
 
+	public int getGalleryBlur() {
+		return galleryBlur;
+	}
+
 	public int getLetterPosition() {
 		return letterPosition;
 	}
@@ -91,6 +97,7 @@ public class Diary implements Parcelable {
 		fontSize = in.readFloat();
 		primaryPosition = in.readInt();
 		galleryName = in.readString();
+		galleryBlur = in.readInt();
 		letterPosition = in.readInt();
 	}
 
@@ -122,6 +129,7 @@ public class Diary implements Parcelable {
 		dest.writeFloat(fontSize);
 		dest.writeInt(primaryPosition);
 		dest.writeString(galleryName);
+		dest.writeInt(galleryBlur);
 		dest.writeInt(letterPosition);
 	}
 
