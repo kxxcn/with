@@ -68,6 +68,7 @@
     <color name="btn_male">#93b8ff</color>
     <color name="btn_female">#ffd3f0</color>
     <color name="btn_registration">#0cad7b</color>
+    <color name="btn_update">#0cad7b</color>
 
     <color name="text_gender">#616161</color>
     <color name="text_start">#ffffff</color>

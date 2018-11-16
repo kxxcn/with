@@ -22,6 +22,8 @@
     <string name="format_time_set1">%d%s</string>
     <string name="format_time_set2">%d:%s%s</string>
     <string name="format_failed_request">%s : %s</string>
+    <string name="format_current">현재버전 : %s</string>
+    <string name="format_latest">최신버전 : %s</string>
 
     <string name="btn_primary">배경</string>
     <string name="btn_gallery">사진첩</string>
@@ -51,6 +53,7 @@
     <string name="toast_input_plan">일정을 입력하세요.</string>
     <string name="toast_input_all">모든 항목을 입력하세요.</string>
     <string name="toast_choice_gallery">사진을 선택하세요.</string>
+    <string name="toast_search_version">버전정보를 조회하고 있습니다.</string>
 
     <string name="system_setting">설정</string>
     <string name="system_denied_permission">"권한 허가를 거부하시면 이 서비스를 이용하실 수 없습니다.\n\n[설정] > [권한]에서 권한을 켜십시오."</string>
@@ -73,8 +76,6 @@
     <string name="text_clause">이용약관</string>
     <string name="text_policy">개인정보처리방침</string>
     <string name="text_license">오픈소스 라이선스</string>
-    <string name="text_current">현재버전 : %s</string>
-    <string name="text_version">최신버전 : %s</string>
     <string name="text_failure_load_version">버전정보를 가져올 수 없습니다.</string>
     <string name="text_location">%s에서</string>
     <string name="text_somewhere">어딘가</string>
