@@ -51,10 +51,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@mipmap/ic_launcher_foreground"
-                    app:layout_constraintBottom_toTopOf="@id/tv_current"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.2"
                     app:layout_constraintVertical_chainStyle="packed"/>
 
                 <TextView
@@ -63,10 +64,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:textStyle="bold"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toTopOf="@id/tv_latest"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_icon"
+                    app:layout_constraintVertical_chainStyle="packed"
                     tools:text="현재버전 : 1.0.0"/>
 
                 <TextView
@@ -75,11 +78,30 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:textStyle="bold"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_current"
                     tools:text="최신버전 : 1.0.0"/>
+
+                <dev.kxxcn.app_with.util.StateButton
+                    android:id="@+id/btn_update"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_margin="1dp"
+                    android:text="@string/text_update"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_icon"
+                    app:normalStrokeColor="@color/btn_update"
+                    app:normalStrokeWidth="1dp"
+                    app:normalTextColor="@color/btn_update"
+                    app:pressedStrokeColor="@color/btn_update"
+                    app:pressedStrokeWidth="1dp"
+                    app:pressedTextColor="@color/btn_update"/>
 
             </android.support.constraint.ConstraintLayout>
 

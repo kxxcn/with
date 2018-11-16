@@ -1,5 +1,12 @@
 package dev.kxxcn.app_with.ui.main.setting;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.util.Constants;
 import io.reactivex.disposables.CompositeDisposable;
@@ -9,6 +16,9 @@ import io.reactivex.disposables.Disposable;
  * Created by kxxcn on 2018-10-26.
  */
 public class SettingPresenter implements SettingContract.Presenter {
+
+	private static final String PLAY_STORE = "https://play.google.com/store/apps/details?id=";
+	private static final String SEPARATOR = ".htlgb";
 
 	private SettingContract.View mSettingView;
 	private DataRepository mDataRepository;
@@ -75,6 +85,30 @@ public class SettingPresenter implements SettingContract.Presenter {
 				});
 
 		compositeDisposable.add(disposable);
+	}
+
+	@Override
+	public void checkVersion(String packageName) {
+		new Thread() {
+			@Override
+			public void run() {
+				if (mSettingView == null) {
+					return;
+				}
+				try {
+					Document doc = Jsoup.connect(PLAY_STORE + packageName).get();
+
+					Elements Version = doc.select(SEPARATOR).eq(7);
+
+					for (Element mElement : Version) {
+						mSettingView.showSuccessfulyCheckVersion(mElement.text().trim());
+					}
+				} catch (IOException ex) {
+					mSettingView.showUnsuccessfulyCheckVersion();
+					ex.printStackTrace();
+				}
+			}
+		}.start();
 	}
 
 }

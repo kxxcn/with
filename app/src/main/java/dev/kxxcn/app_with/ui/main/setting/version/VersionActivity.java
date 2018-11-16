@@ -1,10 +1,10 @@
 package dev.kxxcn.app_with.ui.main.setting.version;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -14,29 +14,24 @@ import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.ui.main.setting.version.clause.ClauseActivity;
 import dev.kxxcn.app_with.ui.main.setting.version.license.LicenseActivity;
 import dev.kxxcn.app_with.ui.main.setting.version.policy.PolicyActivity;
+import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.TransitionUtils;
 
 /**
  * Created by kxxcn on 2018-10-30.
  */
-public class VersionActivity extends AppCompatActivity implements VersionContract.View {
+public class VersionActivity extends AppCompatActivity {
+
+	public static final String EXTRA_CURRENT = "EXTRA_CURRENT";
+	public static final String EXTRA_LATEST = "EXTRA_LATEST";
 
 	@BindView(R.id.tv_current)
 	TextView tv_current;
 	@BindView(R.id.tv_latest)
 	TextView tv_latest;
 
-	private VersionContract.Presenter mPresenter;
-
-	@Override
-	public void setPresenter(VersionContract.Presenter presenter) {
-		this.mPresenter = presenter;
-	}
-
-	@Override
-	public void showLoadingIndicator(boolean isShowing) {
-
-	}
+	@BindView(R.id.btn_update)
+	StateButton btn_update;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,13 +40,19 @@ public class VersionActivity extends AppCompatActivity implements VersionContrac
 		TransitionUtils.fade(this);
 		ButterKnife.bind(this);
 
-		new VersionPresenter(this);
+		initUI();
+	}
 
-		mPresenter.checkVersion(getPackageName());
-		try {
-			tv_current.setText(String.format(getString(R.string.text_current), getPackageManager().getPackageInfo(getPackageName(), 0).versionName));
-		} catch (PackageManager.NameNotFoundException e) {
-			e.printStackTrace();
+	private void initUI() {
+		String currentVersion = getIntent().getStringExtra(EXTRA_CURRENT);
+		String latestVersion = getIntent().getStringExtra(EXTRA_LATEST);
+		if (currentVersion.equals(latestVersion)) {
+			tv_current.setText(String.format(getString(R.string.format_current), currentVersion));
+			tv_latest.setText(String.format(getString(R.string.format_latest), latestVersion));
+		} else {
+			btn_update.setVisibility(View.VISIBLE);
+			tv_current.setVisibility(View.GONE);
+			tv_latest.setVisibility(View.GONE);
 		}
 	}
 
@@ -83,14 +84,9 @@ public class VersionActivity extends AppCompatActivity implements VersionContrac
 		TransitionUtils.fade(this);
 	}
 
-	@Override
-	public void showSuccessfulyCheckVersion(String latestVersion) {
-		runOnUiThread(() -> tv_latest.setText(String.format(getString(R.string.text_version), latestVersion)));
-	}
+	@OnClick(R.id.btn_update)
+	public void onUpdate() {
 
-	@Override
-	public void showUnsuccessfulyCheckVersion() {
-		runOnUiThread(() -> tv_latest.setText(R.string.text_failure_load_version));
 	}
 
 }

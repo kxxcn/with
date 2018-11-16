@@ -15,6 +15,10 @@ public interface SettingContract {
 		void showFailedRequest(String throwable);
 
 		void showSucessfulUpdateToken();
+
+		void showSuccessfulyCheckVersion(String latestVersion);
+
+		void showUnsuccessfulyCheckVersion();
 	}
 
 	interface Presenter extends BasePresenter {
@@ -23,5 +27,7 @@ public interface SettingContract {
 		void whetherToReceiveNotification(String identifier, Constants.NotificationFilter notificationFilter, boolean on);
 
 		void updateToken(String identifier, String token);
+
+		void checkVersion(String packageName);
 	}
 }
