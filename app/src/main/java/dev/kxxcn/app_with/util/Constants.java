@@ -46,6 +46,7 @@ public class Constants {
 	public static final int POSITION_CENTER = 0;
 	public static final int POSITION_BOTTOM = 1;
 	public static final int POSITION_TOP = 2;
+	public static final int OPTION_SAMPLING = 10;
 
 	public enum TypeFilter {
 		PRIMARY,
