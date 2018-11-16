@@ -33,10 +33,14 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.ybq.android.spinkit.SpinKitView;
 
@@ -62,6 +66,7 @@ import dev.kxxcn.app_with.util.KeyboardUtils;
 import dev.kxxcn.app_with.util.LayoutUtils;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static dev.kxxcn.app_with.ui.main.write.WriteAdapter.INIT;
 import static dev.kxxcn.app_with.util.Constants.ACCESS_COARSE_LOCATION;
@@ -72,6 +77,7 @@ import static dev.kxxcn.app_with.util.Constants.FONTS;
 import static dev.kxxcn.app_with.util.Constants.FONT_IMGS;
 import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
+import static dev.kxxcn.app_with.util.Constants.OPTION_SAMPLING;
 import static dev.kxxcn.app_with.util.Constants.POSITION_CENTER;
 import static dev.kxxcn.app_with.util.Constants.POSITION_TOP;
 
@@ -117,6 +123,14 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	@BindView(R.id.ib_size_up)
 	ImageButton ib_size_up;
 
+	@BindView(R.id.ll_bottom)
+	LinearLayout ll_bottom;
+	@BindView(R.id.ll_bottom2)
+	LinearLayout ll_bottom2;
+
+	@BindView(R.id.sb_blur)
+	SeekBar sb_blur;
+
 	private WriteContract.Presenter mPresenter;
 
 	private Activity mActivity;
@@ -150,8 +164,11 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	private int mFontStyle = -1;
 	private int mFontColor = -1;
 	private int mPrimaryPosition = -1;
+	private int mGalleryPosition = -1;
 	private int mLetterPosition = POSITION_CENTER;
 	private int mLocationPosition = 0;
+	private int mGalleryBlur = 0;
+	private int prevProgress = -1;
 
 	private boolean isBackground = true;
 	private boolean isClickedRegistration = false;
@@ -237,6 +254,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		}
 	}
 
+	//	@SuppressWarnings("unchecked")
 	private void initUI() {
 		ViewTreeObserver viewTreeObserver = iv_background.getViewTreeObserver();
 		viewTreeObserver.addOnGlobalLayoutListener(() -> {
@@ -286,6 +304,33 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		}, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION);
 
 		mLetterDate = SystemUtils.getDate();
+
+		sb_blur.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				mGalleryBlur = progress / OPTION_SAMPLING;
+				if (prevProgress != mGalleryBlur) {
+					prevProgress = mGalleryBlur;
+					MultiTransformation multiTransformation =
+							new MultiTransformation<>(new CenterCrop(), new BlurTransformation(mGalleryBlur, OPTION_SAMPLING));
+					RequestOptions blurOptions = new RequestOptions().transform(multiTransformation);
+					if (mGalleryBlur == 0) {
+						blurOptions = new RequestOptions().centerCrop();
+					}
+					ImageProcessingHelper.setGlide(mContext, galleryBitmapList.get(mGalleryPosition), iv_background, blurOptions);
+				}
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+
+			}
+		});
 	}
 
 	private void initComponent(boolean isMove) {
@@ -354,8 +399,18 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 						mGalleryName = mPresenter.getGalleryName(args.getString(KEY_IDENTIFIER));
 						mPresenter.uploadImage(mContext, galleryBitmapList.get(adapter.TYPE_GALLERY_POSITION), mGalleryName);
 					} else {
-						mPresenter.registerDiary(new Diary(args.getString(KEY_IDENTIFIER), et_write.getText().toString(), mLetterDate,
-								locationList.get(mLocationPosition), mFontStyle, mFontColor, et_write.getTextSize(), mPrimaryPosition, mGalleryName, mLetterPosition));
+						mPresenter.registerDiary(
+								new Diary(args.getString(KEY_IDENTIFIER),
+										et_write.getText().toString(),
+										mLetterDate,
+										locationList.get(mLocationPosition),
+										mFontStyle,
+										mFontColor,
+										et_write.getTextSize(),
+										mPrimaryPosition,
+										mGalleryName,
+										mGalleryBlur,
+										mLetterPosition));
 					}
 				} else {
 					isClickedRegistration = false;
@@ -367,16 +422,19 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_size_down)
 	public void onDecreaseSize() {
+		showBlurSeekbar(false);
 		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, et_write.getTextSize() - 5);
 	}
 
 	@OnClick(R.id.ib_size_up)
 	public void onIncreaseSize() {
+		showBlurSeekbar(false);
 		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, et_write.getTextSize() + 5);
 	}
 
 	@OnClick(R.id.ib_background)
 	public void onViewBackground() {
+		showBlurSeekbar(false);
 		typeFilter = null;
 		isBackground = true;
 		btn_item_top.setText(getString(R.string.btn_primary));
@@ -386,6 +444,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_font)
 	public void onViewFont() {
+		showBlurSeekbar(false);
 		typeFilter = null;
 		isBackground = false;
 		btn_item_top.setText(getString(R.string.btn_font));
@@ -420,6 +479,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_place)
 	public void onViewPlace() {
+		showBlurSeekbar(false);
 		mLocationPosition++;
 		if (mLocationPosition >= locationList.size()) {
 			mLocationPosition = 0;
@@ -469,12 +529,22 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_adjustment)
 	public void onAdjustText() {
+		showBlurSeekbar(false);
 		if (mLetterPosition == POSITION_TOP) {
 			mLetterPosition = POSITION_CENTER;
 		} else {
 			mLetterPosition++;
 		}
 		et_write.setLayoutParams(LayoutUtils.getRelativeLayoutParams(mLetterPosition));
+	}
+
+	@OnClick(R.id.ib_blur)
+	public void onBlur() {
+		if (mGalleryPosition != -1) {
+			showBlurSeekbar(true);
+		} else {
+			Toast.makeText(mContext, getString(R.string.toast_choice_gallery), Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@OnClick({R.id.ll_date, R.id.tv_date})
@@ -521,10 +591,16 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		switch (typeFilter) {
 			case PRIMARY:
 				mPrimaryPosition = position;
+				mGalleryPosition = -1;
+				mGalleryBlur = 0;
+				sb_blur.setProgress(0);
 				ImageProcessingHelper.setGlide(mContext, colorBitmapList.get(position), iv_background, glideOptions);
 				break;
 			case GALLERY:
+				mGalleryPosition = position;
 				mPrimaryPosition = -1;
+				mGalleryBlur = 0;
+				sb_blur.setProgress(0);
 				ImageProcessingHelper.setGlide(mContext, galleryBitmapList.get(position), iv_background, glideOptions);
 				break;
 			case FONT:
@@ -564,8 +640,19 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@Override
 	public void showSuccessfulUpload() {
-		mPresenter.registerDiary(new Diary(args.getString(KEY_IDENTIFIER), et_write.getText().toString(), SystemUtils.getDate(),
-				locationList.get(mLocationPosition), mFontStyle, mFontColor, et_write.getTextSize(), mPrimaryPosition, mGalleryName, mLetterPosition));
+		mPresenter.registerDiary(
+				new Diary(args.getString(KEY_IDENTIFIER),
+						et_write.getText().toString(),
+						SystemUtils.getDate(),
+						locationList.get(mLocationPosition),
+						mFontStyle,
+						mFontColor,
+						et_write.getTextSize(),
+						mPrimaryPosition,
+						mGalleryName,
+						mGalleryBlur,
+						mLetterPosition)
+		);
 	}
 
 	@Override
@@ -586,6 +673,16 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		}
 		mLocationPosition++;
 		tv_place.setText(locationList.get(mLocationPosition));
+	}
+
+	private void showBlurSeekbar(boolean isShow) {
+		if (isShow) {
+			ll_bottom2.setVisibility(View.VISIBLE);
+			ll_bottom.setVisibility(View.GONE);
+		} else {
+			ll_bottom2.setVisibility(View.GONE);
+			ll_bottom.setVisibility(View.VISIBLE);
+		}
 	}
 
 	static class GetThumbInfoTask extends AsyncTask<Integer, Integer, Void> {

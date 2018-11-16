@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
@@ -25,11 +27,13 @@ import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.LayoutUtils;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static dev.kxxcn.app_with.data.remote.APIPersistence.DOWNLOAD_IMAGE_URL;
 import static dev.kxxcn.app_with.util.Constants.COLORS;
 import static dev.kxxcn.app_with.util.Constants.COLOR_DEFAULT;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
+import static dev.kxxcn.app_with.util.Constants.OPTION_SAMPLING;
 
 /**
  * Created by kxxcn on 2018-09-20.
@@ -47,8 +51,6 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 	private String defaults;
 
 	private DiaryContract.OnLetterClickListener mListener;
-
-	private RequestOptions options = new RequestOptions().centerCrop();
 
 	public ExpandAdapter(Context context, List<Diary> diaryList, DiaryContract.OnLetterClickListener listener) {
 		this.mContext = context;
@@ -72,9 +74,16 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 			holder.iv_background.setBackgroundColor(mContext.getResources().getColor(COLORS[mDiaryList.get(holder.getLayoutPosition()).getPrimaryPosition()]));
 		} else if (!TextUtils.isEmpty(mDiaryList.get(holder.getLayoutPosition()).getGalleryName())) {
 			String galleryName = mDiaryList.get(holder.getLayoutPosition()).getGalleryName();
-			ImageProcessingHelper.setGlide(mContext,
-					String.format(mContext.getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, galleryName),
-					holder.iv_background, options);
+			int galleryBlur = mDiaryList.get(holder.getLayoutPosition()).getGalleryBlur();
+			RequestOptions blurOptions;
+			if (galleryBlur != 0) {
+				MultiTransformation multiTransformation =
+						new MultiTransformation<>(new CenterCrop(), new BlurTransformation(galleryBlur, OPTION_SAMPLING));
+				blurOptions = new RequestOptions().transform(multiTransformation);
+			} else {
+				blurOptions = new RequestOptions().centerCrop();
+			}
+			ImageProcessingHelper.setGlide(mContext, String.format(mContext.getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, galleryName), holder.iv_background, blurOptions);
 		} else {
 			Glide.with(mContext).clear(holder.iv_background);
 			holder.iv_background.setBackgroundResource(COLOR_DEFAULT[0]);

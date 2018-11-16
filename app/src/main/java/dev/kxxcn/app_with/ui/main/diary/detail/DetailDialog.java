@@ -20,6 +20,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
 
 import butterknife.BindView;
@@ -28,10 +30,12 @@ import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.LayoutUtils;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static dev.kxxcn.app_with.data.remote.APIPersistence.DOWNLOAD_IMAGE_URL;
 import static dev.kxxcn.app_with.util.Constants.COLORS;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
+import static dev.kxxcn.app_with.util.Constants.OPTION_SAMPLING;
 
 /**
  * Created by kxxcn on 2018-10-02.
@@ -58,8 +62,6 @@ public class DetailDialog extends DialogFragment {
 	private Diary mDiary;
 
 	private String[] colors;
-
-	private RequestOptions options = new RequestOptions().centerCrop();
 
 	public static DetailDialog newInstance(Diary diary) {
 		DetailDialog dialog = new DetailDialog();
@@ -115,9 +117,15 @@ public class DetailDialog extends DialogFragment {
 				if (mDiary.getPrimaryPosition() != -1) {
 					iv_background.setBackgroundColor(getResources().getColor(COLORS[mDiary.getPrimaryPosition()]));
 				} else if (!TextUtils.isEmpty(mDiary.getGalleryName())) {
-					ImageProcessingHelper.setGlide(mContext,
-							String.format(mContext.getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, mDiary.getGalleryName()),
-							iv_background, options);
+					RequestOptions blurOptions;
+					if (mDiary.getGalleryBlur() != 0) {
+						MultiTransformation multiTransformation =
+								new MultiTransformation<>(new CenterCrop(), new BlurTransformation(mDiary.getGalleryBlur(), OPTION_SAMPLING));
+						blurOptions = new RequestOptions().transform(multiTransformation);
+					} else {
+						blurOptions = new RequestOptions().centerCrop();
+					}
+					ImageProcessingHelper.setGlide(mContext, String.format(mContext.getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, mDiary.getGalleryName()), iv_background, blurOptions);
 				}
 				if (mDiary.getFontStyle() != -1) {
 					Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[mDiary.getFontStyle()]);
