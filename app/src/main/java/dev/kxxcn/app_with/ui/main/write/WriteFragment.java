@@ -254,7 +254,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		}
 	}
 
-	//	@SuppressWarnings("unchecked")
 	private void initUI() {
 		ViewTreeObserver viewTreeObserver = iv_background.getViewTreeObserver();
 		viewTreeObserver.addOnGlobalLayoutListener(() -> {
