@@ -5,7 +5,7 @@ package dev.kxxcn.app_with.data.remote;
  */
 public class APIPersistence {
 	//:: Development
-	// public static final String SERVER_URL = "http://115.22.159.182:80/with/";
+	// public static final String SERVER_URL = "http://220.119.94.215:80/with/";
 
 	//:: Production
 	public static final String SERVER_URL = "http://13.209.102.48:80/with/";
