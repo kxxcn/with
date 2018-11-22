@@ -22,6 +22,7 @@ Now, through the couple diary **"WITH"**, please tell your heart that you could 
 
 #### You must have the required access permissions before you can use the app.
 <br>
+*If you have any problems or errors or additional requests, please record them in the review. I will answer you sincerely and correct it. Thank you for using.*
 
 License
 -------
