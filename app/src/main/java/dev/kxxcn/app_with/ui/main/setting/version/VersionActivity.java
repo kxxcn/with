@@ -1,6 +1,7 @@
 package dev.kxxcn.app_with.ui.main.setting.version;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,8 @@ import dev.kxxcn.app_with.ui.main.setting.version.license.LicenseActivity;
 import dev.kxxcn.app_with.ui.main.setting.version.policy.PolicyActivity;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.TransitionUtils;
+
+import static dev.kxxcn.app_with.ui.main.setting.SettingPresenter.URI_PLAY_STORE;
 
 /**
  * Created by kxxcn on 2018-10-30.
@@ -91,7 +94,13 @@ public class VersionActivity extends AppCompatActivity {
 
 	@OnClick(R.id.btn_update)
 	public void onUpdate() {
-
+		final String packageName = getPackageName();
+		try {
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));
+		} catch (android.content.ActivityNotFoundException e) {
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URI_PLAY_STORE + packageName)));
+			e.printStackTrace();
+		}
 	}
 
 }
