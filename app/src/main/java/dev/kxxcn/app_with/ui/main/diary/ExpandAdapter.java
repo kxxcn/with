@@ -48,8 +48,6 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 
 	private String[] colors;
 
-	private String defaults;
-
 	private DiaryContract.OnLetterClickListener mListener;
 
 	public ExpandAdapter(Context context, List<Diary> diaryList, DiaryContract.OnLetterClickListener listener) {
@@ -63,7 +61,6 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_expand, parent, false);
 		colors = mContext.getResources().getStringArray(R.array.background_edit);
-		defaults = mContext.getResources().getString(R.string.background_default);
 		return new ViewHolder(view, mListener);
 	}
 
@@ -96,17 +93,14 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
 			holder.tv_letter.setTypeface(null);
 		}
 
-		int color;
 		if (mDiaryList.get(holder.getLayoutPosition()).getFontColor() != -1) {
-			color = Color.parseColor(colors[mDiaryList.get(holder.getLayoutPosition()).getFontColor()]);
-		} else {
-			color = Color.parseColor(defaults);
+			int color = Color.parseColor(colors[mDiaryList.get(holder.getLayoutPosition()).getFontColor()]);
+			holder.tv_letter.setTextColor(color);
+			holder.tv_month.setTextColor(color);
+			holder.tv_day.setTextColor(color);
 		}
 		LayoutUtils.setViewPosition2(holder.cl_root, mDiaryList.get(holder.getLayoutPosition()).getLetterPosition(), holder.tv_letter, holder.tv_day);
-		holder.tv_letter.setTextColor(color);
 		holder.tv_letter.setText(mDiaryList.get(holder.getLayoutPosition()).getLetter());
-		holder.tv_month.setTextColor(color);
-		holder.tv_day.setTextColor(color);
 		String[] date = mDiaryList.get(holder.getLayoutPosition()).getLetterDate().split("-");
 		if (date[1].startsWith(PREFIX_MONTH)) {
 			date[1] = date[1].substring(1, date[1].length());
