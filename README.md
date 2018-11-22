@@ -1,11 +1,11 @@
 WITH
 ======
 ![Logo](website/static/logo.png)
-#### WITH is a couples diary application that provides space for only two.
+#### "WITH" is a couples diary application that provides space for only two.
 
-*Share your thoughts with one another through a couple diary. If you have a problem you could not do in the meantime, write it down in your diary. Make sure you know what you did not know about your partner as you write each one out in your diary, and keep your meeting in a more serious and deep way.*
+*Share your thoughts with one another through a couple diary. If you have a problem you could not do in the meantime, write it down in your diary. As you write down your diary, you will be able to see what your opponents really do not know, and you will continue to have a more serious and deep meeting.*
 <br><br>
-Please tell your heart that you could not express it to your loved ones through a couple diary **WITH.**
+Now, through the couple diary **"WITH"**, please tell your heart that you could not express it to your loved ones.
 <br><br>
 *★ Diary*<br>
 > Write a couple diary and check your love for each other. And write with various fonts / photos.
