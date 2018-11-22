@@ -21,7 +21,7 @@ Now, through the couple diary **"WITH"**, please tell your heart that you could 
 - ACCESS FINE LOCATION, ACCESS COARSE LOCATION: Permission required to verify your location.
 
 #### You must have the required access permissions before you can use the app.
-<br>
+
 License
 -------
 
