@@ -17,8 +17,9 @@ import io.reactivex.disposables.Disposable;
  */
 public class SettingPresenter implements SettingContract.Presenter {
 
-	private static final String PLAY_STORE = "https://play.google.com/store/apps/details?id=";
 	private static final String SEPARATOR = ".htlgb";
+
+	public static final String URI_PLAY_STORE = "https://play.google.com/store/apps/details?id=";
 
 	private SettingContract.View mSettingView;
 	private DataRepository mDataRepository;
@@ -96,7 +97,7 @@ public class SettingPresenter implements SettingContract.Presenter {
 					return;
 				}
 				try {
-					Document doc = Jsoup.connect(PLAY_STORE + packageName).get();
+					Document doc = Jsoup.connect(URI_PLAY_STORE + packageName).get();
 
 					Elements Version = doc.select(SEPARATOR).eq(7);
 
