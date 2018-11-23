@@ -144,13 +144,14 @@ public class SystemUtils {
 		return data;
 	}
 
-	private static final String WAKELOCK_TAG = "wakelock";
+	private static final String WAKELOCK_TAG = "wakelock:";
 
 	public static void onAcquire(Context context) {
 		PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 		if (pm != null) {
-			PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK
-					| PowerManager.ACQUIRE_CAUSES_WAKEUP, WAKELOCK_TAG);
+			PowerManager.WakeLock wakeLock = pm.newWakeLock(
+					PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, WAKELOCK_TAG
+			);
 			wakeLock.acquire(3000);
 			wakeLock.release();
 		}
