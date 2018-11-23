@@ -22,6 +22,8 @@ import dev.kxxcn.app_with.data.model.plan.Plan;
  */
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 
+	private static final String REGEX_DATE = "-";
+
 	private Context mContext;
 
 	private List<Plan> mPlanList;
@@ -49,11 +51,11 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 		if (holder.getLayoutPosition() == 0) {
 			holder.iv_month.setVisibility(View.VISIBLE);
-			String month = mPlanList.get(0).getDate().split("-")[1];
+			String month = mPlanList.get(0).getDate().split(REGEX_DATE)[1];
 			setBackgroundMonthTextView(Integer.parseInt(month), holder.iv_month);
 		} else {
-			String month = mPlanList.get(holder.getLayoutPosition()).getDate().split("-")[1];
-			String compareMonth = mPlanList.get(holder.getLayoutPosition() - 1).getDate().split("-")[1];
+			String month = mPlanList.get(holder.getLayoutPosition()).getDate().split(REGEX_DATE)[1];
+			String compareMonth = mPlanList.get(holder.getLayoutPosition() - 1).getDate().split(REGEX_DATE)[1];
 			if (!month.equals(compareMonth)) {
 				holder.iv_month.setVisibility(View.VISIBLE);
 				setBackgroundMonthTextView(Integer.parseInt(month), holder.iv_month);
@@ -61,11 +63,8 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 				holder.iv_month.setVisibility(View.GONE);
 			}
 		}
-		if (mIdentifier.equals(mPlanList.get(holder.getLayoutPosition()).getWriter())) {
-			holder.vi_line.setBackgroundColor(mContext.getResources().getColor(R.color.bg_plan_line1));
-		} else {
-			holder.vi_line.setBackgroundColor(mContext.getResources().getColor(R.color.bg_plan_line2));
-		}
+		int resource = mIdentifier.equals(mPlanList.get(holder.getLayoutPosition()).getWriter()) ? R.color.bg_plan_line1 : R.color.bg_plan_line2;
+		holder.vi_line.setBackgroundColor(mContext.getResources().getColor(resource));
 		holder.tv_plan.setText(mPlanList.get(holder.getLayoutPosition()).getPlan());
 		holder.tv_date.setText(mPlanList.get(holder.getLayoutPosition()).getDate());
 		holder.tv_time.setText(mPlanList.get(holder.getLayoutPosition()).getTime());
