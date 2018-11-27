@@ -62,7 +62,7 @@ public class LayoutUtils {
 		ConstraintSet set = new ConstraintSet();
 		set.clone(constraintLayout);
 		if (position == POSITION_CENTER) {
-			set.connect(view.getId(), ConstraintSet.TOP, constraintLayout.getId(), ConstraintSet.TOP, 0);
+			set.connect(view.getId(), ConstraintSet.TOP, relativeView.getId(), ConstraintSet.BOTTOM, 0);
 			set.connect(view.getId(), ConstraintSet.BOTTOM, constraintLayout.getId(), ConstraintSet.BOTTOM, 0);
 		} else if (position == POSITION_BOTTOM) {
 			set.connect(view.getId(), ConstraintSet.TOP, ConstraintSet.UNSET, ConstraintSet.TOP, 0);
