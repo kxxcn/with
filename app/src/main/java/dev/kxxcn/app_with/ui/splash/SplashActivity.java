@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,8 +24,6 @@ import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 
-import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.COUPLE;
-import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
 import static dev.kxxcn.app_with.util.Constants.DELAY_TOAST;
 import static dev.kxxcn.app_with.util.Constants.READ_EXTERNAL_STORAGE;
 
@@ -80,14 +77,9 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 	}
 
 	@Override
-	public void showRegisteredUser(int gender, String lover) {
+	public void showRegisteredUser(String response) {
 		Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-		if (TextUtils.isEmpty(lover)) {
-			intent.putExtra(MainActivity.EXTRA_MODE, SOLO);
-		} else {
-			intent.putExtra(MainActivity.EXTRA_MODE, COUPLE);
-		}
-		intent.putExtra(MainActivity.EXTRA_GENDER, gender);
+		intent.putExtra(MainActivity.EXTRA_GENDER, Integer.parseInt(response));
 		intent.putExtra(MainActivity.EXTRA_IDENTIFIER, uniqueIdentifier);
 		startActivity(intent);
 		finish();

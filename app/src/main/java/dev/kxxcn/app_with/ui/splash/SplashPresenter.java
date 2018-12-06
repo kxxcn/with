@@ -34,13 +34,13 @@ public class SplashPresenter implements SplashContract.Presenter {
 		Disposable disposable = mDataRepository.isRegisteredUser(uniqueIdentifier)
 				.subscribe(response -> {
 					if (response.getRc() == 200) {
-						if (response.getGender().equals(UNREGISTERED)) {
+						if (response.getStat().equals(UNREGISTERED)) {
 							mSplashView.showUnregisteredUser();
 						} else {
-							mSplashView.showRegisteredUser(Integer.parseInt(response.getGender()), response.getLover());
+							mSplashView.showRegisteredUser(response.getStat());
 						}
 					} else if (response.getRc() == 201) {
-						mSplashView.showFailedRequest(response.getGender());
+						mSplashView.showFailedRequest(response.getStat());
 						mSplashView.showUnregisteredUser();
 					}
 					compositeDisposable.dispose();

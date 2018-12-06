@@ -10,7 +10,7 @@ import dev.kxxcn.app_with.ui.BaseView;
  */
 public interface SplashContract {
 	interface View extends BaseView<Presenter> {
-		void showRegisteredUser(int gender, String lover);
+		void showRegisteredUser(String response);
 
 		void showUnregisteredUser();
 
