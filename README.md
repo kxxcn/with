@@ -13,6 +13,10 @@ Now, through the couple diary **"WITH"**, please tell your heart that you could 
 *★ Calendar*<br>
 > Register an important appointment or anniversary and share it with your loved ones.
 
+*★ Write alone*<br>
+> You can write a secret diary even if you are not a couple through the single writing mode.
+Make your own emotional diary while writing memories you want to keep.
+
 
 ### ※ Access permission
 [Required access rights]
