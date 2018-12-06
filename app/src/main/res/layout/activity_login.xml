@@ -71,6 +71,7 @@
                 android:id="@+id/btn_signup"
                 android:layout_width="200dp"
                 android:layout_height="60dp"
+                android:visibility="gone"
                 app:buttonColor="@color/btn_start"
                 app:buttonText="@string/btn_signup"
                 app:buttonTextSize="18sp"

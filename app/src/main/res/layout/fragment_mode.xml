@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:background="@drawable/background">
+
+    <dev.kxxcn.app_with.util.StateButton
+        android:id="@+id/btn_solo"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_margin="1dp"
+        android:fontFamily="@font/nanummyeongjo"
+        android:text="@string/btn_solo"
+        android:textSize="18sp"
+        app:normalStrokeColor="@color/btn_gender"
+        app:normalStrokeWidth="1dp"
+        app:normalTextColor="@color/text_gender"
+        app:pressedStrokeColor="@color/btn_gender"
+        app:pressedStrokeWidth="1dp"
+        app:pressedTextColor="@color/btn_gender"/>
+
+    <dev.kxxcn.app_with.util.StateButton
+        android:id="@+id/btn_couple"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_margin="1dp"
+        android:fontFamily="@font/nanummyeongjo"
+        android:text="@string/btn_couple"
+        android:textSize="18sp"
+        app:normalStrokeColor="@color/btn_gender"
+        app:normalStrokeWidth="1dp"
+        app:normalTextColor="@color/text_gender"
+        app:pressedStrokeColor="@color/btn_gender"
+        app:pressedStrokeWidth="1dp"
+        app:pressedTextColor="@color/btn_gender"/>
+
+</LinearLayout>

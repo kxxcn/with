@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        barColorWhenSelected="@color/tab_default"
+        icon="@drawable/ic_planning"
+        id="@+id/tab_plan"/>
+    <tab
+        barColorWhenSelected="@color/tab_default"
+        icon="@drawable/ic_write"
+        id="@+id/tab_write"/>
+    <tab
+        barColorWhenSelected="@color/tab_default"
+        icon="@drawable/ic_me"
+        id="@+id/tab_me"/>
+    <tab
+        barColorWhenSelected="@color/tab_default"
+        icon="@drawable/ic_settings"
+        id="@+id/tab_setting"/>
+</tabs>

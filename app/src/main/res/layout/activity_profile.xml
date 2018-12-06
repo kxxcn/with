@@ -120,6 +120,7 @@
                     app:buttonColor="@color/btn_registration"
                     app:buttonText="@string/btn_registration"
                     app:buttonTextSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tfb_you"
                     app:progressStyle="loading"/>
 
