@@ -6,13 +6,13 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.mode.ResponseMode;
 import dev.kxxcn.app_with.data.model.nickname.Nickname;
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
 import dev.kxxcn.app_with.data.model.plan.Plan;
 import dev.kxxcn.app_with.data.model.result.ResponseResult;
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
-import dev.kxxcn.app_with.data.model.user.ResponseUser;
 import dev.kxxcn.app_with.util.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -32,6 +32,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Streaming;
 
 import static dev.kxxcn.app_with.data.remote.APIPersistence.AUTHENTICATE_KEY;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.CHECK_MODE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_IMAGE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_KEY;
@@ -94,12 +95,12 @@ public interface APIService {
 	@FormUrlEncoded
 	@POST(SIGN_UP)
 	Single<ResponseResult> signUp(@Field("uniqueIdentifier") String uniqueIdentifier,
-								@Field("gender") int gender,
-								@Field("token") String token);
+								  @Field("gender") int gender,
+								  @Field("token") String token);
 
 	@FormUrlEncoded
 	@POST(IS_REGISTERED_USER)
-	Single<ResponseUser> isRegisteredUser(@Field("uniqueIdentifier") String uniqueIdentifier);
+	Single<ResponseResult> isRegisteredUser(@Field("uniqueIdentifier") String uniqueIdentifier);
 
 	@FormUrlEncoded
 	@POST(GET_DIARY)
@@ -154,5 +155,9 @@ public interface APIService {
 
 	@POST(REGISTER_NICKNAME)
 	Single<ResponseResult> registerNickname(@Body Nickname nickname);
+
+	@FormUrlEncoded
+	@POST(CHECK_MODE)
+	Single<ResponseMode> checkMode(@Field("uniqueIdentifier") String uniqueIdentifier);
 
 }

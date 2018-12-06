@@ -32,6 +32,7 @@ public class APIPersistence {
 	public static final String UPDATE_TOKEN = "updateToken.php";
 	public static final String GET_TITLE = "getNickname.php";
 	public static final String REGISTER_NICKNAME = "registerNickname.php";
+	public static final String CHECK_MODE = "checkMode.php";
 
 	public static final String FCM_MESSAGE = "message";
 	public static final String FCM_TYPE = "type";

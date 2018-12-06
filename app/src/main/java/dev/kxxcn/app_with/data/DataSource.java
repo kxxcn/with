@@ -4,18 +4,19 @@ import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.model.geocode.ResponseGeocode;
+import dev.kxxcn.app_with.data.model.mode.ResponseMode;
 import dev.kxxcn.app_with.data.model.nickname.Nickname;
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
 import dev.kxxcn.app_with.data.model.plan.Plan;
 import dev.kxxcn.app_with.data.model.result.ResponseResult;
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
-import dev.kxxcn.app_with.data.model.user.ResponseUser;
 import dev.kxxcn.app_with.util.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
+import retrofit2.http.Field;
 
 /**
  * Created by kxxcn on 2018-08-20.
@@ -28,7 +29,7 @@ public abstract class DataSource {
 
 	public abstract Single<ResponseResult> authenticate(String uniqueIdentifier, String key, int gender, String token);
 
-	public abstract Single<ResponseUser> isRegisteredUser(String uniqueIdentifier);
+	public abstract Single<ResponseResult> isRegisteredUser(String uniqueIdentifier);
 
 	public abstract Single<List<Diary>> getDiary(int flag, String uniqueIdentifier);
 
@@ -57,5 +58,7 @@ public abstract class DataSource {
 	public abstract Single<ResponseNickname> getTitle(String uniqueIdentifier);
 
 	public abstract Single<ResponseResult> registerNickname(Nickname nickname);
+
+	public abstract Single<ResponseMode> checkMode(@Field("uniqueIdentifier") String uniqueIdentifier);
 
 }
