@@ -68,6 +68,7 @@ import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
+import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
 import static dev.kxxcn.app_with.ui.main.write.WriteAdapter.INIT;
 import static dev.kxxcn.app_with.util.Constants.ACCESS_COARSE_LOCATION;
 import static dev.kxxcn.app_with.util.Constants.ACCESS_FINE_LOCATION;
@@ -77,6 +78,7 @@ import static dev.kxxcn.app_with.util.Constants.FONTS;
 import static dev.kxxcn.app_with.util.Constants.FONT_IMGS;
 import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
+import static dev.kxxcn.app_with.util.Constants.KEY_MODE;
 import static dev.kxxcn.app_with.util.Constants.OPTION_SAMPLING;
 import static dev.kxxcn.app_with.util.Constants.POSITION_CENTER;
 import static dev.kxxcn.app_with.util.Constants.POSITION_TOP;
@@ -219,10 +221,11 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		this.registerListener = listener;
 	}
 
-	public static WriteFragment newInstance(boolean gender, String identifier) {
+	public static WriteFragment newInstance(int mode, boolean gender, String identifier) {
 		WriteFragment fragment = new WriteFragment();
 
 		Bundle args = new Bundle();
+		args.putInt(KEY_MODE, mode);
 		args.putBoolean(KEY_GENDER, gender);
 		args.putString(KEY_IDENTIFIER, identifier);
 		fragment.setArguments(args);
@@ -354,6 +357,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		mFontStyle = -1;
 		mFontColor = -1;
 		mPrimaryPosition = -1;
+		mGalleryPosition = -1;
 		mGalleryName = "";
 		mLetterDate = SystemUtils.getDate();
 		String[] today = SystemUtils.getDate().split("-");
@@ -627,7 +631,11 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		Toast.makeText(mContext, getString(R.string.toast_register_diary), Toast.LENGTH_SHORT).show();
 		initComponent(false);
 		boolean isFemale = args.getBoolean(KEY_GENDER);
-		registerListener.onRegisteredDiary(isFemale ? MainPagerAdapter.FEMALE : MainPagerAdapter.MALE);
+		if (args.getInt(KEY_MODE) == SOLO) {
+			registerListener.onRegisteredDiary(MainPagerAdapter.SOLO);
+		} else {
+			registerListener.onRegisteredDiary(isFemale ? MainPagerAdapter.FEMALE : MainPagerAdapter.MALE);
+		}
 	}
 
 	@Override

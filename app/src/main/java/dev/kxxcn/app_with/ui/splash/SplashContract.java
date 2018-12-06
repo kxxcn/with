@@ -10,7 +10,7 @@ import dev.kxxcn.app_with.ui.BaseView;
  */
 public interface SplashContract {
 	interface View extends BaseView<Presenter> {
-		void showRegisteredUser(int gender);
+		void showRegisteredUser(int gender, String lover);
 
 		void showUnregisteredUser();
 
@@ -22,6 +22,4 @@ public interface SplashContract {
 
 		void setPermission(Activity activity, OnPermissionListener onPermissionListener, String... permission);
 	}
-
-
 }

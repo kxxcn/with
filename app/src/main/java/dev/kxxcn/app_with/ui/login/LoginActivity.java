@@ -23,6 +23,7 @@ import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.login.auth.AuthFragment;
+import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
 import dev.kxxcn.app_with.ui.main.MainActivity;
 import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.util.DialogUtils;
@@ -33,6 +34,7 @@ import dev.kxxcn.app_with.util.TransitionUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 import me.relex.circleindicator.CircleIndicator;
 
+import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
 import static dev.kxxcn.app_with.util.Constants.DELAY_NETWORK;
 
 /**
@@ -74,9 +76,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 	private String key = null;
 
+	private int mMode = INIT;
+
 	private int mGender = INIT;
 
 	private LoginPagerAdapter adapter;
+
+	private GenderFragment genderFragment;
 
 	private AuthFragment authFragment;
 
@@ -105,23 +111,36 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 	private void initUI() {
 		registerView(rl_root);
 		ImageProcessingHelper.setGlide(this, R.drawable.background, iv_background, new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
-		adapter = new LoginPagerAdapter(getSupportFragmentManager(), type -> this.mGender = type,
-				key -> this.key = key, isSuccess -> {
-			btn_auth.doResult(isSuccess);
-			UiThread.getInstance().postDelayed(() -> {
-				if (isSuccess) {
-					Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-					intent.putExtra(MainActivity.EXTRA_GENDER, mGender);
-					intent.putExtra(MainActivity.EXTRA_IDENTIFIER, getIntent().getStringExtra(EXTRA_IDENTIFIER));
-					startActivity(intent);
-					finish();
-				} else {
-					btn_auth.reset();
-					authFragment.setEnabledEditText(true);
+		adapter = new LoginPagerAdapter(getSupportFragmentManager(),
+				type -> {
+					this.mMode = type;
+					vp_login.setCurrentItem(LoginPagerAdapter.GENDER);
+					btn_signup.setVisibility(View.VISIBLE);
+				},
+				type -> this.mGender = type,
+				key -> this.key = key,
+				isSuccess -> {
+					if (mMode == SOLO) {
+						btn_signup.doResult(isSuccess);
+					} else {
+						btn_auth.doResult(isSuccess);
+					}
+					UiThread.getInstance().postDelayed(() -> {
+						if (isSuccess) {
+							Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+							intent.putExtra(MainActivity.EXTRA_MODE, mMode);
+							intent.putExtra(MainActivity.EXTRA_GENDER, mGender);
+							intent.putExtra(MainActivity.EXTRA_IDENTIFIER, getIntent().getStringExtra(EXTRA_IDENTIFIER));
+							startActivity(intent);
+							finish();
+						} else {
+							btn_auth.reset();
+							authFragment.setEnabledEditText(true);
+						}
+					}, DELAY_NETWORK);
 				}
-			}, DELAY_NETWORK);
-		}
 				, getIntent().getStringExtra(EXTRA_IDENTIFIER));
+		genderFragment = (GenderFragment) adapter.getItem(LoginPagerAdapter.GENDER);
 		authFragment = (AuthFragment) adapter.getItem(LoginPagerAdapter.AUTH);
 		vp_login.setPagingEnabled(false);
 		vp_login.setAdapter(adapter);
@@ -134,12 +153,16 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 	@Override
 	public void onBackPressed() {
-		if (vp_login.getCurrentItem() != LoginPagerAdapter.AUTH) {
+		if (vp_login.getCurrentItem() == LoginPagerAdapter.MODE) {
 			DialogUtils.showAlertDialog(this, getString(R.string.dialog_want_to_quit), positiveListener, null);
 		} else {
 			if (!authFragment.isLoading()) {
-				vp_login.setCurrentItem(LoginPagerAdapter.GENDER);
-				btn_signup.setVisibility(View.VISIBLE);
+				vp_login.setCurrentItem(vp_login.getCurrentItem() - 1);
+				if (vp_login.getCurrentItem() == LoginPagerAdapter.GENDER) {
+					btn_signup.setVisibility(View.VISIBLE);
+				} else {
+					btn_signup.setVisibility(View.GONE);
+				}
 				btn_auth.setVisibility(View.GONE);
 				tv_welcome.setText(getString(R.string.text_welcome));
 			}
@@ -150,14 +173,18 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
 	@OnClick(R.id.btn_signup)
 	public void onSignup() {
-		btn_signup.reset();
-		if (mGender != INIT) {
-			vp_login.setCurrentItem(LoginPagerAdapter.AUTH);
-			btn_signup.setVisibility(View.GONE);
-			btn_auth.setVisibility(View.VISIBLE);
-			tv_welcome.setText(getString(R.string.text_auth));
+		if (mMode == SOLO) {
+			genderFragment.onSignUp(getIntent().getStringExtra(EXTRA_IDENTIFIER), mGender);
 		} else {
-			Toast.makeText(this, getString(R.string.toast_choice_gender), Toast.LENGTH_SHORT).show();
+			btn_signup.reset();
+			if (mGender != INIT) {
+				vp_login.setCurrentItem(LoginPagerAdapter.AUTH);
+				btn_signup.setVisibility(View.GONE);
+				btn_auth.setVisibility(View.VISIBLE);
+				tv_welcome.setText(getString(R.string.text_auth));
+			} else {
+				Toast.makeText(this, getString(R.string.toast_choice_gender), Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 

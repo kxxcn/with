@@ -180,7 +180,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 
 	@Override
 	public void showFailedAuthenticate(String stat) {
-		Toast.makeText(mActivity, stat, Toast.LENGTH_SHORT).show();
+		Toast.makeText(mContext, stat, Toast.LENGTH_SHORT).show();
 		mAuthListener.onAuthenticationListener(false);
 		setLoading(false);
 	}

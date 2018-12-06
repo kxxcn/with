@@ -33,6 +33,7 @@ public class Constants {
 	public static final String READ_EXTERNAL_STORAGE = Manifest.permission.READ_EXTERNAL_STORAGE;
 	public static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
 	public static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+	public static final String KEY_MODE = "KEY_MODE";
 	public static final String KEY_GENDER = "KEY_GENDER";
 	public static final String KEY_IDENTIFIER = "KEY_IDENTIFIER";
 	public static final String CHARSET_EUCKR = "EUC-KR";

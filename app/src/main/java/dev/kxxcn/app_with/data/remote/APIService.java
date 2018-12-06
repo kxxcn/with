@@ -7,11 +7,12 @@ import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.model.nickname.Nickname;
+import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
 import dev.kxxcn.app_with.data.model.plan.Plan;
 import dev.kxxcn.app_with.data.model.result.ResponseResult;
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
-import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
+import dev.kxxcn.app_with.data.model.user.ResponseUser;
 import dev.kxxcn.app_with.util.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -46,6 +47,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SERVER_URL;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_UP;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_RECEIVE_NOTIFICATION;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_TOKEN;
 
@@ -90,8 +92,14 @@ public interface APIService {
 										   @Field("token") String token);
 
 	@FormUrlEncoded
+	@POST(SIGN_UP)
+	Single<ResponseResult> signUp(@Field("uniqueIdentifier") String uniqueIdentifier,
+								@Field("gender") int gender,
+								@Field("token") String token);
+
+	@FormUrlEncoded
 	@POST(IS_REGISTERED_USER)
-	Single<ResponseResult> isRegisteredUser(@Field("uniqueIdentifier") String uniqueIdentifier);
+	Single<ResponseUser> isRegisteredUser(@Field("uniqueIdentifier") String uniqueIdentifier);
 
 	@FormUrlEncoded
 	@POST(GET_DIARY)

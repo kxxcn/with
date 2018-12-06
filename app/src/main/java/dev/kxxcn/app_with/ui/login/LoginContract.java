@@ -15,8 +15,13 @@ public interface LoginContract {
 	}
 
 	@FunctionalInterface
-	interface OnItemClickListener {
-		void onItemClickListener(int type);
+	interface OnModeClickListener {
+		void onModeClickListener(int type);
+	}
+
+	@FunctionalInterface
+	interface OnGenderClickListener {
+		void onGenderClickListener(int type);
 	}
 
 	@FunctionalInterface

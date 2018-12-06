@@ -34,6 +34,8 @@ import dev.kxxcn.app_with.util.threading.UiThread;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
+import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
+import static dev.kxxcn.app_with.ui.main.write.WriteAdapter.INIT;
 import static dev.kxxcn.app_with.util.Constants.DELAY_NETWORK;
 
 /**
@@ -41,6 +43,7 @@ import static dev.kxxcn.app_with.util.Constants.DELAY_NETWORK;
  */
 public class ProfileActivity extends AppCompatActivity implements ProfileContract.View, MainContract.OnKeyboardListener {
 
+	public static final String EXTRA_MODE = "EXTRA_MODE";
 	public static final String EXTRA_GENDER = "EXTRA_GENDER";
 	public static final String EXTRA_IDENTIFIER = "EXTRA_IDENTIFIER";
 
@@ -107,19 +110,27 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 	}
 
 	private void initUI() {
+		if (getIntent().getIntExtra(EXTRA_MODE, INIT) == SOLO) {
+			tv_explain.setText(getString(R.string.text_alias));
+			tfb_you.setVisibility(View.GONE);
+			tfb_me.setIconSignifier(R.drawable.ic_me);
+			tfb_me.setLabelText(getString(R.string.hint_alias));
+		} else {
+			tfb_you.setVisibility(View.VISIBLE);
+			if (getIntent().getBooleanExtra(EXTRA_GENDER, true)) {
+				tfb_me.setIconSignifier(R.drawable.ic_girl);
+				tfb_you.setIconSignifier(R.drawable.ic_boy);
+			} else {
+				tfb_me.setIconSignifier(R.drawable.ic_boy);
+				tfb_you.setIconSignifier(R.drawable.ic_girl);
+			}
+		}
+
 		enableComponent(false);
 
 		registerView(ll_root);
 
 		mPresenter.getNickname(getIntent().getStringExtra(EXTRA_IDENTIFIER));
-
-		if (getIntent().getBooleanExtra(EXTRA_GENDER, true)) {
-			tfb_me.setIconSignifier(R.drawable.ic_girl);
-			tfb_you.setIconSignifier(R.drawable.ic_boy);
-		} else {
-			tfb_me.setIconSignifier(R.drawable.ic_boy);
-			tfb_you.setIconSignifier(R.drawable.ic_girl);
-		}
 
 		ImageProcessingHelper.setGlide(this, R.drawable.profile, iv_explain, new RequestOptions());
 	}

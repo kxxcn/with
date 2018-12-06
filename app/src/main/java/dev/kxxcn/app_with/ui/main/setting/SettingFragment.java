@@ -36,6 +36,7 @@ import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_C
 import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_LATEST;
 import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
+import static dev.kxxcn.app_with.util.Constants.KEY_MODE;
 
 /**
  * Created by kxxcn on 2018-08-13.
@@ -83,10 +84,11 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	}
 
-	public static SettingFragment newInstance(boolean gender, String identifier) {
+	public static SettingFragment newInstance(int mode, boolean gender, String identifier) {
 		SettingFragment fragment = new SettingFragment();
 
 		Bundle args = new Bundle();
+		args.putInt(KEY_MODE, mode);
 		args.putBoolean(KEY_GENDER, gender);
 		args.putString(KEY_IDENTIFIER, identifier);
 		fragment.setArguments(args);
@@ -142,6 +144,7 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	@OnClick({R.id.tv_profile, R.id.iv_profile})
 	public void onProfile() {
 		Intent intent = new Intent(mActivity, ProfileActivity.class);
+		intent.putExtra(ProfileActivity.EXTRA_MODE, args.getInt(KEY_MODE));
 		intent.putExtra(ProfileActivity.EXTRA_GENDER, args.getBoolean(KEY_GENDER));
 		intent.putExtra(ProfileActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
 		startActivityForResult(intent, REQ_PROFILE);

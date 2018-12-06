@@ -6,11 +6,12 @@ import dev.kxxcn.app_with.data.DataSource;
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.model.geocode.ResponseGeocode;
 import dev.kxxcn.app_with.data.model.nickname.Nickname;
+import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
 import dev.kxxcn.app_with.data.model.plan.Plan;
 import dev.kxxcn.app_with.data.model.result.ResponseResult;
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
-import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
+import dev.kxxcn.app_with.data.model.user.ResponseUser;
 import dev.kxxcn.app_with.util.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -50,6 +51,13 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
+	public Single<ResponseResult> signUp(String uniqueIdentifier, int gender, String token) {
+		return service.signUp(uniqueIdentifier, gender, token)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
 	public Single<ResponseResult> authenticate(String uniqueIdentifier, String key, int gender, String token) {
 		return service.authenticateKey(uniqueIdentifier, key, gender, token)
 				.subscribeOn(Schedulers.io())
@@ -57,7 +65,7 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public Single<ResponseResult> isRegisteredUser(String uniqueIdentifier) {
+	public Single<ResponseUser> isRegisteredUser(String uniqueIdentifier) {
 		return service.isRegisteredUser(uniqueIdentifier)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());

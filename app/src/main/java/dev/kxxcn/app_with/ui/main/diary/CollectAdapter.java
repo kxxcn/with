@@ -25,7 +25,6 @@ public class CollectAdapter extends FragmentStatePagerAdapter {
 		this.diaryList = diaryList;
 	}
 
-
 	@Override
 	public Fragment getItem(int position) {
 		CollectFragment fragment = new CollectFragment();

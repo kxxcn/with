@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
+import dev.kxxcn.app_with.ui.login.mode.ModeFragment;
 import dev.kxxcn.app_with.util.BusProvider;
 import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.SwipeViewPager;
@@ -21,6 +22,7 @@ import dev.kxxcn.app_with.util.TransitionUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 
 import static dev.kxxcn.app_with.data.remote.APIPersistence.ID_NOTIFY;
+import static dev.kxxcn.app_with.ui.main.write.WriteAdapter.INIT;
 import static dev.kxxcn.app_with.util.Constants.DELAY_REGISTRATION;
 
 /**
@@ -28,6 +30,7 @@ import static dev.kxxcn.app_with.util.Constants.DELAY_REGISTRATION;
  */
 public class MainActivity extends AppCompatActivity {
 
+	public static final String EXTRA_MODE = "MODE";
 	public static final String EXTRA_GENDER = "GENDER";
 	public static final String EXTRA_IDENTIFIER = "IDENTIFIER";
 
@@ -55,42 +58,36 @@ public class MainActivity extends AppCompatActivity {
 		ButterKnife.bind(this);
 		BusProvider.getInstance().register(this);
 
-		adapter = new MainPagerAdapter(getSupportFragmentManager(), getIntent().getIntExtra(EXTRA_GENDER, GenderFragment.MALE),
-				getIntent().getStringExtra(EXTRA_IDENTIFIER), type -> {
-			vp_main.setCurrentItem(type);
-			bottomBar.selectTabAtPosition(type);
-		}, type -> {
-			adapter.onRegisteredDiary(type, getIntent().getStringExtra(EXTRA_IDENTIFIER));
-			UiThread.getInstance().postDelayed(() -> {
-				vp_main.setCurrentItem(type);
-				bottomBar.selectTabAtPosition(type);
-			}, DELAY_REGISTRATION);
-		}, type -> adapter.onRegisteredNickname());
+		adapter = new MainPagerAdapter(
+				getSupportFragmentManager(),
+				getIntent().getIntExtra(EXTRA_MODE, INIT),
+				getIntent().getIntExtra(EXTRA_GENDER, GenderFragment.MALE),
+				getIntent().getStringExtra(EXTRA_IDENTIFIER),
+				type -> {
+					vp_main.setCurrentItem(type);
+					bottomBar.selectTabAtPosition(type);
+				},
+				type -> {
+					adapter.onRegisteredDiary(type, getIntent().getStringExtra(EXTRA_IDENTIFIER));
+					UiThread.getInstance().postDelayed(() -> {
+						vp_main.setCurrentItem(type);
+						bottomBar.selectTabAtPosition(type);
+					}, DELAY_REGISTRATION);
+				},
+				type -> adapter.onRegisteredNickname()
+		);
 
 		vp_main.setPagingEnabled(false);
 		vp_main.setOffscreenPageLimit(4);
 		vp_main.setAdapter(adapter);
 
-		bottomBar.setActiveTabColor(getResources().getColor(R.color.tab_active));
-		bottomBar.setOnTabSelectListener(tabId -> {
-			switch (tabId) {
-				case R.id.tab_plan:
-					vp_main.setCurrentItem(MainPagerAdapter.PLAN);
-					break;
-				case R.id.tab_girl:
-					vp_main.setCurrentItem(MainPagerAdapter.FEMALE);
-					break;
-				case R.id.tab_write:
-					vp_main.setCurrentItem(MainPagerAdapter.WRITE);
-					break;
-				case R.id.tab_boy:
-					vp_main.setCurrentItem(MainPagerAdapter.MALE);
-					break;
-				case R.id.tab_setting:
-					vp_main.setCurrentItem(MainPagerAdapter.SETTING);
-					break;
-			}
-		});
+		int xmlRes;
+		if (getIntent().getIntExtra(EXTRA_MODE, INIT) == ModeFragment.SOLO) {
+			xmlRes = R.xml.bottombar_tabs_solo;
+		} else {
+			xmlRes = R.xml.bottombar_tabs_couple;
+		}
+		prepareBottomBar(xmlRes);
 
 		mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 	}
@@ -120,6 +117,32 @@ public class MainActivity extends AppCompatActivity {
 		} else if (type.equals(TYPE_PLAN)) {
 			adapter.onReloadPlan();
 		}
+	}
+
+	private void prepareBottomBar(int xmlRes) {
+		bottomBar.setItems(xmlRes);
+		bottomBar.setActiveTabColor(getResources().getColor(R.color.tab_active));
+		bottomBar.setOnTabSelectListener(tabId -> {
+			switch (tabId) {
+				case R.id.tab_plan:
+					vp_main.setCurrentItem(MainPagerAdapter.PLAN);
+					break;
+				case R.id.tab_girl:
+					vp_main.setCurrentItem(MainPagerAdapter.FEMALE);
+					break;
+				case R.id.tab_write:
+					vp_main.setCurrentItem(MainPagerAdapter.WRITE);
+					break;
+				case R.id.tab_boy:
+					vp_main.setCurrentItem(MainPagerAdapter.MALE);
+					break;
+				case R.id.tab_setting:
+					vp_main.setCurrentItem(MainPagerAdapter.SETTING);
+					break;
+				case R.id.tab_me:
+					vp_main.setCurrentItem(MainPagerAdapter.MALE);
+			}
+		});
 	}
 
 	private void cancelNotification() {

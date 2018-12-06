@@ -13,6 +13,7 @@ import org.threeten.bp.DayOfWeek;
  * Created by kxxcn on 2018-10-01.
  */
 public class SaturdayDecoratorHelper implements DayViewDecorator {
+
 	@Override
 	public boolean shouldDecorate(CalendarDay calendarDay) {
 		return calendarDay.getDate().getDayOfWeek() == DayOfWeek.SATURDAY;
@@ -22,4 +23,5 @@ public class SaturdayDecoratorHelper implements DayViewDecorator {
 	public void decorate(DayViewFacade dayViewFacade) {
 		dayViewFacade.addSpan(new ForegroundColorSpan(Color.BLUE));
 	}
+
 }

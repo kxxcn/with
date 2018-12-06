@@ -5,11 +5,12 @@ import java.util.List;
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.model.geocode.ResponseGeocode;
 import dev.kxxcn.app_with.data.model.nickname.Nickname;
+import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
 import dev.kxxcn.app_with.data.model.plan.Plan;
 import dev.kxxcn.app_with.data.model.result.ResponseResult;
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
-import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
+import dev.kxxcn.app_with.data.model.user.ResponseUser;
 import dev.kxxcn.app_with.util.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -40,11 +41,15 @@ public class DataRepository {
 		return dataSource.createPairingKey(uniqueIdentifier, token);
 	}
 
+	public Single<ResponseResult> signUp(String uniqueIdentifier, int gender, String token) {
+		return dataSource.signUp(uniqueIdentifier, gender, token);
+	}
+
 	public Single<ResponseResult> authenticate(String uniqueIdentifier, String key, int gender, String token) {
 		return dataSource.authenticate(uniqueIdentifier, key, gender, token);
 	}
 
-	public Single<ResponseResult> isRegisteredUser(String uniqueIdentifier) {
+	public Single<ResponseUser> isRegisteredUser(String uniqueIdentifier) {
 		return dataSource.isRegisteredUser(uniqueIdentifier);
 	}
 

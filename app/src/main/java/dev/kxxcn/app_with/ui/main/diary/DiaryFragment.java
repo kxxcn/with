@@ -93,7 +93,6 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 
 	private Animation fab_open, fab_close;
 
-
 	@Override
 	public void setPresenter(DiaryContract.Presenter presenter) {
 		this.mPresenter = presenter;

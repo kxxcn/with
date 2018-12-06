@@ -77,7 +77,6 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 		});
 	}
 
-
 	@Override
 	public int getItemCount() {
 		return imgList.size();

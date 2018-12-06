@@ -7,6 +7,7 @@ import android.os.Looper;
  * Created by kxxcn on 2018-08-29.
  */
 public class UiThread {
+
 	private static UiThread uiThread;
 
 	private Handler handler;
@@ -29,4 +30,5 @@ public class UiThread {
 	public void postDelayed(Runnable runnable, long delay) {
 		handler.postDelayed(runnable, delay);
 	}
+
 }
