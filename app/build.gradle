@@ -6,8 +6,8 @@ android {
         applicationId "dev.kxxcn.app_with"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 9
-        versionName "2.0.2"
+        versionCode 10
+        versionName "2.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
