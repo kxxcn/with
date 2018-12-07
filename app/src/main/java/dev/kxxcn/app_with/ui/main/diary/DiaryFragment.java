@@ -136,7 +136,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 
 		args = getArguments();
 		if (args != null) {
-			mPresenter.getDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
+			getDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
 		}
 
 		initUI();
@@ -151,12 +151,12 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	}
 
 	private void initUI() {
+		mPresenter.getNickname(args.getString(KEY_IDENTIFIER));
 		if (args.getInt(KEY_MODE) == SOLO) {
 			tv_title.setText(getString(R.string.title_me));
 			fab_pack.setVisibility(View.VISIBLE);
 			fab_refresh.setVisibility(View.GONE);
 		} else {
-			mPresenter.getNickname(args.getString(KEY_IDENTIFIER));
 			if (args.getBoolean(KEY_GENDER)) {
 				tv_title.setText(getString(R.string.title_me));
 				fab_pack.setVisibility(View.VISIBLE);
@@ -220,7 +220,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	@OnClick(R.id.fab_refresh)
 	public void onRefresh() {
 		if (args != null) {
-			mPresenter.getDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
+			getDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
 		}
 	}
 
@@ -262,21 +262,25 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	@Override
 	public void showSuccessfulRemoveDiary() {
 		if (args != null) {
-			mPresenter.getDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
+			getDiary(args.getBoolean(KEY_GENDER) ? 0 : 1, args.getString(KEY_IDENTIFIER));
 		}
 	}
 
 	@Override
 	public void showSuccessfulGetNickname(ResponseNickname responseNickname) {
-		tv_title.setText(args.getBoolean(KEY_GENDER) ? responseNickname.getMyNickname() : responseNickname.getYourNickname());
+		if (args.getInt(KEY_MODE) == SOLO) {
+			tv_title.setText(responseNickname.getMyNickname());
+		} else {
+			tv_title.setText(args.getBoolean(KEY_GENDER) ? responseNickname.getMyNickname() : responseNickname.getYourNickname());
+		}
 	}
 
 	public void onRegisteredDiary(int flag, String identifier) {
-		mPresenter.getDiary(flag, identifier);
+		getDiary(flag, identifier);
 	}
 
 	public void onReloadDiary(String uniqueIdentifier) {
-		mPresenter.getDiary(1, uniqueIdentifier);
+		getDiary(1, uniqueIdentifier);
 	}
 
 	public void onRegisteredNickname() {
@@ -287,6 +291,14 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	public void onLetterClick(int position) {
 		DetailDialog dialog = DetailDialog.newInstance(mDiaryList.get(position));
 		dialog.show(getChildFragmentManager(), TAG_DIALOG);
+	}
+
+	private void getDiary(int flag, String identifier) {
+		if (args.getInt(KEY_MODE) == SOLO) {
+			mPresenter.getDiary(0, args.getString(KEY_IDENTIFIER));
+		} else {
+			mPresenter.getDiary(flag, identifier);
+		}
 	}
 
 }

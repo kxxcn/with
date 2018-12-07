@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
 import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
-import dev.kxxcn.app_with.ui.login.mode.ModeFragment;
 import dev.kxxcn.app_with.ui.main.diary.DiaryFragment;
 import dev.kxxcn.app_with.ui.main.plan.PlanFragment;
 import dev.kxxcn.app_with.ui.main.setting.SettingFragment;
@@ -117,10 +116,8 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	}
 
 	public void onRegisteredNickname() {
-		if (mode != ModeFragment.SOLO) {
-			femaleFragment.onRegisteredNickname();
-			maleFragment.onRegisteredNickname();
-		}
+		femaleFragment.onRegisteredNickname();
+		maleFragment.onRegisteredNickname();
 	}
 
 }
