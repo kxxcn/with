@@ -104,26 +104,25 @@ public class GenderFragment extends Fragment implements GenderContract.View {
 	}
 
 	public void onSignUp(String uniqueIdentifier, int gender) {
-		setEnabledEditText(false);
+		setEnabledComponent(false);
 		FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(
 				instanceIdResult -> mPresenter.onSignUp(uniqueIdentifier, gender, instanceIdResult.getToken())
 		);
 	}
 
-	public void setEnabledEditText(boolean isEnabled) {
+	public void setEnabledComponent(boolean isEnabled) {
 		btn_male.setEnabled(isEnabled);
 		btn_female.setEnabled(isEnabled);
 	}
 
 	@Override
 	public void showSuccessfulSignUp() {
-		setEnabledEditText(true);
 		mAuthListener.onAuthenticationListener(true);
 	}
 
 	@Override
 	public void showFailedSignUp(String stat) {
-		setEnabledEditText(true);
+		setEnabledComponent(true);
 		Toast.makeText(mContext, stat, Toast.LENGTH_SHORT).show();
 		mAuthListener.onAuthenticationListener(false);
 	}
