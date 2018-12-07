@@ -28,7 +28,6 @@ import dev.kxxcn.app_with.util.threading.UiThread;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.ID_NOTIFY;
 import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.COUPLE;
 import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
-import static dev.kxxcn.app_with.ui.main.write.WriteAdapter.INIT;
 import static dev.kxxcn.app_with.util.Constants.DELAY_REGISTRATION;
 
 /**
@@ -111,17 +110,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 	@Override
 	public void showSuccessfulCheckMode(String lover) {
 		int mode;
+		int xmlRes;
 		if (TextUtils.isEmpty(lover)) {
 			mode = SOLO;
+			xmlRes = R.xml.bottombar_tabs_solo;
 		} else {
 			mode = COUPLE;
+			xmlRes = R.xml.bottombar_tabs_couple;
 		}
+		prepareBottomBar(xmlRes);
+
 		adapter = new MainPagerAdapter(
 				getSupportFragmentManager(),
 				mode,
 				getIntent().getIntExtra(EXTRA_GENDER, GenderFragment.MALE),
 				getIntent().getStringExtra(EXTRA_IDENTIFIER),
 				type -> {
+					if (mode == SOLO) {
+						type = 1;
+					}
 					vp_main.setCurrentItem(type);
 					bottomBar.selectTabAtPosition(type);
 				},
@@ -138,14 +145,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 		vp_main.setPagingEnabled(false);
 		vp_main.setOffscreenPageLimit(4);
 		vp_main.setAdapter(adapter);
-
-		int xmlRes;
-		if (getIntent().getIntExtra(EXTRA_MODE, INIT) == SOLO) {
-			xmlRes = R.xml.bottombar_tabs_solo;
-		} else {
-			xmlRes = R.xml.bottombar_tabs_couple;
-		}
-		prepareBottomBar(xmlRes);
 	}
 
 	@Override
@@ -165,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 	private void prepareBottomBar(int xmlRes) {
 		bottomBar.setItems(xmlRes);
 		bottomBar.setActiveTabColor(getResources().getColor(R.color.tab_active));
+		bottomBar.setVisibility(View.VISIBLE);
 		bottomBar.setOnTabSelectListener(tabId -> {
 			switch (tabId) {
 				case R.id.tab_plan:

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
 import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
+import dev.kxxcn.app_with.ui.login.mode.ModeFragment;
 import dev.kxxcn.app_with.ui.main.diary.DiaryFragment;
 import dev.kxxcn.app_with.ui.main.plan.PlanFragment;
 import dev.kxxcn.app_with.ui.main.setting.SettingFragment;
@@ -60,7 +61,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 			case PLAN:
 				return PlanFragment.newInstance(identifier);
 			case FEMALE:
-				DiaryFragment femaleFragment = DiaryFragment.newInstance(isFemale, identifier);
+				DiaryFragment femaleFragment = DiaryFragment.newInstance(mode, isFemale, identifier);
 				femaleFragment.setOnPageChangeListener(onPageChangeListener);
 				return femaleFragment;
 			case WRITE:
@@ -69,7 +70,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 				writeFragment.setOnRegisteredDiary(onRegisteredDiary);
 				return writeFragment;
 			case MALE:
-				DiaryFragment maleFragment = DiaryFragment.newInstance(!isFemale, identifier);
+				DiaryFragment maleFragment = DiaryFragment.newInstance(mode, !isFemale, identifier);
 				maleFragment.setOnPageChangeListener(onPageChangeListener);
 				return maleFragment;
 			case SETTING:
@@ -116,8 +117,10 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	}
 
 	public void onRegisteredNickname() {
-		femaleFragment.onRegisteredNickname();
-		maleFragment.onRegisteredNickname();
+		if (mode != ModeFragment.SOLO) {
+			femaleFragment.onRegisteredNickname();
+			maleFragment.onRegisteredNickname();
+		}
 	}
 
 }

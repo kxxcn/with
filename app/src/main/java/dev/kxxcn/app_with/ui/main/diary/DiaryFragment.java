@@ -38,8 +38,10 @@ import dev.kxxcn.app_with.ui.main.diary.detail.DetailDialog;
 import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.SystemUtils;
 
+import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
 import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
+import static dev.kxxcn.app_with.util.Constants.KEY_MODE;
 import static dev.kxxcn.app_with.util.Constants.TAG_DIALOG;
 
 /**
@@ -111,10 +113,11 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 		this.mListener = listener;
 	}
 
-	public static DiaryFragment newInstance(boolean isFemale, @NonNull String identifier) {
+	public static DiaryFragment newInstance(int mode, boolean isFemale, @NonNull String identifier) {
 		DiaryFragment fragment = new DiaryFragment();
 
 		Bundle args = new Bundle();
+		args.putInt(KEY_MODE, mode);
 		args.putBoolean(KEY_GENDER, isFemale);
 		args.putString(KEY_IDENTIFIER, identifier);
 		fragment.setArguments(args);
@@ -148,16 +151,21 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	}
 
 	private void initUI() {
-		mPresenter.getNickname(args.getString(KEY_IDENTIFIER));
-
-		if (args.getBoolean(KEY_GENDER)) {
+		if (args.getInt(KEY_MODE) == SOLO) {
 			tv_title.setText(getString(R.string.title_me));
 			fab_pack.setVisibility(View.VISIBLE);
 			fab_refresh.setVisibility(View.GONE);
 		} else {
-			tv_title.setText(getString(R.string.title_you));
-			fab_pack.setVisibility(View.GONE);
-			fab_refresh.setVisibility(View.VISIBLE);
+			mPresenter.getNickname(args.getString(KEY_IDENTIFIER));
+			if (args.getBoolean(KEY_GENDER)) {
+				tv_title.setText(getString(R.string.title_me));
+				fab_pack.setVisibility(View.VISIBLE);
+				fab_refresh.setVisibility(View.GONE);
+			} else {
+				tv_title.setText(getString(R.string.title_you));
+				fab_pack.setVisibility(View.GONE);
+				fab_refresh.setVisibility(View.VISIBLE);
+			}
 		}
 
 		mCollectAdapter = new CollectAdapter(getChildFragmentManager(), mDiaryList);
