@@ -44,6 +44,7 @@ public class Constants {
 	public static final int DELAY_REGISTRATION = 1200;
 	public static final int DELAY_CHNAGE_MONTH = 500;
 	public static final int DELAY_SCROLL = 500;
+	public static final int DELAY_SIGN_OUT = 1200;
 	public static final int POSITION_CENTER = 0;
 	public static final int POSITION_BOTTOM = 1;
 	public static final int POSITION_TOP = 2;
