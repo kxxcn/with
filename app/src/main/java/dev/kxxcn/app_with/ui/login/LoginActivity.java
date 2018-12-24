@@ -1,6 +1,5 @@
 package dev.kxxcn.app_with.ui.login;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -154,7 +153,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 	@Override
 	public void onBackPressed() {
 		if (vp_login.getCurrentItem() == LoginPagerAdapter.MODE) {
-			DialogUtils.showAlertDialog(this, getString(R.string.dialog_want_to_quit), positiveListener, null);
+			DialogUtils.showAlertDialog(this, getString(R.string.dialog_want_to_quit),
+					(dialog, which) -> SystemUtils.onFinish(LoginActivity.this), null);
 		} else {
 			if (!authFragment.isLoading()) {
 				vp_login.setCurrentItem(vp_login.getCurrentItem() - 1);
@@ -168,8 +168,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 			}
 		}
 	}
-
-	DialogInterface.OnClickListener positiveListener = (dialog, which) -> SystemUtils.onFinish(LoginActivity.this);
 
 	@OnClick(R.id.btn_signup)
 	public void onSignup() {

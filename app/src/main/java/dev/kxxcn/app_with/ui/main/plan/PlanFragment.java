@@ -1,7 +1,6 @@
 package dev.kxxcn.app_with.ui.main.plan;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -239,11 +238,10 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 		if (viewHolder instanceof PlanAdapter.ViewHolder) {
 			mPlanAdapter.onNotifyDataChanged();
 			mPosition = position;
-			DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_plan), positiveListener, null);
+			DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_plan),
+					(dialog, which) -> mPresenter.deletePlan(mPlanAdapter.onNotifyDataDeleted(mPosition)), null);
 		}
 	}
-
-	private DialogInterface.OnClickListener positiveListener = (dialog, which) -> mPresenter.deletePlan(mPlanAdapter.onNotifyDataDeleted(mPosition));
 
 	public void onReloadPlan() {
 		mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));

@@ -2,7 +2,6 @@ package dev.kxxcn.app_with.ui.main.write;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -386,7 +385,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_cancel)
 	public void onCancel() {
-		DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_contents), positiveListener, null);
+		DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_contents), (dialog, which) -> initComponent(true), null);
 	}
 
 	@OnClick(R.id.ib_save)
@@ -562,8 +561,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			tv_date.setText(String.format(getString(R.string.format_date), strYear, strMonth, strDay));
 		});
 	}
-
-	private DialogInterface.OnClickListener positiveListener = (dialog, which) -> initComponent(true);
 
 	private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
 		@Override
