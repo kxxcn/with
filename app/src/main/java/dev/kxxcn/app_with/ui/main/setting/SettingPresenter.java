@@ -112,4 +112,32 @@ public class SettingPresenter implements SettingContract.Presenter {
 		}.start();
 	}
 
+	@Override
+	public void signOut(String identifier) {
+		if (mSettingView == null)
+			return;
+
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+		mSettingView.showLoadingIndicator(true);
+
+		Disposable disposable = mDataRepository.signOut(identifier)
+				.subscribe(responseResult -> {
+							mSettingView.showLoadingIndicator(false);
+							if (responseResult.getRc() == 200) {
+								mSettingView.showSucessfulSignOut(responseResult.getStat());
+							} else if (responseResult.getRc() == 201) {
+								mSettingView.showFailedRequest(responseResult.getStat());
+							}
+							compositeDisposable.dispose();
+						},
+						throwable -> {
+							mSettingView.showLoadingIndicator(false);
+							mSettingView.showFailedRequest(throwable.getMessage());
+							compositeDisposable.dispose();
+						});
+
+		compositeDisposable.add(disposable);
+	}
+
 }

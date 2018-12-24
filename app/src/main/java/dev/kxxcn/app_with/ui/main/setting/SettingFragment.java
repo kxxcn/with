@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,12 +29,14 @@ import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.ui.main.setting.profile.ProfileActivity;
 import dev.kxxcn.app_with.ui.main.setting.version.VersionActivity;
 import dev.kxxcn.app_with.util.Constants;
+import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 
 import static android.app.Activity.RESULT_OK;
 import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_CURRENT;
 import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_LATEST;
+import static dev.kxxcn.app_with.util.Constants.DELAY_SIGN_OUT;
 import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
 import static dev.kxxcn.app_with.util.Constants.KEY_MODE;
@@ -56,6 +59,9 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	@BindView(R.id.tv_version)
 	TextView tv_version;
+
+	@BindView(R.id.pb_loading)
+	ProgressBar pb_loading;
 
 	private Activity mActivity;
 
@@ -81,7 +87,11 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	@Override
 	public void showLoadingIndicator(boolean isShowing) {
-
+		if (isShowing) {
+			pb_loading.setVisibility(View.VISIBLE);
+		} else {
+			pb_loading.setVisibility(View.GONE);
+		}
 	}
 
 	public static SettingFragment newInstance(int mode, boolean gender, String identifier) {
@@ -169,7 +179,8 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	@OnClick({R.id.tv_sign_out, R.id.iv_sign_out})
 	public void onSignOut() {
-
+		DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_want_to_sign_out),
+				(dialog, which) -> mPresenter.signOut(args.getString(KEY_IDENTIFIER)), null);
 	}
 
 	@Override
@@ -216,6 +227,12 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	@Override
 	public void showUnsuccessfulyCheckVersion() {
 		UiThread.getInstance().post(() -> tv_version.setText(getString(R.string.text_failure_load_version)));
+	}
+
+	@Override
+	public void showSucessfulSignOut(String stat) {
+		Toast.makeText(mActivity, stat, Toast.LENGTH_SHORT).show();
+		UiThread.getInstance().postDelayed(() -> SystemUtils.onFinish(mActivity), DELAY_SIGN_OUT);
 	}
 
 	@Override

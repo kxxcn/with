@@ -46,6 +46,10 @@ public class DataRepository {
 		return dataSource.signUp(uniqueIdentifier, gender, token);
 	}
 
+	public Single<ResponseResult> signOut(String uniqueIdentifier) {
+		return dataSource.signOut(uniqueIdentifier);
+	}
+
 	public Single<ResponseResult> authenticate(String uniqueIdentifier, String key, int gender, String token) {
 		return dataSource.authenticate(uniqueIdentifier, key, gender, token);
 	}

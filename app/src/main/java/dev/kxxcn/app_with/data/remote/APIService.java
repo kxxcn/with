@@ -48,6 +48,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SERVER_URL;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_OUT;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_UP;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_RECEIVE_NOTIFICATION;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_TOKEN;
@@ -97,6 +98,10 @@ public interface APIService {
 	Single<ResponseResult> signUp(@Field("uniqueIdentifier") String uniqueIdentifier,
 								  @Field("gender") int gender,
 								  @Field("token") String token);
+
+	@FormUrlEncoded
+	@POST(SIGN_OUT)
+	Single<ResponseResult> signOut(@Field("uniqueIdentifier") String uniqueIdentifier);
 
 	@FormUrlEncoded
 	@POST(IS_REGISTERED_USER)

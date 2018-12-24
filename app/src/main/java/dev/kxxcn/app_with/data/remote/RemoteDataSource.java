@@ -58,6 +58,13 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
+	public Single<ResponseResult> signOut(String uniqueIdentifier) {
+		return service.signOut(uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
 	public Single<ResponseResult> authenticate(String uniqueIdentifier, String key, int gender, String token) {
 		return service.authenticateKey(uniqueIdentifier, key, gender, token)
 				.subscribeOn(Schedulers.io())

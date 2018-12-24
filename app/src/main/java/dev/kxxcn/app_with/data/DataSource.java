@@ -27,6 +27,8 @@ public abstract class DataSource {
 
 	public abstract Single<ResponseResult> signUp(String uniqueIdentifier, int gender, String token);
 
+	public abstract Single<ResponseResult> signOut(String uniqueIdentifier);
+
 	public abstract Single<ResponseResult> authenticate(String uniqueIdentifier, String key, int gender, String token);
 
 	public abstract Single<ResponseResult> isRegisteredUser(String uniqueIdentifier);

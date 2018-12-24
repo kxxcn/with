@@ -5,7 +5,7 @@ package dev.kxxcn.app_with.data.remote;
  */
 public class APIPersistence {
 	//:: Development
-	// public static final String SERVER_URL = "http://183.103.101.32:80/with/";
+	// public static final String SERVER_URL = "http://112.162.85.113:80/with/";
 
 	//:: Production
 	public static final String SERVER_URL = "http://13.209.102.48:80/with/";
@@ -17,6 +17,7 @@ public class APIPersistence {
 	public static final String GET_KEY = "getPairingKey.php";
 	public static final String AUTHENTICATE_KEY = "authenticateKey.php";
 	public static final String SIGN_UP = "signUp.php";
+	public static final String SIGN_OUT = "signOut.php";
 	public static final String IS_REGISTERED_USER = "isRegisteredUser.php";
 	public static final String GET_DIARY = "getDiary.php";
 	public static final String GET_PLAN = "getPlan.php";

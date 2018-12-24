@@ -19,6 +19,8 @@ public interface SettingContract {
 		void showSuccessfulyCheckVersion(String latestVersion);
 
 		void showUnsuccessfulyCheckVersion();
+
+		void showSucessfulSignOut(String stat);
 	}
 
 	interface Presenter extends BasePresenter {
@@ -29,5 +31,7 @@ public interface SettingContract {
 		void updateToken(String identifier, String token);
 
 		void checkVersion(String packageName);
+
+		void signOut(String identifier);
 	}
 }
