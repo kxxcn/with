@@ -9,6 +9,7 @@ import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.model.mode.ResponseMode;
 import dev.kxxcn.app_with.data.model.nickname.Nickname;
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
+import dev.kxxcn.app_with.data.model.notice.Notice;
 import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
 import dev.kxxcn.app_with.data.model.plan.Plan;
 import dev.kxxcn.app_with.data.model.result.ResponseResult;
@@ -33,9 +34,11 @@ import retrofit2.http.Streaming;
 
 import static dev.kxxcn.app_with.data.remote.APIPersistence.AUTHENTICATE_KEY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.CHECK_MODE;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.CHECK_NEW_NOTICE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_IMAGE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_KEY;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_NOTICE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_NOTIFICATION_INFORMATION;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_TITLE;
@@ -164,5 +167,13 @@ public interface APIService {
 	@FormUrlEncoded
 	@POST(CHECK_MODE)
 	Single<ResponseMode> checkMode(@Field("uniqueIdentifier") String uniqueIdentifier);
+
+	@FormUrlEncoded
+	@POST(CHECK_NEW_NOTICE)
+	Single<ResponseResult> checkNewNotice(@Field("uniqueIdentifier") String uniqueIdentifier);
+
+	@FormUrlEncoded
+	@POST(GET_NOTICE)
+	Single<List<Notice>> getNotice(@Field("uniqueIdentifier") String uniqueIdentifier);
 
 }

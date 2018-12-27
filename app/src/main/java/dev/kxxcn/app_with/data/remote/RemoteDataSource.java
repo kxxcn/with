@@ -8,6 +8,7 @@ import dev.kxxcn.app_with.data.model.geocode.ResponseGeocode;
 import dev.kxxcn.app_with.data.model.mode.ResponseMode;
 import dev.kxxcn.app_with.data.model.nickname.Nickname;
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
+import dev.kxxcn.app_with.data.model.notice.Notice;
 import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
 import dev.kxxcn.app_with.data.model.plan.Plan;
 import dev.kxxcn.app_with.data.model.result.ResponseResult;
@@ -180,6 +181,20 @@ public class RemoteDataSource extends DataSource {
 	@Override
 	public Single<ResponseMode> checkMode(String uniqueIdentifier) {
 		return service.checkMode(uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<ResponseResult> checkNewNotice(String uniqueIdentifier) {
+		return service.checkNewNotice(uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<List<Notice>> getNotice(String uniqueIdentifier) {
+		return service.getNotice(uniqueIdentifier)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
 	}

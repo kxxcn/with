@@ -7,6 +7,7 @@ import dev.kxxcn.app_with.data.model.geocode.ResponseGeocode;
 import dev.kxxcn.app_with.data.model.mode.ResponseMode;
 import dev.kxxcn.app_with.data.model.nickname.Nickname;
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
+import dev.kxxcn.app_with.data.model.notice.Notice;
 import dev.kxxcn.app_with.data.model.pairing.ResponsePairing;
 import dev.kxxcn.app_with.data.model.plan.Plan;
 import dev.kxxcn.app_with.data.model.result.ResponseResult;
@@ -16,7 +17,6 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
-import retrofit2.http.Field;
 
 /**
  * Created by kxxcn on 2018-08-20.
@@ -114,8 +114,16 @@ public class DataRepository {
 		return dataSource.registerNickname(nickname);
 	}
 
-	public Single<ResponseMode> checkMode(@Field("uniqueIdentifier") String uniqueIdentifier) {
+	public Single<ResponseMode> checkMode(String uniqueIdentifier) {
 		return dataSource.checkMode(uniqueIdentifier);
+	}
+
+	public Single<ResponseResult> checkNewNotice(String uniqueIdentifier) {
+		return dataSource.checkNewNotice(uniqueIdentifier);
+	}
+
+	public Single<List<Notice>> getNotice(String uniqueIdentifier) {
+		return dataSource.getNotice(uniqueIdentifier);
 	}
 
 }
