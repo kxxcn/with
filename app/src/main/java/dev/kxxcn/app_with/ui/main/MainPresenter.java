@@ -19,7 +19,7 @@ public class MainPresenter implements MainContract.Presenter {
 	}
 
 	@Override
-	public void onCheckMode(String uniqueIdentifier) {
+	public void checkMode(String uniqueIdentifier) {
 		if (mMainView == null)
 			return;
 

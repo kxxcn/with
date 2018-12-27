@@ -15,7 +15,7 @@ public interface MainContract {
 	}
 
 	interface Presenter extends BasePresenter {
-		void onCheckMode(String uniqueIdentifier);
+		void checkMode(String uniqueIdentifier);
 	}
 
 	@FunctionalInterface

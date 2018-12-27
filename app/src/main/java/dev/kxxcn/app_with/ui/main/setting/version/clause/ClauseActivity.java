@@ -37,7 +37,6 @@ public class ClauseActivity extends AppCompatActivity {
 
 	@Override
 	public void onBackPressed() {
-		super.onBackPressed();
 		finish();
 		TransitionUtils.fade(this);
 	}

@@ -14,13 +14,15 @@ public interface SettingContract {
 
 		void showFailedRequest(String throwable);
 
-		void showSucessfulUpdateToken();
+		void showSuccessfulUpdateToken();
 
-		void showSuccessfulyCheckVersion(String latestVersion);
+		void showSuccessfulCheckVersion(String latestVersion);
 
-		void showUnsuccessfulyCheckVersion();
+		void showUnsuccessfulCheckVersion();
 
-		void showSucessfulSignOut(String stat);
+		void showSuccessfulSignOut(String stat);
+
+		void showSuccessfulCheckNewNotice(String stat);
 	}
 
 	interface Presenter extends BasePresenter {
@@ -33,5 +35,7 @@ public interface SettingContract {
 		void checkVersion(String packageName);
 
 		void signOut(String identifier);
+
+		void checkNewNotice(String identifier);
 	}
 }

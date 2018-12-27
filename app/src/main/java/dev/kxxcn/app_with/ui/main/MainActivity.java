@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
 		new MainPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
-		mPresenter.onCheckMode(getIntent().getStringExtra(EXTRA_IDENTIFIER));
+		mPresenter.checkMode(getIntent().getStringExtra(EXTRA_IDENTIFIER));
 	}
 
 	@Override
@@ -119,32 +119,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 			xmlRes = R.xml.bottombar_tabs_couple;
 		}
 		prepareBottomBar(xmlRes);
-
-		adapter = new MainPagerAdapter(
-				getSupportFragmentManager(),
-				mode,
-				getIntent().getIntExtra(EXTRA_GENDER, GenderFragment.MALE),
-				getIntent().getStringExtra(EXTRA_IDENTIFIER),
-				type -> {
-					if (mode == SOLO) {
-						type = 1;
-					}
-					vp_main.setCurrentItem(type);
-					bottomBar.selectTabAtPosition(type);
-				},
-				type -> {
-					adapter.onRegisteredDiary(type, getIntent().getStringExtra(EXTRA_IDENTIFIER));
-					UiThread.getInstance().postDelayed(() -> {
-						vp_main.setCurrentItem(type);
-						bottomBar.selectTabAtPosition(type);
-					}, DELAY_REGISTRATION);
-				},
-				type -> adapter.onRegisteredNickname()
-		);
-
-		vp_main.setPagingEnabled(false);
-		vp_main.setOffscreenPageLimit(4);
-		vp_main.setAdapter(adapter);
+		setAdapter(mode);
 	}
 
 	@Override
@@ -186,6 +161,33 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 					vp_main.setCurrentItem(MainPagerAdapter.MALE);
 			}
 		});
+	}
+
+	private void setAdapter(int mode) {
+		adapter = new MainPagerAdapter(
+				getSupportFragmentManager(),
+				mode,
+				getIntent().getIntExtra(EXTRA_GENDER, GenderFragment.MALE),
+				getIntent().getStringExtra(EXTRA_IDENTIFIER),
+				type -> {
+					if (mode == SOLO) {
+						type = 1;
+					}
+					vp_main.setCurrentItem(type);
+					bottomBar.selectTabAtPosition(type);
+				},
+				type -> {
+					adapter.onRegisteredDiary(type, getIntent().getStringExtra(EXTRA_IDENTIFIER));
+					UiThread.getInstance().postDelayed(() -> {
+						vp_main.setCurrentItem(type);
+						bottomBar.selectTabAtPosition(type);
+					}, DELAY_REGISTRATION);
+				},
+				type -> adapter.onRegisteredNickname()
+		);
+		vp_main.setPagingEnabled(false);
+		vp_main.setOffscreenPageLimit(4);
+		vp_main.setAdapter(adapter);
 	}
 
 	private void cancelNotification() {

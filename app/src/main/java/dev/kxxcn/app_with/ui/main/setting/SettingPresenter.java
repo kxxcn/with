@@ -75,7 +75,7 @@ public class SettingPresenter implements SettingContract.Presenter {
 		Disposable disposable = mDataRepository.updateToken(identifier, token)
 				.subscribe(responseResult -> {
 					if (responseResult.getRc() == 200) {
-						mSettingView.showSucessfulUpdateToken();
+						mSettingView.showSuccessfulUpdateToken();
 					} else if (responseResult.getRc() == 201) {
 						mSettingView.showFailedRequest(responseResult.getStat());
 					}
@@ -102,10 +102,10 @@ public class SettingPresenter implements SettingContract.Presenter {
 					Elements Version = doc.select(SEPARATOR).eq(7);
 
 					for (Element mElement : Version) {
-						mSettingView.showSuccessfulyCheckVersion(mElement.text().trim());
+						mSettingView.showSuccessfulCheckVersion(mElement.text().trim());
 					}
 				} catch (IOException ex) {
-					mSettingView.showUnsuccessfulyCheckVersion();
+					mSettingView.showUnsuccessfulCheckVersion();
 					ex.printStackTrace();
 				}
 			}
@@ -125,7 +125,7 @@ public class SettingPresenter implements SettingContract.Presenter {
 				.subscribe(responseResult -> {
 							mSettingView.showLoadingIndicator(false);
 							if (responseResult.getRc() == 200) {
-								mSettingView.showSucessfulSignOut(responseResult.getStat());
+								mSettingView.showSuccessfulSignOut(responseResult.getStat());
 							} else if (responseResult.getRc() == 201) {
 								mSettingView.showFailedRequest(responseResult.getStat());
 							}
@@ -133,6 +133,30 @@ public class SettingPresenter implements SettingContract.Presenter {
 						},
 						throwable -> {
 							mSettingView.showLoadingIndicator(false);
+							mSettingView.showFailedRequest(throwable.getMessage());
+							compositeDisposable.dispose();
+						});
+
+		compositeDisposable.add(disposable);
+	}
+
+	@Override
+	public void checkNewNotice(String identifier) {
+		if (mSettingView == null)
+			return;
+
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+		Disposable disposable = mDataRepository.checkNewNotice(identifier)
+				.subscribe(responseResult -> {
+							if (responseResult.getRc() == 200) {
+								mSettingView.showSuccessfulCheckNewNotice(responseResult.getStat());
+							} else if (responseResult.getRc() == 201) {
+								mSettingView.showFailedRequest(responseResult.getStat());
+							}
+							compositeDisposable.dispose();
+						},
+						throwable -> {
 							mSettingView.showFailedRequest(throwable.getMessage());
 							compositeDisposable.dispose();
 						});

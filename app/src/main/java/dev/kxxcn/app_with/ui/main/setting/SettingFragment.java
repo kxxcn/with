@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.main.MainContract;
+import dev.kxxcn.app_with.ui.main.setting.notice.NoticeActivity;
 import dev.kxxcn.app_with.ui.main.setting.profile.ProfileActivity;
 import dev.kxxcn.app_with.ui.main.setting.version.VersionActivity;
 import dev.kxxcn.app_with.util.Constants;
@@ -48,6 +50,9 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	private static final int REQ_PROFILE = 0;
 
+	private static final String STAT_EXIST = "0";
+	private static final String STAT_NOT_EXIST = "1";
+
 	public static final String PREF_TOKEN = "PREF_TOKEN";
 
 	@BindView(R.id.tb_notice_with)
@@ -59,6 +64,9 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	@BindView(R.id.tv_version)
 	TextView tv_version;
+
+	@BindView(R.id.iv_new)
+	ImageView iv_new;
 
 	@BindView(R.id.pb_loading)
 	ProgressBar pb_loading;
@@ -119,6 +127,7 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 		new SettingPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
 		args = getArguments();
+
 		String identifier = null;
 		if (args != null) {
 			identifier = args.getString(KEY_IDENTIFIER);
@@ -151,6 +160,12 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 		}
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		mPresenter.checkNewNotice(args.getString(KEY_IDENTIFIER));
+	}
+
 	@OnClick({R.id.tv_profile, R.id.iv_profile})
 	public void onProfile() {
 		Intent intent = new Intent(mActivity, ProfileActivity.class);
@@ -162,7 +177,9 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	@OnClick({R.id.tv_notify, R.id.iv_notify})
 	public void onNotice() {
-
+		Intent intent = new Intent(mActivity, NoticeActivity.class);
+		intent.putExtra(NoticeActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
+		startActivity(intent);
 	}
 
 	@OnClick({R.id.tv_information, R.id.iv_information})
@@ -197,7 +214,7 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	}
 
 	@Override
-	public void showSucessfulUpdateToken() {
+	public void showSuccessfulUpdateToken() {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString(PREF_TOKEN, null);
 		editor.apply();
@@ -209,7 +226,7 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	}
 
 	@Override
-	public void showSuccessfulyCheckVersion(String latestVersion) {
+	public void showSuccessfulCheckVersion(String latestVersion) {
 		isResponse = true;
 		mLatestVersion = latestVersion;
 		try {
@@ -225,14 +242,23 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	}
 
 	@Override
-	public void showUnsuccessfulyCheckVersion() {
+	public void showUnsuccessfulCheckVersion() {
 		UiThread.getInstance().post(() -> tv_version.setText(getString(R.string.text_failure_load_version)));
 	}
 
 	@Override
-	public void showSucessfulSignOut(String stat) {
+	public void showSuccessfulSignOut(String stat) {
 		Toast.makeText(mActivity, stat, Toast.LENGTH_SHORT).show();
 		UiThread.getInstance().postDelayed(() -> SystemUtils.onFinish(mActivity), DELAY_SIGN_OUT);
+	}
+
+	@Override
+	public void showSuccessfulCheckNewNotice(String stat) {
+		if (stat.equals(STAT_EXIST)) {
+			iv_new.setVisibility(View.VISIBLE);
+		} else if (stat.equals(STAT_NOT_EXIST)) {
+			iv_new.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
