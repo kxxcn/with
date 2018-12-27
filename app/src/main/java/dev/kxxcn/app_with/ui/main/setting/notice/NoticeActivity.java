@@ -66,22 +66,12 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
 
 	@Override
 	public void onBackPressed() {
-		if (vp_notice.getCurrentItem() != NoticePagerAdapter.CONTENT) {
-			finish();
-			TransitionUtils.fade(this);
-		} else {
-			vp_notice.setCurrentItem(NoticePagerAdapter.SUBJECT);
-		}
+		showPreviousScreen();
 	}
 
 	@OnClick(R.id.ib_back)
 	public void onBack() {
-		if (vp_notice.getCurrentItem() != NoticePagerAdapter.CONTENT) {
-			finish();
-			TransitionUtils.fade(this);
-		} else {
-			vp_notice.setCurrentItem(NoticePagerAdapter.SUBJECT);
-		}
+		showPreviousScreen();
 	}
 
 	@Override
@@ -101,6 +91,15 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
 		ContentFragment contentFragment = (ContentFragment) adapter.getItem(NoticePagerAdapter.CONTENT);
 		contentFragment.setPosition(position);
 		vp_notice.setCurrentItem(NoticePagerAdapter.CONTENT);
+	}
+
+	private void showPreviousScreen() {
+		if (vp_notice.getCurrentItem() != NoticePagerAdapter.CONTENT) {
+			finish();
+			TransitionUtils.fade(this);
+		} else {
+			vp_notice.setCurrentItem(NoticePagerAdapter.SUBJECT);
+		}
 	}
 
 }
