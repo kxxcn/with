@@ -137,6 +137,16 @@
                     app:layout_constraintEnd_toEndOf="@id/tv_notify"
                     app:layout_constraintTop_toTopOf="@id/tv_notify"/>
 
+                <ImageView
+                    android:id="@+id/iv_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_new"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/tv_version"
+                    app:layout_constraintStart_toStartOf="@id/tv_version"
+                    app:layout_constraintTop_toTopOf="@id/iv_notify"/>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
