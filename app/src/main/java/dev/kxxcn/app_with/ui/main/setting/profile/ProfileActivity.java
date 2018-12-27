@@ -196,11 +196,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 	}
 
 	private void onFinish(boolean isSuccess) {
-		if (isSuccess) {
-			setResult(RESULT_OK, new Intent());
-		} else {
-			setResult(RESULT_CANCELED, new Intent());
-		}
+		setResult(isSuccess ? RESULT_OK : RESULT_CANCELED, new Intent());
 		finish();
 		TransitionUtils.fade(mActivity);
 	}
