@@ -44,7 +44,7 @@ import dev.kxxcn.app_with.util.calendar.SundayDecoratorHelper;
 import dev.kxxcn.app_with.util.calendar.TodayDecoratorHelper;
 import dev.kxxcn.app_with.util.threading.UiThread;
 
-import static dev.kxxcn.app_with.util.Constants.DELAY_CHNAGE_MONTH;
+import static dev.kxxcn.app_with.util.Constants.DELAY_CHANGE_MONTH;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
 import static dev.kxxcn.app_with.util.Constants.TAG_DIALOG;
 
@@ -157,7 +157,7 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 
 			tv_previous = tv_change_month;
 
-			UiThread.getInstance().postDelayed(() -> rl_plan.removeView(tv_change_month), DELAY_CHNAGE_MONTH);
+			UiThread.getInstance().postDelayed(() -> rl_plan.removeView(tv_change_month), DELAY_CHANGE_MONTH);
 		});
 
 		mPlanAdapter = new PlanAdapter(mContext, new ArrayList<>(0), args.getString(KEY_IDENTIFIER));
