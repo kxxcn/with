@@ -19,8 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_with.R;
-import dev.kxxcn.app_with.data.DataRepository;
-import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.login.auth.AuthFragment;
 import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
 import dev.kxxcn.app_with.ui.main.MainActivity;
@@ -39,7 +37,7 @@ import static dev.kxxcn.app_with.util.Constants.DELAY_NETWORK;
 /**
  * Created by kxxcn on 2018-08-22.
  */
-public class LoginActivity extends AppCompatActivity implements LoginContract.View, MainContract.OnKeyboardListener {
+public class LoginActivity extends AppCompatActivity implements MainContract.OnKeyboardListener {
 
 	private static final int INIT = -723;
 	private static final int KEY_LENGTH = 8;
@@ -71,8 +69,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 	@BindView(R.id.btn_auth)
 	SubmitButton btn_auth;
 
-	private LoginContract.Presenter mPresenter;
-
 	private String key = null;
 
 	private int mMode = INIT;
@@ -86,23 +82,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 	private AuthFragment authFragment;
 
 	@Override
-	public void setPresenter(LoginContract.Presenter presenter) {
-		this.mPresenter = presenter;
-	}
-
-	@Override
-	public void showLoadingIndicator(boolean isShowing) {
-
-	}
-
-	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		TransitionUtils.fade(this);
 		ButterKnife.bind(this);
-
-		new LoginPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
 		initUI();
 	}
