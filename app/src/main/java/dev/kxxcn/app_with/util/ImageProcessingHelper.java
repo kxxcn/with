@@ -3,6 +3,8 @@ package dev.kxxcn.app_with.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +36,10 @@ public class ImageProcessingHelper {
 		}
 
 		return imgList;
+	}
+
+	public static Bitmap convertToBitmap(Context context, Uri uri) throws IOException {
+		return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
 	}
 
 	private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
