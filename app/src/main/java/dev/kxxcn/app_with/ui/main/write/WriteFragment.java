@@ -1,5 +1,6 @@
 package dev.kxxcn.app_with.ui.main.write;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -42,6 +43,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.ybq.android.spinkit.SpinKitView;
+import com.qingmei2.rximagepicker.core.RxImagePicker;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -65,6 +67,8 @@ import dev.kxxcn.app_with.util.KeyboardUtils;
 import dev.kxxcn.app_with.util.LayoutUtils;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
@@ -88,6 +92,9 @@ import static dev.kxxcn.app_with.util.Constants.POSITION_TOP;
 public class WriteFragment extends Fragment implements WriteContract.View {
 
 	private static final int THRESHOLD_COUNT = 15;
+
+	private static final boolean SHOW = true;
+	private static final boolean HIDE = false;
 
 	@BindView(R.id.rv_theme)
 	RecyclerView rv_theme;
@@ -123,6 +130,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	ImageButton ib_size_down;
 	@BindView(R.id.ib_size_up)
 	ImageButton ib_size_up;
+	@BindView(R.id.ib_gallery)
+	ImageButton ib_gallery;
 
 	@BindView(R.id.ll_bottom)
 	LinearLayout ll_bottom;
@@ -198,6 +207,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	private LocationManager locationManager;
 
+	CompositeDisposable compositeDisposable;
+
 	@Override
 	public void setPresenter(WriteContract.Presenter presenter) {
 		this.mPresenter = presenter;
@@ -239,6 +250,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		ButterKnife.bind(this, view);
 
 		new WritePresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
+
+		compositeDisposable = new CompositeDisposable();
 
 		initUI();
 
@@ -424,19 +437,22 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_size_down)
 	public void onDecreaseSize() {
-		showBlurSeekbar(false);
+		ib_gallery.setVisibility(View.GONE);
+		showBlurSeekbar(HIDE);
 		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, et_write.getTextSize() - 5);
 	}
 
 	@OnClick(R.id.ib_size_up)
 	public void onIncreaseSize() {
-		showBlurSeekbar(false);
+		ib_gallery.setVisibility(View.GONE);
+		showBlurSeekbar(HIDE);
 		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, et_write.getTextSize() + 5);
 	}
 
 	@OnClick(R.id.ib_background)
 	public void onViewBackground() {
-		showBlurSeekbar(false);
+		ib_gallery.setVisibility(View.GONE);
+		showBlurSeekbar(HIDE);
 		typeFilter = null;
 		isBackground = true;
 		btn_item_top.setText(getString(R.string.btn_primary));
@@ -446,7 +462,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_font)
 	public void onViewFont() {
-		showBlurSeekbar(false);
+		ib_gallery.setVisibility(View.GONE);
+		showBlurSeekbar(HIDE);
 		typeFilter = null;
 		isBackground = false;
 		btn_item_top.setText(getString(R.string.btn_font));
@@ -456,6 +473,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.btn_item_top)
 	public void onClickTop() {
+		ib_gallery.setVisibility(View.GONE);
 		typeFilter = null;
 		if (isBackground) {
 			adapter.onChangedData(colorBitmapList, Constants.TypeFilter.PRIMARY);
@@ -468,6 +486,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	public void onClickBottom() {
 		typeFilter = null;
 		if (isBackground) {
+			ib_gallery.setVisibility(View.VISIBLE);
 			typeFilter = Constants.TypeFilter.GALLERY;
 			if (isCompletedCheck) {
 				adapter.onChangedData(galleryBitmapList, Constants.TypeFilter.GALLERY);
@@ -475,13 +494,15 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 				Toast.makeText(mContext, getString(R.string.toast_checking_album), Toast.LENGTH_SHORT).show();
 			}
 		} else {
+			ib_gallery.setVisibility(View.GONE);
 			adapter.onChangedData(colorBitmapList, Constants.TypeFilter.COLOR);
 		}
 	}
 
 	@OnClick(R.id.ib_place)
 	public void onViewPlace() {
-		showBlurSeekbar(false);
+		ib_gallery.setVisibility(View.GONE);
+		showBlurSeekbar(HIDE);
 		mLocationPosition++;
 		if (mLocationPosition >= locationList.size()) {
 			mLocationPosition = 0;
@@ -531,7 +552,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_adjustment)
 	public void onAdjustText() {
-		showBlurSeekbar(false);
+		ib_gallery.setVisibility(View.GONE);
+		showBlurSeekbar(HIDE);
 		if (mLetterPosition == POSITION_TOP) {
 			mLetterPosition = POSITION_CENTER;
 		} else {
@@ -542,11 +564,21 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_blur)
 	public void onBlur() {
+		ib_gallery.setVisibility(View.GONE);
 		if (mGalleryPosition != -1) {
-			showBlurSeekbar(true);
+			showBlurSeekbar(SHOW);
 		} else {
 			Toast.makeText(mContext, getString(R.string.toast_choice_gallery), Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	@SuppressLint("CheckResult")
+	@OnClick(R.id.ib_gallery)
+	public void onShowImagePicker() {
+		Disposable disposable = RxImagePicker.INSTANCE.create().openGallery(mContext).subscribe(
+				result -> ImageProcessingHelper.setGlide(mContext, result.getUri(), iv_background, glideOptions));
+
+		compositeDisposable.add(disposable);
 	}
 
 	@OnClick({R.id.ll_date, R.id.tv_date})
@@ -777,6 +809,14 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 				loadList.add(thumbList.get(loadCount));
 				loadCount--;
 			}
+		}
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		if (!compositeDisposable.isDisposed()) {
+			compositeDisposable.dispose();
 		}
 	}
 
