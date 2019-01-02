@@ -1,6 +1,5 @@
 package dev.kxxcn.app_with.ui.main.write;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -18,6 +17,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -29,7 +29,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -72,7 +71,6 @@ import io.reactivex.disposables.Disposable;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
-import static dev.kxxcn.app_with.ui.main.write.WriteAdapter.INIT;
 import static dev.kxxcn.app_with.util.Constants.ACCESS_COARSE_LOCATION;
 import static dev.kxxcn.app_with.util.Constants.ACCESS_FINE_LOCATION;
 import static dev.kxxcn.app_with.util.Constants.COLOR_DEFAULT;
@@ -130,8 +128,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	ImageButton ib_size_down;
 	@BindView(R.id.ib_size_up)
 	ImageButton ib_size_up;
-	@BindView(R.id.ib_gallery)
-	ImageButton ib_gallery;
 
 	@BindView(R.id.ll_bottom)
 	LinearLayout ll_bottom;
@@ -184,8 +180,11 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	private boolean isClickedRegistration = false;
 	private boolean isStop = true;
 	private boolean isProcessing = false;
+	private boolean isSelectedGallery = false;
 
 	public boolean isCompletedCheck = false;
+
+	private Bitmap galleryBitmap;
 
 	private Constants.TypeFilter typeFilter;
 
@@ -270,15 +269,15 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	}
 
 	private void initUI() {
-		ViewTreeObserver viewTreeObserver = iv_background.getViewTreeObserver();
-		viewTreeObserver.addOnGlobalLayoutListener(() -> {
-			if (!isProcessing) {
-				isProcessing = true;
-				GetThumbInfoTask task = new GetThumbInfoTask(mContext);
-				task.setListener(this::setGalleryBitmapList);
-				task.execute(iv_background.getWidth(), iv_background.getHeight());
-			}
-		});
+//		ViewTreeObserver viewTreeObserver = iv_background.getViewTreeObserver();
+//		viewTreeObserver.addOnGlobalLayoutListener(() -> {
+//			if (!isProcessing) {
+//				isProcessing = true;
+//				GetThumbInfoTask task = new GetThumbInfoTask(mContext);
+//				task.setListener(this::setGalleryBitmapList);
+//				task.execute(iv_background.getWidth(), iv_background.getHeight());
+//			}
+//		});
 
 		colorBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.PRIMARY, COLOR_IMGS, null, 0, 0);
 		fontBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.FONT, FONT_IMGS, null, 0, 0);
@@ -313,7 +312,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 			@Override
 			public void onDenied() {
-				SystemUtils.Dlog.d("onDenied!");
+
 			}
 		}, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION);
 
@@ -331,7 +330,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 					if (mGalleryBlur == 0) {
 						blurOptions = new RequestOptions().centerCrop();
 					}
-					ImageProcessingHelper.setGlide(mContext, galleryBitmapList.get(mGalleryPosition), iv_background, blurOptions);
+					ImageProcessingHelper.setGlide(mContext, galleryBitmap, iv_background, blurOptions);
 				}
 			}
 
@@ -379,6 +378,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		}
 		mLetterPosition = POSITION_CENTER;
 		et_write.setLayoutParams(LayoutUtils.getRelativeLayoutParams(mLetterPosition));
+		sb_blur.setProgress(0);
 	}
 
 	private void setEnabledComponent(boolean isEnable) {
@@ -410,9 +410,10 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			if (args != null) {
 				if (!TextUtils.isEmpty(et_write.getText())) {
 					setEnabledComponent(false);
-					if (adapter.TYPE_GALLERY_POSITION != INIT) {
+					// if (adapter.TYPE_GALLERY_POSITION != INIT) {
+					if (isSelectedGallery) {
 						mGalleryName = mPresenter.getGalleryName(args.getString(KEY_IDENTIFIER));
-						mPresenter.uploadImage(mContext, galleryBitmapList.get(adapter.TYPE_GALLERY_POSITION), mGalleryName);
+						mPresenter.uploadImage(mContext, galleryBitmap, mGalleryName);
 					} else {
 						mPresenter.registerDiary(
 								new Diary(args.getString(KEY_IDENTIFIER),
@@ -437,21 +438,18 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_size_down)
 	public void onDecreaseSize() {
-		ib_gallery.setVisibility(View.GONE);
 		showBlurSeekbar(HIDE);
 		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, et_write.getTextSize() - 5);
 	}
 
 	@OnClick(R.id.ib_size_up)
 	public void onIncreaseSize() {
-		ib_gallery.setVisibility(View.GONE);
 		showBlurSeekbar(HIDE);
 		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, et_write.getTextSize() + 5);
 	}
 
 	@OnClick(R.id.ib_background)
 	public void onViewBackground() {
-		ib_gallery.setVisibility(View.GONE);
 		showBlurSeekbar(HIDE);
 		typeFilter = null;
 		isBackground = true;
@@ -462,7 +460,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_font)
 	public void onViewFont() {
-		ib_gallery.setVisibility(View.GONE);
 		showBlurSeekbar(HIDE);
 		typeFilter = null;
 		isBackground = false;
@@ -473,7 +470,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.btn_item_top)
 	public void onClickTop() {
-		ib_gallery.setVisibility(View.GONE);
 		typeFilter = null;
 		if (isBackground) {
 			adapter.onChangedData(colorBitmapList, Constants.TypeFilter.PRIMARY);
@@ -486,22 +482,33 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	public void onClickBottom() {
 		typeFilter = null;
 		if (isBackground) {
-			ib_gallery.setVisibility(View.VISIBLE);
-			typeFilter = Constants.TypeFilter.GALLERY;
-			if (isCompletedCheck) {
-				adapter.onChangedData(galleryBitmapList, Constants.TypeFilter.GALLERY);
-			} else {
-				Toast.makeText(mContext, getString(R.string.toast_checking_album), Toast.LENGTH_SHORT).show();
-			}
+			Disposable disposable = RxImagePicker.INSTANCE.create().openGallery(mContext).subscribe(
+					result -> {
+						isSelectedGallery = true;
+						mPrimaryPosition = -1;
+						mGalleryBlur = 0;
+						sb_blur.setProgress(mGalleryBlur);
+						galleryBitmap = ImageProcessingHelper.convertToBitmap(mContext, result.getUri());
+						ImageProcessingHelper.setGlide(mContext, galleryBitmap, iv_background, glideOptions);
+						adapter.onChangedData(null, Constants.TypeFilter.GALLERY);
+						Snackbar.make(mActivity.getWindow().getDecorView().getRootView(), getString(R.string.snack_selected_gallery), Snackbar.LENGTH_SHORT).show();
+					});
+
+			compositeDisposable.add(disposable);
+
+//			typeFilter = Constants.TypeFilter.GALLERY;
+//			if (isCompletedCheck) {
+//				adapter.onChangedData(galleryBitmapList, Constants.TypeFilter.GALLERY);
+//			} else {
+//				Toast.makeText(mContext, getString(R.string.toast_checking_album), Toast.LENGTH_SHORT).show();
+//			}
 		} else {
-			ib_gallery.setVisibility(View.GONE);
 			adapter.onChangedData(colorBitmapList, Constants.TypeFilter.COLOR);
 		}
 	}
 
 	@OnClick(R.id.ib_place)
 	public void onViewPlace() {
-		ib_gallery.setVisibility(View.GONE);
 		showBlurSeekbar(HIDE);
 		mLocationPosition++;
 		if (mLocationPosition >= locationList.size()) {
@@ -552,7 +559,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_adjustment)
 	public void onAdjustText() {
-		ib_gallery.setVisibility(View.GONE);
 		showBlurSeekbar(HIDE);
 		if (mLetterPosition == POSITION_TOP) {
 			mLetterPosition = POSITION_CENTER;
@@ -564,21 +570,12 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_blur)
 	public void onBlur() {
-		ib_gallery.setVisibility(View.GONE);
-		if (mGalleryPosition != -1) {
+		// if (mGalleryPosition != -1) {
+		if (isSelectedGallery) {
 			showBlurSeekbar(SHOW);
 		} else {
 			Toast.makeText(mContext, getString(R.string.toast_choice_gallery), Toast.LENGTH_SHORT).show();
 		}
-	}
-
-	@SuppressLint("CheckResult")
-	@OnClick(R.id.ib_gallery)
-	public void onShowImagePicker() {
-		Disposable disposable = RxImagePicker.INSTANCE.create().openGallery(mContext).subscribe(
-				result -> ImageProcessingHelper.setGlide(mContext, result.getUri(), iv_background, glideOptions));
-
-		compositeDisposable.add(disposable);
 	}
 
 	@OnClick({R.id.ll_date, R.id.tv_date})
@@ -622,17 +619,18 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	private MainContract.OnItemClickListener onItemClickListener = (position, typeFilter) -> {
 		switch (typeFilter) {
 			case PRIMARY:
+				isSelectedGallery = false;
 				mPrimaryPosition = position;
 				mGalleryPosition = -1;
 				mGalleryBlur = 0;
-				sb_blur.setProgress(0);
+				sb_blur.setProgress(mGalleryBlur);
 				ImageProcessingHelper.setGlide(mContext, colorBitmapList.get(position), iv_background, glideOptions);
 				break;
 			case GALLERY:
 				mGalleryPosition = position;
 				mPrimaryPosition = -1;
 				mGalleryBlur = 0;
-				sb_blur.setProgress(0);
+				sb_blur.setProgress(mGalleryBlur);
 				ImageProcessingHelper.setGlide(mContext, galleryBitmapList.get(position), iv_background, glideOptions);
 				break;
 			case FONT:
