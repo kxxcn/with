@@ -59,6 +59,8 @@
     <string name="toast_choice_gallery">사진을 선택하세요.</string>
     <string name="toast_search_version">버전정보를 조회하고 있습니다.</string>
 
+    <string name="snack_selected_gallery">사진이 선택되었습니다.</string>
+
     <string name="system_setting">설정</string>
     <string name="system_denied_permission">"권한 허가를 거부하시면 이 서비스를 이용하실 수 없습니다.\n\n[설정] > [권한]에서 권한을 켜십시오."</string>
 
