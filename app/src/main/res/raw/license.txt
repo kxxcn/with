@@ -97,3 +97,8 @@ This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at: http://scripts.sil.org/OFL
 SIL OPEN FONT LICENSE
 Version 1.1 - 26 February 2007
+
+qingmei2 - RxImagePicker
+https://github.com/qingmei2/RxImagePicker
+Copyright (c) 2018 qingmei2
+MIT License
