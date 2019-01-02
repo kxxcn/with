@@ -79,7 +79,7 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 
 	@Override
 	public int getItemCount() {
-		return imgList.size();
+		return imgList != null ? imgList.size() : 0;
 	}
 
 	private void setView(View view) {
@@ -143,7 +143,12 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 			TYPE_COLOR_POSITION = INIT;
 		} else {
 			imgList = imgs;
-			clickArrays = new boolean[imgList.size()];
+			if (imgList != null) {
+				clickArrays = new boolean[imgList.size()];
+			} else {
+				clickArrays = new boolean[0];
+				TYPE_PRIMARY_POSITION = INIT;
+			}
 			this.typeFilter = typeFilter;
 			Arrays.fill(clickArrays, false);
 			setItem(typeFilter);
