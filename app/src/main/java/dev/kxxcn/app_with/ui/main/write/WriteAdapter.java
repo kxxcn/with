@@ -150,6 +150,10 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 				TYPE_PRIMARY_POSITION = INIT;
 			}
 			this.typeFilter = typeFilter;
+			if (typeFilter == Constants.TypeFilter.GALLERY) {
+				TYPE_PRIMARY_POSITION = INIT;
+				this.typeFilter = Constants.TypeFilter.PRIMARY;
+			}
 			Arrays.fill(clickArrays, false);
 			setItem(typeFilter);
 		}

@@ -371,6 +371,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		mGalleryPosition = -1;
 		mGalleryName = "";
 		mLetterDate = SystemUtils.getDate();
+		isSelectedGallery = false;
 		String[] today = SystemUtils.getDate().split("-");
 		tv_date.setText(String.format(getString(R.string.format_date), today[0], today[1], today[2]));
 		if (isMove) {
@@ -490,7 +491,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 						sb_blur.setProgress(mGalleryBlur);
 						galleryBitmap = ImageProcessingHelper.convertToBitmap(mContext, result.getUri());
 						ImageProcessingHelper.setGlide(mContext, galleryBitmap, iv_background, glideOptions);
-						adapter.onChangedData(null, Constants.TypeFilter.GALLERY);
+						adapter.onChangedData(colorBitmapList, Constants.TypeFilter.GALLERY);
 						Snackbar.make(mActivity.getWindow().getDecorView().getRootView(), getString(R.string.snack_selected_gallery), Snackbar.LENGTH_SHORT).show();
 					});
 
@@ -677,7 +678,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		mPresenter.registerDiary(
 				new Diary(args.getString(KEY_IDENTIFIER),
 						et_write.getText().toString(),
-						SystemUtils.getDate(),
+						mLetterDate,
 						locationList.get(mLocationPosition),
 						mFontStyle,
 						mFontColor,
