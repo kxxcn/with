@@ -26,6 +26,7 @@ import dev.kxxcn.app_with.util.threading.UiThread;
 
 import static dev.kxxcn.app_with.util.Constants.DELAY_TOAST;
 import static dev.kxxcn.app_with.util.Constants.READ_EXTERNAL_STORAGE;
+import static dev.kxxcn.app_with.util.Constants.WRITE_EXTERNAL_STORAGE;
 
 /**
  * Created by kxxcn on 2018-08-22.
@@ -73,7 +74,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 				Toast.makeText(SplashActivity.this, getString(R.string.system_denied_permission), Toast.LENGTH_SHORT).show();
 				UiThread.getInstance().postDelayed(() -> SystemUtils.onFinish(SplashActivity.this), DELAY_TOAST);
 			}
-		}, READ_EXTERNAL_STORAGE);
+		}, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE);
 	}
 
 	@Override
