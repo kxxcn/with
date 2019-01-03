@@ -21,7 +21,7 @@ Make your own emotional diary while writing memories you want to keep.
 ### ※ Access permission
 [Required access rights]
 
-- READ EXTERNAL STORAGE: This is the permission required to import photos.
+- READ EXTERNAL STORAGE, WRITE EXTERNAL STORAGE: This is the permission required to import photos.
 - ACCESS FINE LOCATION, ACCESS COARSE LOCATION: Permission required to verify your location.
 
 #### You must have the required access permissions before you can use the app.
