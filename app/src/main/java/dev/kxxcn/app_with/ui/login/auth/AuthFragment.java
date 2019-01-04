@@ -131,10 +131,19 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 		}
 	}
 
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if (isVisibleToUser) {
+			if (mToken != null) {
+				mPresenter.createPairingKey(args.getString(KEY_IDENTIFIER), mToken);
+			}
+		}
+	}
+
 	private void initUI() {
 		FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> {
 			mToken = instanceIdResult.getToken();
-			mPresenter.createPairingKey(args.getString(KEY_IDENTIFIER), mToken);
 		});
 		et_key.addTextChangedListener(watcher);
 	}
