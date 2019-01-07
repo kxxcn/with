@@ -55,7 +55,12 @@ public class PlanPresenter implements PlanContract.Presenter {
 			String[] dateOfStringArray = plan.getDate().split("-");
 			int[] date = new int[dateOfStringArray.length];
 			for (int i = 0; i < dateOfStringArray.length; i++) {
-				date[i] = Integer.parseInt(dateOfStringArray[i]);
+				try {
+					date[i] = Integer.parseInt(dateOfStringArray[i]);
+				} catch (NumberFormatException e) {
+					mPlanView.showFailedRequest(e.getMessage() + " :: " + plan.getWriter());
+					e.printStackTrace();
+				}
 			}
 			events.add(CalendarDay.from(date[0], date[1], date[2]));
 		}

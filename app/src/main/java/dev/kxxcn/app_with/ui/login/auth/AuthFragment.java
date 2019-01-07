@@ -18,8 +18,6 @@ import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import java.lang.ref.WeakReference;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_with.R;
@@ -37,8 +35,6 @@ import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
  * Created by kxxcn on 2018-08-29.
  */
 public class AuthFragment extends Fragment implements AuthContract.View {
-
-	private static WeakReference<AuthFragment> fragmentReference = null;
 
 	@BindView(R.id.progressbar)
 	ProgressBar progressBar;
@@ -96,15 +92,12 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	}
 
 	public static AuthFragment newInstance(String identifier) {
-		if (fragmentReference == null) {
-			AuthFragment fragment = new AuthFragment();
-			Bundle args = new Bundle();
-			args.putString(KEY_IDENTIFIER, identifier);
-			fragment.setArguments(args);
-			fragmentReference = new WeakReference<>(fragment);
-		}
+		AuthFragment fragment = new AuthFragment();
+		Bundle args = new Bundle();
+		args.putString(KEY_IDENTIFIER, identifier);
+		fragment.setArguments(args);
 
-		return fragmentReference.get();
+		return fragment;
 	}
 
 	@Nullable
@@ -136,6 +129,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 		super.setUserVisibleHint(isVisibleToUser);
 		if (isVisibleToUser) {
 			if (mToken != null) {
+				et_key.setText(null);
 				mPresenter.createPairingKey(args.getString(KEY_IDENTIFIER), mToken);
 			}
 		}
@@ -202,7 +196,11 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			mValueListener.onSetValueListener(s.toString());
+			if (s.length() != 0) {
+				if (mValueListener != null) {
+					mValueListener.onSetValueListener(s.toString());
+				}
+			}
 		}
 
 		@Override

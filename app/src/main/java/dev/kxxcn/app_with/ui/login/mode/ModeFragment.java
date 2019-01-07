@@ -41,12 +41,16 @@ public class ModeFragment extends Fragment {
 
 	@OnClick(R.id.btn_solo)
 	public void onClickSolo() {
-		mListener.onModeClickListener(SOLO);
+		if (mListener != null) {
+			mListener.onModeClickListener(SOLO);
+		}
 	}
 
 	@OnClick(R.id.btn_couple)
 	public void onClickCouple() {
-		mListener.onModeClickListener(COUPLE);
+		if (mListener != null) {
+			mListener.onModeClickListener(COUPLE);
+		}
 	}
 
 }

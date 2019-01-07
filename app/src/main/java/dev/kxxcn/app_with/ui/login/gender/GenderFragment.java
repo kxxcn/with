@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import java.lang.ref.WeakReference;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -24,12 +22,12 @@ import dev.kxxcn.app_with.ui.login.LoginContract;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
 
+import static dev.kxxcn.app_with.ui.main.write.WriteAdapter.INIT;
+
 /**
  * Created by kxxcn on 2018-08-29.
  */
 public class GenderFragment extends Fragment implements GenderContract.View {
-
-	private static WeakReference<GenderFragment> fragmentReference = null;
 
 	public static final int MALE = 0;
 	public static final int FEMALE = 1;
@@ -66,10 +64,7 @@ public class GenderFragment extends Fragment implements GenderContract.View {
 	}
 
 	public static GenderFragment newInstance() {
-		if (fragmentReference == null) {
-			fragmentReference = new WeakReference<>(new GenderFragment());
-		}
-		return fragmentReference.get();
+		return new GenderFragment();
 	}
 
 	@Nullable
@@ -87,6 +82,16 @@ public class GenderFragment extends Fragment implements GenderContract.View {
 	public void onAttach(Context context) {
 		super.onAttach(context);
 		mContext = context;
+	}
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if (isVisibleToUser) {
+			btn_female.setNormalBackgroundColor(0);
+			btn_male.setNormalBackgroundColor(0);
+			mGenderListener.onGenderClickListener(INIT);
+		}
 	}
 
 	@OnClick(R.id.btn_male)

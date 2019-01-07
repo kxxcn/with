@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.unstoppable.submitbuttonview.SubmitButton;
 
@@ -19,8 +18,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_with.R;
-import dev.kxxcn.app_with.ui.login.auth.AuthFragment;
-import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
 import dev.kxxcn.app_with.ui.main.MainActivity;
 import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.util.DialogUtils;
@@ -77,10 +74,6 @@ public class LoginActivity extends AppCompatActivity implements MainContract.OnK
 
 	private LoginPagerAdapter adapter;
 
-	private GenderFragment genderFragment;
-
-	private AuthFragment authFragment;
-
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,9 +84,16 @@ public class LoginActivity extends AppCompatActivity implements MainContract.OnK
 		initUI();
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		// To prevent "TransactionTooLargeException".
+		outState.clear();
+	}
+
 	private void initUI() {
 		registerView(rl_root);
-		ImageProcessingHelper.setGlide(this, R.drawable.background, iv_background, new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
+		ImageProcessingHelper.setGlide(this, R.drawable.background, iv_background, new RequestOptions());
 		adapter = new LoginPagerAdapter(getSupportFragmentManager(),
 				type -> {
 					this.mMode = type;
@@ -118,14 +118,13 @@ public class LoginActivity extends AppCompatActivity implements MainContract.OnK
 							finish();
 						} else {
 							btn_auth.reset();
-							authFragment.setEnabledEditText(true);
+							adapter.setEnabledEditText(true);
 						}
 					}, DELAY_NETWORK);
 				}
 				, getIntent().getStringExtra(EXTRA_IDENTIFIER));
-		genderFragment = (GenderFragment) adapter.getItem(LoginPagerAdapter.GENDER);
-		authFragment = (AuthFragment) adapter.getItem(LoginPagerAdapter.AUTH);
 		vp_login.setPagingEnabled(false);
+		vp_login.setOffscreenPageLimit(3);
 		vp_login.setAdapter(adapter);
 		cic_login.setViewPager(vp_login);
 	}
@@ -140,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements MainContract.OnK
 			DialogUtils.showAlertDialog(this, getString(R.string.dialog_want_to_quit),
 					(dialog, which) -> SystemUtils.onFinish(LoginActivity.this), null);
 		} else {
-			if (!authFragment.isLoading()) {
+			if (!adapter.isLoading()) {
 				vp_login.setCurrentItem(vp_login.getCurrentItem() - 1);
 				if (vp_login.getCurrentItem() == LoginPagerAdapter.GENDER) {
 					btn_signup.setVisibility(View.VISIBLE);
@@ -155,18 +154,19 @@ public class LoginActivity extends AppCompatActivity implements MainContract.OnK
 
 	@OnClick(R.id.btn_signup)
 	public void onSignup() {
-		if (mMode == SOLO) {
-			genderFragment.onSignUp(getIntent().getStringExtra(EXTRA_IDENTIFIER), mGender);
-		} else {
-			btn_signup.reset();
-			if (mGender != INIT) {
+		if (mGender != INIT) {
+			if (mMode == SOLO) {
+				adapter.onSignUp(getIntent().getStringExtra(EXTRA_IDENTIFIER), mGender);
+			} else {
+				btn_signup.reset();
 				vp_login.setCurrentItem(LoginPagerAdapter.AUTH);
 				btn_signup.setVisibility(View.GONE);
 				btn_auth.setVisibility(View.VISIBLE);
 				tv_welcome.setText(getString(R.string.text_auth));
-			} else {
-				Toast.makeText(this, getString(R.string.toast_choice_gender), Toast.LENGTH_SHORT).show();
 			}
+		} else {
+			btn_signup.reset();
+			Toast.makeText(this, getString(R.string.toast_choice_gender), Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -179,8 +179,8 @@ public class LoginActivity extends AppCompatActivity implements MainContract.OnK
 			btn_auth.reset();
 			Toast.makeText(this, getString(R.string.toast_check_auth_number), Toast.LENGTH_SHORT).show();
 		} else {
-			authFragment.setEnabledEditText(false);
-			authFragment.onAuthenticate(key, mGender);
+			adapter.setEnabledEditText(false);
+			adapter.onAuthenticate(key, mGender);
 		}
 	}
 

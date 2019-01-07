@@ -1,8 +1,10 @@
 package dev.kxxcn.app_with.ui.login;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import dev.kxxcn.app_with.ui.login.auth.AuthFragment;
 import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
@@ -26,6 +28,12 @@ public class LoginPagerAdapter extends FragmentStatePagerAdapter {
 	private LoginContract.OnSetValueListener mValueListener;
 
 	private LoginContract.OnAuthenticationListener mAuthListener;
+
+	private ModeFragment modeFragment;
+
+	private GenderFragment genderFragment;
+
+	private AuthFragment authFragment;
 
 	private String identifier;
 
@@ -61,9 +69,52 @@ public class LoginPagerAdapter extends FragmentStatePagerAdapter {
 		return null;
 	}
 
+	@NonNull
+	@Override
+	public Object instantiateItem(ViewGroup container, int position) {
+		Fragment fragment = (Fragment) super.instantiateItem(container, position);
+		switch (position) {
+			case MODE:
+				modeFragment = (ModeFragment) fragment;
+				break;
+			case GENDER:
+				genderFragment = (GenderFragment) fragment;
+				break;
+			case AUTH:
+				authFragment = (AuthFragment) fragment;
+				break;
+		}
+		return fragment;
+	}
+
 	@Override
 	public int getCount() {
 		return COUNT;
+	}
+
+	public void onSignUp(String uniqueIdentifier, int gender) {
+		if (genderFragment != null) {
+			genderFragment.onSignUp(uniqueIdentifier, gender);
+		}
+	}
+
+	public void setEnabledEditText(boolean isEnabled) {
+		if (authFragment != null) {
+			authFragment.setEnabledEditText(isEnabled);
+		}
+	}
+
+	public void onAuthenticate(String key, int gender) {
+		if (authFragment != null) {
+			authFragment.onAuthenticate(key, gender);
+		}
+	}
+
+	public boolean isLoading() {
+		if (authFragment != null) {
+			return authFragment.isLoading();
+		}
+		return true;
 	}
 
 }
