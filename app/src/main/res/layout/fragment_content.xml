@@ -5,11 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp"
-        tools:text="안녕하세요. 위드입니다.\n\n2019년 한 해도 많은 관심과 사랑 부탁드립니다."/>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            tools:text="안녕하세요. 위드입니다.\n\n2019년 한 해도 많은 관심과 사랑 부탁드립니다."/>
+
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
