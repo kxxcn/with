@@ -2,6 +2,7 @@ package dev.kxxcn.app_with.ui.main.plan;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,12 +58,12 @@ public class PlanPresenter implements PlanContract.Presenter {
 			for (int i = 0; i < dateOfStringArray.length; i++) {
 				try {
 					date[i] = Integer.parseInt(dateOfStringArray[i]);
-				} catch (NumberFormatException e) {
+					events.add(CalendarDay.from(date[0], date[1], date[2]));
+				} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
 					mPlanView.showFailedRequest(e.getMessage() + " :: " + plan.getWriter());
 					e.printStackTrace();
 				}
 			}
-			events.add(CalendarDay.from(date[0], date[1], date[2]));
 		}
 
 		return events;
