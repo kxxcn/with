@@ -88,7 +88,11 @@ public class PlanPresenter implements PlanContract.Presenter {
 
 							mPlanView.showLoadingIndicator(false);
 							compositeDisposable.dispose();
-						}, throwable -> mPlanView.showFailedRequest(throwable.getMessage())
+						}, throwable -> {
+							mPlanView.showFailedRequest(throwable.getMessage());
+							mPlanView.showLoadingIndicator(false);
+							compositeDisposable.dispose();
+						}
 				);
 
 		compositeDisposable.add(disposable);
