@@ -80,9 +80,7 @@ public class SystemUtils {
 	}
 
 	public static void onFinish(Activity activity) {
-		activity.moveTaskToBack(true);
-		activity.finish();
-		android.os.Process.killProcess(android.os.Process.myPid());
+		activity.finishAffinity();
 	}
 
 	public static void displayError(Context context, String className, String message) {
