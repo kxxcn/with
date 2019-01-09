@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.request.RequestOptions;
 import com.unstoppable.submitbuttonview.SubmitButton;
 
 import butterknife.BindView;
@@ -21,7 +20,6 @@ import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.ui.main.MainActivity;
 import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.util.DialogUtils;
-import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.SwipeViewPager;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.TransitionUtils;
@@ -93,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements MainContract.OnK
 
 	private void initUI() {
 		registerView(rl_root);
-		ImageProcessingHelper.setGlide(this, R.drawable.background, iv_background, new RequestOptions());
+		// ImageProcessingHelper.setGlide(this, R.drawable.background, iv_background, new RequestOptions());
 		adapter = new LoginPagerAdapter(getSupportFragmentManager(),
 				type -> {
 					this.mMode = type;
