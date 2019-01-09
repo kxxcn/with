@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
+import com.airbnb.lottie.LottieAnimationView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,10 +18,10 @@ import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.BasePresenter;
 import dev.kxxcn.app_with.ui.login.LoginActivity;
 import dev.kxxcn.app_with.ui.main.MainActivity;
-import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 
+import static com.airbnb.lottie.LottieDrawable.INFINITE;
 import static dev.kxxcn.app_with.util.Constants.DELAY_TOAST;
 import static dev.kxxcn.app_with.util.Constants.READ_EXTERNAL_STORAGE;
 import static dev.kxxcn.app_with.util.Constants.WRITE_EXTERNAL_STORAGE;
@@ -33,12 +31,16 @@ import static dev.kxxcn.app_with.util.Constants.WRITE_EXTERNAL_STORAGE;
  */
 public class SplashActivity extends AppCompatActivity implements SplashContract.View {
 
-	private String uniqueIdentifier;
 
-	@BindView(R.id.iv_splash)
-	ImageView iv_splash;
+//	@BindView(R.id.iv_splash)
+//	ImageView iv_splash;
+
+	@BindView(R.id.lottie_splash)
+	LottieAnimationView lottie_splash;
 
 	private SplashContract.Presenter mPresenter;
+
+	private String uniqueIdentifier;
 
 	@Override
 	public void setPresenter(SplashContract.Presenter presenter) {
@@ -59,7 +61,10 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
 		new SplashPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
-		ImageProcessingHelper.setGlide(this, R.drawable.splash, iv_splash, new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
+		// ImageProcessingHelper.setGlide(this, R.drawable.splash, iv_splash, new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
+
+		lottie_splash.playAnimation();
+		lottie_splash.setRepeatCount(INFINITE);
 
 		uniqueIdentifier = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
@@ -79,6 +84,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
 	@Override
 	public void showRegisteredUser(String response) {
+		lottie_splash.cancelAnimation();
 		Intent intent = new Intent(SplashActivity.this, MainActivity.class);
 		intent.putExtra(MainActivity.EXTRA_GENDER, Integer.parseInt(response));
 		intent.putExtra(MainActivity.EXTRA_IDENTIFIER, uniqueIdentifier);
@@ -88,6 +94,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
 	@Override
 	public void showUnregisteredUser() {
+		lottie_splash.cancelAnimation();
 		Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
 		intent.putExtra(LoginActivity.EXTRA_IDENTIFIER, uniqueIdentifier);
 		startActivity(intent);
