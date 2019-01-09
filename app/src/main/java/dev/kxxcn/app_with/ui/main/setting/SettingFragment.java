@@ -13,10 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.zcw.togglebutton.ToggleButton;
 
 import butterknife.BindView;
@@ -68,8 +68,8 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	@BindView(R.id.iv_new)
 	ImageView iv_new;
 
-	@BindView(R.id.pb_loading)
-	ProgressBar pb_loading;
+	@BindView(R.id.sv_loading)
+	SpinKitView sv_loading;
 
 	private Activity mActivity;
 
@@ -96,9 +96,9 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	@Override
 	public void showLoadingIndicator(boolean isShowing) {
 		if (isShowing) {
-			pb_loading.setVisibility(View.VISIBLE);
+			sv_loading.setVisibility(View.VISIBLE);
 		} else {
-			pb_loading.setVisibility(View.GONE);
+			sv_loading.setVisibility(View.GONE);
 		}
 	}
 
