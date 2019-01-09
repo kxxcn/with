@@ -101,5 +101,8 @@ dependencies {
 
     /* Crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+
+    /* Lottie */
+    implementation 'com.airbnb.android:lottie:2.7.0'
 }
 apply plugin: 'com.google.gms.google-services'
