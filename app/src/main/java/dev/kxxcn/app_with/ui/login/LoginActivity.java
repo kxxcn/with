@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity implements MainContract.OnK
 							startActivity(intent);
 							finish();
 						} else {
+							btn_signup.reset();
 							btn_auth.reset();
 							adapter.setEnabledEditText(true);
 						}
