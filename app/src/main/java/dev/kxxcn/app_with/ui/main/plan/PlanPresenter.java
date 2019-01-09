@@ -54,14 +54,14 @@ public class PlanPresenter implements PlanContract.Presenter {
 		for (Plan plan : planList) {
 			String[] dateOfStringArray = plan.getDate().split("-");
 			int[] date = new int[dateOfStringArray.length];
-			for (int i = 0; i < dateOfStringArray.length; i++) {
-				try {
+			try {
+				for (int i = 0; i < dateOfStringArray.length; i++) {
 					date[i] = Integer.parseInt(dateOfStringArray[i]);
-					events.add(CalendarDay.from(date[0], date[1], date[2]));
-				} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-					mPlanView.showFailedRequest(e.getMessage() + " :: " + plan.getWriter());
-					e.printStackTrace();
 				}
+				events.add(CalendarDay.from(date[0], date[1], date[2]));
+			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+				mPlanView.showFailedRequest(e.getMessage() + " :: " + plan.getWriter());
+				e.printStackTrace();
 			}
 		}
 
