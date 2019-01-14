@@ -519,38 +519,40 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	}
 
 	private String requestLocations() {
-		int gpsCheck = ContextCompat.checkSelfPermission(mContext, ACCESS_COARSE_LOCATION);
-		if (gpsCheck != PackageManager.PERMISSION_DENIED) {
-			locationManager.requestLocationUpdates(
-					LocationManager.NETWORK_PROVIDER,
-					MIN_TIME_BW_UPDATES,
-					MIN_DISTANCE_CHANGE_FOR_UPDATES,
-					new LocationListener() {
-						@Override
-						public void onLocationChanged(Location location) {
+		if (isAdded()) {
+			int gpsCheck = ContextCompat.checkSelfPermission(mContext, ACCESS_COARSE_LOCATION);
+			if (gpsCheck != PackageManager.PERMISSION_DENIED) {
+				locationManager.requestLocationUpdates(
+						LocationManager.NETWORK_PROVIDER,
+						MIN_TIME_BW_UPDATES,
+						MIN_DISTANCE_CHANGE_FOR_UPDATES,
+						new LocationListener() {
+							@Override
+							public void onLocationChanged(Location location) {
 
-						}
+							}
 
-						@Override
-						public void onStatusChanged(String provider, int status, Bundle extras) {
+							@Override
+							public void onStatusChanged(String provider, int status, Bundle extras) {
 
-						}
+							}
 
-						@Override
-						public void onProviderEnabled(String provider) {
+							@Override
+							public void onProviderEnabled(String provider) {
 
-						}
+							}
 
-						@Override
-						public void onProviderDisabled(String provider) {
+							@Override
+							public void onProviderDisabled(String provider) {
 
-						}
-					});
+							}
+						});
 
-			if (locationManager != null) {
-				location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-				if (location != null) {
-					return String.format(getString(R.string.param_geocode), location.getLongitude(), location.getLatitude());
+				if (locationManager != null) {
+					location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+					if (location != null) {
+						return String.format(getString(R.string.param_geocode), location.getLongitude(), location.getLatitude());
+					}
 				}
 			}
 		}
