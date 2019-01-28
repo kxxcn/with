@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
 	private MainContract.Presenter mPresenter;
 
+	private boolean isHomosexual;
+
 	@Override
 	public void setPresenter(MainContract.Presenter presenter) {
 		this.mPresenter = presenter;
@@ -108,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 	}
 
 	@Override
-	public void showSuccessfulCheckMode(String lover) {
+	public void showSuccessfulCheckMode(String lover, int myGender, int yourGender) {
 		int mode;
 		int xmlRes;
 		if (TextUtils.isEmpty(lover)) {
@@ -116,7 +118,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 			xmlRes = R.xml.bottombar_tabs_solo;
 		} else {
 			mode = COUPLE;
-			xmlRes = R.xml.bottombar_tabs_couple;
+			if (myGender != yourGender) {
+				isHomosexual = false;
+				xmlRes = R.xml.bottombar_tabs_couple;
+			} else {
+				isHomosexual = true;
+				xmlRes = myGender == GenderFragment.MALE ? R.xml.bottombar_tabs_men : R.xml.bottombar_tabs_women;
+			}
 		}
 		prepareBottomBar(xmlRes);
 		setAdapter(mode);
@@ -159,6 +167,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 					break;
 				case R.id.tab_me:
 					vp_main.setCurrentItem(MainPagerAdapter.MALE);
+					break;
+				case R.id.tab_boy2:
+					vp_main.setCurrentItem(MainPagerAdapter.FEMALE);
+					break;
+				case R.id.tab_girl2:
+					vp_main.setCurrentItem(MainPagerAdapter.MALE);
+					break;
 			}
 		});
 	}
@@ -169,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 				mode,
 				getIntent().getIntExtra(EXTRA_GENDER, GenderFragment.MALE),
 				getIntent().getStringExtra(EXTRA_IDENTIFIER),
+				isHomosexual,
 				type -> {
 					if (mode == SOLO) {
 						type = 1;

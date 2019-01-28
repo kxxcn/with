@@ -25,6 +25,8 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	public static final int WRITE = 2;
 	public static final int MALE = 3;
 	public static final int SETTING = 4;
+	public static final int FEMALE2 = 5;
+	public static final int MALE2 = 6;
 
 	public static final int SOLO = 2;
 
@@ -33,6 +35,8 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	private String identifier;
 
 	private boolean isFemale;
+
+	private boolean isHomosexual;
 
 	private MainContract.OnPageChangeListener onPageChangeListener;
 
@@ -43,12 +47,13 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	private DiaryFragment femaleFragment;
 	private DiaryFragment maleFragment;
 
-	public MainPagerAdapter(FragmentManager fm, int mode, int gender, String identifier, MainContract.OnPageChangeListener onPageChangeListener,
+	public MainPagerAdapter(FragmentManager fm, int mode, int gender, String identifier, boolean isHomosexual, MainContract.OnPageChangeListener onPageChangeListener,
 							MainContract.OnRegisteredDiary onRegisteredDiary, MainContract.OnRegisteredNickname onRegisteredNickname) {
 		super(fm);
 		this.mode = mode;
 		this.isFemale = gender == GenderFragment.FEMALE;
 		this.identifier = identifier;
+		this.isHomosexual = isHomosexual;
 		this.onPageChangeListener = onPageChangeListener;
 		this.onRegisteredDiary = onRegisteredDiary;
 		this.onRegisteredNickname = onRegisteredNickname;
@@ -73,7 +78,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 				maleFragment.setOnPageChangeListener(onPageChangeListener);
 				return maleFragment;
 			case SETTING:
-				SettingFragment settingFragment = SettingFragment.newInstance(mode, isFemale, identifier);
+				SettingFragment settingFragment = SettingFragment.newInstance(mode, isFemale, identifier, isHomosexual);
 				settingFragment.setOnRegisteredNickname(onRegisteredNickname);
 				return settingFragment;
 		}

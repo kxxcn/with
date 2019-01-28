@@ -104,6 +104,12 @@ public class LoginPagerAdapter extends FragmentStatePagerAdapter {
 		}
 	}
 
+	public void setGender(int gender) {
+		if (authFragment != null) {
+			authFragment.setGender(gender);
+		}
+	}
+
 	public void onAuthenticate(String key, int gender) {
 		if (authFragment != null) {
 			authFragment.onAuthenticate(key, gender);

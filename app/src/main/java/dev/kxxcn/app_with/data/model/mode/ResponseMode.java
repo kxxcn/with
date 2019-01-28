@@ -7,8 +7,20 @@ public class ResponseMode {
 
 	private String lover;
 
+	private int myGender;
+
+	private int yourGender;
+
 	public String getLover() {
 		return lover;
+	}
+
+	public int getMyGender() {
+		return myGender;
+	}
+
+	public int getYourGender() {
+		return yourGender;
 	}
 
 }

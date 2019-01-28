@@ -53,6 +53,8 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 
 	private String mToken;
 
+	private int mGender;
+
 	private boolean isLoading = false;
 
 	private Activity mActivity;
@@ -66,6 +68,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	private LoginContract.OnAuthenticationListener mAuthListener;
 
 	private Bundle args;
+
 
 	public void setOnValueListener(LoginContract.OnSetValueListener listener) {
 		this.mValueListener = listener;
@@ -130,7 +133,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 		if (isVisibleToUser) {
 			if (mToken != null) {
 				et_key.setText(null);
-				mPresenter.createPairingKey(args.getString(KEY_IDENTIFIER), mToken);
+				mPresenter.createPairingKey(args.getString(KEY_IDENTIFIER), mToken, mGender);
 			}
 		}
 	}
@@ -149,6 +152,10 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 		if (isEnabled) {
 			et_key.setText(null);
 		}
+	}
+
+	public void setGender(int gender) {
+		this.mGender = gender;
 	}
 
 	public void onAuthenticate(String key, int gender) {

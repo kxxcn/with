@@ -9,7 +9,7 @@ import dev.kxxcn.app_with.util.Constants;
  */
 public interface MainContract {
 	interface View extends BaseView<Presenter> {
-		void showSuccessfulCheckMode(String lover);
+		void showSuccessfulCheckMode(String lover, int myGender, int yourGender);
 
 		void showFailedRequest(String throwable);
 	}

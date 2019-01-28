@@ -87,7 +87,8 @@ public interface APIService {
 	@FormUrlEncoded
 	@POST(GET_KEY)
 	Single<ResponsePairing> createPairingKey(@Field("uniqueIdentifier") String uniqueIdentifier,
-											 @Field("token") String token);
+											 @Field("token") String token,
+											 @Field("gender") int gender);
 
 	@FormUrlEncoded
 	@POST(AUTHENTICATE_KEY)

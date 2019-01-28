@@ -64,10 +64,10 @@
                     android:layout_height="match_parent"
                     android:visibility="gone"/>
 
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab_refresh"
-                    style="@style/RefreshFloatingActionButton2"
-                    android:visibility="visible"/>
+                <!--<android.support.design.widget.FloatingActionButton-->
+                    <!--android:id="@+id/fab_refresh"-->
+                    <!--style="@style/RefreshFloatingActionButton2"-->
+                    <!--android:visibility="visible"/>-->
 
                 <com.github.ybq.android.spinkit.SpinKitView
                     android:id="@+id/progressbar"

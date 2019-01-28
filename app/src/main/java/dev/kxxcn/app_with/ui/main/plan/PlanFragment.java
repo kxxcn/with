@@ -193,10 +193,10 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 		rv_plan.setVisibility(View.VISIBLE);
 	}
 
-	@OnClick(R.id.fab_refresh)
-	public void onRefresh() {
-		mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
-	}
+//	@OnClick(R.id.fab_refresh)
+//	public void onRefresh() {
+//		mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
+//	}
 
 	@Override
 	public void showSuccessfulLoadPlan(List<Plan> planList) {

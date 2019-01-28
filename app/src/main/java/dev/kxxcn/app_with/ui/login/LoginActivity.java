@@ -98,7 +98,10 @@ public class LoginActivity extends AppCompatActivity implements MainContract.OnK
 					vp_login.setCurrentItem(LoginPagerAdapter.GENDER);
 					btn_signup.setVisibility(View.VISIBLE);
 				},
-				type -> this.mGender = type,
+				type -> {
+					this.mGender = type;
+					adapter.setGender(mGender);
+				},
 				key -> this.key = key,
 				isSuccess -> {
 					if (mMode == SOLO) {

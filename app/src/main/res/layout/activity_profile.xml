@@ -111,6 +111,28 @@
 
                 </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
+                <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+                    android:id="@+id/tfb_gender"
+                    style="@style/HorizontalConstraintParent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    app:iconSignifier="@drawable/ic_gender"
+                    app:labelText="@string/hint_gender"
+                    app:layout_constraintTop_toBottomOf="@id/tfb_you"
+                    app:panelBackgroundColor="@color/tfb_panel"
+                    app:primaryColor="@color/tfb_primary"
+                    app:secondaryColor="@color/tfb_secondary">
+
+                    <studio.carbonylgroup.textfieldboxes.ExtendedEditText
+                        android:id="@+id/eet_gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/namsan"
+                        tools:text="남 자"/>
+
+                </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
+
                 <com.unstoppable.submitbuttonview.SubmitButton
                     android:id="@+id/btn_registration"
                     style="@style/HorizontalConstraintParent"
@@ -121,7 +143,7 @@
                     app:buttonText="@string/btn_registration"
                     app:buttonTextSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tfb_you"
+                    app:layout_constraintTop_toBottomOf="@id/tfb_gender"
                     app:progressStyle="loading"/>
 
                 <com.github.ybq.android.spinkit.SpinKitView

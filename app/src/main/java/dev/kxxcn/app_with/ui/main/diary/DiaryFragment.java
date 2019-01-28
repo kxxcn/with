@@ -60,8 +60,8 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	FloatingActionButton fab_delete;
 	@BindView(R.id.fab_pack)
 	FloatingActionButton fab_pack;
-	@BindView(R.id.fab_refresh)
-	FloatingActionButton fab_refresh;
+//	@BindView(R.id.fab_refresh)
+//	FloatingActionButton fab_refresh;
 
 	@BindView(R.id.vp_letter)
 	ViewPager vp_letter;
@@ -155,16 +155,16 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 		if (args.getInt(KEY_MODE) == SOLO) {
 			tv_title.setText(getString(R.string.title_me));
 			fab_pack.setVisibility(View.VISIBLE);
-			fab_refresh.setVisibility(View.GONE);
+			// fab_refresh.setVisibility(View.GONE);
 		} else {
 			if (args.getBoolean(KEY_GENDER)) {
 				tv_title.setText(getString(R.string.title_me));
 				fab_pack.setVisibility(View.VISIBLE);
-				fab_refresh.setVisibility(View.GONE);
+				// fab_refresh.setVisibility(View.GONE);
 			} else {
 				tv_title.setText(getString(R.string.title_you));
 				fab_pack.setVisibility(View.GONE);
-				fab_refresh.setVisibility(View.VISIBLE);
+				// fab_refresh.setVisibility(View.VISIBLE);
 			}
 		}
 

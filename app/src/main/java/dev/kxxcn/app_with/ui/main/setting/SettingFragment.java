@@ -40,6 +40,7 @@ import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_C
 import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_LATEST;
 import static dev.kxxcn.app_with.util.Constants.DELAY_SIGN_OUT;
 import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
+import static dev.kxxcn.app_with.util.Constants.KEY_HOMOSEXUAL;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
 import static dev.kxxcn.app_with.util.Constants.KEY_MODE;
 
@@ -102,13 +103,14 @@ public class SettingFragment extends Fragment implements SettingContract.View {
         }
     }
 
-    public static SettingFragment newInstance(int mode, boolean gender, String identifier) {
+    public static SettingFragment newInstance(int mode, boolean gender, String identifier, boolean isHomosexual) {
         SettingFragment fragment = new SettingFragment();
 
         Bundle args = new Bundle();
         args.putInt(KEY_MODE, mode);
         args.putBoolean(KEY_GENDER, gender);
         args.putString(KEY_IDENTIFIER, identifier);
+        args.putBoolean(KEY_HOMOSEXUAL, isHomosexual);
         fragment.setArguments(args);
 
         return fragment;
@@ -172,6 +174,7 @@ public class SettingFragment extends Fragment implements SettingContract.View {
         intent.putExtra(ProfileActivity.EXTRA_MODE, args.getInt(KEY_MODE));
         intent.putExtra(ProfileActivity.EXTRA_GENDER, args.getBoolean(KEY_GENDER));
         intent.putExtra(ProfileActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
+        intent.putExtra(ProfileActivity.EXTRA_HOMOSEXUAL, args.getBoolean(KEY_HOMOSEXUAL));
         startActivityForResult(intent, REQ_PROFILE);
     }
 

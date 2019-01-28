@@ -30,7 +30,7 @@ public class MainPresenter implements MainContract.Presenter {
 		Disposable disposable = mDataRepository.checkMode(uniqueIdentifier)
 				.subscribe(responseMode -> {
 					mMainView.showLoadingIndicator(false);
-					mMainView.showSuccessfulCheckMode(responseMode.getLover());
+					mMainView.showSuccessfulCheckMode(responseMode.getLover(), responseMode.getMyGender(), responseMode.getYourGender());
 					compositeDisposable.dispose();
 				}, throwable -> {
 					mMainView.showLoadingIndicator(false);

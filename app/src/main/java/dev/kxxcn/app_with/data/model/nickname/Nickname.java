@@ -8,6 +8,7 @@ public class Nickname {
 	private String uniqueIdentifier;
 	private String myNickname;
 	private String yourNickname;
+	private boolean isFemale;
 
 	public String getUniqueIdentifier() {
 		return uniqueIdentifier;
@@ -17,20 +18,16 @@ public class Nickname {
 		this.uniqueIdentifier = uniqueIdentifier;
 	}
 
-	public String getMyNickname() {
-		return myNickname;
-	}
-
 	public void setMyNickname(String myNickname) {
 		this.myNickname = myNickname;
 	}
 
-	public String getYourNickname() {
-		return yourNickname;
-	}
-
 	public void setYourNickname(String yourNickname) {
 		this.yourNickname = yourNickname;
+	}
+
+	public void setFemale(boolean female) {
+		isFemale = female;
 	}
 
 }

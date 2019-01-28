@@ -23,7 +23,7 @@ import okhttp3.ResponseBody;
  */
 public abstract class DataSource {
 
-	public abstract Single<ResponsePairing> createPairingKey(String uniqueIdentifier, String token);
+	public abstract Single<ResponsePairing> createPairingKey(String uniqueIdentifier, String token, int gender);
 
 	public abstract Single<ResponseResult> signUp(String uniqueIdentifier, int gender, String token);
 

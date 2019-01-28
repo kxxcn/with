@@ -38,8 +38,8 @@ public class DataRepository {
 		return dataRepository;
 	}
 
-	public Single<ResponsePairing> createPairingKey(String uniqueIdentifier, String token) {
-		return dataSource.createPairingKey(uniqueIdentifier, token);
+	public Single<ResponsePairing> createPairingKey(String uniqueIdentifier, String token, int gender) {
+		return dataSource.createPairingKey(uniqueIdentifier, token, gender);
 	}
 
 	public Single<ResponseResult> signUp(String uniqueIdentifier, int gender, String token) {

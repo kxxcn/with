@@ -45,8 +45,8 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
-	public Single<ResponsePairing> createPairingKey(String uniqueIdentifier, String token) {
-		return service.createPairingKey(uniqueIdentifier, token)
+	public Single<ResponsePairing> createPairingKey(String uniqueIdentifier, String token, int gender) {
+		return service.createPairingKey(uniqueIdentifier, token, gender)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread());
 	}

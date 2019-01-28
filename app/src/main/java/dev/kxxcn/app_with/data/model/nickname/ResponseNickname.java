@@ -7,6 +7,7 @@ public class ResponseNickname {
 
 	private String myNickname;
 	private String yourNickname;
+	private int gender;
 
 	public String getMyNickname() {
 		return myNickname;
@@ -14,6 +15,10 @@ public class ResponseNickname {
 
 	public String getYourNickname() {
 		return yourNickname;
+	}
+
+	public int getGender() {
+		return gender;
 	}
 
 }

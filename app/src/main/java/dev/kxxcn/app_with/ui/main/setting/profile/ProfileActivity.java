@@ -34,6 +34,8 @@ import dev.kxxcn.app_with.util.threading.UiThread;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
+import static dev.kxxcn.app_with.ui.login.gender.GenderFragment.FEMALE;
+import static dev.kxxcn.app_with.ui.login.gender.GenderFragment.MALE;
 import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
 import static dev.kxxcn.app_with.ui.main.write.WriteAdapter.INIT;
 import static dev.kxxcn.app_with.util.Constants.DELAY_NETWORK;
@@ -46,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 	public static final String EXTRA_MODE = "EXTRA_MODE";
 	public static final String EXTRA_GENDER = "EXTRA_GENDER";
 	public static final String EXTRA_IDENTIFIER = "EXTRA_IDENTIFIER";
+	public static final String EXTRA_HOMOSEXUAL = "EXTRA_HOMOSEXUAL";
 
 	@BindView(R.id.ll_root)
 	LinearLayout ll_root;
@@ -63,11 +66,15 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 	TextFieldBoxes tfb_me;
 	@BindView(R.id.tfb_you)
 	TextFieldBoxes tfb_you;
+	@BindView(R.id.tfb_gender)
+	TextFieldBoxes tfb_gender;
 
 	@BindView(R.id.eet_me)
 	ExtendedEditText eet_me;
 	@BindView(R.id.eet_you)
 	ExtendedEditText eet_you;
+	@BindView(R.id.eet_gender)
+	ExtendedEditText eet_gender;
 
 	@BindView(R.id.btn_registration)
 	SubmitButton btn_registration;
@@ -79,7 +86,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
 	private Activity mActivity;
 
+	private String[] genders;
+
 	private boolean isProcessing = false;
+
+	private boolean isFemale;
 
 	@Override
 	public void setPresenter(ProfileContract.Presenter presenter) {
@@ -110,19 +121,36 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 	}
 
 	private void initUI() {
+		eet_gender.setInputType(0);
+		genders = getResources().getStringArray(R.array.gender);
 		if (getIntent().getIntExtra(EXTRA_MODE, INIT) == SOLO) {
 			tv_explain.setText(getString(R.string.text_alias));
 			tfb_you.setVisibility(View.GONE);
+			tfb_gender.setVisibility(View.GONE);
 			tfb_me.setIconSignifier(R.drawable.ic_me);
 			tfb_me.setLabelText(getString(R.string.hint_alias));
 		} else {
 			tfb_you.setVisibility(View.VISIBLE);
-			if (getIntent().getBooleanExtra(EXTRA_GENDER, true)) {
-				tfb_me.setIconSignifier(R.drawable.ic_girl);
-				tfb_you.setIconSignifier(R.drawable.ic_boy);
+			if (getIntent().getBooleanExtra(EXTRA_HOMOSEXUAL, false)) {
+				if (getIntent().getBooleanExtra(EXTRA_GENDER, true)) {
+					tfb_me.setIconSignifier(R.drawable.ic_girl);
+					tfb_you.setIconSignifier(R.drawable.ic_girl);
+					isFemale = true;
+				} else {
+					tfb_me.setIconSignifier(R.drawable.ic_boy);
+					tfb_you.setIconSignifier(R.drawable.ic_boy);
+					isFemale = false;
+				}
 			} else {
-				tfb_me.setIconSignifier(R.drawable.ic_boy);
-				tfb_you.setIconSignifier(R.drawable.ic_girl);
+				if (getIntent().getBooleanExtra(EXTRA_GENDER, true)) {
+					tfb_me.setIconSignifier(R.drawable.ic_girl);
+					tfb_you.setIconSignifier(R.drawable.ic_boy);
+					isFemale = true;
+				} else {
+					tfb_me.setIconSignifier(R.drawable.ic_boy);
+					tfb_you.setIconSignifier(R.drawable.ic_girl);
+					isFemale = false;
+				}
 			}
 		}
 
@@ -172,7 +200,20 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 		nickname.setUniqueIdentifier(getIntent().getStringExtra(EXTRA_IDENTIFIER));
 		nickname.setMyNickname(eet_me.getText().toString());
 		nickname.setYourNickname(eet_you.getText().toString());
+		nickname.setFemale(isFemale);
 		mPresenter.onRegisterNickname(nickname);
+	}
+
+	@OnClick({R.id.tfb_gender, R.id.eet_gender})
+	public void onClickGender() {
+		KeyboardUtils.hideKeyboard(this, eet_gender);
+		if (isFemale) {
+			isFemale = false;
+			eet_gender.setText(genders[MALE]);
+		} else {
+			isFemale = true;
+			eet_gender.setText(genders[FEMALE]);
+		}
 	}
 
 	@Override
@@ -187,6 +228,11 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 		eet_you.setText(responseNickname.getYourNickname());
 		eet_me.setSelection(eet_me.getText().toString().length());
 		eet_you.setSelection(eet_you.getText().toString().length());
+		if (responseNickname.getGender() == MALE) {
+			eet_gender.setText(genders[MALE]);
+		} else {
+			eet_gender.setText(genders[FEMALE]);
+		}
 	}
 
 	@Override
