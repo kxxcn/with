@@ -48,7 +48,7 @@ import static dev.kxxcn.app_with.util.Constants.TAG_DIALOG;
  * Created by kxxcn on 2018-09-28.
  */
 public class DiaryFragment extends Fragment implements DiaryContract.View, DiaryContract.OnLetterClickListener {
-
+	/* 수정기능 추가 예정 */
 	private static WeakReference<DiaryFragment> fragmentReference = null;
 
 	@BindView(R.id.tv_title)
