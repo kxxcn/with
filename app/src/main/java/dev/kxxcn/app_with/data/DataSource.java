@@ -37,6 +37,8 @@ public abstract class DataSource {
 
 	public abstract Single<ResponseResult> registerDiary(Diary diary);
 
+	public abstract Single<ResponseResult> updateDiary(Diary diary);
+
 	public abstract Single<ResponseResult> registerPlan(Plan plan);
 
 	public abstract Single<List<Plan>> getPlan(String uniqueIdentifier);

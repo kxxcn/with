@@ -19,6 +19,7 @@ import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
 import dev.kxxcn.app_with.util.BusProvider;
+import dev.kxxcn.app_with.util.Constants;
 import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.SwipeViewPager;
 import dev.kxxcn.app_with.util.SystemUtils;
@@ -157,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 					vp_main.setCurrentItem(MainPagerAdapter.FEMALE);
 					break;
 				case R.id.tab_write:
+					adapter.changeMode(Constants.ModeFilter.WRITE, null);
 					vp_main.setCurrentItem(MainPagerAdapter.WRITE);
 					break;
 				case R.id.tab_boy:
@@ -199,7 +201,15 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 						bottomBar.selectTabAtPosition(type);
 					}, DELAY_REGISTRATION);
 				},
-				type -> adapter.onRegisteredNickname()
+				type -> adapter.onRegisteredNickname(),
+				(type, diary) -> {
+					if (mode == SOLO) {
+						type = 1;
+					}
+					vp_main.setCurrentItem(type);
+					bottomBar.selectTabAtPosition(type);
+					adapter.changeMode(Constants.ModeFilter.EDIT, diary);
+				}
 		);
 		vp_main.setPagingEnabled(false);
 		vp_main.setOffscreenPageLimit(4);

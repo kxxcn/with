@@ -94,6 +94,13 @@ public class RemoteDataSource extends DataSource {
 	}
 
 	@Override
+	public Single<ResponseResult> updateDiary(Diary diary) {
+		return service.updateDiary(diary)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
 	public Single<ResponseResult> registerPlan(Plan plan) {
 		return service.registerPlan(plan)
 				.subscribeOn(Schedulers.io())

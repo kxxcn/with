@@ -90,7 +90,7 @@ public class WriteAdapter extends RecyclerView.Adapter<WriteAdapter.ViewHolder> 
 		return view;
 	}
 
-	private void setPosition(Constants.TypeFilter typeFilter, int position) {
+	public void setPosition(Constants.TypeFilter typeFilter, int position) {
 		switch (typeFilter) {
 			case PRIMARY:
 				TYPE_PRIMARY_POSITION = position;

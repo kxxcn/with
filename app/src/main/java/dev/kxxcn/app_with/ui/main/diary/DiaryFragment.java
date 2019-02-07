@@ -48,7 +48,7 @@ import static dev.kxxcn.app_with.util.Constants.TAG_DIALOG;
  * Created by kxxcn on 2018-09-28.
  */
 public class DiaryFragment extends Fragment implements DiaryContract.View, DiaryContract.OnLetterClickListener {
-	/* 수정기능 추가 예정 */
+
 	private static WeakReference<DiaryFragment> fragmentReference = null;
 
 	@BindView(R.id.tv_title)
@@ -58,10 +58,10 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	FloatingActionButton fab_write;
 	@BindView(R.id.fab_delete)
 	FloatingActionButton fab_delete;
+	@BindView(R.id.fab_edit)
+	FloatingActionButton fab_edit;
 	@BindView(R.id.fab_pack)
 	FloatingActionButton fab_pack;
-//	@BindView(R.id.fab_refresh)
-//	FloatingActionButton fab_refresh;
 
 	@BindView(R.id.vp_letter)
 	ViewPager vp_letter;
@@ -81,7 +81,9 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 
 	private DiaryContract.Presenter mPresenter;
 
-	private MainContract.OnPageChangeListener mListener;
+	private MainContract.OnPageChangeListener mPageChangeListener;
+
+	private MainContract.OnSelectedDiaryToEdit mSelectedDiaryToEdit;
 
 	private Bundle args;
 
@@ -110,7 +112,11 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	}
 
 	public void setOnPageChangeListener(MainContract.OnPageChangeListener listener) {
-		this.mListener = listener;
+		this.mPageChangeListener = listener;
+	}
+
+	public void setOnSelectedDiaryToEdit(MainContract.OnSelectedDiaryToEdit listener) {
+		this.mSelectedDiaryToEdit = listener;
 	}
 
 	public static DiaryFragment newInstance(int mode, boolean isFemale, @NonNull String identifier) {
@@ -155,16 +161,13 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 		if (args.getInt(KEY_MODE) == SOLO) {
 			tv_title.setText(getString(R.string.title_me));
 			fab_pack.setVisibility(View.VISIBLE);
-			// fab_refresh.setVisibility(View.GONE);
 		} else {
 			if (args.getBoolean(KEY_GENDER)) {
 				tv_title.setText(getString(R.string.title_me));
 				fab_pack.setVisibility(View.VISIBLE);
-				// fab_refresh.setVisibility(View.GONE);
 			} else {
 				tv_title.setText(getString(R.string.title_you));
 				fab_pack.setVisibility(View.GONE);
-				// fab_refresh.setVisibility(View.VISIBLE);
 			}
 		}
 
@@ -185,16 +188,19 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 			fab_write.startAnimation(fab_close);
 			if (mDiaryList != null && mDiaryList.size() != 0) {
 				fab_delete.startAnimation(fab_close);
+				fab_edit.startAnimation(fab_close);
 			}
 		} else {
 			fab_write.startAnimation(fab_open);
 			if (mDiaryList != null && mDiaryList.size() != 0) {
 				fab_delete.startAnimation(fab_open);
+				fab_edit.startAnimation(fab_open);
 			}
 		}
 		isFabOpen = !isFabOpen;
 		fab_write.setClickable(isFabOpen);
 		fab_delete.setClickable(isFabOpen);
+		fab_edit.setClickable(isFabOpen);
 	}
 
 	@OnClick(R.id.fab_pack)
@@ -205,7 +211,13 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	@OnClick(R.id.fab_write)
 	public void showPageToWrite() {
 		animatingFab();
-		mListener.onPageChangeListener(MainPagerAdapter.WRITE);
+		mPageChangeListener.onPageChangeListener(MainPagerAdapter.WRITE);
+	}
+
+	@OnClick(R.id.fab_edit)
+	public void showEditPage() {
+		animatingFab();
+		mSelectedDiaryToEdit.onSelectedDiaryToEdit(MainPagerAdapter.WRITE, mDiaryList.get(vp_letter.getCurrentItem()));
 	}
 
 	@OnClick(R.id.fab_delete)
@@ -243,6 +255,7 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 		if (isFabOpen) {
 			fab_write.startAnimation(fab_close);
 			fab_delete.startAnimation(fab_close);
+			fab_edit.startAnimation(fab_close);
 			isFabOpen = false;
 		}
 	}

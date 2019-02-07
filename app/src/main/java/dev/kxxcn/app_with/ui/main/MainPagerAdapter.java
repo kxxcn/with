@@ -6,11 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
+import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.ui.login.gender.GenderFragment;
 import dev.kxxcn.app_with.ui.main.diary.DiaryFragment;
 import dev.kxxcn.app_with.ui.main.plan.PlanFragment;
 import dev.kxxcn.app_with.ui.main.setting.SettingFragment;
 import dev.kxxcn.app_with.ui.main.write.WriteFragment;
+import dev.kxxcn.app_with.util.Constants;
 
 /**
  * Created by kxxcn on 2018-08-13.
@@ -44,11 +46,14 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 
 	private MainContract.OnRegisteredNickname onRegisteredNickname;
 
+	private MainContract.OnSelectedDiaryToEdit onSelectedDiaryToEdit;
+
 	private DiaryFragment femaleFragment;
 	private DiaryFragment maleFragment;
+	private WriteFragment writeFragment;
 
 	public MainPagerAdapter(FragmentManager fm, int mode, int gender, String identifier, boolean isHomosexual, MainContract.OnPageChangeListener onPageChangeListener,
-							MainContract.OnRegisteredDiary onRegisteredDiary, MainContract.OnRegisteredNickname onRegisteredNickname) {
+							MainContract.OnRegisteredDiary onRegisteredDiary, MainContract.OnRegisteredNickname onRegisteredNickname, MainContract.OnSelectedDiaryToEdit onSelectedDiaryToEdit) {
 		super(fm);
 		this.mode = mode;
 		this.isFemale = gender == GenderFragment.FEMALE;
@@ -57,6 +62,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 		this.onPageChangeListener = onPageChangeListener;
 		this.onRegisteredDiary = onRegisteredDiary;
 		this.onRegisteredNickname = onRegisteredNickname;
+		this.onSelectedDiaryToEdit = onSelectedDiaryToEdit;
 	}
 
 	@Override
@@ -67,6 +73,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 			case FEMALE:
 				DiaryFragment femaleFragment = DiaryFragment.newInstance(mode, isFemale, identifier);
 				femaleFragment.setOnPageChangeListener(onPageChangeListener);
+				femaleFragment.setOnSelectedDiaryToEdit(onSelectedDiaryToEdit);
 				return femaleFragment;
 			case WRITE:
 				WriteFragment writeFragment = WriteFragment.newInstance(mode, isFemale, identifier);
@@ -76,6 +83,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 			case MALE:
 				DiaryFragment maleFragment = DiaryFragment.newInstance(mode, !isFemale, identifier);
 				maleFragment.setOnPageChangeListener(onPageChangeListener);
+				maleFragment.setOnSelectedDiaryToEdit(onSelectedDiaryToEdit);
 				return maleFragment;
 			case SETTING:
 				SettingFragment settingFragment = SettingFragment.newInstance(mode, isFemale, identifier, isHomosexual);
@@ -101,6 +109,9 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 			case MALE:
 				maleFragment = (DiaryFragment) fragment;
 				break;
+			case WRITE:
+				writeFragment = (WriteFragment) fragment;
+				break;
 		}
 		return fragment;
 	}
@@ -123,6 +134,10 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 	public void onRegisteredNickname() {
 		femaleFragment.onRegisteredNickname();
 		maleFragment.onRegisteredNickname();
+	}
+
+	public void changeMode(Constants.ModeFilter filter, Diary diary) {
+		writeFragment.changeMode(filter, diary);
 	}
 
 }

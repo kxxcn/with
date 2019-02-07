@@ -37,7 +37,7 @@ public class Constants {
 	public static final String KEY_MODE = "KEY_MODE";
 	public static final String KEY_GENDER = "KEY_GENDER";
 	public static final String KEY_IDENTIFIER = "KEY_IDENTIFIER";
-	public static final String KEY_HOMOSEXUAL= "KEY_HOMOSEXUAL";
+	public static final String KEY_HOMOSEXUAL = "KEY_HOMOSEXUAL";
 	public static final String CHARSET_EUCKR = "EUC-KR";
 	public static final String CHARSET_UTF8 = "UTF-8";
 
@@ -64,5 +64,10 @@ public class Constants {
 		NOTICE_WITH,
 		NOTICE,
 		NOTICE_EVENT
+	}
+
+	public enum ModeFilter {
+		WRITE,
+		EDIT
 	}
 }

@@ -53,6 +53,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SERVER_URL;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_OUT;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_UP;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_RECEIVE_NOTIFICATION;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_TOKEN;
 
@@ -118,6 +119,9 @@ public interface APIService {
 
 	@POST(REGISTER_DIARY)
 	Single<ResponseResult> registerDiary(@Body Diary diary);
+
+	@POST(UPDATE_DIARY)
+	Single<ResponseResult> updateDiary(@Body Diary diary);
 
 	@POST(REGISTER_PLAN)
 	Single<ResponseResult> registerPlan(@Body Plan plan);

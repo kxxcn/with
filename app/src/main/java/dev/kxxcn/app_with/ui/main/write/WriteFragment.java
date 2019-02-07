@@ -72,6 +72,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
+import static dev.kxxcn.app_with.data.remote.APIPersistence.DOWNLOAD_IMAGE_URL;
 import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
 import static dev.kxxcn.app_with.util.Constants.ACCESS_COARSE_LOCATION;
 import static dev.kxxcn.app_with.util.Constants.ACCESS_FINE_LOCATION;
@@ -178,12 +179,14 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	private int mLocationPosition = 0;
 	private int mGalleryBlur = 0;
 	private int prevProgress = -1;
+	private int mUpdateId = 0;
 
 	private boolean isBackground = true;
 	private boolean isClickedRegistration = false;
 	private boolean isStop = true;
 	private boolean isProcessing = false;
 	private boolean isSelectedGallery = false;
+	private boolean isWrite;
 
 	public boolean isCompletedCheck = false;
 
@@ -209,7 +212,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	private LocationManager locationManager;
 
-	CompositeDisposable compositeDisposable;
+	private CompositeDisposable compositeDisposable;
 
 	@Override
 	public void setPresenter(WriteContract.Presenter presenter) {
@@ -231,6 +234,35 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	public void setOnRegisteredDiary(MainContract.OnRegisteredDiary listener) {
 		this.registerListener = listener;
+	}
+
+	public void changeMode(Constants.ModeFilter filter, Diary diary) {
+		switch (filter) {
+			case WRITE:
+				isWrite = true;
+				initComponent(false);
+				break;
+			case EDIT:
+				isWrite = false;
+				mUpdateId = diary.getId();
+				mLetterDate = diary.getLetterDate();
+				mFontStyle = diary.getFontStyle();
+				mFontColor = diary.getFontColor();
+				mPrimaryPosition = diary.getPrimaryPosition();
+				mGalleryName = diary.getGalleryName();
+				mLetterPosition = diary.getLetterPosition();
+				setEditMode(diary);
+				if (mPrimaryPosition != -1) {
+					adapter.setPosition(Constants.TypeFilter.PRIMARY, mPrimaryPosition);
+				}
+				if (mFontStyle != -1) {
+					adapter.setPosition(Constants.TypeFilter.FONT, mFontStyle);
+				}
+				if (mFontColor != -1) {
+					adapter.setPosition(Constants.TypeFilter.COLOR, mFontColor);
+				}
+				break;
+		}
 	}
 
 	public static WriteFragment newInstance(int mode, boolean gender, String identifier) {
@@ -435,23 +467,27 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			if (args != null) {
 				if (!TextUtils.isEmpty(et_write.getText())) {
 					setEnabledComponent(false);
-					// if (adapter.TYPE_GALLERY_POSITION != INIT) {
 					if (isSelectedGallery) {
 						mGalleryName = mPresenter.getGalleryName(args.getString(KEY_IDENTIFIER));
 						mPresenter.uploadImage(mContext, galleryBitmap, mGalleryName);
 					} else {
-						mPresenter.registerDiary(
-								new Diary(args.getString(KEY_IDENTIFIER),
-										et_write.getText().toString(),
-										mLetterDate,
-										locationList.get(mLocationPosition),
-										mFontStyle,
-										mFontColor,
-										et_write.getTextSize(),
-										mPrimaryPosition,
-										mGalleryName,
-										mGalleryBlur,
-										mLetterPosition));
+						Diary diary = new Diary(mUpdateId,
+								args.getString(KEY_IDENTIFIER),
+								et_write.getText().toString(),
+								mLetterDate,
+								locationList.get(mLocationPosition),
+								mFontStyle,
+								mFontColor,
+								et_write.getTextSize(),
+								mPrimaryPosition,
+								mGalleryName,
+								mGalleryBlur,
+								mLetterPosition);
+						if (isWrite) {
+							mPresenter.registerDiary(diary);
+						} else {
+							mPresenter.updateDiary(diary);
+						}
 					}
 				} else {
 					isClickedRegistration = false;
@@ -521,12 +557,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 			compositeDisposable.add(disposable);
 
-//			typeFilter = Constants.TypeFilter.GALLERY;
-//			if (isCompletedCheck) {
-//				adapter.onChangedData(galleryBitmapList, Constants.TypeFilter.GALLERY);
-//			} else {
-//				Toast.makeText(mContext, getString(R.string.toast_checking_album), Toast.LENGTH_SHORT).show();
-//			}
 		} else {
 			adapter.onChangedData(colorBitmapList, Constants.TypeFilter.COLOR);
 		}
@@ -597,7 +627,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_blur)
 	public void onBlur() {
-		// if (mGalleryPosition != -1) {
 		if (isSelectedGallery) {
 			showBlurSeekbar(SHOW);
 		} else {
@@ -679,11 +708,20 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	};
 
 	@Override
-	public void showSuccessfulRegister() {
+	public void showSuccessfulRegister(Constants.ModeFilter filter) {
 		isClickedRegistration = false;
 		setEnabledComponent(true);
+		String message = null;
+		switch (filter) {
+			case WRITE:
+				message = getString(R.string.toast_register_diary);
+				break;
+			case EDIT:
+				message = getString(R.string.toast_update_diary);
+				break;
+		}
 		if (isAdded()) {
-			Toast.makeText(mContext, getString(R.string.toast_register_diary), Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
 		}
 		initComponent(false);
 		boolean isFemale = args.getBoolean(KEY_GENDER);
@@ -703,19 +741,23 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@Override
 	public void showSuccessfulUpload() {
-		mPresenter.registerDiary(
-				new Diary(args.getString(KEY_IDENTIFIER),
-						et_write.getText().toString(),
-						mLetterDate,
-						locationList.get(mLocationPosition),
-						mFontStyle,
-						mFontColor,
-						et_write.getTextSize(),
-						mPrimaryPosition,
-						mGalleryName,
-						mGalleryBlur,
-						mLetterPosition)
-		);
+		Diary diary = new Diary(mUpdateId,
+				args.getString(KEY_IDENTIFIER),
+				et_write.getText().toString(),
+				mLetterDate,
+				locationList.get(mLocationPosition),
+				mFontStyle,
+				mFontColor,
+				et_write.getTextSize(),
+				mPrimaryPosition,
+				mGalleryName,
+				mGalleryBlur,
+				mLetterPosition);
+		if (isWrite) {
+			mPresenter.registerDiary(diary);
+		} else {
+			mPresenter.updateDiary(diary);
+		}
 	}
 
 	@Override
@@ -746,6 +788,42 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			ll_bottom2.setVisibility(View.GONE);
 			ll_bottom.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private void setEditMode(Diary diary) {
+		et_write.setText(diary.getLetter());
+		tv_place.setText(diary.getLetterPlace());
+		tv_date.setText(diary.getLetterDate());
+		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, diary.getFontSize());
+		if (diary.getFontStyle() != -1) {
+			Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[diary.getFontStyle()]);
+			et_write.setTypeface(typeface);
+			tv_date.setTypeface(typeface);
+			tv_place.setTypeface(typeface);
+		}
+		if (diary.getFontColor() != -1) {
+			et_write.setTextColor(Color.parseColor(colors[diary.getFontColor()]));
+			et_write.setHintTextColor(Color.parseColor(colors[diary.getFontColor()]));
+			tv_date.setTextColor(Color.parseColor(colors[diary.getFontColor()]));
+			tv_place.setTextColor(Color.parseColor(colors[diary.getFontColor()]));
+			progressBar.setColor(Color.parseColor(colors[diary.getFontColor()]));
+		}
+		if (!TextUtils.isEmpty(diary.getGalleryName())) {
+			SystemUtils.Dlog.d("Break Points - 1");
+			RequestOptions blurOptions;
+			if (diary.getGalleryBlur() != 0) {
+				MultiTransformation multiTransformation =
+						new MultiTransformation<>(new CenterCrop(), new BlurTransformation(diary.getGalleryBlur(), OPTION_SAMPLING));
+				blurOptions = new RequestOptions().transform(multiTransformation);
+			} else {
+				blurOptions = new RequestOptions().centerCrop();
+			}
+			ImageProcessingHelper.setGlide(mContext, String.format(getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, diary.getGalleryName()), iv_background, blurOptions);
+		} else {
+			SystemUtils.Dlog.d("Break Points - 2");
+			ImageProcessingHelper.setGlide(mContext, colorBitmapList.get(diary.getPrimaryPosition()), iv_background, glideOptions);
+		}
+		et_write.setLayoutParams(LayoutUtils.getRelativeLayoutParams(diary.getLetterPosition()));
 	}
 
 	static class GetThumbInfoTask extends AsyncTask<Integer, Integer, Void> {

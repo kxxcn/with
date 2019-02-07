@@ -31,13 +31,25 @@
         <item name="android:layout_margin">10dp</item>
     </style>
 
-    <style name="DeleteFloatingActionButton" parent="Widget.Design.FloatingActionButton">
+    <style name="EditFloatingActionButton" parent="Widget.Design.FloatingActionButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="elevation">10dp</item>
         <item name="pressedTranslationZ">20dp</item>
         <item name="android:layout_marginEnd">20dp</item>
         <item name="android:layout_marginBottom">175dp</item>"
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:src">@drawable/fab_edit</item>
+        <item name="backgroundTint">@color/bg_tint_fab</item>
+    </style>
+
+    <style name="DeleteFloatingActionButton" parent="Widget.Design.FloatingActionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="elevation">10dp</item>
+        <item name="pressedTranslationZ">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginBottom">230dp</item>"
         <item name="android:layout_gravity">bottom|end</item>
         <item name="android:src">@drawable/fab_delete</item>
         <item name="backgroundTint">@color/bg_tint_fab</item>

@@ -11,6 +11,7 @@ import java.util.Locale;
 
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.util.Constants;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.PermissionUtils;
 import io.reactivex.disposables.CompositeDisposable;
@@ -47,7 +48,34 @@ public class WritePresenter implements WriteContract.Presenter {
 		Disposable disposable = mDataRepository.registerDiary(diary)
 				.subscribe(response -> {
 					if (response.getRc() == 200) {
-						mWriteView.showSuccessfulRegister();
+						mWriteView.showSuccessfulRegister(Constants.ModeFilter.WRITE);
+					} else if (response.getRc() == 201) {
+						mWriteView.showFailedRequest(response.getStat());
+					}
+					mWriteView.showLoadingIndicator(false);
+					compositeDisposable.dispose();
+				}, throwable -> {
+					mWriteView.showFailedRequest(throwable.getMessage());
+					mWriteView.showLoadingIndicator(false);
+					compositeDisposable.dispose();
+				});
+
+		compositeDisposable.add(disposable);
+	}
+
+	@Override
+	public void updateDiary(Diary diary) {
+		if (mWriteView == null)
+			return;
+
+		mWriteView.showLoadingIndicator(true);
+
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+		Disposable disposable = mDataRepository.updateDiary(diary)
+				.subscribe(response -> {
+					if (response.getRc() == 200) {
+						mWriteView.showSuccessfulRegister(Constants.ModeFilter.EDIT);
 					} else if (response.getRc() == 201) {
 						mWriteView.showFailedRequest(response.getStat());
 					}

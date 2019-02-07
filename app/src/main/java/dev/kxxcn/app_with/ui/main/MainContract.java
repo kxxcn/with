@@ -1,5 +1,6 @@
 package dev.kxxcn.app_with.ui.main;
 
+import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.ui.BasePresenter;
 import dev.kxxcn.app_with.ui.BaseView;
 import dev.kxxcn.app_with.util.Constants;
@@ -36,6 +37,11 @@ public interface MainContract {
 	@FunctionalInterface
 	interface OnRegisteredNickname {
 		void onRegisteredNickname(int type);
+	}
+
+	@FunctionalInterface
+	interface OnSelectedDiaryToEdit {
+		void onSelectedDiaryToEdit(int type, Diary diary);
 	}
 
 	interface OnKeyboardListener {

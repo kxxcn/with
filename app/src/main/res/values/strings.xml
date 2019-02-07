@@ -54,6 +54,7 @@
     <string name="toast_invalid_auth_number">유효하지 않은 인증번호입니다.</string>
     <string name="toast_write_diary">일기를 작성하세요.</string>
     <string name="toast_register_diary">새 일기가 등록되었습니다.</string>
+    <string name="toast_update_diary">일기가 수정되었습니다.</string>
     <string name="toast_register_plan">새 일정이 등록되었습니다.</string>
     <string name="toast_input_plan">일정을 입력하세요.</string>
     <string name="toast_input_all">모든 항목을 입력하세요.</string>

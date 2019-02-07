@@ -21,7 +21,8 @@ public class Diary implements Parcelable {
 	private int galleryBlur;
 	private int letterPosition;
 
-	public Diary(String writer, String letter, String letterDate, String letterPlace, int fontStyle, int fontColor, float fontSize, int primaryPosition, String galleryName, int galleryBlur, int letterPosition) {
+	public Diary(int id, String writer, String letter, String letterDate, String letterPlace, int fontStyle, int fontColor, float fontSize, int primaryPosition, String galleryName, int galleryBlur, int letterPosition) {
+		this.id = id;
 		this.writer = writer;
 		this.letter = letter;
 		this.letterDate = letterDate;

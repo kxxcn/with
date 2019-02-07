@@ -66,6 +66,10 @@ public class DataRepository {
 		return dataSource.registerDiary(diary);
 	}
 
+	public Single<ResponseResult> updateDiary(Diary diary) {
+		return dataSource.updateDiary(diary);
+	}
+
 	public Single<ResponseResult> registerPlan(Plan plan) {
 		return dataSource.registerPlan(plan);
 	}
