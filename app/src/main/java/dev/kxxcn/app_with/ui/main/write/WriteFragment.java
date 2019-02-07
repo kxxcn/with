@@ -261,6 +261,10 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 				if (mFontColor != -1) {
 					adapter.setPosition(Constants.TypeFilter.COLOR, mFontColor);
 				}
+				adapter.onChangedData(colorBitmapList, Constants.TypeFilter.PRIMARY);
+				btn_item_top.setText(getString(R.string.btn_primary));
+				btn_item_bottom.setText(getString(R.string.btn_gallery));
+				rv_theme.scrollToPosition(0);
 				break;
 		}
 	}
