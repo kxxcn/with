@@ -794,6 +794,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void setEditMode(Diary diary) {
 		et_write.setText(diary.getLetter());
 		tv_place.setText(diary.getLetterPlace());
@@ -813,7 +814,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			progressBar.setColor(Color.parseColor(colors[diary.getFontColor()]));
 		}
 		if (!TextUtils.isEmpty(diary.getGalleryName())) {
-			SystemUtils.Dlog.d("Break Points - 1");
 			RequestOptions blurOptions;
 			if (diary.getGalleryBlur() != 0) {
 				MultiTransformation multiTransformation =
@@ -824,7 +824,6 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			}
 			ImageProcessingHelper.setGlide(mContext, String.format(getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, diary.getGalleryName()), iv_background, blurOptions);
 		} else {
-			SystemUtils.Dlog.d("Break Points - 2");
 			ImageProcessingHelper.setGlide(mContext, colorBitmapList.get(diary.getPrimaryPosition()), iv_background, glideOptions);
 		}
 		et_write.setLayoutParams(LayoutUtils.getRelativeLayoutParams(diary.getLetterPosition()));
