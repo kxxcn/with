@@ -4,7 +4,7 @@ package dev.kxxcn.app_with.data.remote;
  * Created by kxxcn on 2018-08-20.
  */
 public class APIPersistence {
-	//:: Development
+	//:: Development this is hot fix
 	// public static final String SERVER_URL = "http://112.162.85.74:80/with/";
 
 	//:: Production
