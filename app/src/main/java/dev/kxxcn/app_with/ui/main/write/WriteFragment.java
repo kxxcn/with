@@ -824,7 +824,9 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			}
 			ImageProcessingHelper.setGlide(mContext, String.format(getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, diary.getGalleryName()), iv_background, blurOptions);
 		} else {
-			ImageProcessingHelper.setGlide(mContext, colorBitmapList.get(diary.getPrimaryPosition()), iv_background, glideOptions);
+			if (mPrimaryPosition != -1) {
+				ImageProcessingHelper.setGlide(mContext, colorBitmapList.get(mPrimaryPosition), iv_background, glideOptions);
+			}
 		}
 		et_write.setLayoutParams(LayoutUtils.getRelativeLayoutParams(diary.getLetterPosition()));
 	}
