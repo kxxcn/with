@@ -189,7 +189,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 				isHomosexual,
 				type -> {
 					if (mode == SOLO) {
-						type = 2;
+						if (type == MainPagerAdapter.WRITE) {
+							type = 1;
+						}
 					}
 					vp_main.setCurrentItem(type);
 					bottomBar.selectTabAtPosition(type);
