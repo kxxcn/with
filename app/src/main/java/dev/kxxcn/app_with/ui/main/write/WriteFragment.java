@@ -553,8 +553,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 						mPrimaryPosition = -1;
 						mGalleryBlur = 0;
 						sb_blur.setProgress(mGalleryBlur);
-						galleryBitmap = ImageProcessingHelper.convertToBitmap(mContext, result.getUri());
-						ImageProcessingHelper.setGlide(mContext, galleryBitmap, iv_background, glideOptions);
+						galleryBitmap = ImageProcessingHelper.convertToBitmap(mContext, result.getUri(), iv_background.getWidth(), iv_background.getHeight());
+						ImageProcessingHelper.setGlide(mContext, result.getUri(), iv_background, glideOptions);
 						adapter.onChangedData(colorBitmapList, Constants.TypeFilter.GALLERY);
 						Snackbar.make(mActivity.getWindow().getDecorView().getRootView(), getString(R.string.snack_selected_gallery), Snackbar.LENGTH_SHORT).show();
 					});

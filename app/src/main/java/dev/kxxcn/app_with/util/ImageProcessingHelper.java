@@ -4,15 +4,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -38,8 +39,8 @@ public class ImageProcessingHelper {
 		return imgList;
 	}
 
-	public static Bitmap convertToBitmap(Context context, Uri uri) throws IOException {
-		return MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+	public static Bitmap convertToBitmap(Context context, Uri uri, int reqWidth, int reqHeight) throws IOException {
+		return decodeBitmapFromUri(context, uri, reqWidth, reqHeight);
 	}
 
 	private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -64,21 +65,26 @@ public class ImageProcessingHelper {
 	}
 
 	private static Bitmap decodeBitmapFromFile(String pathName, int reqWidth, int reqHeight) {
-		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(pathName, options);
 
-		// Calculate inSampleSize
 		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
-		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
 
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
 		options.inDither = true;
 
 		return BitmapFactory.decodeFile(pathName, options);
+	}
+
+	private static Bitmap decodeBitmapFromUri(Context context, Uri imageUri, int reqWidth, int reqHeight) throws FileNotFoundException {
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+		InputStream iStream = context.getContentResolver().openInputStream(imageUri);
+		return BitmapFactory.decodeStream(iStream, null, options);
 	}
 
 	public static <T> void setGlide(Context context, T t, ImageView view, RequestOptions options) {
