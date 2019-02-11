@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
@@ -123,7 +124,9 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 
 	public void onReloadDiary(int type, String identifier) {
 		DiaryFragment fragment = type == FEMALE ? maleFragment : femaleFragment;
-		fragment.onReloadDiary(identifier);
+		if (!TextUtils.isEmpty(identifier)) {
+			fragment.onReloadDiary(identifier);
+		}
 	}
 
 	public void onReloadPlan() {
