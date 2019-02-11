@@ -459,6 +459,7 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@OnClick(R.id.ib_cancel)
 	public void onCancel() {
+		KeyboardUtils.hideKeyboard(mActivity, et_write);
 		DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_contents), (dialog, which) -> initComponent(true), null);
 	}
 
