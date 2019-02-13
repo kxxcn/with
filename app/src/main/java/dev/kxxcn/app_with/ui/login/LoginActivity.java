@@ -91,7 +91,6 @@ public class LoginActivity extends AppCompatActivity implements MainContract.OnK
 
 	private void initUI() {
 		registerView(rl_root);
-		// ImageProcessingHelper.setGlide(this, R.drawable.background, iv_background, new RequestOptions());
 		adapter = new LoginPagerAdapter(getSupportFragmentManager(),
 				type -> {
 					this.mMode = type;

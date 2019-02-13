@@ -57,8 +57,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
 		new SplashPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
-		// ImageProcessingHelper.setGlide(this, R.drawable.splash, iv_splash, new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE));
-
 		lottie_splash.playAnimation();
 		lottie_splash.setRepeatCount(INFINITE);
 

@@ -49,5 +49,4 @@ public interface MainContract {
 
 		void onHideKeyboard();
 	}
-
 }
