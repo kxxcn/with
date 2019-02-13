@@ -31,10 +31,6 @@ import static dev.kxxcn.app_with.util.Constants.WRITE_EXTERNAL_STORAGE;
  */
 public class SplashActivity extends AppCompatActivity implements SplashContract.View {
 
-
-//	@BindView(R.id.iv_splash)
-//	ImageView iv_splash;
-
 	@BindView(R.id.lottie_splash)
 	LottieAnimationView lottie_splash;
 
