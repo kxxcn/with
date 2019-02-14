@@ -31,8 +31,7 @@ public class ImageProcessingHelper {
 			}
 		} else {
 			for (int res : resources) {
-				Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), res);
-				imgList.add(bitmap);
+				imgList.add(decodeBitmapFromResource(context, res, req_width, req_height));
 			}
 		}
 
@@ -85,6 +84,14 @@ public class ImageProcessingHelper {
 
 		InputStream iStream = context.getContentResolver().openInputStream(imageUri);
 		return BitmapFactory.decodeStream(iStream, null, options);
+	}
+
+	private static Bitmap decodeBitmapFromResource(Context context, int res, int reqWidth, int reqHeight) {
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+
+		return BitmapFactory.decodeResource(context.getResources(), res, options);
 	}
 
 	public static <T> void setGlide(Context context, T t, ImageView view, RequestOptions options) {
