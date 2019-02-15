@@ -138,10 +138,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
 	@Subscribe
 	public void onSubscribe(String type) {
-		if (type.equals(TYPE_DIARY)) {
-			adapter.onReloadDiary(getIntent().getIntExtra(EXTRA_GENDER, GenderFragment.MALE), getIntent().getStringExtra(EXTRA_IDENTIFIER));
-		} else if (type.equals(TYPE_PLAN)) {
-			adapter.onReloadPlan();
+		if (adapter != null) {
+			if (type.equals(TYPE_DIARY)) {
+				adapter.onReloadDiary(getIntent().getIntExtra(EXTRA_GENDER, GenderFragment.MALE), getIntent().getStringExtra(EXTRA_IDENTIFIER));
+			} else if (type.equals(TYPE_PLAN)) {
+				adapter.onReloadPlan();
+			}
 		}
 	}
 
