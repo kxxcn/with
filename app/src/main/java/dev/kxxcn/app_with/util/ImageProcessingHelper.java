@@ -68,10 +68,8 @@ public class ImageProcessingHelper {
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(pathName, options);
 
-		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
 		options.inJustDecodeBounds = false;
-
+		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
 		options.inDither = true;
 
@@ -80,7 +78,10 @@ public class ImageProcessingHelper {
 
 	private static Bitmap decodeBitmapFromUri(Context context, Uri imageUri, int reqWidth, int reqHeight) throws FileNotFoundException {
 		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
 		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+		options.inPreferredConfig = Bitmap.Config.RGB_565;
+		options.inDither = true;
 
 		InputStream iStream = context.getContentResolver().openInputStream(imageUri);
 		return BitmapFactory.decodeStream(iStream, null, options);
@@ -89,7 +90,8 @@ public class ImageProcessingHelper {
 	private static Bitmap decodeBitmapFromResource(Context context, int res, int reqWidth, int reqHeight) {
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
+		options.inPreferredConfig = Bitmap.Config.RGB_565;
+		options.inDither = true;
 
 		return BitmapFactory.decodeResource(context.getResources(), res, options);
 	}
