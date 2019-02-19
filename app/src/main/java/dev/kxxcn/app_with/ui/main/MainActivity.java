@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 	private void prepareBottomBar(int xmlRes) {
 		bottomBar.setItems(xmlRes);
 		bottomBar.setActiveTabColor(getResources().getColor(R.color.tab_active));
+		bottomBar.setInActiveTabColor(getResources().getColor(R.color.tab_inactive));
 		bottomBar.setVisibility(View.VISIBLE);
 		bottomBar.setOnTabSelectListener(tabId -> {
 			switch (tabId) {

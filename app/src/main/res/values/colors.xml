@@ -29,13 +29,14 @@
     <color name="default_background">#fafafa</color>
     <color name="default_font">#9b9b9b</color>
 
-    <color name="tab_default">#373740</color>
+    <color name="tab_default">#5b5853</color>
     <color name="tab_plan">#b2caff</color>
     <color name="tab_girl">#ffb2c5</color>
     <color name="tab_write">#acf9cb</color>
     <color name="tab_boy">#d097e5</color>
     <color name="tab_setting">#f7cc76</color>
-    <color name="tab_active">#ff4181</color>
+    <color name="tab_active">#beb7a7</color>
+    <color name="tab_inactive">#000000</color>
 
     <color name="bg_plan">#b2caff</color>
     <color name="bg_girl">#ffb2c5</color>
