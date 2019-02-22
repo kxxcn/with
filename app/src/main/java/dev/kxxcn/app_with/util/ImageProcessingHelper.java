@@ -78,7 +78,6 @@ public class ImageProcessingHelper {
 
 	private static Bitmap decodeBitmapFromUri(Context context, Uri imageUri, int reqWidth, int reqHeight) throws FileNotFoundException {
 		final BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
 		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
 		options.inDither = true;
