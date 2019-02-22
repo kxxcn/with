@@ -55,7 +55,6 @@
                     android:id="@+id/mcv_plan"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:mcv_selectionColor="@color/calendar_selection"
                     app:mcv_showOtherDates="all"/>
 
                 <android.support.v7.widget.RecyclerView
@@ -65,9 +64,9 @@
                     android:visibility="gone"/>
 
                 <!--<android.support.design.widget.FloatingActionButton-->
-                    <!--android:id="@+id/fab_refresh"-->
-                    <!--style="@style/RefreshFloatingActionButton2"-->
-                    <!--android:visibility="visible"/>-->
+                <!--android:id="@+id/fab_refresh"-->
+                <!--style="@style/RefreshFloatingActionButton2"-->
+                <!--android:visibility="visible"/>-->
 
                 <com.github.ybq.android.spinkit.SpinKitView
                     android:id="@+id/progressbar"

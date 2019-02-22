@@ -150,7 +150,7 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 			TextView tv_change_month = new TextView(mContext);
 			tv_change_month.setLayoutParams(params);
 			tv_change_month.setTextSize(20);
-			tv_change_month.setTextColor(Color.BLACK);
+			tv_change_month.setTextColor(getResources().getColor(R.color.overall_color));
 			tv_change_month.setText(String.format(getString(R.string.format_year_month), String.valueOf(calendarDay.getYear()), String.valueOf(calendarDay.getMonth())));
 
 			rl_plan.addView(tv_change_month);
@@ -168,6 +168,19 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 	}
 
 	private OnDateSelectedListener selectedListener = (materialCalendarView, calendarDay, b) -> {
+		int resource;
+		switch (calendarDay.getDate().getDayOfWeek()) {
+			case SATURDAY:
+				resource = getResources().getColor(R.color.circle_saturday);
+				break;
+			case SUNDAY:
+				resource = getResources().getColor(R.color.circle_sunday);
+				break;
+			default:
+				resource = getResources().getColor(R.color.circle_daily);
+				break;
+		}
+		mcv_plan.setSelectionColor(resource);
 		ScheduleDialog dialog = ScheduleDialog.newInstance(
 				args.getString(KEY_IDENTIFIER),
 				calendarDay.getDay(),
