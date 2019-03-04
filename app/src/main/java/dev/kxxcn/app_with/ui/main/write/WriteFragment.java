@@ -767,22 +767,24 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@Override
 	public void showSuccessfulLoadLocation(Addrdetail addressDetail) {
-		if (!TextUtils.isEmpty(addressDetail.getCountry())) {
-			locationList.add(String.format(getString(R.string.text_location), addressDetail.getCountry()));
-		}
-		if (!TextUtils.isEmpty(addressDetail.getSido())) {
-			locationList.add(String.format(getString(R.string.text_location), addressDetail.getSido()));
+		if (isAdded() && getActivity() != null) {
+			if (!TextUtils.isEmpty(addressDetail.getCountry())) {
+				locationList.add(String.format(getString(R.string.text_location), addressDetail.getCountry()));
+			}
+			if (!TextUtils.isEmpty(addressDetail.getSido())) {
+				locationList.add(String.format(getString(R.string.text_location), addressDetail.getSido()));
 
-		}
-		if (!TextUtils.isEmpty(addressDetail.getSigugun())) {
-			locationList.add(String.format(getString(R.string.text_location), addressDetail.getSigugun()));
+			}
+			if (!TextUtils.isEmpty(addressDetail.getSigugun())) {
+				locationList.add(String.format(getString(R.string.text_location), addressDetail.getSigugun()));
 
+			}
+			if (!TextUtils.isEmpty(addressDetail.getDongmyun())) {
+				locationList.add(String.format(getString(R.string.text_location), addressDetail.getDongmyun()));
+			}
+			mLocationPosition++;
+			tv_place.setText(locationList.get(mLocationPosition));
 		}
-		if (!TextUtils.isEmpty(addressDetail.getDongmyun())) {
-			locationList.add(String.format(getString(R.string.text_location), addressDetail.getDongmyun()));
-		}
-		mLocationPosition++;
-		tv_place.setText(locationList.get(mLocationPosition));
 	}
 
 	private void showBlurSeekbar(boolean isShow) {
