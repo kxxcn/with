@@ -773,11 +773,9 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			}
 			if (!TextUtils.isEmpty(addressDetail.getSido())) {
 				locationList.add(String.format(getString(R.string.text_location), addressDetail.getSido()));
-
 			}
 			if (!TextUtils.isEmpty(addressDetail.getSigugun())) {
 				locationList.add(String.format(getString(R.string.text_location), addressDetail.getSigugun()));
-
 			}
 			if (!TextUtils.isEmpty(addressDetail.getDongmyun())) {
 				locationList.add(String.format(getString(R.string.text_location), addressDetail.getDongmyun()));
