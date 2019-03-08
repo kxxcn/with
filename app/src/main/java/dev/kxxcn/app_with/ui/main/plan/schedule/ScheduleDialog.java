@@ -249,7 +249,7 @@ public class ScheduleDialog extends DialogFragment implements ScheduleContract.V
 	@Override
 	public void showSuccessfulRegister() {
 		mListener.onRegistrationCallback();
-		dismiss();
+		dismissAllowingStateLoss();
 	}
 
 	@Override
