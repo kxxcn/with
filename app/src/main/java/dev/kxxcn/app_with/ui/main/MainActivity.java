@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 					bottomBar.selectTabAtPosition(type);
 				},
 				type -> {
-					adapter.onRegisteredDiary(type, getIntent().getStringExtra(EXTRA_IDENTIFIER));
+					adapter.onRegisteredDiary(type, getIntent().getStringExtra(EXTRA_IDENTIFIER), isHomosexual);
 					UiThread.getInstance().postDelayed(() -> {
 						vp_main.setCurrentItem(type);
 						bottomBar.selectTabAtPosition(type);

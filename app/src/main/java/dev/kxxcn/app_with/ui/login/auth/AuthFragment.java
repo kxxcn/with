@@ -139,9 +139,7 @@ public class AuthFragment extends Fragment implements AuthContract.View {
 	}
 
 	private void initUI() {
-		FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> {
-			mToken = instanceIdResult.getToken();
-		});
+		FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> mToken = instanceIdResult.getToken());
 		et_key.addTextChangedListener(watcher);
 	}
 

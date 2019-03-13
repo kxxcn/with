@@ -77,7 +77,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 				femaleFragment.setOnSelectedDiaryToEdit(onSelectedDiaryToEdit);
 				return femaleFragment;
 			case WRITE:
-				WriteFragment writeFragment = WriteFragment.newInstance(mode, isFemale, identifier);
+				WriteFragment writeFragment = WriteFragment.newInstance(mode, isFemale, identifier, isHomosexual);
 				writeFragment.setOnPageChangeListener(onPageChangeListener);
 				writeFragment.setOnRegisteredDiary(onRegisteredDiary);
 				return writeFragment;
@@ -117,8 +117,15 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 		return fragment;
 	}
 
-	public void onRegisteredDiary(int type, String identifier) {
-		DiaryFragment fragment = type == FEMALE ? femaleFragment : maleFragment;
+	public void onRegisteredDiary(int type, String identifier, boolean isHomosexual) {
+
+		DiaryFragment fragment;
+		fragment = type == FEMALE ? femaleFragment : maleFragment;
+		if (isHomosexual) {
+			if (!isFemale) {
+				fragment = type == FEMALE ? maleFragment : femaleFragment;
+			}
+		}
 		fragment.onRegisteredDiary(FLAG_ME, identifier);
 	}
 

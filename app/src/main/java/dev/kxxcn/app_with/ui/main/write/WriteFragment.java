@@ -81,6 +81,7 @@ import static dev.kxxcn.app_with.util.Constants.COLOR_IMGS;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
 import static dev.kxxcn.app_with.util.Constants.FONT_IMGS;
 import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
+import static dev.kxxcn.app_with.util.Constants.KEY_HOMOSEXUAL;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
 import static dev.kxxcn.app_with.util.Constants.KEY_MODE;
 import static dev.kxxcn.app_with.util.Constants.OPTION_SAMPLING;
@@ -269,13 +270,14 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 		}
 	}
 
-	public static WriteFragment newInstance(int mode, boolean gender, String identifier) {
+	public static WriteFragment newInstance(int mode, boolean gender, String identifier, boolean isHomosexual) {
 		WriteFragment fragment = new WriteFragment();
 
 		Bundle args = new Bundle();
 		args.putInt(KEY_MODE, mode);
 		args.putBoolean(KEY_GENDER, gender);
 		args.putString(KEY_IDENTIFIER, identifier);
+		args.putBoolean(KEY_HOMOSEXUAL, isHomosexual);
 		fragment.setArguments(args);
 
 		return fragment;
@@ -729,11 +731,14 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
 		}
 		initComponent(false);
-		boolean isFemale = args.getBoolean(KEY_GENDER);
 		if (args.getInt(KEY_MODE) == SOLO) {
 			registerListener.onRegisteredDiary(MainPagerAdapter.SOLO);
 		} else {
-			registerListener.onRegisteredDiary(isFemale ? MainPagerAdapter.FEMALE : MainPagerAdapter.MALE);
+			if (args.getBoolean(KEY_HOMOSEXUAL)) {
+				registerListener.onRegisteredDiary(MainPagerAdapter.FEMALE);
+			} else {
+				registerListener.onRegisteredDiary(args.getBoolean(KEY_GENDER) ? MainPagerAdapter.FEMALE : MainPagerAdapter.MALE);
+			}
 		}
 	}
 
@@ -767,22 +772,22 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 	@Override
 	public void showSuccessfulLoadLocation(Addrdetail addressDetail) {
-		if (!TextUtils.isEmpty(addressDetail.getCountry())) {
-			locationList.add(String.format(getString(R.string.text_location), addressDetail.getCountry()));
+		if (isAdded() && getActivity() != null) {
+			if (!TextUtils.isEmpty(addressDetail.getCountry())) {
+				locationList.add(String.format(getString(R.string.text_location), addressDetail.getCountry()));
+			}
+			if (!TextUtils.isEmpty(addressDetail.getSido())) {
+				locationList.add(String.format(getString(R.string.text_location), addressDetail.getSido()));
+			}
+			if (!TextUtils.isEmpty(addressDetail.getSigugun())) {
+				locationList.add(String.format(getString(R.string.text_location), addressDetail.getSigugun()));
+			}
+			if (!TextUtils.isEmpty(addressDetail.getDongmyun())) {
+				locationList.add(String.format(getString(R.string.text_location), addressDetail.getDongmyun()));
+			}
+			mLocationPosition++;
+			tv_place.setText(locationList.get(mLocationPosition));
 		}
-		if (!TextUtils.isEmpty(addressDetail.getSido())) {
-			locationList.add(String.format(getString(R.string.text_location), addressDetail.getSido()));
-
-		}
-		if (!TextUtils.isEmpty(addressDetail.getSigugun())) {
-			locationList.add(String.format(getString(R.string.text_location), addressDetail.getSigugun()));
-
-		}
-		if (!TextUtils.isEmpty(addressDetail.getDongmyun())) {
-			locationList.add(String.format(getString(R.string.text_location), addressDetail.getDongmyun()));
-		}
-		mLocationPosition++;
-		tv_place.setText(locationList.get(mLocationPosition));
 	}
 
 	private void showBlurSeekbar(boolean isShow) {

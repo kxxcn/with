@@ -5,10 +5,10 @@ package dev.kxxcn.app_with.data.remote;
  */
 public class APIPersistence {
 	//:: Development
-	// public static final String SERVER_URL = "http://211.104.220.70:80/with/";
+	// public static final String SERVER_URL = "http://183.103.101.181:80/with/";
 
 	//:: Production
-	public static final String SERVER_URL = "http://13.209.102.48:80/with/";
+	public static final String SERVER_URL = "http://kxxcn.cafe24.com/with/";
 
 	public static final String NAVER_SERVER_URL = "https://openapi.naver.com/v1/";
 	public static final String DOWNLOAD_IMAGE_URL = SERVER_URL + "uploads/images/";
