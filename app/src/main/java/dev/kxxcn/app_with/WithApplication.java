@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import dev.kxxcn.app_with.util.AppStatusHelper;
 
@@ -22,6 +23,7 @@ public class WithApplication extends Application {
 		DEBUG = isDebuggable(this);
 		FirebaseApp.initializeApp(this);
 		AppStatusHelper.init(this);
+		FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.app_topic));
 	}
 
 	private boolean isDebuggable(Context context) {
