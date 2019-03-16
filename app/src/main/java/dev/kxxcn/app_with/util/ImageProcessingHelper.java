@@ -31,7 +31,7 @@ public class ImageProcessingHelper {
 			}
 		} else {
 			for (int res : resources) {
-				imgList.add(decodeBitmapFromResource(context, res, req_width, req_height));
+				imgList.add(decodeBitmapFromResource(context, res, req_width, req_height, typeFilter));
 			}
 		}
 
@@ -86,8 +86,13 @@ public class ImageProcessingHelper {
 		return BitmapFactory.decodeStream(iStream, null, options);
 	}
 
-	private static Bitmap decodeBitmapFromResource(Context context, int res, int reqWidth, int reqHeight) {
+	private static Bitmap decodeBitmapFromResource(Context context, int res, int reqWidth, int reqHeight, Constants.TypeFilter typeFilter) {
 		final BitmapFactory.Options options = new BitmapFactory.Options();
+		if (typeFilter != Constants.TypeFilter.FONT) {
+			options.inJustDecodeBounds = true;
+			BitmapFactory.decodeResource(context.getResources(), res, options);
+			options.inJustDecodeBounds = false;
+		}
 		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
 		options.inDither = true;
