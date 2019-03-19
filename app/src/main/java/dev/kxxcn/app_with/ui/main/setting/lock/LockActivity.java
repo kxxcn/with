@@ -1,5 +1,6 @@
 package dev.kxxcn.app_with.ui.main.setting.lock;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -73,6 +74,7 @@ public class LockActivity extends AppCompatActivity implements LockContract.View
 	@Override
 	public void onBackPressed() {
 		if (!isProcessing) {
+			setResult(RESULT_CANCELED, new Intent());
 			finish();
 			TransitionUtils.fade(this);
 		}
@@ -81,6 +83,7 @@ public class LockActivity extends AppCompatActivity implements LockContract.View
 	@Override
 	public void showSuccessfulRegister() {
 		isProcessing = false;
+		setResult(RESULT_OK, new Intent());
 		finish();
 		TransitionUtils.fade(this);
 	}

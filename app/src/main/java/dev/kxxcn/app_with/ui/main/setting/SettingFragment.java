@@ -39,6 +39,7 @@ import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_CURRENT;
 import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_LATEST;
@@ -54,6 +55,7 @@ import static dev.kxxcn.app_with.util.Constants.KEY_MODE;
 public class SettingFragment extends Fragment implements SettingContract.View {
 
 	private static final int REQ_PROFILE = 0;
+	private static final int REQ_LOCK = 1;
 
 	private static final String STAT_EXIST = "0";
 	private static final String STAT_NOT_EXIST = "1";
@@ -149,7 +151,7 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 				if (on) {
 					Intent intent = new Intent(mActivity, LockActivity.class);
 					intent.putExtra(LockActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
-					startActivity(intent);
+					startActivityForResult(intent, REQ_LOCK);
 				} else {
 					DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_lock), positiveListener, negativeListener);
 				}
@@ -308,13 +310,20 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 					nicknameListener.onRegisteredNickname(args.getBoolean(KEY_GENDER) ? 0 : 1);
 					break;
 			}
+		} else if (resultCode == RESULT_CANCELED) {
+			switch (requestCode) {
+				case REQ_LOCK:
+					tb_lock.setToggleOff();
+					break;
+			}
 		}
 	}
 
-	DialogInterface.OnClickListener positiveListener = (DialogInterface dialog, int which) ->
+	private DialogInterface.OnClickListener positiveListener = (DialogInterface dialog, int which) ->
 			mPresenter.unregisterLock(args.getString(KEY_IDENTIFIER));
 
-	DialogInterface.OnClickListener negativeListener = (DialogInterface dialog, int which) ->
+	private DialogInterface.OnClickListener negativeListener = (DialogInterface dialog, int which) ->
 			tb_lock.setToggleOn();
+
 
 }
