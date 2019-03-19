@@ -206,4 +206,25 @@ public class RemoteDataSource extends DataSource {
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
+	@Override
+	public Single<ResponseResult> isLockedUser(String uniqueIdentifier) {
+		return service.isLockedUser(uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<ResponseResult> registerLock(String uniqueIdentifier, String password) {
+		return service.registerLock(uniqueIdentifier, password)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
+	@Override
+	public Single<ResponseResult> unregisterLock(String uniqueIdentifier) {
+		return service.unregisterLock(uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
 }

@@ -130,4 +130,16 @@ public class DataRepository {
 		return dataSource.getNotice(uniqueIdentifier);
 	}
 
+	public Single<ResponseResult> isLockedUser(String uniqueIdentifier) {
+		return dataSource.isLockedUser(uniqueIdentifier);
+	}
+
+	public Single<ResponseResult> registerLock(String uniqueIdentifier, String password) {
+		return dataSource.registerLock(uniqueIdentifier, password);
+	}
+
+	public Single<ResponseResult> unregisterLock(String uniqueIdentifier) {
+		return dataSource.unregisterLock(uniqueIdentifier);
+	}
+
 }

@@ -43,9 +43,11 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_NOTIFICATION_INF
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_TITLE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GSON_DATE_FORMAT;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.IS_LOCKED_USER;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.IS_REGISTERED_USER;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_IMAGE;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_LOCK;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_NICKNAME;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_DIARY;
@@ -53,6 +55,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SERVER_URL;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_OUT;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_UP;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.UNREGISTER_LOCK;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_RECEIVE_NOTIFICATION;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_TOKEN;
@@ -111,6 +114,10 @@ public interface APIService {
 	@FormUrlEncoded
 	@POST(IS_REGISTERED_USER)
 	Single<ResponseResult> isRegisteredUser(@Field("uniqueIdentifier") String uniqueIdentifier);
+
+	@FormUrlEncoded
+	@POST(IS_LOCKED_USER)
+	Single<ResponseResult> isLockedUser(@Field("uniqueIdentifier") String uniqueIdentifier);
 
 	@FormUrlEncoded
 	@POST(GET_DIARY)
@@ -180,5 +187,14 @@ public interface APIService {
 	@FormUrlEncoded
 	@POST(GET_NOTICE)
 	Single<List<Notice>> getNotice(@Field("uniqueIdentifier") String uniqueIdentifier);
+
+	@FormUrlEncoded
+	@POST(REGISTER_LOCK)
+	Single<ResponseResult> registerLock(@Field("uniqueIdentifier") String uniqueIdentifier,
+										@Field("password") String password);
+
+	@FormUrlEncoded
+	@POST(UNREGISTER_LOCK)
+	Single<ResponseResult> unregisterLock(@Field("uniqueIdentifier") String uniqueIdentifier);
 
 }

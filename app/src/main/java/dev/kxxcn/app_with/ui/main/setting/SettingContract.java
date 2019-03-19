@@ -39,5 +39,7 @@ public interface SettingContract {
 		void signOut(String identifier);
 
 		void checkNewNotice(String identifier);
+
+		void unregisterLock(String identifier);
 	}
 }

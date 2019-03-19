@@ -2,6 +2,7 @@ package dev.kxxcn.app_with.ui.main.setting;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,7 @@ import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
 import dev.kxxcn.app_with.data.remote.MyFirebaseMessagingService;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.main.MainContract;
+import dev.kxxcn.app_with.ui.main.setting.lock.LockActivity;
 import dev.kxxcn.app_with.ui.main.setting.notice.NoticeActivity;
 import dev.kxxcn.app_with.ui.main.setting.profile.ProfileActivity;
 import dev.kxxcn.app_with.ui.main.setting.version.VersionActivity;
@@ -57,6 +60,8 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	public static final String PREF_TOKEN = "PREF_TOKEN";
 
+	@BindView(R.id.tb_lock)
+	ToggleButton tb_lock;
 	@BindView(R.id.tb_notice_with)
 	ToggleButton tb_notice_with;
 	@BindView(R.id.tb_notice)
@@ -140,6 +145,15 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 			String finalIdentifier = identifier;
 			mPresenter.getNotificationInformation(finalIdentifier);
 			mPresenter.checkVersion(mContext.getPackageName());
+			tb_lock.setOnToggleChanged(on -> {
+				if (on) {
+					Intent intent = new Intent(mActivity, LockActivity.class);
+					intent.putExtra(LockActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
+					startActivity(intent);
+				} else {
+					DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_lock), positiveListener, negativeListener);
+				}
+			});
 			tb_notice_with.setOnToggleChanged(on -> mPresenter.whetherToReceiveNotification(finalIdentifier, Constants.NotificationFilter.NOTICE_WITH, on));
 			tb_notice.setOnToggleChanged(on -> mPresenter.whetherToReceiveNotification(finalIdentifier, Constants.NotificationFilter.NOTICE, on));
 			tb_notice_event.setOnToggleChanged(on -> mPresenter.whetherToReceiveNotification(finalIdentifier, Constants.NotificationFilter.NOTICE_EVENT, on));
@@ -224,6 +238,9 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 		if (noticeEvent == 0) {
 			tb_notice_event.setToggleOff();
 		}
+		if (TextUtils.isEmpty(response.getDiaryLock())) {
+			tb_lock.setToggleOff();
+		}
 	}
 
 	@Override
@@ -293,5 +310,11 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 			}
 		}
 	}
+
+	DialogInterface.OnClickListener positiveListener = (DialogInterface dialog, int which) ->
+			mPresenter.unregisterLock(args.getString(KEY_IDENTIFIER));
+
+	DialogInterface.OnClickListener negativeListener = (DialogInterface dialog, int which) ->
+			tb_lock.setToggleOn();
 
 }

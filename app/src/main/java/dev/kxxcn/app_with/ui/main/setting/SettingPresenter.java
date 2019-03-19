@@ -164,4 +164,26 @@ public class SettingPresenter implements SettingContract.Presenter {
 		compositeDisposable.add(disposable);
 	}
 
+	@Override
+	public void unregisterLock(String identifier) {
+		if (mSettingView == null)
+			return;
+
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+		Disposable disposable = mDataRepository.unregisterLock(identifier)
+				.subscribe(responseResult -> {
+							if (responseResult.getRc() == 200) {
+							} else if (responseResult.getRc() == 201) {
+							}
+						},
+						throwable -> {
+							mSettingView.showFailedRequest(throwable.getMessage());
+							compositeDisposable.dispose();
+						}
+				);
+
+		compositeDisposable.add(disposable);
+	}
+
 }

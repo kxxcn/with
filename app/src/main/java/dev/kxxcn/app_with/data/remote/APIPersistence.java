@@ -19,6 +19,7 @@ public class APIPersistence {
 	public static final String SIGN_UP = "signUp.php";
 	public static final String SIGN_OUT = "signOut.php";
 	public static final String IS_REGISTERED_USER = "isRegisteredUser.php";
+	public static final String IS_LOCKED_USER = "isLockedUser.php";
 	public static final String GET_DIARY = "getDiary.php";
 	public static final String GET_PLAN = "getPlan.php";
 	public static final String GET_IMAGE = "getImage.php";
@@ -37,6 +38,8 @@ public class APIPersistence {
 	public static final String CHECK_MODE = "checkMode.php";
 	public static final String CHECK_NEW_NOTICE = "checkNewNotice.php";
 	public static final String GET_NOTICE = "getNotice.php";
+	public static final String REGISTER_LOCK = "registerLock.php";
+	public static final String UNREGISTER_LOCK = "unregisterLock.php";
 
 	public static final String FCM_MESSAGE = "message";
 	public static final String FCM_TYPE = "type";
