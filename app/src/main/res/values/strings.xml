@@ -92,6 +92,7 @@
     <string name="text_nickname">커플 애칭으로 상단 타이틀을 변경해보아요.</string>
     <string name="text_alias">별명으로 상단 타이틀을 변경해보아요.</string>
     <string name="text_blur">사진에 흐림 효과를 주세요.</string>
+    <string name="text_count">( %d / %d )</string>
 
     <string name="label_mon">M O N</string>
     <string name="label_tue">T U E</string>
