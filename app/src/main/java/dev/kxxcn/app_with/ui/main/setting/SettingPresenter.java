@@ -60,7 +60,7 @@ public class SettingPresenter implements SettingContract.Presenter {
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
 		Disposable disposable = mDataRepository.updateReceiveNotification(identifier, notificationFilter, on)
-				.subscribe();
+				.subscribe(() -> mSettingView.showSuccessfulUpdateNotification());
 
 		compositeDisposable.add(disposable);
 	}

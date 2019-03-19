@@ -14,6 +14,8 @@ public interface SettingContract {
 
 		void showFailedRequest(String throwable);
 
+		void showSuccessfulUpdateNotification();
+
 		void showSuccessfulUpdateToken();
 
 		void showSuccessfulCheckVersion(String latestVersion);
