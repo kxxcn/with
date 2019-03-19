@@ -243,4 +243,14 @@
         <item name="android:background">@drawable/ic_arrow_back</item>
     </style>
 
+    <style name="PasswordTextView" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_password_number</item>
+        <item name="android:fontFamily">@font/yanolja</item>
+        <item name="android:textSize">23sp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
 </resources>

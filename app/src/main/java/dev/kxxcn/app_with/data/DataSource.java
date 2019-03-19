@@ -69,4 +69,10 @@ public abstract class DataSource {
 
 	public abstract Single<List<Notice>> getNotice(String uniqueIdentifier);
 
+	public abstract Single<ResponseResult> isLockedUser(String uniqueIdentifier);
+
+	public abstract Single<ResponseResult> registerLock(String uniqueIdentifier, String password);
+
+	public abstract Single<ResponseResult> unregisterLock(String uniqueIdentifier);
+
 }

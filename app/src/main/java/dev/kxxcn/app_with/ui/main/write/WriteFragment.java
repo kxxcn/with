@@ -91,13 +91,16 @@ import static dev.kxxcn.app_with.util.Constants.POSITION_TOP;
 /**
  * Created by kxxcn on 2018-08-13.
  */
-public class WriteFragment extends Fragment implements WriteContract.View {
+public class WriteFragment extends Fragment implements WriteContract.View, MainContract.OnKeyboardListener {
 
 	private static final int THRESHOLD_COUNT = 15;
 	private static final int THRESHOLD_LENGTH = 500;
 
 	private static final boolean SHOW = true;
 	private static final boolean HIDE = false;
+
+	@BindView(R.id.ll_root)
+	LinearLayout ll_root;
 
 	@BindView(R.id.rv_theme)
 	RecyclerView rv_theme;
@@ -108,6 +111,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 	@BindView(R.id.iv_background)
 	ImageView iv_background;
 
+	@BindView(R.id.tv_count)
+	TextView tv_count;
 	@BindView(R.id.tv_date)
 	TextView tv_date;
 	@BindView(R.id.tv_place)
@@ -394,10 +399,16 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (s.length() > THRESHOLD_LENGTH) {
+				int length = s.length();
+				tv_count.setText(String.format(getString(R.string.text_count), length, THRESHOLD_LENGTH));
+				if (length > THRESHOLD_LENGTH) {
 					Toast.makeText(mContext, getString(R.string.toast_exceeded_character), Toast.LENGTH_SHORT).show();
 					et_write.setText(et_write.getText().toString().substring(0, THRESHOLD_LENGTH));
 					et_write.setSelection(et_write.getText().toString().length());
+				} else if (length == THRESHOLD_LENGTH) {
+					tv_count.setTextColor(ContextCompat.getColor(mContext, R.color.text_denied_count));
+				} else {
+					tv_count.setTextColor(ContextCompat.getColor(mContext, R.color.text_allowed_count));
 				}
 			}
 
@@ -406,6 +417,8 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 
 			}
 		});
+
+		SystemUtils.addOnGlobalLayoutListener(mActivity, ll_root, this);
 	}
 
 	private void initComponent(boolean isMove) {
@@ -835,6 +848,16 @@ public class WriteFragment extends Fragment implements WriteContract.View {
 			}
 		}
 		et_write.setLayoutParams(LayoutUtils.getRelativeLayoutParams(diary.getLetterPosition()));
+	}
+
+	@Override
+	public void onShowKeyboard() {
+		tv_count.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void onHideKeyboard() {
+		tv_count.setVisibility(View.VISIBLE);
 	}
 
 	static class GetThumbInfoTask extends AsyncTask<Integer, Integer, Void> {

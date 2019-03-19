@@ -1,6 +1,7 @@
 package dev.kxxcn.app_with.ui.splash;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.util.PermissionUtils;
@@ -32,24 +33,54 @@ public class SplashPresenter implements SplashContract.Presenter {
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
 		Disposable disposable = mDataRepository.isRegisteredUser(uniqueIdentifier)
-				.subscribe(response -> {
-					if (response.getRc() == 200) {
-						if (response.getStat().equals(UNREGISTERED)) {
-							mSplashView.showUnregisteredUser();
-						} else {
-							mSplashView.showRegisteredUser(response.getStat());
+				.subscribe(
+						response -> {
+							if (response.getRc() == 200) {
+								if (response.getStat().equals(UNREGISTERED)) {
+									mSplashView.showUnregisteredUser();
+								} else {
+									mSplashView.showRegisteredUser(uniqueIdentifier, response.getStat());
+								}
+							} else if (response.getRc() == 201) {
+								mSplashView.showFailedRequest(response.getStat());
+								mSplashView.showUnregisteredUser();
+							}
+							compositeDisposable.dispose();
+						}, throwable -> {
+							mSplashView.showFailedRequest(throwable.getMessage());
+							compositeDisposable.dispose();
 						}
-					} else if (response.getRc() == 201) {
-						mSplashView.showFailedRequest(response.getStat());
-						mSplashView.showUnregisteredUser();
-					}
-					compositeDisposable.dispose();
-				}, throwable -> {
-					mSplashView.showFailedRequest(throwable.getMessage());
-					compositeDisposable.dispose();
-				});
+				);
 
 		compositeDisposable.add(disposable);
+	}
+
+	@Override
+	public void isLockedUser(String uniqueIdentifier) {
+		if (mSplashView == null)
+			return;
+
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+		Disposable disposable = mDataRepository.isLockedUser(uniqueIdentifier)
+				.subscribe(responseResult -> {
+							if (TextUtils.isEmpty(responseResult.getStat())) {
+								mSplashView.showUnlockedUser();
+							} else {
+								mSplashView.showLockedUser(responseResult.getStat());
+							}
+						},
+						throwable -> {
+							mSplashView.showFailedRequest(throwable.getMessage());
+							compositeDisposable.dispose();
+						});
+
+		compositeDisposable.add(disposable);
+	}
+
+	@Override
+	public boolean verifyPassword(String lock, String password) {
+		return lock.equals(password);
 	}
 
 	@Override

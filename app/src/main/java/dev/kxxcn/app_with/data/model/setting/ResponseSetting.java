@@ -8,6 +8,7 @@ public class ResponseSetting {
 	private int noticeWith;
 	private int notice;
 	private int noticeEvent;
+	private String diaryLock;
 
 	public int getNoticeWith() {
 		return noticeWith;
@@ -19,6 +20,10 @@ public class ResponseSetting {
 
 	public int getNoticeEvent() {
 		return noticeEvent;
+	}
+
+	public String getDiaryLock() {
+		return diaryLock;
 	}
 
 }

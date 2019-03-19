@@ -14,6 +14,8 @@ public interface SettingContract {
 
 		void showFailedRequest(String throwable);
 
+		void showSuccessfulUpdateNotification();
+
 		void showSuccessfulUpdateToken();
 
 		void showSuccessfulCheckVersion(String latestVersion);
@@ -37,5 +39,7 @@ public interface SettingContract {
 		void signOut(String identifier);
 
 		void checkNewNotice(String identifier);
+
+		void unregisterLock(String identifier);
 	}
 }

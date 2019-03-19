@@ -47,6 +47,7 @@
     <string name="dialog_delete_plan">일정을 삭제하시겠습니까?</string>
     <string name="dialog_want_to_quit">위드를 종료하시겠습니까?</string>
     <string name="dialog_want_to_sign_out">기록하신 데이터는 모두 삭제됩니다.\n위드를 탈퇴하시겠습니까?</string>
+    <string name="dialog_delete_lock">잠금 기능을 해제하시겠습니까?</string>
 
     <string name="toast_checking_album">사진첩을 조회 중입니다.</string>
     <string name="toast_choice_gender">성별을 선택하세요.</string>
@@ -62,6 +63,7 @@
     <string name="toast_choice_gallery">사진을 선택하세요.</string>
     <string name="toast_search_version">버전정보를 조회하고 있습니다.</string>
     <string name="toast_exceeded_character">글자 수를 초과했습니다.</string>
+    <string name="toast_invalid_password">비밀번호가 일치하지 않습니다.</string>
 
     <string name="snack_selected_gallery">사진이 선택되었습니다.</string>
 
@@ -72,6 +74,7 @@
     <string name="text_auth">연인에게 전달받은 번호를 입력하세요.\n\n또는, 연인에게 인증번호를 전달하세요.</string>
     <string name="text_delete">DELETE</string>
     <string name="text_account">계정</string>
+    <string name="text_lock">잠금</string>
     <string name="text_profile">프로필 편집</string>
     <string name="text_notification">알림</string>
     <string name="text_notice_with">위드 알림</string>
@@ -92,6 +95,19 @@
     <string name="text_nickname">커플 애칭으로 상단 타이틀을 변경해보아요.</string>
     <string name="text_alias">별명으로 상단 타이틀을 변경해보아요.</string>
     <string name="text_blur">사진에 흐림 효과를 주세요.</string>
+    <string name="text_count">( %d / %d )</string>
+    <string name="text_keyboard_0">0</string>
+    <string name="text_keyboard_1">1</string>
+    <string name="text_keyboard_2">2</string>
+    <string name="text_keyboard_3">3</string>
+    <string name="text_keyboard_4">4</string>
+    <string name="text_keyboard_5">5</string>
+    <string name="text_keyboard_6">6</string>
+    <string name="text_keyboard_7">7</string>
+    <string name="text_keyboard_8">8</string>
+    <string name="text_keyboard_9">9</string>
+    <string name="text_input_password">비밀번호를 입력하세요.</string>
+    <string name="text_input_password_more">비밀번호를 한번 더 입력하세요.</string>
 
     <string name="label_mon">M O N</string>
     <string name="label_tue">T U E</string>
