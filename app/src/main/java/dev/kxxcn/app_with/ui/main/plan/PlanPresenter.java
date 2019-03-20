@@ -29,18 +29,14 @@ public class PlanPresenter implements PlanContract.Presenter {
 		if (mPlanView == null)
 			return;
 
-		mPlanView.showLoadingIndicator(true);
-
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
 		Disposable disposable = mDataRepository.getPlan(identifier)
 				.subscribe(planList -> {
 					mPlanView.showSuccessfulLoadPlan(planList);
-					mPlanView.showLoadingIndicator(false);
 					compositeDisposable.dispose();
 				}, throwable -> {
 					mPlanView.showFailedRequest(throwable.getMessage());
-					mPlanView.showLoadingIndicator(false);
 					compositeDisposable.dispose();
 				});
 
