@@ -21,7 +21,6 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,8 +52,6 @@ import static dev.kxxcn.app_with.util.Constants.TAG_DIALOG;
  */
 public class PlanFragment extends Fragment implements PlanContract.View, PlanContract.OnRegistrationCallback, RecyclerViewItemTouchHelper.RecyclerViewItemTouchHelperListener {
 
-	private static WeakReference<PlanFragment> fragmentReference = null;
-
 	@BindView(R.id.mcv_plan)
 	MaterialCalendarView mcv_plan;
 
@@ -85,15 +82,12 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 	private int mPosition = -1;
 
 	public static PlanFragment newInstance(String identifier) {
-		if (fragmentReference == null) {
-			PlanFragment fragment = new PlanFragment();
-			Bundle args = new Bundle();
-			args.putString(KEY_IDENTIFIER, identifier);
-			fragment.setArguments(args);
-			fragmentReference = new WeakReference<>(fragment);
-		}
+		PlanFragment fragment = new PlanFragment();
+		Bundle args = new Bundle();
+		args.putString(KEY_IDENTIFIER, identifier);
+		fragment.setArguments(args);
 
-		return fragmentReference.get();
+		return fragment;
 	}
 
 	@Override
@@ -205,11 +199,6 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 		mcv_plan.setVisibility(View.GONE);
 		rv_plan.setVisibility(View.VISIBLE);
 	}
-
-//	@OnClick(R.id.fab_refresh)
-//	public void onRefresh() {
-//		mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
-//	}
 
 	@Override
 	public void showSuccessfulLoadPlan(List<Plan> planList) {
