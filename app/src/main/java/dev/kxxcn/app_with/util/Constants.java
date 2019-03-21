@@ -9,7 +9,9 @@ import dev.kxxcn.app_with.R;
  */
 public class Constants {
 	public static final int[] FONTS = {R.font.dohyeon, R.font.flowerroad, R.font.godo, R.font.godomaum, R.font.jua,
-			R.font.shinb, R.font.yanolja, R.font.nanummyeongjo, R.font.namsan, R.font.nanumsquare};
+			R.font.shinb, R.font.yanolja, R.font.nanummyeongjo, R.font.namsan, R.font.nanumsquare, R.font.dream, R.font.uhbee,
+			R.font.joseonilbo, R.font.stencil, R.font.dovemayo, R.font.dongkyung, R.font.dos, R.font.namsoyoung, R.font.beojji,
+			R.font.ham};
 
 	public static final int[] COLOR_IMGS = {R.drawable.color_1, R.drawable.color_2, R.drawable.color_3, R.drawable.color_4, R.drawable.color_5,
 			R.drawable.color_6, R.drawable.color_7, R.drawable.color_8, R.drawable.color_9, R.drawable.color_10, R.drawable.color_11,
@@ -22,7 +24,9 @@ public class Constants {
 			R.color.color_18, R.color.color_19, R.color.color_20, R.color.color_21};
 
 	public static final int[] FONT_IMGS = {R.drawable.font_1, R.drawable.font_2, R.drawable.font_3, R.drawable.font_4, R.drawable.font_5,
-			R.drawable.font_6, R.drawable.font_7, R.drawable.font_8, R.drawable.font_9, R.drawable.font_10};
+			R.drawable.font_6, R.drawable.font_7, R.drawable.font_8, R.drawable.font_9, R.drawable.font_10, R.drawable.font_11,
+			R.drawable.font_12, R.drawable.font_13, R.drawable.font_14, R.drawable.font_15, R.drawable.font_16, R.drawable.font_17,
+			R.drawable.font_18, R.drawable.font_19, R.drawable.font_20};
 
 	public static final int[] COLOR_DEFAULT = {R.drawable.color_default};
 
