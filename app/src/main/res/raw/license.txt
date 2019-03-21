@@ -98,6 +98,9 @@ This license is copied below, and is also available with a FAQ at: http://script
 SIL OPEN FONT LICENSE
 Version 1.1 - 26 February 2007
 
+에스코어드림
+http://www.s-core.co.kr/who-we-are/font/
+
 qingmei2 - RxImagePicker
 https://github.com/qingmei2/RxImagePicker
 Copyright (c) 2018 qingmei2
