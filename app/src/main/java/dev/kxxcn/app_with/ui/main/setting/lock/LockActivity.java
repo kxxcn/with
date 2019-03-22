@@ -129,6 +129,11 @@ public class LockActivity extends AppCompatActivity implements LockContract.View
 		}
 	}
 
+	@OnClick(R.id.tv_cancel)
+	public void onCancel() {
+		onBackPressed();
+	}
+
 	private void drawPasswordIcon() {
 		if (!isProcessing) {
 			switch (passwordBuilder.length()) {
