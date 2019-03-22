@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,52 +22,47 @@ import dev.kxxcn.app_with.data.model.notice.Notice;
  */
 public class ContentFragment extends Fragment {
 
-	private static WeakReference<ContentFragment> fragmentReference = null;
+    private static final String KEY_NOTICE = "KEY_NOTICE";
 
-	private static final String KEY_NOTICE = "KEY_NOTICE";
+    @BindView(R.id.tv_content)
+    TextView tv_content;
 
-	@BindView(R.id.tv_content)
-	TextView tv_content;
+    private int mPosition;
 
-	private int mPosition;
+    public static ContentFragment newInstance(ArrayList<Notice> noticeList) {
+        ContentFragment fragment = new ContentFragment();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(KEY_NOTICE, noticeList);
+        fragment.setArguments(args);
 
-	public static ContentFragment newInstance(ArrayList<Notice> noticeList) {
-		if (fragmentReference == null) {
-			ContentFragment fragment = new ContentFragment();
-			Bundle args = new Bundle();
-			args.putParcelableArrayList(KEY_NOTICE, noticeList);
-			fragment.setArguments(args);
-			fragmentReference = new WeakReference<>(fragment);
-		}
+        return fragment;
+    }
 
-		return fragmentReference.get();
-	}
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_content, container, false);
+        ButterKnife.bind(this, view);
 
-	@Nullable
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_content, container, false);
-		ButterKnife.bind(this, view);
+        return view;
+    }
 
-		return view;
-	}
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            Bundle args = getArguments();
+            if (args != null) {
+                List<Notice> noticeList = args.getParcelableArrayList(KEY_NOTICE);
+                if (noticeList != null) {
+                    tv_content.setText(noticeList.get(mPosition).getContent());
+                }
+            }
+        }
+    }
 
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser) {
-		super.setUserVisibleHint(isVisibleToUser);
-		if (isVisibleToUser) {
-			Bundle args = getArguments();
-			if (args != null) {
-				List<Notice> noticeList = args.getParcelableArrayList(KEY_NOTICE);
-				if (noticeList != null) {
-					tv_content.setText(noticeList.get(mPosition).getContent());
-				}
-			}
-		}
-	}
-
-	public void setPosition(int position) {
-		this.mPosition = position;
-	}
+    public void setPosition(int position) {
+        this.mPosition = position;
+    }
 
 }

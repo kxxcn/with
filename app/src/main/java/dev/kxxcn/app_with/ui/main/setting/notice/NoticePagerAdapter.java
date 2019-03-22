@@ -1,8 +1,10 @@
 package dev.kxxcn.app_with.ui.main.setting.notice;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,8 @@ public class NoticePagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<Notice> noticeList = new ArrayList<>(0);
 
     private NoticeContract.OnNoticeClickListener mListener;
+
+    private ContentFragment contentFragment;
 
     public NoticePagerAdapter(FragmentManager fm, List<Notice> noticeList, NoticeContract.OnNoticeClickListener listener) {
         super(fm);
@@ -47,6 +51,24 @@ public class NoticePagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return COUNT;
+    }
+
+    @NonNull
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        switch (position) {
+            case CONTENT:
+                contentFragment = (ContentFragment) fragment;
+                break;
+        }
+        return fragment;
+    }
+
+    public void setPosition(int position) {
+        if (contentFragment != null) {
+            contentFragment.setPosition(position);
+        }
     }
 
 }
