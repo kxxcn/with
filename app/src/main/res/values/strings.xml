@@ -108,6 +108,7 @@
     <string name="text_keyboard_9">9</string>
     <string name="text_input_password">비밀번호를 입력하세요.</string>
     <string name="text_input_password_more">비밀번호를 한번 더 입력하세요.</string>
+    <string name="text_cancel">취소</string>
 
     <string name="label_mon">M O N</string>
     <string name="label_tue">T U E</string>
