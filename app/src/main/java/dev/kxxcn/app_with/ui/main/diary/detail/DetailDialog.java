@@ -42,110 +42,110 @@ import static dev.kxxcn.app_with.util.Constants.OPTION_SAMPLING;
  */
 public class DetailDialog extends DialogFragment {
 
-	private static final String KEY_DIARY = "KEY_DIARY";
+    private static final String KEY_DIARY = "KEY_DIARY";
 
-	@BindView(R.id.cl_root)
-	ConstraintLayout cl_root;
+    @BindView(R.id.cl_root)
+    ConstraintLayout cl_root;
 
-	@BindView(R.id.iv_background)
-	ImageView iv_background;
+    @BindView(R.id.iv_background)
+    ImageView iv_background;
 
-	@BindView(R.id.tv_letter)
-	TextView tv_letter;
-	@BindView(R.id.tv_place)
-	TextView tv_place;
-	@BindView(R.id.tv_date)
-	TextView tv_date;
+    @BindView(R.id.tv_letter)
+    TextView tv_letter;
+    @BindView(R.id.tv_place)
+    TextView tv_place;
+    @BindView(R.id.tv_date)
+    TextView tv_date;
 
-	private Context mContext;
+    private Context mContext;
 
-	private Diary mDiary;
+    private Diary mDiary;
 
-	private String[] colors;
+    private String[] colors;
 
-	public static DetailDialog newInstance(Diary diary) {
-		DetailDialog dialog = new DetailDialog();
-		Bundle args = new Bundle();
-		args.putParcelable(KEY_DIARY, diary);
-		dialog.setArguments(args);
-		return dialog;
-	}
+    public static DetailDialog newInstance(Diary diary) {
+        DetailDialog dialog = new DetailDialog();
+        Bundle args = new Bundle();
+        args.putParcelable(KEY_DIARY, diary);
+        dialog.setArguments(args);
+        return dialog;
+    }
 
-	@Nullable
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.dialog_detail, container, false);
-		ButterKnife.bind(this, view);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.dialog_detail, container, false);
+        ButterKnife.bind(this, view);
 
-		Window window = getDialog().getWindow();
-		if (window != null) {
-			window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-		}
+        Window window = getDialog().getWindow();
+        if (window != null) {
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
 
-		colors = getResources().getStringArray(R.array.background_edit);
+        colors = getResources().getStringArray(R.array.background_edit);
 
-		initUI();
+        initUI();
 
-		return view;
-	}
+        return view;
+    }
 
-	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-		mContext = context;
-	}
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		Dialog dialog = getDialog();
-		if (dialog != null) {
-			int width = ViewGroup.LayoutParams.MATCH_PARENT;
-			int height = ViewGroup.LayoutParams.MATCH_PARENT;
-			Window window = dialog.getWindow();
-			if (window != null) {
-				window.setLayout(width, height);
-			}
-		}
-	}
+    @Override
+    public void onStart() {
+        super.onStart();
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            Window window = dialog.getWindow();
+            if (window != null) {
+                window.setLayout(width, height);
+            }
+        }
+    }
 
-	private void initUI() {
-		Bundle args = getArguments();
-		if (args != null) {
-			mDiary = getArguments().getParcelable(KEY_DIARY);
-			if (mDiary != null) {
-				if (mDiary.getPrimaryPosition() != -1) {
-					iv_background.setBackgroundColor(getResources().getColor(COLORS[mDiary.getPrimaryPosition()]));
-				} else if (!TextUtils.isEmpty(mDiary.getGalleryName())) {
-					RequestOptions blurOptions;
-					if (mDiary.getGalleryBlur() != 0) {
-						MultiTransformation multiTransformation =
-								new MultiTransformation<>(new CenterCrop(), new BlurTransformation(mDiary.getGalleryBlur(), OPTION_SAMPLING));
-						blurOptions = new RequestOptions().transform(multiTransformation);
-					} else {
-						blurOptions = new RequestOptions().centerCrop();
-					}
-					ImageProcessingHelper.setGlide(mContext, String.format(mContext.getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, mDiary.getGalleryName()), iv_background, blurOptions);
-				}
-				if (mDiary.getFontStyle() != -1) {
-					Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[mDiary.getFontStyle()]);
-					tv_letter.setTypeface(typeface);
-					tv_date.setTypeface(typeface);
-					tv_place.setTypeface(typeface);
-				}
-				if (mDiary.getFontColor() != -1) {
-					tv_letter.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
-					tv_date.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
-					tv_place.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
-				}
-				LayoutUtils.setViewPosition(cl_root, mDiary.getLetterPosition(), tv_letter, tv_place);
-				tv_letter.setTextSize(TypedValue.COMPLEX_UNIT_PX, mDiary.getFontSize());
-				tv_letter.setText(mDiary.getLetter());
-				String[] date = mDiary.getLetterDate().split("-");
-				tv_date.setText(String.format(getString(R.string.format_date), date[0], date[1], date[2]));
-				tv_place.setText(mDiary.getLetterPlace());
-			}
-		}
-	}
+    private void initUI() {
+        Bundle args = getArguments();
+        if (args != null) {
+            mDiary = getArguments().getParcelable(KEY_DIARY);
+            if (mDiary != null) {
+                if (mDiary.getPrimaryPosition() != -1) {
+                    iv_background.setBackgroundColor(getResources().getColor(COLORS[mDiary.getPrimaryPosition()]));
+                } else if (!TextUtils.isEmpty(mDiary.getGalleryName())) {
+                    RequestOptions blurOptions;
+                    if (mDiary.getGalleryBlur() != 0) {
+                        MultiTransformation multiTransformation =
+                                new MultiTransformation<>(new CenterCrop(), new BlurTransformation(mDiary.getGalleryBlur(), OPTION_SAMPLING));
+                        blurOptions = new RequestOptions().transform(multiTransformation);
+                    } else {
+                        blurOptions = new RequestOptions().centerCrop();
+                    }
+                    ImageProcessingHelper.setGlide(mContext, String.format(mContext.getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, mDiary.getGalleryName()), iv_background, blurOptions);
+                }
+                if (mDiary.getFontStyle() != -1 && mDiary.getFontStyle() < FONTS.length) {
+                    Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[mDiary.getFontStyle()]);
+                    tv_letter.setTypeface(typeface);
+                    tv_date.setTypeface(typeface);
+                    tv_place.setTypeface(typeface);
+                }
+                if (mDiary.getFontColor() != -1) {
+                    tv_letter.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
+                    tv_date.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
+                    tv_place.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
+                }
+                LayoutUtils.setViewPosition(cl_root, mDiary.getLetterPosition(), tv_letter, tv_place);
+                tv_letter.setTextSize(TypedValue.COMPLEX_UNIT_PX, mDiary.getFontSize());
+                tv_letter.setText(mDiary.getLetter());
+                String[] date = mDiary.getLetterDate().split("-");
+                tv_date.setText(String.format(getString(R.string.format_date), date[0], date[1], date[2]));
+                tv_place.setText(mDiary.getLetterPlace());
+            }
+        }
+    }
 
 }
