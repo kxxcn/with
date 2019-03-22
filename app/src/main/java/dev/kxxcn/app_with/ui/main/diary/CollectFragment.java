@@ -39,85 +39,87 @@ import static dev.kxxcn.app_with.util.Constants.OPTION_SAMPLING;
  */
 public class CollectFragment extends Fragment {
 
-	public static final String EXTRA_DIARY = "EXTRA_DIARY";
-	public static final String EXTRA_POSITION = "EXTRA_POSITION";
+    public static final String EXTRA_DIARY = "EXTRA_DIARY";
+    public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
-	@BindView(R.id.cl_root)
-	ConstraintLayout cl_root;
+    @BindView(R.id.cl_root)
+    ConstraintLayout cl_root;
 
-	@BindView(R.id.iv_background)
-	ImageView iv_background;
+    @BindView(R.id.iv_background)
+    ImageView iv_background;
 
-	@BindView(R.id.tv_letter)
-	TextView tv_letter;
-	@BindView(R.id.tv_place)
-	TextView tv_place;
-	@BindView(R.id.tv_date)
-	TextView tv_date;
+    @BindView(R.id.tv_letter)
+    TextView tv_letter;
+    @BindView(R.id.tv_place)
+    TextView tv_place;
+    @BindView(R.id.tv_date)
+    TextView tv_date;
 
-	private Context mContext;
+    private Context mContext;
 
-	private Diary mDiary;
+    private Diary mDiary;
 
-	private String[] colors;
+    private String[] colors;
 
-	private Bundle args;
+    private Bundle args;
 
-	@Nullable
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_collect, container, false);
-		ButterKnife.bind(this, view);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_collect, container, false);
+        ButterKnife.bind(this, view);
 
-		args = getArguments();
-		if (args != null) {
-			mDiary = args.getParcelable(EXTRA_DIARY);
-		}
+        args = getArguments();
+        if (args != null) {
+            mDiary = args.getParcelable(EXTRA_DIARY);
+        }
 
-		colors = getResources().getStringArray(R.array.background_edit);
+        colors = getResources().getStringArray(R.array.background_edit);
 
-		initUI();
+        initUI();
 
-		return view;
-	}
+        return view;
+    }
 
-	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-		mContext = context;
-	}
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
-	private void initUI() {
-		if (mDiary.getPrimaryPosition() != -1) {
-			iv_background.setBackgroundResource(COLOR_IMGS[mDiary.getPrimaryPosition()]);
-		} else if (!TextUtils.isEmpty(mDiary.getGalleryName())) {
-			RequestOptions blurOptions;
-			if (mDiary.getGalleryBlur() != 0) {
-				MultiTransformation multiTransformation =
-						new MultiTransformation<>(new CenterCrop(), new BlurTransformation(mDiary.getGalleryBlur(), OPTION_SAMPLING));
-				blurOptions = new RequestOptions().transform(multiTransformation);
-			} else {
-				blurOptions = new RequestOptions().centerCrop();
-			}
-			ImageProcessingHelper.setGlide(mContext, String.format(getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, mDiary.getGalleryName()), iv_background, blurOptions);
-		}
-		if (mDiary.getFontStyle() != -1) {
-			Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[mDiary.getFontStyle()]);
-			tv_letter.setTypeface(typeface);
-			tv_date.setTypeface(typeface);
-			tv_place.setTypeface(typeface);
-		}
-		if (mDiary.getFontColor() != -1) {
-			tv_letter.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
-			tv_date.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
-			tv_place.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
-		}
-		LayoutUtils.setViewPosition(cl_root, mDiary.getLetterPosition(), tv_letter, tv_place);
-		tv_letter.setTextSize(TypedValue.COMPLEX_UNIT_PX, mDiary.getFontSize());
-		tv_letter.setText(mDiary.getLetter());
-		String[] today = mDiary.getLetterDate().split("-");
-		tv_date.setText(String.format(getString(R.string.format_date), today[0], today[1], today[2]));
-		tv_place.setText(mDiary.getLetterPlace());
-	}
+    private void initUI() {
+        if (mDiary.getPrimaryPosition() != -1) {
+            iv_background.setBackgroundResource(COLOR_IMGS[mDiary.getPrimaryPosition()]);
+        } else if (!TextUtils.isEmpty(mDiary.getGalleryName())) {
+            RequestOptions blurOptions;
+            if (mDiary.getGalleryBlur() != 0) {
+                MultiTransformation multiTransformation =
+                        new MultiTransformation<>(new CenterCrop(), new BlurTransformation(mDiary.getGalleryBlur(), OPTION_SAMPLING));
+                blurOptions = new RequestOptions().transform(multiTransformation);
+            } else {
+                blurOptions = new RequestOptions().centerCrop();
+            }
+            ImageProcessingHelper.setGlide(mContext, String.format(getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, mDiary.getGalleryName()), iv_background, blurOptions);
+        }
+        if (mDiary.getFontStyle() != -1) {
+            if (mDiary.getFontStyle() < FONTS.length) {
+                Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[mDiary.getFontStyle()]);
+                tv_letter.setTypeface(typeface);
+                tv_date.setTypeface(typeface);
+                tv_place.setTypeface(typeface);
+            }
+        }
+        if (mDiary.getFontColor() != -1) {
+            tv_letter.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
+            tv_date.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
+            tv_place.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
+        }
+        LayoutUtils.setViewPosition(cl_root, mDiary.getLetterPosition(), tv_letter, tv_place);
+        tv_letter.setTextSize(TypedValue.COMPLEX_UNIT_PX, mDiary.getFontSize());
+        tv_letter.setText(mDiary.getLetter());
+        String[] today = mDiary.getLetterDate().split("-");
+        tv_date.setText(String.format(getString(R.string.format_date), today[0], today[1], today[2]));
+        tv_place.setText(mDiary.getLetterPlace());
+    }
 
 }
