@@ -68,7 +68,7 @@ dependencies {
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
     /* Spin Kit */
-    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.2.0'
 
     /* Radio Real Button */
     implementation 'com.github.ceryle:RadioRealButton:v2.1.1'
