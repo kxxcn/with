@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import dev.kxxcn.app_with.BuildConfig;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.WithApplication;
 import dev.kxxcn.app_with.ui.main.MainContract;
@@ -33,27 +34,27 @@ public class SystemUtils {
 	public static class Dlog {
 		/* ERROR */
 		public static final void e(String message) {
-			if (WithApplication.DEBUG) Log.e(TAG, buildLogMsg(message));
+			if (BuildConfig.DEBUG) Log.e(TAG, buildLogMsg(message));
 		}
 
 		/* WARNING */
 		public static final void w(String message) {
-			if (WithApplication.DEBUG) Log.w(TAG, buildLogMsg(message));
+			if (BuildConfig.DEBUG) Log.w(TAG, buildLogMsg(message));
 		}
 
 		/* INFORMATION */
 		public static final void i(String message) {
-			if (WithApplication.DEBUG) Log.i(TAG, buildLogMsg(message));
+			if (BuildConfig.DEBUG) Log.i(TAG, buildLogMsg(message));
 		}
 
 		/* DEBUG */
 		public static final void d(String message) {
-			if (WithApplication.DEBUG) Log.d(TAG, buildLogMsg(message));
+			if (BuildConfig.DEBUG) Log.d(TAG, buildLogMsg(message));
 		}
 
 		/* VERBOSE */
 		public static final void v(String message) {
-			if (WithApplication.DEBUG) Log.v(TAG, buildLogMsg(message));
+			if (BuildConfig.DEBUG) Log.v(TAG, buildLogMsg(message));
 		}
 
 		private static String buildLogMsg(String message) {

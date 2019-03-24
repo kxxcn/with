@@ -15,7 +15,10 @@ import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.List;
+
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_with.R;
@@ -38,170 +41,112 @@ import static dev.kxxcn.app_with.util.Constants.WRITE_EXTERNAL_STORAGE;
  */
 public class SplashActivity extends AppCompatActivity implements SplashContract.View {
 
-	@BindView(R.id.lottie_splash)
-	LottieAnimationView lottie_splash;
+    @BindView(R.id.lottie_splash)
+    LottieAnimationView lottie_splash;
 
-	@BindView(R.id.cl_password)
-	ConstraintLayout cl_password;
+    @BindView(R.id.cl_password)
+    ConstraintLayout cl_password;
 
-	@BindView(R.id.iv_pass_1)
-	ImageView iv_pass_1;
-	@BindView(R.id.iv_pass_2)
-	ImageView iv_pass_2;
-	@BindView(R.id.iv_pass_3)
-	ImageView iv_pass_3;
-	@BindView(R.id.iv_pass_4)
-	ImageView iv_pass_4;
+    @BindViews({R.id.iv_pass_1, R.id.iv_pass_2, R.id.iv_pass_3, R.id.iv_pass_4})
+    List<ImageView> ivPasswordList;
 
-	private SplashContract.Presenter mPresenter;
+    private SplashContract.Presenter mPresenter;
 
-	private StringBuilder passwordBuilder = new StringBuilder();
+    private String uniqueIdentifier;
 
-	private String uniqueIdentifier;
+    private RequestOptions mOptions = new RequestOptions();
 
-	private String mGender;
+    @Override
+    public void setPresenter(SplashContract.Presenter presenter) {
+        this.mPresenter = presenter;
+    }
 
-	private String mLock;
+    @Override
+    public void showLoadingIndicator(boolean isShowing) {
 
-	private RequestOptions options = new RequestOptions();
+    }
 
-	@Override
-	public void setPresenter(SplashContract.Presenter presenter) {
-		this.mPresenter = presenter;
-	}
+    @SuppressLint("HardwareIds")
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+        ButterKnife.bind(this);
 
-	@Override
-	public void showLoadingIndicator(boolean isShowing) {
+        new SplashPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
-	}
+        uniqueIdentifier = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-	@SuppressLint("HardwareIds")
-	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_splash);
-		ButterKnife.bind(this);
+        mPresenter.setPermission(this, new BasePresenter.OnPermissionListener() {
+            @Override
+            public void onGranted() {
+                mPresenter.isRegisteredUser(uniqueIdentifier);
+            }
 
-		new SplashPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
+            @Override
+            public void onDenied() {
+                Toast.makeText(SplashActivity.this, getString(R.string.system_denied_permission), Toast.LENGTH_SHORT).show();
+                UiThread.getInstance().postDelayed(() -> SystemUtils.onFinish(SplashActivity.this), DELAY_TOAST);
+            }
+        }, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE);
+    }
 
-		lottie_splash.playAnimation();
-		lottie_splash.setRepeatCount(INFINITE);
+    @Override
+    public void showLoginActivity() {
+        lottie_splash.cancelAnimation();
+        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+        intent.putExtra(LoginActivity.EXTRA_IDENTIFIER, uniqueIdentifier);
+        startActivity(intent);
+        finish();
+    }
 
-		uniqueIdentifier = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+    @Override
+    public void showLockScreen() {
+        lottie_splash.setVisibility(View.GONE);
+        cl_password.setVisibility(View.VISIBLE);
+    }
 
-		mPresenter.setPermission(this, new BasePresenter.OnPermissionListener() {
-			@Override
-			public void onGranted() {
-				mPresenter.isRegisteredUser(uniqueIdentifier);
-			}
+    @Override
+    public void showMainActivity(int gender) {
+        lottie_splash.cancelAnimation();
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        intent.putExtra(MainActivity.EXTRA_GENDER, gender);
+        intent.putExtra(MainActivity.EXTRA_IDENTIFIER, uniqueIdentifier);
+        startActivity(intent);
+        finish();
+    }
 
-			@Override
-			public void onDenied() {
-				Toast.makeText(SplashActivity.this, getString(R.string.system_denied_permission), Toast.LENGTH_SHORT).show();
-				UiThread.getInstance().postDelayed(() -> SystemUtils.onFinish(SplashActivity.this), DELAY_TOAST);
-			}
-		}, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE);
-	}
+    @Override
+    public void showInvalidPassword() {
+        Toast.makeText(this, getString(R.string.toast_invalid_password), Toast.LENGTH_SHORT).show();
+    }
 
-	@Override
-	public void showRegisteredUser(String uniqueIdentifier, String response) {
-		this.mGender = response;
-		mPresenter.isLockedUser(uniqueIdentifier);
-	}
+    @Override
+    public void showFailedRequest(String throwable) {
+        SystemUtils.displayError(this, getClass().getName(), throwable);
+    }
 
-	@Override
-	public void showUnregisteredUser() {
-		lottie_splash.cancelAnimation();
-		Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-		intent.putExtra(LoginActivity.EXTRA_IDENTIFIER, uniqueIdentifier);
-		startActivity(intent);
-		finish();
-	}
+    @OnClick({R.id.tv_number_0, R.id.tv_number_1, R.id.tv_number_2, R.id.tv_number_3, R.id.tv_number_4,
+            R.id.tv_number_5, R.id.tv_number_6, R.id.tv_number_7, R.id.tv_number_8, R.id.tv_number_9})
+    public void onClickPassword(View view) {
+        mPresenter.typingPassword(((TextView) view).getText());
+    }
 
-	@Override
-	public void showLockedUser(String lock) {
-		this.mLock = lock;
-		lottie_splash.setVisibility(View.GONE);
-		cl_password.setVisibility(View.VISIBLE);
-	}
+    @OnClick({R.id.ll_erase, R.id.iv_erase})
+    public void onErase() {
+        mPresenter.erasePassword();
+    }
 
-	@Override
-	public void showUnlockedUser() {
-		lottie_splash.cancelAnimation();
-		Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-		intent.putExtra(MainActivity.EXTRA_GENDER, Integer.parseInt(mGender));
-		intent.putExtra(MainActivity.EXTRA_IDENTIFIER, uniqueIdentifier);
-		startActivity(intent);
-		finish();
-	}
-
-	@Override
-	public void showFailedRequest(String throwable) {
-		SystemUtils.displayError(this, getClass().getName(), throwable);
-	}
-
-	@OnClick({R.id.tv_number_0, R.id.tv_number_1, R.id.tv_number_2, R.id.tv_number_3, R.id.tv_number_4,
-			R.id.tv_number_5, R.id.tv_number_6, R.id.tv_number_7, R.id.tv_number_8, R.id.tv_number_9})
-	public void onClickPassword(View view) {
-		if (passwordBuilder.length() < 4) {
-			passwordBuilder.append(((TextView) view).getText());
-		}
-		if (passwordBuilder.length() == 4) {
-			if (mPresenter.verifyPassword(mLock, passwordBuilder.toString())) {
-				Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-				intent.putExtra(MainActivity.EXTRA_GENDER, Integer.parseInt(mGender));
-				intent.putExtra(MainActivity.EXTRA_IDENTIFIER, uniqueIdentifier);
-				startActivity(intent);
-				finish();
-			} else {
-				Toast.makeText(this, getString(R.string.toast_invalid_password), Toast.LENGTH_SHORT).show();
-				passwordBuilder.delete(0, passwordBuilder.length());
-			}
-		}
-		drawPasswordIcon();
-	}
-
-	@OnClick({R.id.ll_erase, R.id.iv_erase})
-	public void onErase() {
-		if (passwordBuilder.length() > 0) {
-			passwordBuilder.deleteCharAt(passwordBuilder.length() - 1);
-			drawPasswordIcon();
-		}
-	}
-
-	private void drawPasswordIcon() {
-		switch (passwordBuilder.length()) {
-			case 0:
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_empty, iv_pass_1, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_empty, iv_pass_2, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_empty, iv_pass_3, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_empty, iv_pass_4, options);
-				break;
-			case 1:
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_fill, iv_pass_1, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_empty, iv_pass_2, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_empty, iv_pass_3, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_empty, iv_pass_4, options);
-				break;
-			case 2:
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_fill, iv_pass_1, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_fill, iv_pass_2, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_empty, iv_pass_3, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_empty, iv_pass_4, options);
-				break;
-			case 3:
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_fill, iv_pass_1, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_fill, iv_pass_2, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_fill, iv_pass_3, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_empty, iv_pass_4, options);
-				break;
-			case 4:
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_fill, iv_pass_1, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_fill, iv_pass_2, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_fill, iv_pass_3, options);
-				ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_fill, iv_pass_4, options);
-				break;
-		}
-	}
+    @Override
+    public void drawPasswordIcon(int passwordLength) {
+        int size = ivPasswordList.size();
+        for (int i = 0; i < size; i++) {
+            if (i < passwordLength) {
+                ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_fill, ivPasswordList.get(i), mOptions);
+            } else {
+                ImageProcessingHelper.setGlide(this, R.drawable.drawable_circle_empty, ivPasswordList.get(i), mOptions);
+            }
+        }
+    }
 
 }

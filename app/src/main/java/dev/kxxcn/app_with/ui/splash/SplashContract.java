@@ -9,25 +9,29 @@ import dev.kxxcn.app_with.ui.BaseView;
  * Created by kxxcn on 2018-09-06.
  */
 public interface SplashContract {
-	interface View extends BaseView<Presenter> {
-		void showRegisteredUser(String uniqueIdentifier, String response);
+    interface View extends BaseView<Presenter> {
+        void showLoginActivity();
 
-		void showUnregisteredUser();
+        void showLockScreen();
 
-		void showLockedUser(String lock);
+        void showMainActivity(int gender);
 
-		void showUnlockedUser();
+        void showInvalidPassword();
 
-		void showFailedRequest(String throwable);
-	}
+        void showFailedRequest(String throwable);
 
-	interface Presenter extends BasePresenter {
-		void isRegisteredUser(String uniqueIdentifier);
+        void drawPasswordIcon(int passwordLength);
+    }
 
-		void isLockedUser(String uniqueIdentifier);
+    interface Presenter extends BasePresenter {
+        void isRegisteredUser(String uniqueIdentifier);
 
-		boolean verifyPassword(String uniqueIdentifier, String lock);
+        void isLockedUser(String uniqueIdentifier);
 
-		void setPermission(Activity activity, OnPermissionListener onPermissionListener, String... permission);
-	}
+        void typingPassword(CharSequence charSequence);
+
+        void erasePassword();
+
+        void setPermission(Activity activity, OnPermissionListener onPermissionListener, String... permission);
+    }
 }
