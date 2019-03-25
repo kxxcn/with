@@ -20,7 +20,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter {
 	}
 
 	@Override
-	public void onRegisterPlan(Plan plan) {
+	public void registerPlan(Plan plan) {
 		if (mDetailView == null)
 			return;
 
@@ -40,6 +40,15 @@ public class SchedulePresenter implements ScheduleContract.Presenter {
 				}, throwable -> mDetailView.showFailedRequest(throwable.getMessage()));
 
 		compositeDisposable.add(disposable);
+	}
+
+	@Override
+	public String getFormattedMinute(int minute) {
+		String min = String.valueOf(minute);
+		if (min.length() == 1) {
+			min = "0" + String.valueOf(minute);
+		}
+		return min;
 	}
 
 }

@@ -226,7 +226,7 @@ public class ScheduleDialog extends DialogFragment implements ScheduleContract.V
 				KeyboardUtils.hideKeyboard(mActivity, eet_plan);
 				Bundle args = getArguments();
 				if (args != null) {
-					mPresenter.onRegisterPlan(new Plan(args.getString(KEY_IDENTIFIER), eet_plan.getText().toString(), eet_place.getText().toString(), eet_time.getText().toString(), args.getString(KEY_DATE)));
+					mPresenter.registerPlan(new Plan(args.getString(KEY_IDENTIFIER), eet_plan.getText().toString(), eet_place.getText().toString(), eet_time.getText().toString(), args.getString(KEY_DATE)));
 				}
 			} else {
 				setFocusToEmptyEditText(TextUtils.isEmpty(eet_plan.getText()), TextUtils.isEmpty(eet_place.getText()), TextUtils.isEmpty(eet_time.getText()));
@@ -260,15 +260,8 @@ public class ScheduleDialog extends DialogFragment implements ScheduleContract.V
 	private TimePickerDialog.OnTimeSetListener timeSetListener = (view, hourOfDay, minute) -> {
 		String AM_PM = hourOfDay >= STANDARD_TIME ? STRING_PM : STRING_AM;
 		int hour = hourOfDay > STANDARD_TIME ? hourOfDay - STANDARD_TIME : hourOfDay;
-		if (minute == 0) {
-			eet_time.setText(String.format(getString(R.string.format_time_set1), hour, AM_PM));
-		} else {
-			String min = String.valueOf(minute);
-			if (min.length() == 1) {
-				min = "0" + String.valueOf(minute);
-			}
-			eet_time.setText(String.format(getString(R.string.format_time_set2), hour, min, AM_PM));
-		}
+		eet_time.setText(minute == 0 ? String.format(getString(R.string.format_time_set1), hour, AM_PM) :
+				String.format(getString(R.string.format_time_set2), hour, mPresenter.getFormattedMinute(minute), AM_PM));
 	};
 
 	private void setFocusToEmptyEditText(boolean isEmptyPlan, boolean isEmptyPlace, boolean isEmptyTime) {

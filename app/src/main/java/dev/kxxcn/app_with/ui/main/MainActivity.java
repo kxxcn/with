@@ -127,8 +127,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 				xmlRes = myGender == GenderFragment.MALE ? R.xml.bottombar_tabs_men : R.xml.bottombar_tabs_women;
 			}
 		}
-		prepareBottomBar(xmlRes);
-		setAdapter(mode);
+		prepareBottomBar(xmlRes, mode);
 	}
 
 	@Override
@@ -147,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 		}
 	}
 
-	private void prepareBottomBar(int xmlRes) {
+	private void prepareBottomBar(int xmlRes, int mode) {
 		bottomBar.setItems(xmlRes);
 		bottomBar.setActiveTabColor(getResources().getColor(R.color.tab_active));
 		bottomBar.setInActiveTabColor(getResources().getColor(R.color.tab_inactive));
@@ -181,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 					break;
 			}
 		});
+		setAdapter(mode);
 	}
 
 	private void setAdapter(int mode) {

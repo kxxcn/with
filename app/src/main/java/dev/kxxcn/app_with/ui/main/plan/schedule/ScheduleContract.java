@@ -15,6 +15,8 @@ public interface ScheduleContract {
 	}
 
 	interface Presenter extends BasePresenter {
-		void onRegisterPlan(Plan plan);
+		void registerPlan(Plan plan);
+
+		String getFormattedMinute(int minute);
 	}
 }
