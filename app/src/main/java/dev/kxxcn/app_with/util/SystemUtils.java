@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.PowerManager;
 import android.os.Vibrator;
+import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +21,6 @@ import java.util.Locale;
 
 import dev.kxxcn.app_with.BuildConfig;
 import dev.kxxcn.app_with.R;
-import dev.kxxcn.app_with.WithApplication;
 import dev.kxxcn.app_with.ui.main.MainContract;
 
 import static android.content.Context.VIBRATOR_SERVICE;
@@ -81,7 +81,7 @@ public class SystemUtils {
 	}
 
 	public static void onFinish(Activity activity) {
-		activity.finishAffinity();
+		ActivityCompat.finishAffinity(activity);
 	}
 
 	public static void displayError(Context context, String className, String message) {
