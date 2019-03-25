@@ -23,17 +23,13 @@ public class MainPresenter implements MainContract.Presenter {
 		if (mMainView == null)
 			return;
 
-		mMainView.showLoadingIndicator(true);
-
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
 		Disposable disposable = mDataRepository.checkMode(uniqueIdentifier)
 				.subscribe(responseMode -> {
-					mMainView.showLoadingIndicator(false);
 					mMainView.showSuccessfulCheckMode(responseMode.getLover(), responseMode.getMyGender(), responseMode.getYourGender());
 					compositeDisposable.dispose();
 				}, throwable -> {
-					mMainView.showLoadingIndicator(false);
 					mMainView.showFailedRequest(throwable.getMessage());
 					compositeDisposable.dispose();
 				});
