@@ -154,7 +154,7 @@
 
             <TextView
                 android:id="@+id/tv_cancel"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -168,7 +168,7 @@
 
             <LinearLayout
                 android:id="@+id/ll_erase"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center">
