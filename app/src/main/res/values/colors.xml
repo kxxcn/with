@@ -85,10 +85,10 @@
     <color name="text_notice_date">#616161</color>
     <color name="text_allowed_count">#1de9b6</color>
     <color name="text_denied_count">#f44336</color>
-    <color name="text_password_number">#616161</color>
+    <color name="text_password_number">#e1d3d3</color>
 
-    <color name="selected_circleindicator">#ffffff</color>
-    <color name="unselected_circleindicator">#84797d</color>
+    <color name="selected_circle_indicator">#ffffff</color>
+    <color name="unselected_circle_indicator">#84797d</color>
 
     <color name="box_helper">#93b8ff</color>
     <color name="box_primary">#baffd1</color>
