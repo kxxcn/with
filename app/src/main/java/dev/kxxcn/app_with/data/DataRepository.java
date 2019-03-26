@@ -142,4 +142,8 @@ public class DataRepository {
 		return dataSource.unregisterLock(uniqueIdentifier);
 	}
 
+	public Single<ResponseResult> sync(String uniqueIdentifier, String key) {
+		return dataSource.sync(uniqueIdentifier, key);
+	}
+
 }

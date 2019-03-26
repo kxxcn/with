@@ -227,4 +227,11 @@ public class RemoteDataSource extends DataSource {
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
+	@Override
+	public Single<ResponseResult> sync(String uniqueIdentifier, String key) {
+		return service.sync(uniqueIdentifier, key)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
 }

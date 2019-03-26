@@ -5,7 +5,7 @@ package dev.kxxcn.app_with.data.remote;
  */
 public class APIPersistence {
 	//:: Development
-	// public static final String SERVER_URL = "http://211.104.220.168:80/with/";
+	// public static final String SERVER_URL = "http://220.119.94.32:80/with/";
 
 	//:: Production
 	public static final String SERVER_URL = "http://kxxcn.cafe24.com/with/";
@@ -40,6 +40,7 @@ public class APIPersistence {
 	public static final String GET_NOTICE = "getNotice.php";
 	public static final String REGISTER_LOCK = "registerLock.php";
 	public static final String UNREGISTER_LOCK = "unregisterLock.php";
+	public static final String SYNC = "sync.php";
 
 	public static final String FCM_MESSAGE = "message";
 	public static final String FCM_TYPE = "type";

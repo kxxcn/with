@@ -55,6 +55,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SERVER_URL;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_OUT;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_UP;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.SYNC;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UNREGISTER_LOCK;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_RECEIVE_NOTIFICATION;
@@ -196,5 +197,10 @@ public interface APIService {
 	@FormUrlEncoded
 	@POST(UNREGISTER_LOCK)
 	Single<ResponseResult> unregisterLock(@Field("uniqueIdentifier") String uniqueIdentifier);
+
+	@FormUrlEncoded
+	@POST(SYNC)
+	Single<ResponseResult> sync(@Field("uniqueIdentifier") String uniqueIdentifier,
+								@Field("pair") String pair);
 
 }

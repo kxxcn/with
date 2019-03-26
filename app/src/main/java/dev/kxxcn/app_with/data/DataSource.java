@@ -75,4 +75,6 @@ public abstract class DataSource {
 
 	public abstract Single<ResponseResult> unregisterLock(String uniqueIdentifier);
 
+	public abstract Single<ResponseResult> sync(String uniqueIdentifier, String key);
+
 }

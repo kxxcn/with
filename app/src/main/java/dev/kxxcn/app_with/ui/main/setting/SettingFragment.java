@@ -33,6 +33,7 @@ import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.ui.main.setting.lock.LockActivity;
 import dev.kxxcn.app_with.ui.main.setting.notice.NoticeActivity;
 import dev.kxxcn.app_with.ui.main.setting.profile.ProfileActivity;
+import dev.kxxcn.app_with.ui.main.setting.sync.SyncActivity;
 import dev.kxxcn.app_with.ui.main.setting.version.VersionActivity;
 import dev.kxxcn.app_with.util.Constants;
 import dev.kxxcn.app_with.util.DialogUtils;
@@ -41,6 +42,7 @@ import dev.kxxcn.app_with.util.threading.UiThread;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
 import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_CURRENT;
 import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_LATEST;
 import static dev.kxxcn.app_with.util.Constants.DELAY_SIGN_OUT;
@@ -73,9 +75,16 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	@BindView(R.id.tv_version)
 	TextView tv_version;
+	@BindView(R.id.tv_sync)
+	TextView tv_sync;
 
 	@BindView(R.id.iv_new)
 	ImageView iv_new;
+	@BindView(R.id.iv_sync)
+	ImageView iv_sync;
+
+	@BindView(R.id.divider_sync)
+	View divider_sync;
 
 	@BindView(R.id.sv_loading)
 	SpinKitView sv_loading;
@@ -167,6 +176,8 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 			}
 		}
 
+		initUI();
+
 		return view;
 	}
 
@@ -183,6 +194,14 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	public void onResume() {
 		super.onResume();
 		mPresenter.checkNewNotice(args.getString(KEY_IDENTIFIER));
+	}
+
+	private void initUI() {
+		if (args.getInt(KEY_MODE) == SOLO) {
+			tv_sync.setVisibility(View.GONE);
+			iv_sync.setVisibility(View.GONE);
+			divider_sync.setVisibility(View.GONE);
+		}
 	}
 
 	@OnClick({R.id.tv_profile, R.id.iv_profile})
@@ -218,6 +237,13 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 	public void onSignOut() {
 		DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_want_to_sign_out),
 				(dialog, which) -> mPresenter.signOut(args.getString(KEY_IDENTIFIER)), null);
+	}
+
+	@OnClick({R.id.tv_sync, R.id.iv_sync})
+	public void showSyncActivity() {
+		Intent intent = new Intent(mActivity, SyncActivity.class);
+		intent.putExtra(SyncActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
+		startActivity(intent);
 	}
 
 	@Override

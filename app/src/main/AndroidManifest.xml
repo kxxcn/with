@@ -39,6 +39,7 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.main.setting.notice.NoticeActivity"/>
         <activity android:name=".ui.main.setting.lock.LockActivity"/>
+        <activity android:name=".ui.main.setting.sync.SyncActivity"/>
 
         <service
             android:name=".data.remote.MyFirebaseMessagingService"
