@@ -1,5 +1,7 @@
 package dev.kxxcn.app_with.ui.main.diary;
 
+import java.util.Collections;
+
 import dev.kxxcn.app_with.data.DataRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -29,6 +31,10 @@ public class DiaryPresenter implements DiaryContract.Presenter {
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
 		Disposable disposable = mDataRepository.getDiary(flag, uniqueIdentifier)
+				.map(diaryList -> {
+					Collections.sort(diaryList, (d1, d2) -> d2.getLetterDate().compareTo(d1.getLetterDate()));
+					return diaryList;
+				})
 				.subscribe(diaryList -> {
 							mDiaryView.showSuccessfulLoadDiary(diaryList);
 							mDiaryView.showLoadingIndicator(false);
