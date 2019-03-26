@@ -3,6 +3,7 @@ package dev.kxxcn.app_with.ui.main.plan;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import dev.kxxcn.app_with.data.DataRepository;
@@ -32,6 +33,10 @@ public class PlanPresenter implements PlanContract.Presenter {
 		CompositeDisposable compositeDisposable = new CompositeDisposable();
 
 		Disposable disposable = mDataRepository.getPlan(identifier)
+				.map(planList -> {
+					Collections.sort(planList, (d1, d2) -> d2.getDate().compareTo(d1.getDate()));
+					return planList;
+				})
 				.subscribe(planList -> {
 					mPlanView.showSuccessfulLoadPlan(planList);
 					compositeDisposable.dispose();
