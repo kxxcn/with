@@ -64,6 +64,7 @@
     <string name="toast_search_version">버전정보를 조회하고 있습니다.</string>
     <string name="toast_exceeded_character">글자 수를 초과했습니다.</string>
     <string name="toast_invalid_password">비밀번호가 일치하지 않습니다.</string>
+    <string name="toast_complete_sync">동기화가 완료되었습니다.</string>
 
     <string name="snack_selected_gallery">사진이 선택되었습니다.</string>
 
@@ -72,9 +73,10 @@
 
     <string name="text_welcome">위드를 찾아주신 커플 여러분들을 환영합니다.</string>
     <string name="text_auth">연인에게 전달받은 번호를 입력하세요.\n\n또는, 연인에게 인증번호를 전달하세요.</string>
+    <string name="text_auth2">연인에게 전달받은 번호를 입력하세요.</string>
     <string name="text_delete">DELETE</string>
     <string name="text_account">계정</string>
-    <string name="text_lock">잠금</string>
+    <string name="text_lock">잠금 설정</string>
     <string name="text_profile">프로필 편집</string>
     <string name="text_notification">알림</string>
     <string name="text_notice_with">위드 알림</string>
@@ -83,6 +85,7 @@
     <string name="text_service">서비스 정보</string>
     <string name="text_notice">공지사항</string>
     <string name="text_information">위드 앱 정보</string>
+    <string name="text_sync">연동하기</string>
     <string name="text_sign_out">탈퇴하기</string>
     <string name="text_latest">최신 버전 사용 중</string>
     <string name="text_update">업데이트</string>
