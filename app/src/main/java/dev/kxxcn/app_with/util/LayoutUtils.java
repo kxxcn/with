@@ -73,4 +73,14 @@ public class LayoutUtils {
 		}
 		set.applyTo(constraintLayout);
 	}
+
+
+	public static <T extends View> void setViewPosition3(ConstraintLayout constraintLayout, int position, T view, T relativeView) {
+		ConstraintSet set = new ConstraintSet();
+		set.clone(constraintLayout);
+		set.connect(view.getId(), ConstraintSet.TOP, relativeView.getId(), ConstraintSet.BOTTOM, 100);
+		set.connect(view.getId(), ConstraintSet.BOTTOM, ConstraintSet.UNSET, ConstraintSet.BOTTOM, 0);
+		set.applyTo(constraintLayout);
+	}
+
 }
