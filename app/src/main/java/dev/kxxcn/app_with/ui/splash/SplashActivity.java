@@ -52,6 +52,8 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
 	private String mUniqueIdentifier;
 
+	private boolean isFirst = true;
+
 	private RequestOptions mOptions = new RequestOptions();
 
 	@Override
@@ -78,7 +80,10 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 		mPresenter.setPermission(this, new BasePresenter.OnPermissionListener() {
 			@Override
 			public void onGranted() {
-				mPresenter.isRegisteredUser(mUniqueIdentifier);
+				if (isFirst) {
+					isFirst = false;
+					mPresenter.isRegisteredUser(mUniqueIdentifier);
+				}
 			}
 
 			@Override

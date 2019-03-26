@@ -2,9 +2,7 @@ package dev.kxxcn.app_with.ui.splash;
 
 import android.app.Activity;
 import android.text.TextUtils;
-import android.widget.Toast;
 
-import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.util.PermissionUtils;
 import io.reactivex.disposables.CompositeDisposable;
