@@ -817,7 +817,8 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 	private void setEditMode(Diary diary) {
 		et_write.setText(diary.getLetter());
 		tv_place.setText(diary.getLetterPlace());
-		tv_date.setText(diary.getLetterDate());
+		String[] today = mLetterDate.split("-");
+		tv_date.setText(String.format(getString(R.string.format_date), today[0], today[1], today[2]));
 		et_write.setTextSize(TypedValue.COMPLEX_UNIT_PX, diary.getFontSize());
 		if (diary.getFontStyle() != -1) {
 			Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[diary.getFontStyle()]);
