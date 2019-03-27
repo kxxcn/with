@@ -46,6 +46,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.qingmei2.rximagepicker.core.RxImagePicker;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +67,15 @@ import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.KeyboardUtils;
 import dev.kxxcn.app_with.util.LayoutUtils;
+import dev.kxxcn.app_with.util.PermissionUtils;
 import dev.kxxcn.app_with.util.StateButton;
 import dev.kxxcn.app_with.util.SystemUtils;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 import static dev.kxxcn.app_with.data.remote.APIPersistence.DOWNLOAD_IMAGE_URL;
 import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
@@ -92,6 +97,9 @@ import static dev.kxxcn.app_with.util.Constants.POSITION_TOP;
  * Created by kxxcn on 2018-08-13.
  */
 public class WriteFragment extends Fragment implements WriteContract.View, MainContract.OnKeyboardListener {
+
+	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
+	private static final long MIN_TIME_BW_UPDATES = 1000 * 60;
 
 	private static final int THRESHOLD_COUNT = 15;
 	private static final int THRESHOLD_LENGTH = 500;
@@ -209,12 +217,6 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 	private MainContract.OnRegisteredDiary registerListener;
 
 	private Bundle args;
-
-	// 최소 GPS 정보 업데이트 거리 10미터
-	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
-
-	// 최소 GPS 정보 업데이트 시간 밀리세컨이므로 1분
-	private static final long MIN_TIME_BW_UPDATES = 1000 * 60;
 
 	private LocationManager locationManager;
 
@@ -347,7 +349,7 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 
 		glideOptions = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.NONE);
 
-		mPresenter.setPermission(mActivity, new BasePresenter.OnPermissionListener() {
+		PermissionUtils.setPermissions(mActivity, new BasePresenter.OnPermissionListener() {
 			@Override
 			public void onGranted() {
 				String query = requestLocations();
@@ -357,10 +359,10 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 			}
 
 			@Override
-			public void onDenied() {
-
+			public void onDenied(ArrayList<String> deniedPermissions) {
+				Toast.makeText(mContext, getString(R.string.system_denied_location_permission), Toast.LENGTH_SHORT).show();
 			}
-		}, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION);
+		}, getString(R.string.system_denied_location_permission), ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION);
 
 		mLetterDate = SystemUtils.getDate();
 
@@ -489,7 +491,9 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 					setEnabledComponent(false);
 					if (isSelectedGallery) {
 						mGalleryName = mPresenter.getGalleryName(args.getString(KEY_IDENTIFIER));
-						mPresenter.uploadImage(mContext, galleryBitmap, mGalleryName);
+						File file = new File(ImageProcessingHelper.convertToJPEG(mContext, galleryBitmap, mGalleryName));
+						RequestBody reqFile = RequestBody.create(MediaType.parse("image/jpg"), file);
+						mPresenter.uploadImage(MultipartBody.Part.createFormData("upload", file.getName(), reqFile));
 					} else {
 						Diary diary = new Diary(mUpdateId,
 								args.getString(KEY_IDENTIFIER),
@@ -576,7 +580,6 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 					});
 
 			compositeDisposable.add(disposable);
-
 		} else {
 			adapter.onChangedData(colorBitmapList, Constants.TypeFilter.COLOR);
 		}
@@ -798,8 +801,8 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 			if (!TextUtils.isEmpty(addressDetail.getDongmyun())) {
 				locationList.add(String.format(getString(R.string.text_location), addressDetail.getDongmyun()));
 			}
-			mLocationPosition++;
 			tv_place.setText(locationList.get(mLocationPosition));
+			mLocationPosition++;
 		}
 	}
 

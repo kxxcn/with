@@ -1,14 +1,11 @@
 package dev.kxxcn.app_with.ui.main.write;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.model.geocode.Addrdetail;
 import dev.kxxcn.app_with.ui.BasePresenter;
 import dev.kxxcn.app_with.ui.BaseView;
 import dev.kxxcn.app_with.util.Constants;
+import okhttp3.MultipartBody;
 
 /**
  * Created by kxxcn on 2018-08-21.
@@ -31,10 +28,8 @@ public interface WriteContract {
 
 		String getGalleryName(String identifier);
 
-		void uploadImage(Context context, Bitmap uploadImage, String fileName);
+		void uploadImage(MultipartBody.Part body);
 
 		void convertCoordToAddress(String query);
-
-		void setPermission(Activity activity, OnPermissionListener onPermissionListener, String... permission);
 	}
 }

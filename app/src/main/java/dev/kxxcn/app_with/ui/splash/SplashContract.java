@@ -1,7 +1,5 @@
 package dev.kxxcn.app_with.ui.splash;
 
-import android.app.Activity;
-
 import dev.kxxcn.app_with.ui.BasePresenter;
 import dev.kxxcn.app_with.ui.BaseView;
 
@@ -9,29 +7,27 @@ import dev.kxxcn.app_with.ui.BaseView;
  * Created by kxxcn on 2018-09-06.
  */
 public interface SplashContract {
-    interface View extends BaseView<Presenter> {
-        void showLoginActivity();
+	interface View extends BaseView<Presenter> {
+		void showLoginActivity();
 
-        void showLockScreen();
+		void showLockScreen();
 
-        void showMainActivity(int gender);
+		void showMainActivity(int gender);
 
-        void showInvalidPassword();
+		void showInvalidPassword();
 
-        void showFailedRequest(String throwable);
+		void showFailedRequest(String throwable);
 
-        void drawPasswordIcon(int passwordLength);
-    }
+		void drawPasswordIcon(int passwordLength);
+	}
 
-    interface Presenter extends BasePresenter {
-        void isRegisteredUser(String uniqueIdentifier);
+	interface Presenter extends BasePresenter {
+		void isRegisteredUser(String uniqueIdentifier);
 
-        void isLockedUser(String uniqueIdentifier);
+		void isLockedUser(String uniqueIdentifier);
 
-        void typingPassword(CharSequence charSequence);
+		void typingPassword(CharSequence charSequence);
 
-        void erasePassword();
-
-        void setPermission(Activity activity, OnPermissionListener onPermissionListener, String... permission);
-    }
+		void erasePassword();
+	}
 }

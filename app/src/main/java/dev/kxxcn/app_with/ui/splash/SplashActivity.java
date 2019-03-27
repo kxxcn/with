@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,6 +28,7 @@ import dev.kxxcn.app_with.ui.BasePresenter;
 import dev.kxxcn.app_with.ui.login.LoginActivity;
 import dev.kxxcn.app_with.ui.main.MainActivity;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
+import dev.kxxcn.app_with.util.PermissionUtils;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 
@@ -52,8 +54,6 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
 	private String mUniqueIdentifier;
 
-	private boolean isFirst = true;
-
 	private RequestOptions mOptions = new RequestOptions();
 
 	@Override
@@ -77,21 +77,18 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
 		mUniqueIdentifier = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-		mPresenter.setPermission(this, new BasePresenter.OnPermissionListener() {
+		PermissionUtils.setPermissions(this, new BasePresenter.OnPermissionListener() {
 			@Override
 			public void onGranted() {
-				if (isFirst) {
-					isFirst = false;
-					mPresenter.isRegisteredUser(mUniqueIdentifier);
-				}
+				mPresenter.isRegisteredUser(mUniqueIdentifier);
 			}
 
 			@Override
-			public void onDenied() {
+			public void onDenied(ArrayList<String> deniedPermissions) {
 				Toast.makeText(SplashActivity.this, getString(R.string.system_denied_permission), Toast.LENGTH_SHORT).show();
 				UiThread.getInstance().postDelayed(() -> SystemUtils.onFinish(SplashActivity.this), DELAY_TOAST);
 			}
-		}, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE);
+		}, getString(R.string.system_denied_permission), READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE);
 	}
 
 	@Override
