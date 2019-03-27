@@ -70,6 +70,7 @@
 
     <string name="system_setting">설정</string>
     <string name="system_denied_permission">"권한 허가를 거부하시면 이 서비스를 이용하실 수 없습니다.\n\n[설정] > [권한]에서 권한을 켜십시오."</string>
+    <string name="system_denied_location_permission">"권한 허가를 거부하시면 위치 정보를 가져올 수 없습니다.\n\n[설정] > [권한]에서 권한을 켜십시오."</string>
 
     <string name="text_welcome">위드를 찾아주신 커플 여러분들을 환영합니다.</string>
     <string name="text_auth">연인에게 전달받은 번호를 입력하세요.\n\n또는, 연인에게 인증번호를 전달하세요.</string>
