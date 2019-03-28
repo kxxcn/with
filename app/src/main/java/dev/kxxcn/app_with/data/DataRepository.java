@@ -146,4 +146,8 @@ public class DataRepository {
 		return dataSource.sync(uniqueIdentifier, key);
 	}
 
+	public Single<List<String>> subscribeIds(String uniqueIdentifier) {
+		return dataSource.subscribeIds(uniqueIdentifier);
+	}
+
 }

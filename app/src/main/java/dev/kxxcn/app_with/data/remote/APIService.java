@@ -55,6 +55,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SERVER_URL;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_OUT;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_UP;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.SUBSCRIBE_IDS;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SYNC;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UNREGISTER_LOCK;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_DIARY;
@@ -202,5 +203,9 @@ public interface APIService {
 	@POST(SYNC)
 	Single<ResponseResult> sync(@Field("uniqueIdentifier") String uniqueIdentifier,
 								@Field("pair") String pair);
+
+	@FormUrlEncoded
+	@POST(SUBSCRIBE_IDS)
+	Single<List<String>> subscribeIds(@Field("uniqueIdentifier") String uniqueIdentifier);
 
 }

@@ -41,6 +41,7 @@ public class APIPersistence {
 	public static final String REGISTER_LOCK = "registerLock.php";
 	public static final String UNREGISTER_LOCK = "unregisterLock.php";
 	public static final String SYNC = "sync.php";
+	public static final String SUBSCRIBE_IDS = "getSubscribeIds.php";
 
 	public static final String FCM_MESSAGE = "message";
 	public static final String FCM_TYPE = "type";

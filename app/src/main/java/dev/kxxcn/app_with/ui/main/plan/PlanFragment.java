@@ -22,7 +22,6 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,214 +52,213 @@ import static dev.kxxcn.app_with.util.Constants.TAG_DIALOG;
  */
 public class PlanFragment extends Fragment implements PlanContract.View, PlanContract.OnRegistrationCallback, RecyclerViewItemTouchHelper.RecyclerViewItemTouchHelperListener {
 
-    private static WeakReference<PlanFragment> fragmentReference = null;
+	private static WeakReference<PlanFragment> fragmentReference = null;
 
-    @BindView(R.id.mcv_plan)
-    MaterialCalendarView mcv_plan;
+	@BindView(R.id.mcv_plan)
+	MaterialCalendarView mcv_plan;
 
-    @BindView(R.id.rv_plan)
-    RecyclerView rv_plan;
+	@BindView(R.id.rv_plan)
+	RecyclerView rv_plan;
 
-    @BindView(R.id.rrb_calendar)
-    RadioRealButton rrb_calendar;
-    @BindView(R.id.rrb_todo)
-    RadioRealButton rrb_todo;
+	@BindView(R.id.rrb_calendar)
+	RadioRealButton rrb_calendar;
+	@BindView(R.id.rrb_todo)
+	RadioRealButton rrb_todo;
 
-    @BindView(R.id.rl_plan)
-    RelativeLayout rl_plan;
+	@BindView(R.id.rl_plan)
+	RelativeLayout rl_plan;
 
-    @BindView(R.id.progressbar)
-    ProgressBar progressBar;
+	@BindView(R.id.progressbar)
+	ProgressBar progressBar;
 
-    private TextView tv_previous;
+	private TextView tv_previous;
 
-    private PlanContract.Presenter mPresenter;
+	private PlanContract.Presenter mPresenter;
 
-    private Context mContext;
+	private Context mContext;
 
-    private Bundle args;
+	private Bundle args;
 
-    private PlanAdapter mPlanAdapter;
+	private PlanAdapter mPlanAdapter;
 
-    private int mPosition = -1;
+	private int mPosition = -1;
 
-    public static PlanFragment newInstance(String identifier) {
-        if (fragmentReference == null) {
-            PlanFragment fragment = new PlanFragment();
-            Bundle args = new Bundle();
-            args.putString(KEY_IDENTIFIER, identifier);
-            fragment.setArguments(args);
-            fragmentReference = new WeakReference<>(fragment);
-        }
+	public static PlanFragment newInstance(String identifier) {
+		if (fragmentReference == null) {
+			PlanFragment fragment = new PlanFragment();
+			Bundle args = new Bundle();
+			args.putString(KEY_IDENTIFIER, identifier);
+			fragment.setArguments(args);
+			fragmentReference = new WeakReference<>(fragment);
+		}
 
-        return fragmentReference.get();
-    }
+		return fragmentReference.get();
+	}
 
-    @Override
-    public void setPresenter(PlanContract.Presenter presenter) {
-        this.mPresenter = presenter;
-    }
+	@Override
+	public void setPresenter(PlanContract.Presenter presenter) {
+		this.mPresenter = presenter;
+	}
 
-    @Override
-    public void showLoadingIndicator(boolean isShowing) {
-        if (isShowing) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.GONE);
-        }
-    }
+	@Override
+	public void showLoadingIndicator(boolean isShowing) {
+		if (isShowing) {
+			progressBar.setVisibility(View.VISIBLE);
+		} else {
+			progressBar.setVisibility(View.GONE);
+		}
+	}
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_plan, container, false);
-        ButterKnife.bind(this, view);
+	@Nullable
+	@Override
+	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_plan, container, false);
+		ButterKnife.bind(this, view);
 
-        new PlanPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
+		new PlanPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
-        initUI();
+		initUI();
 
-        return view;
-    }
+		return view;
+	}
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		mContext = context;
+	}
 
-    @Override
-    public void onDestroyView() {
-        if (fragmentReference != null) {
-            fragmentReference = null;
-        }
-        super.onDestroyView();
-    }
+	@Override
+	public void onDestroyView() {
+		if (fragmentReference != null) {
+			fragmentReference = null;
+		}
+		super.onDestroyView();
+	}
 
-    private void initUI() {
-        args = getArguments();
-        if (args != null) {
-            mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
-        }
+	private void initUI() {
+		args = getArguments();
+		if (args != null) {
+			mPresenter.subscribeIds(args.getString(KEY_IDENTIFIER));
+		}
 
-        mcv_plan.setOnDateChangedListener(selectedListener);
-        mcv_plan.state().edit().setMinimumDate(CalendarDay.from(2018, 10, 1)).commit();
-        mcv_plan.setTitleFormatter(calendarDay -> String.format(getString(R.string.format_month), String.valueOf(calendarDay.getMonth())));
-        mcv_plan.setOnMonthChangedListener((materialCalendarView, calendarDay) -> {
-            if (tv_previous != null) {
-                rl_plan.removeView(tv_previous);
-                tv_previous = null;
-            }
+		mcv_plan.setOnDateChangedListener(selectedListener);
+		mcv_plan.state().edit().setMinimumDate(CalendarDay.from(2018, 10, 1)).commit();
+		mcv_plan.setTitleFormatter(calendarDay -> String.format(getString(R.string.format_month), String.valueOf(calendarDay.getMonth())));
+		mcv_plan.setOnMonthChangedListener((materialCalendarView, calendarDay) -> {
+			if (tv_previous != null) {
+				rl_plan.removeView(tv_previous);
+				tv_previous = null;
+			}
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+			params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
 
-            TextView tv_change_month = new TextView(mContext);
-            tv_change_month.setLayoutParams(params);
-            tv_change_month.setTextSize(20);
-            tv_change_month.setTextColor(getResources().getColor(R.color.overall_color));
-            tv_change_month.setText(String.format(getString(R.string.format_year_month), String.valueOf(calendarDay.getYear()), String.valueOf(calendarDay.getMonth())));
+			TextView tv_change_month = new TextView(mContext);
+			tv_change_month.setLayoutParams(params);
+			tv_change_month.setTextSize(20);
+			tv_change_month.setTextColor(getResources().getColor(R.color.overall_color));
+			tv_change_month.setText(String.format(getString(R.string.format_year_month), String.valueOf(calendarDay.getYear()), String.valueOf(calendarDay.getMonth())));
 
-            rl_plan.addView(tv_change_month);
+			rl_plan.addView(tv_change_month);
 
-            tv_previous = tv_change_month;
+			tv_previous = tv_change_month;
 
-            UiThread.getInstance().postDelayed(() -> rl_plan.removeView(tv_change_month), DELAY_CHANGE_MONTH);
-        });
+			UiThread.getInstance().postDelayed(() -> rl_plan.removeView(tv_change_month), DELAY_CHANGE_MONTH);
+		});
 
-        mPlanAdapter = new PlanAdapter(mContext, new ArrayList<>(0), args.getString(KEY_IDENTIFIER));
-        rv_plan.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        rv_plan.setAdapter(mPlanAdapter);
+		mPlanAdapter = new PlanAdapter(mContext);
+		rv_plan.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+		rv_plan.setAdapter(mPlanAdapter);
 
-        new ItemTouchHelper(new RecyclerViewItemTouchHelper(0, ItemTouchHelper.LEFT, this)).attachToRecyclerView(rv_plan);
-    }
+		new ItemTouchHelper(new RecyclerViewItemTouchHelper(0, ItemTouchHelper.LEFT, this)).attachToRecyclerView(rv_plan);
+	}
 
-    private OnDateSelectedListener selectedListener = (materialCalendarView, calendarDay, b) -> {
-        int resource;
-        switch (calendarDay.getDate().getDayOfWeek()) {
-            case SATURDAY:
-                resource = getResources().getColor(R.color.circle_saturday);
-                break;
-            case SUNDAY:
-                resource = getResources().getColor(R.color.circle_sunday);
-                break;
-            default:
-                resource = getResources().getColor(R.color.circle_daily);
-                break;
-        }
-        mcv_plan.setSelectionColor(resource);
-        ScheduleDialog dialog = ScheduleDialog.newInstance(
-                args.getString(KEY_IDENTIFIER),
-                calendarDay.getDay(),
-                calendarDay.getDate().getDayOfWeek(),
-                calendarDay.getDate().toString());
-        dialog.setOnRegistrationListener(this);
-        dialog.show(getChildFragmentManager(), TAG_DIALOG);
-    };
+	private OnDateSelectedListener selectedListener = (materialCalendarView, calendarDay, b) -> {
+		int resource;
+		switch (calendarDay.getDate().getDayOfWeek()) {
+			case SATURDAY:
+				resource = getResources().getColor(R.color.circle_saturday);
+				break;
+			case SUNDAY:
+				resource = getResources().getColor(R.color.circle_sunday);
+				break;
+			default:
+				resource = getResources().getColor(R.color.circle_daily);
+				break;
+		}
+		mcv_plan.setSelectionColor(resource);
+		ScheduleDialog dialog = ScheduleDialog.newInstance(
+				args.getString(KEY_IDENTIFIER),
+				calendarDay.getDay(),
+				calendarDay.getDate().getDayOfWeek(),
+				calendarDay.getDate().toString());
+		dialog.setOnRegistrationListener(this);
+		dialog.show(getChildFragmentManager(), TAG_DIALOG);
+	};
 
-    @OnClick(R.id.rrb_calendar)
-    public void onExpand() {
-        rrb_calendar.setDrawable(R.drawable.ic_cal_clicked);
-        rrb_todo.setDrawable(R.drawable.ic_todo_non_clicked);
-        mcv_plan.setVisibility(View.VISIBLE);
-        rv_plan.setVisibility(View.GONE);
-    }
+	@OnClick(R.id.rrb_calendar)
+	public void onExpand() {
+		rrb_calendar.setDrawable(R.drawable.ic_cal_clicked);
+		rrb_todo.setDrawable(R.drawable.ic_todo_non_clicked);
+		mcv_plan.setVisibility(View.VISIBLE);
+		rv_plan.setVisibility(View.GONE);
+	}
 
-    @OnClick(R.id.rrb_todo)
-    public void onTodo() {
-        rrb_todo.setDrawable(R.drawable.ic_todo_clicked);
-        rrb_calendar.setDrawable(R.drawable.ic_cal_non_clicked);
-        mcv_plan.setVisibility(View.GONE);
-        rv_plan.setVisibility(View.VISIBLE);
-    }
+	@OnClick(R.id.rrb_todo)
+	public void onTodo() {
+		rrb_todo.setDrawable(R.drawable.ic_todo_clicked);
+		rrb_calendar.setDrawable(R.drawable.ic_cal_non_clicked);
+		mcv_plan.setVisibility(View.GONE);
+		rv_plan.setVisibility(View.VISIBLE);
+	}
 
-    @Override
-    public void showSuccessfulLoadPlan(List<Plan> planList) {
-        Collections.sort(planList, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
-        mcv_plan.removeDecorators();
-        mcv_plan.addDecorators(
-                new EventDecoratorHelper(Color.RED, mPresenter.setEvents(planList)),
-                new TodayDecoratorHelper(mContext),
-                new SundayDecoratorHelper(),
-                new SaturdayDecoratorHelper());
-        mPlanAdapter.onChangedData(planList);
-    }
+	@Override
+	public void showSuccessfulLoadPlan(List<Plan> planList, List<String> idsList) {
+		Collections.sort(planList, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
+		mcv_plan.removeDecorators();
+		mcv_plan.addDecorators(
+				new EventDecoratorHelper(Color.RED, mPresenter.setEvents(planList)),
+				new TodayDecoratorHelper(mContext),
+				new SundayDecoratorHelper(),
+				new SaturdayDecoratorHelper());
+		mPlanAdapter.onChangedData(planList, idsList);
+	}
 
+	@Override
+	public void showFailedRequest(String throwable) {
+		mcv_plan.addDecorators(
+				new TodayDecoratorHelper(mContext),
+				new SundayDecoratorHelper(),
+				new SaturdayDecoratorHelper());
+		SystemUtils.displayError(mContext, getClass().getName(), throwable);
+	}
 
-    @Override
-    public void showFailedRequest(String throwable) {
-        mcv_plan.addDecorators(
-                new TodayDecoratorHelper(mContext),
-                new SundayDecoratorHelper(),
-                new SaturdayDecoratorHelper());
-        SystemUtils.displayError(mContext, getClass().getName(), throwable);
-    }
+	@Override
+	public void showSuccessfulRemovePlan() {
+		if (args != null) {
+			mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
+		}
+	}
 
-    @Override
-    public void showSuccessfulRemovePlan() {
-        if (args != null) {
-            mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
-        }
-    }
+	@Override
+	public void onRegistrationCallback() {
+		Toast.makeText(mContext, getString(R.string.toast_register_plan), Toast.LENGTH_SHORT).show();
+		mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
+	}
 
-    @Override
-    public void onRegistrationCallback() {
-        Toast.makeText(mContext, getString(R.string.toast_register_plan), Toast.LENGTH_SHORT).show();
-        mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
-    }
+	@Override
+	public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+		if (viewHolder instanceof PlanAdapter.ViewHolder) {
+			mPlanAdapter.onNotifyDataChanged();
+			mPosition = position;
+			DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_plan),
+					(dialog, which) -> mPresenter.deletePlan(mPlanAdapter.onNotifyDataDeleted(mPosition)), null);
+		}
+	}
 
-    @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof PlanAdapter.ViewHolder) {
-            mPlanAdapter.onNotifyDataChanged();
-            mPosition = position;
-            DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_plan),
-                    (dialog, which) -> mPresenter.deletePlan(mPlanAdapter.onNotifyDataDeleted(mPosition)), null);
-        }
-    }
-
-    public void onReloadPlan() {
-        mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
-    }
+	public void onReloadPlan() {
+		mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
+	}
 
 }

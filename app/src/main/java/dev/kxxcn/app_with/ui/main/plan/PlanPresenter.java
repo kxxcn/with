@@ -16,13 +16,39 @@ import io.reactivex.disposables.Disposable;
  */
 public class PlanPresenter implements PlanContract.Presenter {
 
+	private List<String> mIdsList;
+
 	private PlanContract.View mPlanView;
 	private DataRepository mDataRepository;
 
 	public PlanPresenter(PlanContract.View planView, DataRepository dataRepository) {
+		this.mIdsList = new ArrayList<>(0);
 		this.mPlanView = planView;
 		this.mDataRepository = dataRepository;
 		mPlanView.setPresenter(this);
+	}
+
+	@Override
+	public void subscribeIds(String identifier) {
+		if (mPlanView == null)
+			return;
+
+		CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+		Disposable disposable = mDataRepository.subscribeIds(identifier)
+				.subscribe(
+						idsList -> {
+							mIdsList.addAll(idsList);
+							loadPlan(identifier);
+							compositeDisposable.dispose();
+						},
+						throwable -> {
+							mPlanView.showFailedRequest(throwable.getMessage());
+							compositeDisposable.dispose();
+						}
+				);
+
+		compositeDisposable.add(disposable);
 	}
 
 	@Override
@@ -38,7 +64,7 @@ public class PlanPresenter implements PlanContract.Presenter {
 					return planList;
 				})
 				.subscribe(planList -> {
-					mPlanView.showSuccessfulLoadPlan(planList);
+					mPlanView.showSuccessfulLoadPlan(planList, mIdsList);
 					compositeDisposable.dispose();
 				}, throwable -> {
 					mPlanView.showFailedRequest(throwable.getMessage());

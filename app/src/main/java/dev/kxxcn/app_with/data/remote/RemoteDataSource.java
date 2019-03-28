@@ -234,4 +234,11 @@ public class RemoteDataSource extends DataSource {
 				.observeOn(AndroidSchedulers.mainThread());
 	}
 
+	@Override
+	public Single<List<String>> subscribeIds(String uniqueIdentifier) {
+		return service.subscribeIds(uniqueIdentifier)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread());
+	}
+
 }

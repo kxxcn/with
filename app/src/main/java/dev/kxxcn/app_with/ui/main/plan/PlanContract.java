@@ -14,7 +14,7 @@ import dev.kxxcn.app_with.ui.BaseView;
  */
 public interface PlanContract {
 	interface View extends BaseView<Presenter> {
-		void showSuccessfulLoadPlan(List<Plan> planList);
+		void showSuccessfulLoadPlan(List<Plan> planList, List<String> idsList);
 
 		void showFailedRequest(String throwable);
 
@@ -22,6 +22,8 @@ public interface PlanContract {
 	}
 
 	interface Presenter extends BasePresenter {
+		void subscribeIds(String identifier);
+
 		void loadPlan(String identifier);
 
 		ArrayList<CalendarDay> setEvents(List<Plan> planList);

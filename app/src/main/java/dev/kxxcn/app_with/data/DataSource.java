@@ -77,4 +77,6 @@ public abstract class DataSource {
 
 	public abstract Single<ResponseResult> sync(String uniqueIdentifier, String key);
 
+	public abstract Single<List<String>> subscribeIds(String uniqueIdentifier);
+
 }

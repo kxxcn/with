@@ -32,12 +32,10 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 			R.drawable.ic_april, R.drawable.ic_may, R.drawable.ic_june, R.drawable.ic_july, R.drawable.ic_august,
 			R.drawable.ic_september, R.drawable.ic_october, R.drawable.ic_november, R.drawable.ic_december};
 
-	private String mIdentifier;
+	private List<String> mIdsList;
 
-	public PlanAdapter(Context context, List<Plan> planList, String identifier) {
+	public PlanAdapter(Context context) {
 		this.mContext = context;
-		this.mPlanList = planList;
-		this.mIdentifier = identifier;
 	}
 
 	@NonNull
@@ -63,7 +61,15 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 				holder.iv_month.setVisibility(View.GONE);
 			}
 		}
-		int resource = mIdentifier.equals(mPlanList.get(holder.getLayoutPosition()).getWriter()) ? R.color.bg_plan_line1 : R.color.bg_plan_line2;
+		int resource = 0;
+		for (String id : mIdsList) {
+			if (id.equals(mPlanList.get(holder.getLayoutPosition()).getWriter())) {
+				resource = R.color.bg_plan_line1;
+				break;
+			} else {
+				resource = R.color.bg_plan_line2;
+			}
+		}
 		holder.vi_line.setBackgroundColor(mContext.getResources().getColor(resource));
 		holder.tv_plan.setText(mPlanList.get(holder.getLayoutPosition()).getPlan());
 		holder.tv_date.setText(mPlanList.get(holder.getLayoutPosition()).getDate());
@@ -76,8 +82,9 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 		return mPlanList.size();
 	}
 
-	public void onChangedData(List<Plan> planList) {
-		mPlanList = planList;
+	public void onChangedData(List<Plan> planList, List<String> idsList) {
+		this.mPlanList = planList;
+		this.mIdsList = idsList;
 		notifyDataSetChanged();
 	}
 
