@@ -248,26 +248,28 @@ public class SettingFragment extends Fragment implements SettingContract.View {
 
 	@Override
 	public void showSuccessfulLoadUserInformation(ResponseSetting response) {
-		int noticeWith = response.getNoticeWith();
-		int notice = response.getNotice();
-		int noticeEvent = response.getNoticeEvent();
-		SharedPreferences preferences = mContext.getSharedPreferences(getString(R.string.app_name_en), Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = preferences.edit();
-		editor.putInt(MyFirebaseMessagingService.KEY_NOTICE_WITH, noticeWith);
-		editor.putInt(MyFirebaseMessagingService.KEY_NOTICE, notice);
-		editor.putInt(MyFirebaseMessagingService.KEY_NOTICE_EVENT, noticeEvent);
-		editor.apply();
-		if (noticeWith == 0) {
-			tb_notice_with.setToggleOff();
-		}
-		if (notice == 0) {
-			tb_notice.setToggleOff();
-		}
-		if (noticeEvent == 0) {
-			tb_notice_event.setToggleOff();
-		}
-		if (TextUtils.isEmpty(response.getDiaryLock())) {
-			tb_lock.setToggleOff();
+		if (isAdded()) {
+			int noticeWith = response.getNoticeWith();
+			int notice = response.getNotice();
+			int noticeEvent = response.getNoticeEvent();
+			SharedPreferences preferences = mContext.getSharedPreferences(getString(R.string.app_name_en), Context.MODE_PRIVATE);
+			SharedPreferences.Editor editor = preferences.edit();
+			editor.putInt(MyFirebaseMessagingService.KEY_NOTICE_WITH, noticeWith);
+			editor.putInt(MyFirebaseMessagingService.KEY_NOTICE, notice);
+			editor.putInt(MyFirebaseMessagingService.KEY_NOTICE_EVENT, noticeEvent);
+			editor.apply();
+			if (noticeWith == 0) {
+				tb_notice_with.setToggleOff();
+			}
+			if (notice == 0) {
+				tb_notice.setToggleOff();
+			}
+			if (noticeEvent == 0) {
+				tb_notice_event.setToggleOff();
+			}
+			if (TextUtils.isEmpty(response.getDiaryLock())) {
+				tb_lock.setToggleOff();
+			}
 		}
 	}
 
