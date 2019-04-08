@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.style.ThreeBounce;
+import com.google.android.gms.ads.InterstitialAd;
 
 import org.threeten.bp.DayOfWeek;
 
@@ -38,6 +39,7 @@ import dev.kxxcn.app_with.data.model.plan.Plan;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.main.plan.PlanContract;
 import dev.kxxcn.app_with.util.DialogUtils;
+import dev.kxxcn.app_with.util.FullAdsHelper;
 import dev.kxxcn.app_with.util.KeyboardUtils;
 import dev.kxxcn.app_with.util.threading.UiThread;
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText;
@@ -98,6 +100,8 @@ public class ScheduleDialog extends DialogFragment implements ScheduleContract.V
 	private PlanContract.OnRegistrationCallback mListener;
 
 	private boolean mEnabled = true;
+
+	private InterstitialAd interstitialAd;
 
 	public static ScheduleDialog newInstance(String identifier, int day, DayOfWeek dayOfWeek, String date) {
 		ScheduleDialog dialog = new ScheduleDialog();
@@ -201,6 +205,8 @@ public class ScheduleDialog extends DialogFragment implements ScheduleContract.V
 	}
 
 	private void initUI() {
+		interstitialAd = FullAdsHelper.getInstance(mContext);
+
 		Bundle args = getArguments();
 
 		if (args != null) {
@@ -248,6 +254,7 @@ public class ScheduleDialog extends DialogFragment implements ScheduleContract.V
 
 	@Override
 	public void showSuccessfulRegister() {
+		interstitialAd.show();
 		mListener.onRegistrationCallback();
 		dismissAllowingStateLoss();
 	}

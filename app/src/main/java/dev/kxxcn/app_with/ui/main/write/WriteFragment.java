@@ -44,6 +44,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.ybq.android.spinkit.SpinKitView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.qingmei2.rximagepicker.core.RxImagePicker;
 
 import java.io.File;
@@ -64,6 +65,7 @@ import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.ui.main.MainPagerAdapter;
 import dev.kxxcn.app_with.util.Constants;
 import dev.kxxcn.app_with.util.DialogUtils;
+import dev.kxxcn.app_with.util.FullAdsHelper;
 import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.KeyboardUtils;
 import dev.kxxcn.app_with.util.LayoutUtils;
@@ -222,6 +224,8 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 
 	private CompositeDisposable compositeDisposable;
 
+	private InterstitialAd interstitialAd;
+
 	@Override
 	public void setPresenter(WriteContract.Presenter presenter) {
 		this.mPresenter = presenter;
@@ -326,6 +330,8 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 //				task.execute(iv_background.getWidth(), iv_background.getHeight());
 //			}
 //		});
+
+		interstitialAd = FullAdsHelper.getInstance(mContext);
 
 		colorBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.PRIMARY, COLOR_IMGS, null, 0, 0);
 		fontBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.FONT, FONT_IMGS, null, 0, 0);
@@ -747,6 +753,7 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 			Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
 		}
 		initComponent(false);
+
 		if (args.getInt(KEY_MODE) == SOLO) {
 			registerListener.onRegisteredDiary(MainPagerAdapter.SOLO);
 		} else {
@@ -756,6 +763,7 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 				registerListener.onRegisteredDiary(args.getBoolean(KEY_GENDER) ? MainPagerAdapter.FEMALE : MainPagerAdapter.MALE);
 			}
 		}
+		interstitialAd.show();
 	}
 
 	@Override
