@@ -28,7 +28,6 @@ public class FullAdsHelper {
 		if (!INSTANCE.isLoading() && !INSTANCE.isLoaded()) {
 			AdRequest adRequest = new AdRequest
 					.Builder()
-					.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
 					.build();
 			INSTANCE.loadAd(adRequest);
 			INSTANCE.setAdListener(new AdListener() {
