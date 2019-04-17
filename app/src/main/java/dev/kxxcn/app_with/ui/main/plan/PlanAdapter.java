@@ -79,7 +79,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 
 	@Override
 	public int getItemCount() {
-		return mPlanList.size();
+		return mPlanList != null ? mPlanList.size() : 0;
 	}
 
 	public void onChangedData(List<Plan> planList, List<String> idsList) {
