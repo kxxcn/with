@@ -258,7 +258,9 @@ public class PlanFragment extends Fragment implements PlanContract.View, PlanCon
 	}
 
 	public void onReloadPlan() {
-		mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
+		if (args != null) {
+			mPresenter.loadPlan(args.getString(KEY_IDENTIFIER));
+		}
 	}
 
 }
