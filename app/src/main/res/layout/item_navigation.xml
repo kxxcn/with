@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_navigation"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@color/primary_app">
+
+    <TextView
+        android:id="@+id/tv_with"
+        style="@style/WithTextView"
+        android:layout_marginStart="20dp"
+        android:padding="10dp"
+        android:text="@string/text_with"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_timeline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tv_timeline"
+        style="@style/WithTextView"
+        android:padding="10dp"
+        android:text="@string/text_timeline"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_write"
+        app:layout_constraintStart_toStartOf="@id/tv_with"
+        app:layout_constraintTop_toBottomOf="@id/tv_with" />
+
+    <TextView
+        android:id="@+id/tv_write"
+        style="@style/WithTextView"
+        android:padding="10dp"
+        android:text="@string/text_write"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_plan"
+        app:layout_constraintStart_toStartOf="@id/tv_with"
+        app:layout_constraintTop_toBottomOf="@id/tv_timeline" />
+
+    <TextView
+        android:id="@+id/tv_plan"
+        style="@style/WithTextView"
+        android:padding="10dp"
+        android:text="@string/text_plan"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_setting"
+        app:layout_constraintStart_toStartOf="@id/tv_with"
+        app:layout_constraintTop_toBottomOf="@id/tv_write" />
+
+    <TextView
+        android:id="@+id/tv_setting"
+        style="@style/WithTextView"
+        android:padding="10dp"
+        android:text="@string/text_setting"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_with"
+        app:layout_constraintTop_toBottomOf="@id/tv_plan" />
+
+    <TextView
+        android:id="@+id/tv_about"
+        style="@style/WithTextView"
+        android:padding="5dp"
+        android:text="@string/text_about"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_support"
+        app:layout_constraintStart_toStartOf="@id/tv_with" />
+
+    <TextView
+        android:id="@+id/tv_support"
+        style="@style/WithTextView"
+        android:layout_marginBottom="20dp"
+        android:padding="5dp"
+        android:text="@string/text_support"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_with" />
+
+</android.support.constraint.ConstraintLayout>

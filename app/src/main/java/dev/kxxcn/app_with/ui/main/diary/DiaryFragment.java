@@ -34,7 +34,6 @@ import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.ui.main.MainPagerAdapter;
-import dev.kxxcn.app_with.ui.main.diary.detail.DetailDialog;
 import dev.kxxcn.app_with.util.DialogUtils;
 import dev.kxxcn.app_with.util.SystemUtils;
 
@@ -42,7 +41,6 @@ import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
 import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
 import static dev.kxxcn.app_with.util.Constants.KEY_MODE;
-import static dev.kxxcn.app_with.util.Constants.TAG_DIALOG;
 
 /**
  * Created by kxxcn on 2018-09-28.
@@ -302,8 +300,8 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 
 	@Override
 	public void onLetterClick(int position) {
-		DetailDialog dialog = DetailDialog.newInstance(mDiaryList.get(position));
-		dialog.show(getChildFragmentManager(), TAG_DIALOG);
+//		DetailDialog dialog = DetailDialog.newInstance(mDiaryList.get(position));
+//		dialog.show(getChildFragmentManager(), TAG_DIALOG);
 	}
 
 	private void getDiary(int flag, String identifier) {

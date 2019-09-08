@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <LinearLayout
-        style="@style/VerticalLinearLayout"
-        android:layout_weight="1"
-        android:gravity="center">
-
-        <TextView
-            style="@style/TopTextView"
-            android:text="@string/title_setting"/>
-
-    </LinearLayout>
 
     <LinearLayout
         style="@style/VerticalLinearLayout"
@@ -31,17 +19,29 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/namsan"
+                    android:padding="20dp"
+                    android:text="@string/text_setting"
+                    android:textColor="@android:color/black"
+                    android:textSize="35sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/tv_account"
                     style="@style/SettingTitleTextView"
                     android:text="@string/text_account"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
                 <TextView
                     android:id="@+id/tv_profile"
                     style="@style/SettingContentTextView"
                     android:text="@string/text_profile"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@id/tv_lock"
-                    app:layout_constraintTop_toBottomOf="@id/tv_account"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_account" />
 
                 <ImageView
                     android:id="@+id/iv_profile"
@@ -49,103 +49,105 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_arrow_right"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/tv_profile"
                     app:layout_constraintEnd_toEndOf="@id/tv_profile"
-                    app:layout_constraintTop_toTopOf="@id/tv_profile"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_profile" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/bg_setting_row"
-                    app:layout_constraintTop_toBottomOf="@id/tv_profile"/>
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/tv_profile" />
 
                 <TextView
                     android:id="@+id/tv_lock"
                     style="@style/SettingContentTextView"
                     android:text="@string/text_lock"
                     app:layout_constraintBottom_toTopOf="@id/tv_notification"
-                    app:layout_constraintTop_toBottomOf="@id/tv_profile"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_profile" />
 
                 <com.zcw.togglebutton.ToggleButton
                     android:id="@+id/tb_lock"
                     style="@style/SettingToggleButton"
                     app:layout_constraintBottom_toBottomOf="@id/tv_lock"
                     app:layout_constraintEnd_toEndOf="@id/tv_lock"
-                    app:layout_constraintTop_toTopOf="@id/tv_lock"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_lock" />
 
                 <TextView
                     android:id="@+id/tv_notification"
                     style="@style/SettingTitleTextView"
                     android:text="@string/text_notification"
                     app:layout_constraintBottom_toTopOf="@id/tv_notice_with"
-                    app:layout_constraintTop_toBottomOf="@id/tv_lock"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_lock" />
 
                 <TextView
                     android:id="@+id/tv_notice_with"
                     style="@style/SettingContentTextView"
                     android:text="@string/text_notice_with"
-                    app:layout_constraintTop_toBottomOf="@id/tv_notification"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_notification" />
 
                 <com.zcw.togglebutton.ToggleButton
                     android:id="@+id/tb_notice_with"
                     style="@style/SettingToggleButton"
                     app:layout_constraintBottom_toBottomOf="@id/tv_notice_with"
                     app:layout_constraintEnd_toEndOf="@id/tv_notice_with"
-                    app:layout_constraintTop_toTopOf="@id/tv_notice_with"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_notice_with" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/bg_setting_row"
-                    app:layout_constraintTop_toBottomOf="@id/tv_notice_with"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_notice_with" />
 
                 <TextView
                     android:id="@+id/tv_notice"
                     style="@style/SettingContentTextView"
                     android:text="@string/text_notify"
                     app:layout_constraintBottom_toTopOf="@id/tv_notice_event"
-                    app:layout_constraintTop_toBottomOf="@id/tv_notice_with"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_notice_with" />
 
                 <com.zcw.togglebutton.ToggleButton
                     android:id="@+id/tb_notice"
                     style="@style/SettingToggleButton"
                     app:layout_constraintBottom_toBottomOf="@id/tv_notice"
                     app:layout_constraintEnd_toEndOf="@id/tv_notice"
-                    app:layout_constraintTop_toTopOf="@id/tv_notice"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_notice" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/bg_setting_row"
-                    app:layout_constraintTop_toBottomOf="@id/tv_notice"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_notice" />
 
                 <TextView
                     android:id="@+id/tv_notice_event"
                     style="@style/SettingContentTextView"
                     android:text="@string/text_notice_event"
                     app:layout_constraintBottom_toTopOf="@id/tv_service"
-                    app:layout_constraintTop_toBottomOf="@id/tv_notice"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_notice" />
 
                 <com.zcw.togglebutton.ToggleButton
                     android:id="@+id/tb_notice_event"
                     style="@style/SettingToggleButton"
                     app:layout_constraintBottom_toBottomOf="@id/tv_notice_event"
                     app:layout_constraintEnd_toEndOf="@id/tv_notice_event"
-                    app:layout_constraintTop_toTopOf="@id/tv_notice_event"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_notice_event" />
 
                 <TextView
                     android:id="@+id/tv_service"
                     style="@style/SettingTitleTextView"
                     android:text="@string/text_service"
                     app:layout_constraintBottom_toTopOf="@id/tv_notify"
-                    app:layout_constraintTop_toBottomOf="@id/tv_notice_event"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_notice_event" />
 
                 <TextView
                     android:id="@+id/tv_notify"
                     style="@style/SettingContentTextView"
                     android:text="@string/text_notice"
                     app:layout_constraintBottom_toTopOf="@id/tv_information"
-                    app:layout_constraintTop_toBottomOf="@id/tv_service"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_service" />
 
                 <ImageView
                     android:id="@+id/iv_notify"
@@ -155,7 +157,7 @@
                     android:src="@drawable/ic_arrow_right"
                     app:layout_constraintBottom_toBottomOf="@id/tv_notify"
                     app:layout_constraintEnd_toEndOf="@id/tv_notify"
-                    app:layout_constraintTop_toTopOf="@id/tv_notify"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_notify" />
 
                 <ImageView
                     android:id="@+id/iv_new"
@@ -165,20 +167,20 @@
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="@id/tv_version"
                     app:layout_constraintStart_toStartOf="@id/tv_version"
-                    app:layout_constraintTop_toTopOf="@id/iv_notify"/>
+                    app:layout_constraintTop_toTopOf="@id/iv_notify" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/bg_setting_row"
-                    app:layout_constraintTop_toBottomOf="@id/tv_notify"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_notify" />
 
                 <TextView
                     android:id="@+id/tv_information"
                     style="@style/SettingContentTextView"
                     android:text="@string/text_information"
                     app:layout_constraintBottom_toTopOf="@id/tv_sync"
-                    app:layout_constraintTop_toBottomOf="@id/tv_notify"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_notify" />
 
                 <ImageView
                     android:id="@+id/iv_information"
@@ -188,7 +190,7 @@
                     android:src="@drawable/ic_arrow_right"
                     app:layout_constraintBottom_toBottomOf="@id/tv_information"
                     app:layout_constraintEnd_toEndOf="@id/tv_information"
-                    app:layout_constraintTop_toTopOf="@id/tv_information"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_information" />
 
                 <TextView
                     android:id="@+id/tv_version"
@@ -200,13 +202,13 @@
                     app:layout_constraintBottom_toBottomOf="@id/tv_information"
                     app:layout_constraintEnd_toStartOf="@id/iv_information"
                     app:layout_constraintTop_toTopOf="@id/tv_information"
-                    tools:text="@string/text_latest"/>
+                    tools:text="@string/text_latest" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/bg_setting_row"
-                    app:layout_constraintTop_toBottomOf="@id/tv_information"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_information" />
 
                 <TextView
                     android:id="@+id/tv_sync"
@@ -214,7 +216,7 @@
                     android:text="@string/text_sync"
                     android:visibility="visible"
                     app:layout_constraintBottom_toTopOf="@id/tv_sign_out"
-                    app:layout_constraintTop_toBottomOf="@id/tv_information"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_information" />
 
                 <ImageView
                     android:id="@+id/iv_sync"
@@ -225,7 +227,7 @@
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@id/tv_sync"
                     app:layout_constraintEnd_toEndOf="@id/tv_sync"
-                    app:layout_constraintTop_toTopOf="@id/tv_sync"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_sync" />
 
                 <View
                     android:id="@+id/divider_sync"
@@ -233,13 +235,13 @@
                     android:layout_height="1dp"
                     android:background="@color/bg_setting_row"
                     android:visibility="visible"
-                    app:layout_constraintTop_toBottomOf="@id/tv_sync"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_sync" />
 
                 <TextView
                     android:id="@+id/tv_sign_out"
                     style="@style/SettingContentTextView"
                     android:text="@string/text_sign_out"
-                    app:layout_constraintTop_toBottomOf="@id/tv_sync"/>
+                    app:layout_constraintTop_toBottomOf="@id/tv_sync" />
 
                 <ImageView
                     android:id="@+id/iv_sign_out"
@@ -249,7 +251,7 @@
                     android:src="@drawable/ic_arrow_right"
                     app:layout_constraintBottom_toBottomOf="@id/tv_sign_out"
                     app:layout_constraintEnd_toEndOf="@id/tv_sign_out"
-                    app:layout_constraintTop_toTopOf="@id/tv_sign_out"/>
+                    app:layout_constraintTop_toTopOf="@id/tv_sign_out" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -257,7 +259,7 @@
                 android:id="@+id/sv_loading"
                 style="@style/SpinKitViewProgressbar"
                 android:layout_centerInParent="true"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
 

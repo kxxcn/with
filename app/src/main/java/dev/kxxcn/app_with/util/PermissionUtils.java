@@ -14,24 +14,25 @@ import dev.kxxcn.app_with.ui.BasePresenter;
  * Created by kxxcn on 2018-08-22.
  */
 public class PermissionUtils {
-	public static void setPermissions(Activity activity, BasePresenter.OnPermissionListener callback, String deniedMessage, String... permissions) {
-		PermissionListener permissionListener = new PermissionListener() {
-			@Override
-			public void onPermissionGranted() {
-				callback.onGranted();
-			}
 
-			@Override
-			public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-				callback.onDenied(deniedPermissions);
-			}
-		};
+    public static void setPermissions(Activity activity, BasePresenter.OnPermissionListener callback, String deniedMessage, String... permissions) {
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                callback.onGranted();
+            }
 
-		TedPermission.with(activity)
-				.setPermissionListener(permissionListener)
-				.setDeniedMessage(deniedMessage)
-				.setGotoSettingButtonText(activity.getString(R.string.system_setting))
-				.setPermissions(permissions)
-				.check();
-	}
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                callback.onDenied(deniedPermissions);
+            }
+        };
+
+        TedPermission.with(activity)
+                .setPermissionListener(permissionListener)
+                .setDeniedMessage(deniedMessage)
+                .setGotoSettingButtonText(activity.getString(R.string.system_setting))
+                .setPermissions(permissions)
+                .check();
+    }
 }

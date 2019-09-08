@@ -87,7 +87,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 				maleFragment.setOnSelectedDiaryToEdit(onSelectedDiaryToEdit);
 				return maleFragment;
 			case SETTING:
-				SettingFragment settingFragment = SettingFragment.newInstance(mode, isFemale, identifier, isHomosexual);
+				SettingFragment settingFragment = SettingFragment.newInstance(identifier);
 				settingFragment.setOnRegisteredNickname(onRegisteredNickname);
 				return settingFragment;
 		}

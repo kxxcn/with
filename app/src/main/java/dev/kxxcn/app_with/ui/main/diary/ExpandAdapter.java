@@ -29,7 +29,7 @@ import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.LayoutUtils;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
-import static dev.kxxcn.app_with.data.remote.APIPersistence.DOWNLOAD_IMAGE_URL;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.IMAGES_URL;
 import static dev.kxxcn.app_with.util.Constants.COLORS;
 import static dev.kxxcn.app_with.util.Constants.COLOR_DEFAULT;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
@@ -80,7 +80,7 @@ public class ExpandAdapter extends RecyclerView.Adapter<ExpandAdapter.ViewHolder
             } else {
                 blurOptions = new RequestOptions().centerCrop();
             }
-            ImageProcessingHelper.setGlide(mContext, String.format(mContext.getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, galleryName), holder.iv_background, blurOptions);
+            ImageProcessingHelper.setGlide(mContext, String.format(mContext.getString(R.string.param_download_image_url), IMAGES_URL, galleryName), holder.iv_background, blurOptions);
         } else {
             Glide.with(mContext).clear(holder.iv_background);
             holder.iv_background.setBackgroundResource(COLOR_DEFAULT[0]);

@@ -25,6 +25,8 @@ public class PlanPresenter implements PlanContract.Presenter {
     private PlanContract.View mPlanView;
     private DataRepository mDataRepository;
 
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     public PlanPresenter(PlanContract.View planView, DataRepository dataRepository) {
         this.mIdsList = new ArrayList<>(0);
         this.mPlanView = planView;
@@ -37,19 +39,13 @@ public class PlanPresenter implements PlanContract.Presenter {
         if (mPlanView == null)
             return;
 
-        CompositeDisposable compositeDisposable = new CompositeDisposable();
-
         Disposable disposable = mDataRepository.subscribeIds(identifier)
                 .subscribe(
                         idsList -> {
                             mIdsList.addAll(idsList);
                             loadPlan(identifier);
-                            compositeDisposable.dispose();
                         },
-                        throwable -> {
-                            mPlanView.showFailedRequest(throwable.getMessage());
-                            compositeDisposable.dispose();
-                        }
+                        throwable -> mPlanView.showFailedRequest(throwable.getMessage())
                 );
 
         compositeDisposable.add(disposable);
@@ -60,8 +56,6 @@ public class PlanPresenter implements PlanContract.Presenter {
         if (mPlanView == null)
             return;
 
-        CompositeDisposable compositeDisposable = new CompositeDisposable();
-
         Disposable disposable = mDataRepository.getPlan(identifier)
                 .flatMapObservable((Function<List<Plan>, ObservableSource<Plan>>) Observable::fromIterable)
                 .filter(plan -> !TextUtils.isNullOrEmpty(plan.getDate()))
@@ -70,14 +64,9 @@ public class PlanPresenter implements PlanContract.Presenter {
                     Collections.sort(planList, (d1, d2) -> d2.getDate().compareTo(d1.getDate()));
                     return planList;
                 })
-                .subscribe(planList -> {
-                            mPlanView.showSuccessfulLoadPlan(planList, mIdsList);
-                            compositeDisposable.dispose();
-                        },
-                        throwable -> {
-                            mPlanView.showFailedRequest(throwable.getMessage());
-                            compositeDisposable.dispose();
-                        });
+                .subscribe(planList -> mPlanView.showSuccessfulLoadPlan(planList, mIdsList),
+                        throwable -> mPlanView.showFailedRequest(throwable.getMessage())
+                );
 
         compositeDisposable.add(disposable);
     }
@@ -110,8 +99,6 @@ public class PlanPresenter implements PlanContract.Presenter {
 
         mPlanView.showLoadingIndicator(true);
 
-        CompositeDisposable compositeDisposable = new CompositeDisposable();
-
         Disposable disposable = mDataRepository.removePlan(id)
                 .subscribe(
                         responseResult -> {
@@ -120,17 +107,38 @@ public class PlanPresenter implements PlanContract.Presenter {
                             } else if (responseResult.getRc() == 201) {
                                 mPlanView.showFailedRequest(responseResult.getStat());
                             }
-
                             mPlanView.showLoadingIndicator(false);
-                            compositeDisposable.dispose();
                         }, throwable -> {
                             mPlanView.showFailedRequest(throwable.getMessage());
                             mPlanView.showLoadingIndicator(false);
-                            compositeDisposable.dispose();
                         }
                 );
 
         compositeDisposable.add(disposable);
     }
 
+    @Override
+    public void registerPlan(Plan plan) {
+        if (mPlanView == null)
+            return;
+
+        mPlanView.showLoadingIndicator(true);
+
+        Disposable disposable = mDataRepository.registerPlan(plan)
+                .subscribe(response -> {
+                    if (response.getRc() == 200) {
+
+                    } else if (response.getRc() == 201) {
+                        mPlanView.showFailedRequest(response.getStat());
+                    }
+                    mPlanView.showLoadingIndicator(false);
+                }, throwable -> mPlanView.showFailedRequest(throwable.getMessage()));
+
+        compositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void release() {
+        compositeDisposable.dispose();
+    }
 }

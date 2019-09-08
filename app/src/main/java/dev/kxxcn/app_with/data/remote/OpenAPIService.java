@@ -3,7 +3,7 @@ package dev.kxxcn.app_with.data.remote;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import dev.kxxcn.app_with.data.model.geocode.ResponseGeocode;
+import dev.kxxcn.app_with.data.model.geocode.v2.Results;
 import io.reactivex.Single;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -23,38 +23,37 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.NAVER_SERVER_URL;
  */
 public interface OpenAPIService {
 
-	class Factory {
-		static OpenAPIService create() {
-			Gson gson = new GsonBuilder()
-					.setDateFormat(GSON_DATE_FORMAT)
-					.create();
-			GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gson);
+    @Headers({
+            "Accept: */*",
+            "Content-type: application/json",
+            "X-NCP-APIGW-API-KEY-ID: 49tfw3peab",
+            "X-NCP-APIGW-API-KEY: 0Z8zDRzC3vAqZ3EDCw8pMz5R5hywnWO5KyyFKabD"
+    })
+    @GET(CONVERT_COORD_TO_ADDRESS)
+    Single<Results> convertCoordToAddress(@Query("coords") String query,
+                                          @Query("orders") String orders,
+                                          @Query("output") String output);
 
-			HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-			loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    class Factory {
+        static OpenAPIService create() {
+            Gson gson = new GsonBuilder()
+                    .setDateFormat(GSON_DATE_FORMAT)
+                    .create();
+            GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gson);
 
-			OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-			httpClient.addInterceptor(loggingInterceptor);
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-			Retrofit retrofit = new Retrofit.Builder()
-					.baseUrl(NAVER_SERVER_URL)
-					.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-					.addConverterFactory(gsonConverterFactory)
-					.client(httpClient.build())
-					.build();
-			return retrofit.create(OpenAPIService.class);
-		}
-	}
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+            httpClient.addInterceptor(loggingInterceptor);
 
-	@Headers({
-			"Accept: */*",
-			"Content-type: application/json",
-			"X-Naver-Client-Id: bFDyHZxaQ7BKmClk232I",
-			"X-Naver-Client-Secret: ieKOmI9pds"
-	})
-	@GET(CONVERT_COORD_TO_ADDRESS)
-	Single<ResponseGeocode> convertCoordToAddress(@Query("encoding") String encoding,
-												  @Query("coordType") String coordType,
-												  @Query("query") String query);
-
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(NAVER_SERVER_URL)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(gsonConverterFactory)
+                    .client(httpClient.build())
+                    .build();
+            return retrofit.create(OpenAPIService.class);
+        }
+    }
 }

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_app">
+
+    <LinearLayout
+        android:id="@+id/ll_mode"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_intro">
+
+        <LinearLayout
+            android:id="@+id/ll_alone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/background_alone"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_alone"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                style="@style/WithTextView"
+                android:gravity="center_vertical"
+                android:paddingStart="30dp"
+                android:paddingEnd="0dp"
+                android:text="@string/text_use_alone"
+                android:textColor="@android:color/white"
+                android:textSize="40sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_together"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/background_together"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_together"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                style="@style/WithTextView"
+                android:gravity="center_vertical"
+                android:paddingStart="30dp"
+                android:paddingEnd="0dp"
+                android:text="@string/text_use_together"
+                android:textColor="@android:color/white"
+                android:textSize="40sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_intro"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_top"
+            style="@style/WithTextView"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/app_name"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_introduce"
+            style="@style/WithTextView"
+            android:layout_marginTop="20dp"
+            android:text="@string/text_welcome_new"
+            android:textSize="50sp"
+            app:layout_constraintStart_toStartOf="@id/tv_top"
+            app:layout_constraintTop_toBottomOf="@id/view_line" />
+
+        <TextView
+            android:id="@+id/tv_start"
+            style="@style/WithTextView"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/drawable_rectangle_start"
+            android:gravity="center"
+            android:paddingStart="55dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="55dp"
+            android:paddingBottom="15dp"
+            android:text="@string/text_start"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/tv_introduce"
+            app:layout_constraintTop_toBottomOf="@id/tv_introduce" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="70dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="80dp"
+            android:background="@color/color_2"
+            app:layout_constraintStart_toStartOf="@id/tv_top"
+            app:layout_constraintTop_toBottomOf="@id/tv_top" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_auth"
+        style="@style/FillConstraintParent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/et_write"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/drawable_rectangle_plan_edit"
+            android:fontFamily="@font/namsan"
+            android:hint="@string/text_auth2"
+            android:inputType="numberDecimal"
+            android:maxHeight="120dp"
+            android:minHeight="60dp"
+            android:padding="10dp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_auth"
+            tools:ignore="Autofill,LabelFor,TextFields" />
+
+        <TextView
+            android:id="@+id/tv_authentication"
+            style="@style/WithTextView"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/drawable_rectangle_register"
+            android:paddingStart="20dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="10dp"
+            android:text="@string/text_auth4"
+            android:textColor="@color/background_oval_selected"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tv_auth"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_auth" />
+
+        <TextView
+            android:id="@+id/tv_auth"
+            style="@style/WithTextView"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/text_auth_number"
+            android:textColor="@android:color/black"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_auth2"
+            style="@style/WithTextView"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/text_auth3"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_line2" />
+
+        <TextView
+            android:id="@+id/tv_create"
+            style="@style/WithTextView"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/drawable_rectangle_start"
+            android:gravity="center"
+            android:paddingStart="55dp"
+            android:paddingTop="15dp"
+            android:paddingEnd="55dp"
+            android:paddingBottom="15dp"
+            android:text="@string/text_create"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@id/tv_auth2"
+            app:layout_constraintTop_toBottomOf="@id/tv_auth2" />
+
+        <View
+            android:id="@+id/view_under_line_write"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/background_add_plan_possible"
+            app:layout_constraintBottom_toBottomOf="@id/et_write"
+            app:layout_constraintEnd_toEndOf="@id/et_write"
+            app:layout_constraintStart_toStartOf="@id/et_write" />
+
+        <View
+            android:id="@+id/view_line2"
+            android:layout_width="70dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="50dp"
+            android:background="@color/color_2"
+            app:layout_constraintStart_toStartOf="@id/et_write"
+            app:layout_constraintTop_toBottomOf="@id/et_write" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="@style/FillConstraintParent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints" />
+
+    <FrameLayout
+        android:id="@+id/fl_loading"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/background_add_plan_possible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lav_done"
+        style="@style/FillConstraintParent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:lottie_autoPlay="false"
+        app:lottie_fileName="done.json"
+        app:lottie_loop="false"
+        tools:ignore="MissingConstraints" />
+
+</android.support.constraint.ConstraintLayout>

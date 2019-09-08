@@ -1,20 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             android:background="@color/overall_color">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/overall_color">
 
-    <ImageView
-        android:id="@+id/iv_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/icon"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_circle"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:alpha="0.2"
+            android:src="@drawable/drawable_circle_splash"
+            app:layout_constraintCircle="@id/tv_content"
+            app:layout_constraintCircleAngle="120"
+            app:layout_constraintCircleRadius="25dp"
+            tools:ignore="ContentDescription,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_splash_content"
+            android:textColor="@color/splash_font_secondary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tv_title"
+            app:layout_constraintEnd_toStartOf="@id/tv_title"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_splash_title"
+            android:textColor="@color/splash_font_primary"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0."
+            app:layout_constraintStart_toEndOf="@id/tv_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/app_developer"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_password"
@@ -29,7 +75,7 @@
             app:layout_constraintBottom_toTopOf="@id/view_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,7 +86,7 @@
             app:layout_constraintBottom_toTopOf="@id/iv_pass_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/view_top"/>
+            app:layout_constraintTop_toTopOf="@id/view_top" />
 
         <ImageView
             android:id="@+id/iv_pass_1"
@@ -51,7 +97,7 @@
             app:layout_constraintEnd_toStartOf="@id/iv_pass_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/view_top"
-            app:layout_constraintVertical_bias="0.6"/>
+            app:layout_constraintVertical_bias="0.6" />
 
         <ImageView
             android:id="@+id/iv_pass_2"
@@ -60,7 +106,7 @@
             android:background="@drawable/drawable_circle_empty"
             app:layout_constraintEnd_toStartOf="@id/iv_pass_3"
             app:layout_constraintStart_toEndOf="@id/iv_pass_1"
-            app:layout_constraintTop_toTopOf="@id/iv_pass_1"/>
+            app:layout_constraintTop_toTopOf="@id/iv_pass_1" />
 
         <ImageView
             android:id="@+id/iv_pass_3"
@@ -69,7 +115,7 @@
             android:background="@drawable/drawable_circle_empty"
             app:layout_constraintEnd_toStartOf="@id/iv_pass_4"
             app:layout_constraintStart_toEndOf="@id/iv_pass_2"
-            app:layout_constraintTop_toTopOf="@id/iv_pass_1"/>
+            app:layout_constraintTop_toTopOf="@id/iv_pass_1" />
 
         <ImageView
             android:id="@+id/iv_pass_4"
@@ -78,7 +124,7 @@
             android:background="@drawable/drawable_circle_empty"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_pass_3"
-            app:layout_constraintTop_toTopOf="@id/iv_pass_1"/>
+            app:layout_constraintTop_toTopOf="@id/iv_pass_1" />
 
         <View
             android:id="@+id/view_bottom"
@@ -88,7 +134,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_top"/>
+            app:layout_constraintTop_toBottomOf="@id/view_top" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,17 +151,17 @@
                 <TextView
                     android:id="@+id/tv_number_1"
                     style="@style/PasswordTextView"
-                    android:text="@string/text_keyboard_1"/>
+                    android:text="@string/text_keyboard_1" />
 
                 <TextView
                     android:id="@+id/tv_number_2"
                     style="@style/PasswordTextView"
-                    android:text="@string/text_keyboard_2"/>
+                    android:text="@string/text_keyboard_2" />
 
                 <TextView
                     android:id="@+id/tv_number_3"
                     style="@style/PasswordTextView"
-                    android:text="@string/text_keyboard_3"/>
+                    android:text="@string/text_keyboard_3" />
 
             </LinearLayout>
 
@@ -127,17 +173,17 @@
                 <TextView
                     android:id="@+id/tv_number_4"
                     style="@style/PasswordTextView"
-                    android:text="@string/text_keyboard_4"/>
+                    android:text="@string/text_keyboard_4" />
 
                 <TextView
                     android:id="@+id/tv_number_5"
                     style="@style/PasswordTextView"
-                    android:text="@string/text_keyboard_5"/>
+                    android:text="@string/text_keyboard_5" />
 
                 <TextView
                     android:id="@+id/tv_number_6"
                     style="@style/PasswordTextView"
-                    android:text="@string/text_keyboard_6"/>
+                    android:text="@string/text_keyboard_6" />
 
             </LinearLayout>
 
@@ -149,17 +195,17 @@
                 <TextView
                     android:id="@+id/tv_number_7"
                     style="@style/PasswordTextView"
-                    android:text="@string/text_keyboard_7"/>
+                    android:text="@string/text_keyboard_7" />
 
                 <TextView
                     android:id="@+id/tv_number_8"
                     style="@style/PasswordTextView"
-                    android:text="@string/text_keyboard_8"/>
+                    android:text="@string/text_keyboard_8" />
 
                 <TextView
                     android:id="@+id/tv_number_9"
                     style="@style/PasswordTextView"
-                    android:text="@string/text_keyboard_9"/>
+                    android:text="@string/text_keyboard_9" />
 
             </LinearLayout>
 
@@ -175,12 +221,12 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/text_cancel"
-                    android:textColor="@color/text_password_number"/>
+                    android:textColor="@color/text_password_number" />
 
                 <TextView
                     android:id="@+id/tv_number_0"
                     style="@style/PasswordTextView"
-                    android:text="@string/text_keyboard_0"/>
+                    android:text="@string/text_keyboard_0" />
 
                 <LinearLayout
                     android:id="@+id/ll_erase"
@@ -193,7 +239,7 @@
                         android:id="@+id/iv_erase"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_erase"/>
+                        android:background="@drawable/ic_erase" />
 
                 </LinearLayout>
 
@@ -202,5 +248,14 @@
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

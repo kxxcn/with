@@ -1,61 +1,48 @@
 package dev.kxxcn.app_with.ui.main.diary.detail;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
-import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.request.RequestOptions;
+import com.hanks.htextview.typer.TyperTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.model.diary.Diary;
-import dev.kxxcn.app_with.util.ImageProcessingHelper;
-import dev.kxxcn.app_with.util.LayoutUtils;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-
-import static dev.kxxcn.app_with.data.remote.APIPersistence.DOWNLOAD_IMAGE_URL;
-import static dev.kxxcn.app_with.util.Constants.COLORS;
-import static dev.kxxcn.app_with.util.Constants.FONTS;
-import static dev.kxxcn.app_with.util.Constants.OPTION_SAMPLING;
 
 /**
  * Created by kxxcn on 2018-10-02.
  */
 public class DetailDialog extends DialogFragment {
 
-    private static final String KEY_DIARY = "KEY_DIARY";
+    private static final String KEY_LETTER = "KEY_LETTER";
+    private static final String KEY_PLACE = "KEY_PLACE";
+    private static final String KEY_DATE = "KEY_DATE";
 
-    @BindView(R.id.cl_root)
-    ConstraintLayout cl_root;
-
-    @BindView(R.id.iv_background)
-    ImageView iv_background;
-
+    @BindView(R.id.ttv_place)
+    TyperTextView ttv_place;
+    @BindView(R.id.ttv_date)
+    TyperTextView ttv_date;
     @BindView(R.id.tv_letter)
     TextView tv_letter;
-    @BindView(R.id.tv_place)
-    TextView tv_place;
-    @BindView(R.id.tv_date)
-    TextView tv_date;
 
     private Context mContext;
 
@@ -63,10 +50,14 @@ public class DetailDialog extends DialogFragment {
 
     private String[] colors;
 
-    public static DetailDialog newInstance(Diary diary) {
+    private String letter, place, date;
+
+    public static DetailDialog newInstance(String letter, String place, String date) {
         DetailDialog dialog = new DetailDialog();
         Bundle args = new Bundle();
-        args.putParcelable(KEY_DIARY, diary);
+        args.putString(KEY_LETTER, letter);
+        args.putString(KEY_PLACE, place);
+        args.putString(KEY_DATE, date);
         dialog.setArguments(args);
         return dialog;
     }
@@ -76,17 +67,20 @@ public class DetailDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_detail, container, false);
         ButterKnife.bind(this, view);
-
-        Window window = getDialog().getWindow();
-        if (window != null) {
-            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
-
-        colors = getResources().getStringArray(R.array.background_edit);
-
-        initUI();
-
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        colors = getResources().getStringArray(R.array.background_edit);
+        Bundle args = getArguments();
+        if (args != null) {
+            letter = args.getString(KEY_LETTER);
+            place = args.getString(KEY_PLACE);
+            date = args.getString(KEY_DATE);
+        }
+        initUI();
     }
 
     @Override
@@ -98,54 +92,50 @@ public class DetailDialog extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        Dialog dialog = getDialog();
-        if (dialog != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            Window window = dialog.getWindow();
-            if (window != null) {
-                window.setLayout(width, height);
+        Activity activity = getActivity();
+        if (activity != null) {
+            WindowManager manager = activity.getWindowManager();
+            if (manager != null) {
+                Display display = manager.getDefaultDisplay();
+                Point size = new Point();
+                if (display != null) {
+                    display.getSize(size);
+                    Dialog dialog = getDialog();
+                    if (dialog != null) {
+                        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+                        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                        Window window = dialog.getWindow();
+                        if (window != null) {
+                            window.setLayout(width, height);
+                            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        }
+                    }
+                }
             }
         }
     }
 
     private void initUI() {
-        Bundle args = getArguments();
-        if (args != null) {
-            mDiary = getArguments().getParcelable(KEY_DIARY);
-            if (mDiary != null) {
-                if (mDiary.getPrimaryPosition() != -1) {
-                    iv_background.setBackgroundColor(getResources().getColor(COLORS[mDiary.getPrimaryPosition()]));
-                } else if (!TextUtils.isEmpty(mDiary.getGalleryName())) {
-                    RequestOptions blurOptions;
-                    if (mDiary.getGalleryBlur() != 0) {
-                        MultiTransformation multiTransformation =
-                                new MultiTransformation<>(new CenterCrop(), new BlurTransformation(mDiary.getGalleryBlur(), OPTION_SAMPLING));
-                        blurOptions = new RequestOptions().transform(multiTransformation);
-                    } else {
-                        blurOptions = new RequestOptions().centerCrop();
+        if (TextUtils.isEmpty(letter) || TextUtils.isEmpty(place) || TextUtils.isEmpty(date))
+            return;
+
+        try {
+            String[] dates = date.split("-");
+            String year = dates[0];
+            String month = dates[1];
+            String day = dates[2];
+            String replaceDate = getString(R.string.format_date, year, month, day);
+            ttv_date.animateText(replaceDate);
+            ttv_date.setAnimationListener(hTextView -> ttv_place.animateText(getString(R.string.text_location, place)));
+            ttv_place.setAnimationListener(hTextView -> {
+                        tv_letter.setText(letter);
+                        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+                        tv_letter.startAnimation(animation);
                     }
-                    ImageProcessingHelper.setGlide(mContext, String.format(mContext.getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, mDiary.getGalleryName()), iv_background, blurOptions);
-                }
-                if (mDiary.getFontStyle() != -1 && mDiary.getFontStyle() < FONTS.length) {
-                    Typeface typeface = ResourcesCompat.getFont(mContext, FONTS[mDiary.getFontStyle()]);
-                    tv_letter.setTypeface(typeface);
-                    tv_date.setTypeface(typeface);
-                    tv_place.setTypeface(typeface);
-                }
-                if (mDiary.getFontColor() != -1) {
-                    tv_letter.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
-                    tv_date.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
-                    tv_place.setTextColor(Color.parseColor(colors[mDiary.getFontColor()]));
-                }
-                LayoutUtils.setViewPosition(cl_root, mDiary.getLetterPosition(), tv_letter, tv_place);
-                tv_letter.setTextSize(TypedValue.COMPLEX_UNIT_PX, mDiary.getFontSize());
-                tv_letter.setText(mDiary.getLetter());
-                String[] date = mDiary.getLetterDate().split("-");
-                tv_date.setText(String.format(getString(R.string.format_date), date[0], date[1], date[2]));
-                tv_place.setText(mDiary.getLetterPlace());
-            }
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
 }
+

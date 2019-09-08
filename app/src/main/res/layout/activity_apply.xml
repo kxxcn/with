@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_app">
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/WithTextView"
+        android:padding="20dp"
+        android:text="@string/text_apply"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_enter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_title"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_purpose_title"
+            style="@style/WithTextView"
+            android:layout_marginStart="20dp"
+            android:text="@string/text_purpose_title"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_purpose_content"
+            style="@style/WithTextView"
+            android:padding="20dp"
+            android:text="@string/text_purpose_content"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_purpose_title" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_agree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:cardCornerRadius="15dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_purpose_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/WithTextView"
+                    android:padding="20dp"
+                    android:text="@string/text_guide"
+                    android:textSize="12sp"
+                    tools:ignore="SmallSp" />
+
+                <TextView
+                    android:id="@+id/tv_agree"
+                    style="@style/WithTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/background_deselect_agree"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="@string/text_agree"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            style="@style/WithTextView"
+            android:padding="20dp"
+            android:text="@string/text_privilege"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cv_agree" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_input"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_title"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_comment"
+            style="@style/WithTextView"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/tv_comment_cat"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_divider1"
+            android:layout_width="5dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/background_add_plan_possible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_comment" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/WithTextView"
+            android:padding="10dp"
+            android:text="@string/text_name"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@id/view_divider1"
+            app:layout_constraintStart_toEndOf="@id/view_divider1"
+            app:layout_constraintTop_toTopOf="@id/view_divider1" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/drawable_rectangle_plan_edit"
+            android:ellipsize="end"
+            android:fontFamily="@font/namsan"
+            android:gravity="center"
+            android:hint="@string/hint_name"
+            android:inputType="text"
+            android:maxWidth="200dp"
+            android:maxLines="1"
+            android:minWidth="100dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/view_divider1"
+            app:layout_constraintStart_toStartOf="@id/et_phone"
+            app:layout_constraintTop_toTopOf="@id/view_divider1"
+            tools:ignore="Autofill,LabelFor" />
+
+        <View
+            android:id="@+id/view_divider2"
+            android:layout_width="5dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/background_plan_for_this_month"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_divider1" />
+
+        <TextView
+            android:id="@+id/tv_phone"
+            style="@style/WithTextView"
+            android:padding="10dp"
+            android:text="@string/text_phone"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@id/view_divider2"
+            app:layout_constraintStart_toEndOf="@id/view_divider2"
+            app:layout_constraintTop_toTopOf="@id/view_divider2" />
+
+        <EditText
+            android:id="@+id/et_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/drawable_rectangle_plan_edit"
+            android:ellipsize="end"
+            android:fontFamily="@font/namsan"
+            android:gravity="center"
+            android:hint="@string/hint_phone"
+            android:inputType="numberDecimal"
+            android:maxWidth="350dp"
+            android:maxLines="1"
+            android:minWidth="100dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/view_divider2"
+            app:layout_constraintStart_toEndOf="@id/tv_phone"
+            app:layout_constraintTop_toTopOf="@id/view_divider2"
+            tools:ignore="Autofill,LabelFor,TextFields" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_next"
+        style="@style/WithTextView"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="30dp"
+        android:background="@color/background_select_agree"
+        android:gravity="center"
+        android:padding="20dp"
+        android:text="@string/text_next"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        android:id="@+id/fl_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3000000"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_success"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/background_add_plan_possible" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lav_done"
+        style="@style/FillConstraintParent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:lottie_autoPlay="false"
+        app:lottie_fileName="done.json"
+        app:lottie_loop="false"
+        tools:ignore="MissingConstraints" />
+
+</RelativeLayout>

@@ -8,27 +8,26 @@ import android.os.Looper;
  */
 public class UiThread {
 
-	private static UiThread uiThread;
+    private static UiThread uiThread;
 
-	private Handler handler;
+    private Handler handler;
 
-	private UiThread() {
-		handler = new Handler(Looper.getMainLooper());
-	}
+    private UiThread() {
+        handler = new Handler(Looper.getMainLooper());
+    }
 
-	public static synchronized UiThread getInstance() {
-		if (uiThread == null) {
-			uiThread = new UiThread();
-		}
-		return uiThread;
-	}
+    public static synchronized UiThread getInstance() {
+        if (uiThread == null) {
+            uiThread = new UiThread();
+        }
+        return uiThread;
+    }
 
-	public void post(Runnable runnable) {
-		handler.post(runnable);
-	}
+    public void post(Runnable runnable) {
+        handler.post(runnable);
+    }
 
-	public void postDelayed(Runnable runnable, long delay) {
-		handler.postDelayed(runnable, delay);
-	}
-
+    public void postDelayed(Runnable runnable, long delay) {
+        handler.postDelayed(runnable, delay);
+    }
 }

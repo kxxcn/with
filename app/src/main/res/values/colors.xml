@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="overall_color">#5b5853</color>
+    <color name="overall_color">#272f37</color>
+    <color name="splash_font_primary">#c3565a</color>
+    <color name="splash_font_secondary">#3d88a7</color>
 
     <color name="color_1">#ffffff</color>
     <color name="color_2">#000000</color>
@@ -63,6 +65,11 @@
     <color name="bg_october">#d97974</color>
     <color name="bg_november">#eed873</color>
     <color name="bg_december">#e3e0f1</color>
+    <color name="bg_weather">#f7f5f7</color>
+    <color name="bg_sun">#3d87e9</color>
+    <color name="bg_cloud">#e28478</color>
+    <color name="bg_rain">#cb8fca</color>
+    <color name="bg_snow">#63d3b5</color>
 
     <color name="btn_start">#727171</color>
     <color name="btn_auth">#0cad7b</color>
@@ -86,9 +93,10 @@
     <color name="text_allowed_count">#1de9b6</color>
     <color name="text_denied_count">#f44336</color>
     <color name="text_password_number">#e1d3d3</color>
+    <color name="text_place_picker">#1de9b6</color>
 
     <color name="selected_circle_indicator">#ffffff</color>
-    <color name="unselected_circle_indicator">#84797d</color>
+    <color name="deselected_circle_indicator">#84797d</color>
 
     <color name="box_helper">#93b8ff</color>
     <color name="box_primary">#baffd1</color>
@@ -101,6 +109,10 @@
     <color name="circle_daily">#4de23f</color>
     <color name="circle_saturday">#82c2ff</color>
     <color name="circle_sunday">#ff6363</color>
+    <color name="circle_timeline_mine">#fced77</color>
+    <color name="circle_timeline_yours">#c1d6ff</color>
+
+    <color name="line_timeline">#bbbbbb</color>
 
     <color name="division_line">#d6cfcf</color>
 
@@ -115,4 +127,29 @@
     <color name="seekbar_bubble_text">#757575</color>
     <color name="seekbar_track">#ff94c2</color>
     <color name="seekbar_second_track">#ffff78</color>
+
+    <color name="primary_app">#f3f6f8</color>
+    <color name="primary_icon">#bcbfc5</color>
+    <color name="primary_text">#404358</color>
+
+    <color name="secondary_icon">#7a7c85</color>
+
+    <color name="background_recently_plan">#f0f5f9</color>
+    <color name="background_plan_for_this_month">#ffd800</color>
+    <color name="background_calendar">#ecedef</color>
+    <color name="background_add_plan_impossible">#bcbfc5</color>
+    <color name="background_add_plan_possible">#00b7fd</color>
+    <color name="background_bottom_write">#402e6b</color>
+    <color name="background_oval_selected">#f44336</color>
+    <color name="background_start">#62d7c7</color>
+    <color name="background_alone">#f1b036</color>
+    <color name="background_together">#ef6363</color>
+    <color name="background_select_agree">#ffff78</color>
+    <color name="background_deselect_agree">#bcbfc5</color>
+
+    <color name="text_calendar">#1de9b6</color>
+
+    <color name="tint_photo">#efcb9d</color>
+    <color name="tint_weather">#c0b1ec</color>
+    <color name="tint_place">#ee809f</color>
 </resources>

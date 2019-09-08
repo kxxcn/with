@@ -9,36 +9,37 @@ import io.reactivex.disposables.Disposable;
  */
 public class SyncPresenter implements SyncContract.Presenter {
 
-	private SyncContract.View mSyncView;
-	private DataRepository mDataRepository;
+    private SyncContract.View mSyncView;
+    private DataRepository mDataRepository;
 
-	public SyncPresenter(SyncContract.View syncView, DataRepository dataRepository) {
-		this.mSyncView = syncView;
-		this.mDataRepository = dataRepository;
-		this.mSyncView.setPresenter(this);
-	}
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-	@Override
-	public void sync(String uniqueIdentifier, String key) {
-		if (mSyncView == null)
-			return;
+    public SyncPresenter(SyncContract.View syncView, DataRepository dataRepository) {
+        this.mSyncView = syncView;
+        this.mDataRepository = dataRepository;
+        this.mSyncView.setPresenter(this);
+    }
 
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
+    @Override
+    public void release() {
+        compositeDisposable.dispose();
+    }
 
-		Disposable disposable = mDataRepository.sync(uniqueIdentifier, key)
-				.subscribe(responseResult -> {
-							if (responseResult.getRc() == 200) {
-								mSyncView.showSuccessfulSync();
-							} else {
-								mSyncView.showUnsuccessfulSync(responseResult.getStat());
-							}
-						},
-						throwable -> {
-							mSyncView.showFailedRequest(throwable.getMessage());
-							compositeDisposable.dispose();
-						});
+    @Override
+    public void sync(String uniqueIdentifier, String key) {
+        if (mSyncView == null)
+            return;
 
-		compositeDisposable.add(disposable);
-	}
+        Disposable disposable = mDataRepository.sync(uniqueIdentifier, key)
+                .subscribe(responseResult -> {
+                            if (responseResult.getRc() == 200) {
+                                mSyncView.showSuccessfulSync();
+                            } else {
+                                mSyncView.showUnsuccessfulSync(responseResult.getStat());
+                            }
+                        },
+                        throwable -> mSyncView.showFailedRequest(throwable.getMessage()));
 
+        compositeDisposable.add(disposable);
+    }
 }

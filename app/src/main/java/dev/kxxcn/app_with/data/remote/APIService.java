@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.entry.Entry;
+import dev.kxxcn.app_with.data.model.event.Event;
 import dev.kxxcn.app_with.data.model.mode.ResponseMode;
 import dev.kxxcn.app_with.data.model.nickname.Nickname;
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
@@ -35,6 +37,7 @@ import retrofit2.http.Streaming;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.AUTHENTICATE_KEY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.CHECK_MODE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.CHECK_NEW_NOTICE;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.FETCH_EVENTS;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_IMAGE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_KEY;
@@ -46,6 +49,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.GSON_DATE_FORMAT;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.IS_LOCKED_USER;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.IS_REGISTERED_USER;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_DIARY;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_ENTRY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_IMAGE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_LOCK;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_NICKNAME;
@@ -59,6 +63,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.SUBSCRIBE_IDS;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SYNC;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UNREGISTER_LOCK;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_DIARY;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_RECEIVE_NOTIFICATION;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_TOKEN;
 
@@ -67,145 +72,154 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_TOKEN;
  */
 public interface APIService {
 
-	class Factory {
-		static APIService create() {
-			Gson gson = new GsonBuilder()
-					.setDateFormat(GSON_DATE_FORMAT)
-					.create();
-			GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gson);
+    @FormUrlEncoded
+    @POST(GET_KEY)
+    Single<ResponsePairing> createPairingKey(@Field("uniqueIdentifier") String uniqueIdentifier,
+                                             @Field("token") String token,
+                                             @Field("gender") int gender);
 
-			HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-			loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    @FormUrlEncoded
+    @POST(AUTHENTICATE_KEY)
+    Single<ResponseResult> authenticateKey(@Field("uniqueIdentifier") String uniqueIdentifier,
+                                           @Field("pair") String pair,
+                                           @Field("gender") int gender,
+                                           @Field("token") String token);
 
-			OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-			httpClient.addInterceptor(loggingInterceptor);
+    @FormUrlEncoded
+    @POST(SIGN_UP)
+    Single<ResponseResult> signUp(@Field("uniqueIdentifier") String uniqueIdentifier,
+                                  @Field("gender") int gender,
+                                  @Field("token") String token);
 
-			Retrofit retrofit = new Retrofit.Builder()
-					.baseUrl(SERVER_URL)
-					.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-					.addConverterFactory(gsonConverterFactory)
-					.client(httpClient.build())
-					.build();
-			return retrofit.create(APIService.class);
-		}
-	}
+    @FormUrlEncoded
+    @POST(SIGN_OUT)
+    Single<ResponseResult> signOut(@Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@FormUrlEncoded
-	@POST(GET_KEY)
-	Single<ResponsePairing> createPairingKey(@Field("uniqueIdentifier") String uniqueIdentifier,
-											 @Field("token") String token,
-											 @Field("gender") int gender);
+    @FormUrlEncoded
+    @POST(IS_REGISTERED_USER)
+    Single<ResponseResult> isRegisteredUser(@Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@FormUrlEncoded
-	@POST(AUTHENTICATE_KEY)
-	Single<ResponseResult> authenticateKey(@Field("uniqueIdentifier") String uniqueIdentifier,
-										   @Field("pair") String pair,
-										   @Field("gender") int gender,
-										   @Field("token") String token);
+    @FormUrlEncoded
+    @POST(IS_LOCKED_USER)
+    Single<ResponseResult> isLockedUser(@Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@FormUrlEncoded
-	@POST(SIGN_UP)
-	Single<ResponseResult> signUp(@Field("uniqueIdentifier") String uniqueIdentifier,
-								  @Field("gender") int gender,
-								  @Field("token") String token);
+    @FormUrlEncoded
+    @POST(GET_DIARY)
+    Single<List<Diary>> getDiary(@Field("flag") int flag,
+                                 @Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@FormUrlEncoded
-	@POST(SIGN_OUT)
-	Single<ResponseResult> signOut(@Field("uniqueIdentifier") String uniqueIdentifier);
+    @POST(REGISTER_DIARY)
+    Single<ResponseResult> registerDiary(@Body Diary diary);
 
-	@FormUrlEncoded
-	@POST(IS_REGISTERED_USER)
-	Single<ResponseResult> isRegisteredUser(@Field("uniqueIdentifier") String uniqueIdentifier);
+    @POST(UPDATE_DIARY)
+    Single<ResponseResult> updateDiary(@Body Diary diary);
 
-	@FormUrlEncoded
-	@POST(IS_LOCKED_USER)
-	Single<ResponseResult> isLockedUser(@Field("uniqueIdentifier") String uniqueIdentifier);
+    @POST(REGISTER_PLAN)
+    Single<ResponseResult> registerPlan(@Body Plan plan);
 
-	@FormUrlEncoded
-	@POST(GET_DIARY)
-	Single<List<Diary>> getDiary(@Field("flag") int flag,
-								 @Field("uniqueIdentifier") String uniqueIdentifier);
+    @POST(UPDATE_PLAN)
+    Single<ResponseResult> updatePlan(@Body Plan diary);
 
-	@POST(REGISTER_DIARY)
-	Single<ResponseResult> registerDiary(@Body Diary diary);
+    @FormUrlEncoded
+    @POST(GET_PLAN)
+    Single<List<Plan>> getPlan(@Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@POST(UPDATE_DIARY)
-	Single<ResponseResult> updateDiary(@Body Diary diary);
+    @Multipart
+    @POST(REGISTER_IMAGE)
+    Single<ResponseResult> uploadImage(@Part MultipartBody.Part image);
 
-	@POST(REGISTER_PLAN)
-	Single<ResponseResult> registerPlan(@Body Plan plan);
+    @FormUrlEncoded
+    @POST(GET_IMAGE)
+    @Streaming
+    Single<ResponseBody> getImage(@Field("fileName") String fileName);
 
-	@FormUrlEncoded
-	@POST(GET_PLAN)
-	Single<List<Plan>> getPlan(@Field("uniqueIdentifier") String uniqueIdentifier);
+    @FormUrlEncoded
+    @POST(REMOVE_DIARY)
+    Single<ResponseResult> removeDiary(@Field("id") int id);
 
-	@Multipart
-	@POST(REGISTER_IMAGE)
-	Single<ResponseResult> uploadImage(@Part MultipartBody.Part image);
+    @FormUrlEncoded
+    @POST(REMOVE_PLAN)
+    Single<ResponseResult> removePlan(@Field("id") int id);
 
-	@FormUrlEncoded
-	@POST(GET_IMAGE)
-	@Streaming
-	Single<ResponseBody> getImage(@Field("fileName") String fileName);
+    @FormUrlEncoded
+    @POST(GET_NOTIFICATION_INFORMATION)
+    Single<ResponseSetting> getNotificationInformation(@Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@FormUrlEncoded
-	@POST(REMOVE_DIARY)
-	Single<ResponseResult> removeDiary(@Field("id") int id);
+    @FormUrlEncoded
+    @POST(UPDATE_RECEIVE_NOTIFICATION)
+    Completable updateReceiveNotification(@Field("uniqueIdentifier") String uniqueIdentifier,
+                                          @Field("which") Constants.NotificationFilter which,
+                                          @Field("on") boolean isOn);
 
-	@FormUrlEncoded
-	@POST(REMOVE_PLAN)
-	Single<ResponseResult> removePlan(@Field("id") int id);
+    @FormUrlEncoded
+    @POST(UPDATE_TOKEN)
+    Single<ResponseResult> updateToken(@Field("uniqueIdentifier") String uniqueIdentifier,
+                                       @Field("newToken") String newToken);
 
-	@FormUrlEncoded
-	@POST(GET_NOTIFICATION_INFORMATION)
-	Single<ResponseSetting> getNotificationInformation(@Field("uniqueIdentifier") String uniqueIdentifier);
+    @FormUrlEncoded
+    @POST(GET_TITLE)
+    Single<ResponseNickname> getTitle(@Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@FormUrlEncoded
-	@POST(UPDATE_RECEIVE_NOTIFICATION)
-	Completable updateReceiveNotification(@Field("uniqueIdentifier") String uniqueIdentifier,
-										  @Field("which") Constants.NotificationFilter which,
-										  @Field("on") boolean isOn);
+    @POST(REGISTER_NICKNAME)
+    Single<ResponseResult> registerNickname(@Body Nickname nickname);
 
-	@FormUrlEncoded
-	@POST(UPDATE_TOKEN)
-	Single<ResponseResult> updateToken(@Field("uniqueIdentifier") String uniqueIdentifier,
-									   @Field("newToken") String newToken);
+    @FormUrlEncoded
+    @POST(CHECK_MODE)
+    Single<ResponseMode> checkMode(@Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@FormUrlEncoded
-	@POST(GET_TITLE)
-	Single<ResponseNickname> getTitle(@Field("uniqueIdentifier") String uniqueIdentifier);
+    @FormUrlEncoded
+    @POST(CHECK_NEW_NOTICE)
+    Single<ResponseResult> checkNewNotice(@Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@POST(REGISTER_NICKNAME)
-	Single<ResponseResult> registerNickname(@Body Nickname nickname);
+    @FormUrlEncoded
+    @POST(GET_NOTICE)
+    Single<List<Notice>> getNotice(@Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@FormUrlEncoded
-	@POST(CHECK_MODE)
-	Single<ResponseMode> checkMode(@Field("uniqueIdentifier") String uniqueIdentifier);
+    @FormUrlEncoded
+    @POST(REGISTER_LOCK)
+    Single<ResponseResult> registerLock(@Field("uniqueIdentifier") String uniqueIdentifier,
+                                        @Field("password") String password);
 
-	@FormUrlEncoded
-	@POST(CHECK_NEW_NOTICE)
-	Single<ResponseResult> checkNewNotice(@Field("uniqueIdentifier") String uniqueIdentifier);
+    @FormUrlEncoded
+    @POST(UNREGISTER_LOCK)
+    Single<ResponseResult> unregisterLock(@Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@FormUrlEncoded
-	@POST(GET_NOTICE)
-	Single<List<Notice>> getNotice(@Field("uniqueIdentifier") String uniqueIdentifier);
+    @FormUrlEncoded
+    @POST(SYNC)
+    Single<ResponseResult> sync(@Field("uniqueIdentifier") String uniqueIdentifier,
+                                @Field("pair") String pair);
 
-	@FormUrlEncoded
-	@POST(REGISTER_LOCK)
-	Single<ResponseResult> registerLock(@Field("uniqueIdentifier") String uniqueIdentifier,
-										@Field("password") String password);
+    @FormUrlEncoded
+    @POST(SUBSCRIBE_IDS)
+    Single<List<String>> subscribeIds(@Field("uniqueIdentifier") String uniqueIdentifier);
 
-	@FormUrlEncoded
-	@POST(UNREGISTER_LOCK)
-	Single<ResponseResult> unregisterLock(@Field("uniqueIdentifier") String uniqueIdentifier);
+    @POST(FETCH_EVENTS)
+    Single<List<Event>> fetchEvents();
 
-	@FormUrlEncoded
-	@POST(SYNC)
-	Single<ResponseResult> sync(@Field("uniqueIdentifier") String uniqueIdentifier,
-								@Field("pair") String pair);
+    @POST(REGISTER_ENTRY)
+    Single<ResponseResult> registerEntry(@Body Entry entry);
 
-	@FormUrlEncoded
-	@POST(SUBSCRIBE_IDS)
-	Single<List<String>> subscribeIds(@Field("uniqueIdentifier") String uniqueIdentifier);
+    class Factory {
+        static APIService create() {
+            Gson gson = new GsonBuilder()
+                    .setDateFormat(GSON_DATE_FORMAT)
+                    .create();
+            GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(gson);
 
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+            httpClient.addInterceptor(loggingInterceptor);
+
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(SERVER_URL)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .addConverterFactory(gsonConverterFactory)
+                    .client(httpClient.build())
+                    .build();
+            return retrofit.create(APIService.class);
+        }
+    }
 }
+

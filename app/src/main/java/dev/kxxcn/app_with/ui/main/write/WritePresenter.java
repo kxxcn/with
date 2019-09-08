@@ -1,5 +1,9 @@
 package dev.kxxcn.app_with.ui.main.write;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.widget.ImageView;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -18,121 +22,113 @@ import static dev.kxxcn.app_with.util.Constants.SIMPLE_TIME_FORMAT;
  */
 public class WritePresenter implements WriteContract.Presenter {
 
-	private WriteContract.View mWriteView;
-	private DataRepository mDataRepository;
+    private WriteContract.View mWriteView;
+    private DataRepository mDataRepository;
 
-	public WritePresenter(WriteContract.View writeView, DataRepository dataRepository) {
-		this.mWriteView = writeView;
-		this.mDataRepository = dataRepository;
-		mWriteView.setPresenter(this);
-	}
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-	@Override
-	public void registerDiary(Diary diary) {
-		if (mWriteView == null)
-			return;
+    public WritePresenter(WriteContract.View writeView, DataRepository dataRepository) {
+        this.mWriteView = writeView;
+        this.mDataRepository = dataRepository;
+        mWriteView.setPresenter(this);
+    }
 
-		mWriteView.showLoadingIndicator(true);
+    @Override
+    public void registerDiary(Diary diary) {
+        if (mWriteView == null)
+            return;
 
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
+        Disposable disposable = mDataRepository.registerDiary(diary)
+                .doOnSubscribe(subscribe -> mWriteView.showLoadingIndicator(true))
+                .doOnDispose(() -> mWriteView.showLoadingIndicator(false))
+                .doOnSuccess(responseResult -> mWriteView.showLoadingIndicator(false))
+                .doOnError(throwable -> mWriteView.showLoadingIndicator(false))
+                .subscribe(response -> {
+                    if (response.getRc() == 200) {
+                        mWriteView.showSuccessfulRegister(Constants.ModeFilter.WRITE);
+                    } else if (response.getRc() == 201) {
+                        mWriteView.showFailedRequest(response.getStat());
+                    }
+                }, throwable -> mWriteView.showFailedRequest(throwable.getMessage()));
 
-		Disposable disposable = mDataRepository.registerDiary(diary)
-				.subscribe(response -> {
-					if (response.getRc() == 200) {
-						mWriteView.showSuccessfulRegister(Constants.ModeFilter.WRITE);
-					} else if (response.getRc() == 201) {
-						mWriteView.showFailedRequest(response.getStat());
-					}
-					mWriteView.showLoadingIndicator(false);
-					compositeDisposable.dispose();
-				}, throwable -> {
-					mWriteView.showFailedRequest(throwable.getMessage());
-					mWriteView.showLoadingIndicator(false);
-					compositeDisposable.dispose();
-				});
+        compositeDisposable.add(disposable);
+    }
 
-		compositeDisposable.add(disposable);
-	}
+    @Override
+    public void updateDiary(Diary diary) {
+        if (mWriteView == null)
+            return;
 
-	@Override
-	public void updateDiary(Diary diary) {
-		if (mWriteView == null)
-			return;
+        Disposable disposable = mDataRepository.updateDiary(diary)
+                .doOnSubscribe(subscribe -> mWriteView.showLoadingIndicator(true))
+                .doOnDispose(() -> mWriteView.showLoadingIndicator(false))
+                .doOnSuccess(responseResult -> mWriteView.showLoadingIndicator(false))
+                .doOnError(throwable -> mWriteView.showLoadingIndicator(false))
+                .subscribe(response -> {
+                    if (response.getRc() == 200) {
+                        mWriteView.showSuccessfulRegister(Constants.ModeFilter.EDIT);
+                    } else if (response.getRc() == 201) {
+                        mWriteView.showFailedRequest(response.getStat());
+                    }
+                }, throwable -> mWriteView.showFailedRequest(throwable.getMessage()));
 
-		mWriteView.showLoadingIndicator(true);
+        compositeDisposable.add(disposable);
+    }
 
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
+    @Override
+    public String getGalleryName(String identifier) {
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat format = new SimpleDateFormat(SIMPLE_TIME_FORMAT, Locale.KOREA);
+        return identifier + format.format(date);
+    }
 
-		Disposable disposable = mDataRepository.updateDiary(diary)
-				.subscribe(response -> {
-					if (response.getRc() == 200) {
-						mWriteView.showSuccessfulRegister(Constants.ModeFilter.EDIT);
-					} else if (response.getRc() == 201) {
-						mWriteView.showFailedRequest(response.getStat());
-					}
-					mWriteView.showLoadingIndicator(false);
-					compositeDisposable.dispose();
-				}, throwable -> {
-					mWriteView.showFailedRequest(throwable.getMessage());
-					mWriteView.showLoadingIndicator(false);
-					compositeDisposable.dispose();
-				});
+    @Override
+    public void uploadImage(MultipartBody.Part body) {
+        if (mWriteView == null)
+            return;
 
-		compositeDisposable.add(disposable);
-	}
+        Disposable disposable = mDataRepository.uploadImage(body)
+                .doOnSubscribe(subscribe -> mWriteView.showLoadingIndicator(true))
+                .doOnDispose(() -> mWriteView.showLoadingIndicator(false))
+                .doOnSuccess(responseResult -> mWriteView.showLoadingIndicator(false))
+                .doOnError(throwable -> mWriteView.showLoadingIndicator(false))
+                .subscribe(response -> {
+                    if (response.getRc() == 200) {
+                        mWriteView.showSuccessfulUpload();
+                    } else if (response.getRc() == 201) {
+                        mWriteView.showFailedRequest(response.getStat());
+                    }
+                }, throwable -> mWriteView.showFailedRequest(throwable.getMessage()));
 
-	@Override
-	public String getGalleryName(String identifier) {
-		long now = System.currentTimeMillis();
-		Date date = new Date(now);
-		SimpleDateFormat format = new SimpleDateFormat(SIMPLE_TIME_FORMAT, Locale.KOREA);
-		return identifier + format.format(date);
-	}
+        compositeDisposable.add(disposable);
+    }
 
-	@Override
-	public void uploadImage(MultipartBody.Part body) {
-		if (mWriteView == null)
-			return;
+    @Override
+    public void convertCoordToAddress(String query) {
+        if (mWriteView == null)
+            return;
 
-		mWriteView.showLoadingIndicator(true);
+        Disposable disposable = mDataRepository.convertCoordToAddress(query)
+                .subscribe(
+                        responseGeocode -> {
+                            if (responseGeocode.component2().component3().equals("no results")) {
+                                mWriteView.showUnsuccessfulLoadLocation();
+                            } else if (responseGeocode.component1().size() != 0) {
+                                mWriteView.showSuccessfulLoadLocation(responseGeocode.component1().get(0).getRegion());
+                            }
+                        },
+                        throwable -> mWriteView.showFailedRequest(throwable.getMessage())
+                );
 
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(disposable);
+    }
 
-		Disposable disposable = mDataRepository.uploadImage(body)
-				.subscribe(response -> {
-					if (response.getRc() == 200) {
-						mWriteView.showSuccessfulUpload();
-					} else if (response.getRc() == 201) {
-						mWriteView.showFailedRequest(response.getStat());
-					}
-					mWriteView.showLoadingIndicator(false);
-					compositeDisposable.dispose();
-				}, throwable -> {
-					mWriteView.showFailedRequest(throwable.getMessage());
-					mWriteView.showLoadingIndicator(false);
-					compositeDisposable.dispose();
-				});
-
-		compositeDisposable.add(disposable);
-	}
-
-	@Override
-	public void convertCoordToAddress(String query) {
-		if (mWriteView == null)
-			return;
-
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
-
-		Disposable disposable = mDataRepository.convertCoordToAddress(query)
-				.subscribe(
-						responseGeocode -> mWriteView.showSuccessfulLoadLocation(responseGeocode.getResult().getItems().get(0).getAddrdetail()),
-						throwable -> {
-							mWriteView.showFailedRequest(throwable.getMessage());
-							compositeDisposable.dispose();
-						}
-				);
-
-		compositeDisposable.add(disposable);
-	}
-
+    @Override
+    public Bitmap capture(ImageView imageView) {
+        Bitmap bitmap = Bitmap.createBitmap(imageView.getWidth(), imageView.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        imageView.draw(canvas);
+        return bitmap;
+    }
 }

@@ -1,14 +1,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "dev.kxxcn.app_with"
         minSdkVersion 21
-        targetSdkVersion 27
-        versionCode 35
-        versionName "4.1.1"
+        targetSdkVersion 28
+        versionCode 37
+        versionName "5.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -33,79 +36,170 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    /* Roughike - Bottom bar */
+    /**
+     * Roughike - Bottom bar
+     */
     implementation 'com.roughike:bottom-bar:2.3.1'
 
-    /* Butter Knife */
+    /**
+     * Butter Knife
+     */
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    /* Retrofit2 */
+    /**
+     * Retrofit2
+     */
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
 
-    /* TedPermission */
+    /**
+     * TedPermission
+     */
     implementation 'gun0912.ted:tedpermission:2.1.1'
 
-    /* Glide */
+    /**
+     * Glide
+     */
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    kapt 'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 
-    /* ongakuer/CircleIndicator */
+    /**
+     * ongakuer/CircleIndicator
+     */
     implementation 'me.relex:circleindicator:1.2.2@aar'
 
-    /* Text Filed Boxes */
+    /**
+     * Text Filed Boxes
+     */
     implementation 'com.github.HITGIF:TextFieldBoxes:1.4.4'
 
-    /* Submit Button */
+    /**
+     * Submit Button
+     */
     implementation 'com.unstoppable:submitbutton:1.1.3'
 
-    /* JSR305 - Find bug */
+    /**
+     * JSR305 - Find bug
+     */
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
-    /* Spin Kit */
+    /**
+     * Spin Kit
+     */
     implementation 'com.github.ybq:Android-SpinKit:1.2.0'
 
-    /* Radio Real Button */
+    /**
+     * Radio Real Button
+     */
     implementation 'com.github.ceryle:RadioRealButton:v2.1.1'
 
-    /* View Pager Transforms */
+    /**
+     * View Pager Transforms
+     */
     implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
 
-    /* Material Calendar View */
+    /**
+     * Material Calendar View
+     */
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.0'
 
-    /* RxJava2 */
+    /**
+     * RxJava2
+     */
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
 
-    /* Toggle Button */
+    /**
+     * Toggle Button
+     */
     implementation 'com.zcw:togglebutton-library:1.0.0'
 
-    /* Jsoup */
+    /**
+     * Jsoup
+     */
     implementation 'org.jsoup:jsoup:1.11.3'
 
-    /* Firebase */
+    /**
+     * Firebase
+     */
     implementation 'com.google.firebase:firebase-messaging:17.6.0'
     implementation 'com.google.firebase:firebase-core:16.0.8'
 
-    /* Otto */
+    /**
+     * Otto
+     */
     implementation 'com.squareup:otto:1.3.8'
 
-    /* RxImagePicker */
-    implementation 'com.github.qingmei2:rximagepicker_support_zhihu:2.2.0'
+    /**
+     * RxImagePicker
+     */
+    implementation 'com.github.qingmei2:rximagepicker:2.2.0'
 
-    /* Crashlytics */
+    /**
+     * Crashlytics
+     */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
 
-    /* Lottie */
+    /**
+     * Lottie
+     */
     implementation 'com.airbnb.android:lottie:2.7.0'
 
-    /* Admob */
+    /**
+     * Admob
+     */
     implementation 'com.google.android.gms:play-services-ads:17.2.0'
+
+    /**
+     * Duo Navigation
+     */
+    implementation 'nl.psdcompany:duo-navigation-drawer:3.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    /**
+     * ThreeTen Abp
+     */
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.0'
+
+    /**
+     * Horizontal Calendar
+     */
+    implementation 'devs.mulham.horizontalcalendar:horizontalcalendar:1.3.4'
+
+    /**
+     * Coroutines
+     */
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0'
+
+    /**
+     * Anko
+     */
+    implementation 'org.jetbrains.anko:anko:0.10.8'
+
+    /**
+     * Selectable Rounded ImageView
+     */
+    implementation 'com.joooonho:selectableroundedimageview:1.0.1'
+
+    /**
+     * HTextView
+     */
+    implementation 'com.hanks:htextview-base:0.1.6'
+    implementation 'com.hanks:htextview-typer:0.1.6'
+
+    /**
+     * Zoomy
+     */
+    implementation 'com.ablanco.zoomy:zoomy:1.1.0'
 }
 apply plugin: 'com.google.gms.google-services'
+repositories {
+    mavenCentral()
+}

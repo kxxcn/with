@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cdl_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/et_write"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/drawable_rectangle_plan_edit"
+            android:fontFamily="@font/namsan"
+            android:hint="@string/hint_write"
+            android:maxHeight="120dp"
+            android:minHeight="60dp"
+            android:padding="10dp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_write"
+            tools:ignore="Autofill,LabelFor,TextFields" />
+
+        <ImageView
+            android:id="@+id/iv_under_line_write"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:alpha="0.0"
+            android:src="@drawable/drawable_rectangle_timeline_mine"
+            app:layout_constraintBottom_toBottomOf="@id/tv_write"
+            app:layout_constraintEnd_toEndOf="@id/tv_write"
+            app:layout_constraintStart_toStartOf="@id/tv_write"
+            app:layout_constraintTop_toTopOf="@id/tv_write"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:fontFamily="@font/namsan"
+            android:paddingStart="0dp"
+            android:paddingEnd="10dp"
+            android:text="@string/text_write"
+            android:textColor="@android:color/black"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/namsan"
+            android:textColor="@color/text_allowed_count"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/et_write"
+            app:layout_constraintEnd_toEndOf="@id/et_write"
+            tools:text="0 / 500" />
+
+        <View
+            android:id="@+id/view_under_line_write"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/background_add_plan_possible"
+            app:layout_constraintBottom_toBottomOf="@id/et_write"
+            app:layout_constraintEnd_toEndOf="@id/et_write"
+            app:layout_constraintStart_toStartOf="@id/et_write" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/cv_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <ImageView
+            android:id="@+id/iv_stick"
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/drawable_rectangle_bottom_stick"
+            android:visibility="invisible"
+            tools:ignore="ContentDescription" />
+
+        <RelativeLayout
+            android:id="@+id/rl_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_stick"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/drawable_rectangle_bottom">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <ImageButton
+                    android:id="@+id/ib_photo"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_photo"
+                    android:backgroundTint="@color/tint_photo"
+                    app:layout_constraintEnd_toStartOf="@id/ib_weather"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <ImageButton
+                    android:id="@+id/ib_weather"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_weather"
+                    android:backgroundTint="@color/tint_weather"
+                    app:layout_constraintEnd_toStartOf="@id/ib_place"
+                    app:layout_constraintStart_toEndOf="@id/ib_photo"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <ImageButton
+                    android:id="@+id/ib_place"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_place"
+                    android:backgroundTint="@color/tint_place"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ib_weather"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/iv_select_weather"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:background="@drawable/drawable_oval_selected"
+                    android:visibility="invisible"
+                    app:layout_constraintCircle="@id/ib_weather"
+                    app:layout_constraintCircleAngle="180"
+                    app:layout_constraintCircleRadius="25dp"
+                    tools:ignore="ContentDescription,MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/iv_select_photo"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:background="@drawable/drawable_oval_selected"
+                    android:visibility="invisible"
+                    app:layout_constraintCircle="@id/ib_photo"
+                    app:layout_constraintCircleAngle="180"
+                    app:layout_constraintCircleRadius="22dp"
+                    tools:ignore="ContentDescription,MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/iv_select_place"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:background="@drawable/drawable_oval_selected"
+                    android:visibility="invisible"
+                    app:layout_constraintCircle="@id/ib_place"
+                    app:layout_constraintCircleAngle="180"
+                    app:layout_constraintCircleRadius="25dp"
+                    tools:ignore="ContentDescription,MissingConstraints" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <com.joooonho.SelectableRoundedImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/cl_items"
+                android:layout_margin="20dp"
+                android:visibility="gone"
+                app:sriv_left_bottom_corner_radius="15dp"
+                app:sriv_left_top_corner_radius="15dp"
+                app:sriv_right_bottom_corner_radius="15dp"
+                app:sriv_right_top_corner_radius="15dp" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_weather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cl_items"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_sun"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:alpha="0.7"
+                    android:background="@drawable/drawable_rectangle_weather"
+                    android:gravity="center"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/text_sun"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:backgroundTint="@color/bg_weather"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_sun_bg"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/drawable_oval_selected"
+                    android:backgroundTint="@color/bg_sun"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_sun"
+                    app:layout_constraintStart_toStartOf="@id/tv_sun"
+                    app:layout_constraintTop_toTopOf="@id/tv_sun"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_sun"
+                    android:backgroundTint="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_sun_bg"
+                    app:layout_constraintEnd_toEndOf="@id/iv_sun_bg"
+                    app:layout_constraintStart_toStartOf="@id/iv_sun_bg"
+                    app:layout_constraintTop_toTopOf="@id/iv_sun_bg"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv_cloud"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:alpha="0.7"
+                    android:background="@drawable/drawable_rectangle_weather"
+                    android:gravity="center"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/text_cloud"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:backgroundTint="@color/bg_weather"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_sun" />
+
+                <ImageView
+                    android:id="@+id/iv_could_bg"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/drawable_oval_selected"
+                    android:backgroundTint="@color/bg_cloud"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_cloud"
+                    app:layout_constraintStart_toStartOf="@id/tv_cloud"
+                    app:layout_constraintTop_toTopOf="@id/tv_cloud"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_cloud"
+                    android:backgroundTint="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_could_bg"
+                    app:layout_constraintEnd_toEndOf="@id/iv_could_bg"
+                    app:layout_constraintStart_toStartOf="@id/iv_could_bg"
+                    app:layout_constraintTop_toTopOf="@id/iv_could_bg"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv_rain"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:alpha="0.7"
+                    android:background="@drawable/drawable_rectangle_weather"
+                    android:gravity="center"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/text_rain"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:backgroundTint="@color/bg_weather"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_cloud" />
+
+                <ImageView
+                    android:id="@+id/iv_rain_bg"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/drawable_oval_selected"
+                    android:backgroundTint="@color/bg_rain"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_rain"
+                    app:layout_constraintStart_toStartOf="@id/tv_rain"
+                    app:layout_constraintTop_toTopOf="@id/tv_rain"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_rain"
+                    android:backgroundTint="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_rain_bg"
+                    app:layout_constraintEnd_toEndOf="@id/iv_rain_bg"
+                    app:layout_constraintStart_toStartOf="@id/iv_rain_bg"
+                    app:layout_constraintTop_toTopOf="@id/iv_rain_bg"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv_snow"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:alpha="0.7"
+                    android:background="@drawable/drawable_rectangle_weather"
+                    android:gravity="center"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:text="@string/text_snow"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:backgroundTint="@color/bg_weather"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_rain" />
+
+                <ImageView
+                    android:id="@+id/iv_snow_bg"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/drawable_oval_selected"
+                    android:backgroundTint="@color/bg_snow"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_snow"
+                    app:layout_constraintStart_toStartOf="@id/tv_snow"
+                    app:layout_constraintTop_toTopOf="@id/tv_snow"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_snow"
+                    android:backgroundTint="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_snow_bg"
+                    app:layout_constraintEnd_toEndOf="@id/iv_snow_bg"
+                    app:layout_constraintStart_toStartOf="@id/iv_snow_bg"
+                    app:layout_constraintTop_toTopOf="@id/iv_snow_bg"
+                    tools:ignore="ContentDescription" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cl_items"
+                android:layout_marginBottom="50dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <dev.kxxcn.app_with.util.EasyPickerView
+                    android:id="@+id/epv_place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    app:epvMaxShowNum="3"
+                    app:epvRecycleMode="false"
+                    app:epvTextColor="@color/text_place_picker"
+                    app:epvTextMaxScale="2.0"
+                    app:epvTextMinAlpha="0.35"
+                    app:epvTextPadding="5dp"
+                    app:epvTextSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/text_from"
+                    android:textColor="@color/text_place_picker"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_done"
+        app:backgroundTint="@android:color/white"
+        app:layout_anchor="@id/rl_items"
+        app:layout_anchorGravity="end" />
+
+    <FrameLayout
+        android:id="@+id/fl_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3000000"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_success"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:background="@color/background_add_plan_possible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lav_done"
+        style="@style/FillConstraintParent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:lottie_autoPlay="false"
+        app:lottie_fileName="done.json"
+        app:lottie_loop="false"
+        tools:ignore="MissingConstraints" />
+
+</android.support.design.widget.CoordinatorLayout>

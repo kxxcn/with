@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_root"
@@ -23,7 +22,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/ic_cancel"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_count"
@@ -33,12 +32,12 @@
                 android:layout_marginStart="20dp"
                 android:fontFamily="@font/namsan"
                 android:textColor="@color/text_allowed_count"
-                tools:text="( 0 / 500 )"/>
+                tools:text="( 0 / 500 )" />
 
             <TextView
                 style="@style/TopTextView"
                 android:layout_centerInParent="true"
-                android:text="@string/title_write"/>
+                android:text="@string/title_write" />
 
             <ImageButton
                 android:id="@+id/ib_save"
@@ -47,7 +46,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/ic_save"/>
+                android:background="@drawable/ic_save" />
 
         </RelativeLayout>
 
@@ -69,7 +68,7 @@
                 <ImageView
                     android:id="@+id/iv_background"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -93,10 +92,7 @@
                                 android:gravity="center"
                                 android:hint="@string/hint_write"
                                 android:inputType="textMultiLine"
-                                android:padding="30dp">
-
-                                <requestFocus/>
-                            </EditText>
+                                android:padding="30dp" />
 
                             <com.github.ybq.android.spinkit.SpinKitView
                                 android:id="@+id/progressbar"
@@ -104,7 +100,7 @@
                                 android:layout_alignParentBottom="true"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="40dp"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
 
                         </RelativeLayout>
 
@@ -122,7 +118,7 @@
                             <TextView
                                 android:id="@+id/tv_place"
                                 style="@style/PlaceTextView"
-                                tools:text="어딘가에서"/>
+                                tools:text="어딘가에서" />
 
                         </LinearLayout>
 
@@ -135,7 +131,7 @@
                             <TextView
                                 android:id="@+id/tv_date"
                                 style="@style/DateTextView"
-                                tools:text="2018년 3월 7일"/>
+                                tools:text="2018년 3월 7일" />
 
                         </LinearLayout>
 
@@ -155,43 +151,43 @@
             <ImageButton
                 android:id="@+id/ib_background"
                 style="@style/IconImageButton"
-                android:background="@drawable/ic_background"/>
+                android:background="@drawable/ic_background" />
 
             <ImageButton
                 android:id="@+id/ib_place"
                 style="@style/IconImageButton"
-                android:background="@drawable/ic_place"/>
+                android:background="@drawable/ic_place" />
 
             <ImageButton
                 android:id="@+id/ib_font"
                 style="@style/IconImageButton"
-                android:background="@drawable/ic_font"/>
+                android:background="@drawable/ic_font" />
 
             <ImageButton
                 android:id="@+id/ib_size_down"
                 style="@style/IconImageButton"
-                android:background="@drawable/ic_size_down"/>
+                android:background="@drawable/ic_size_down" />
 
             <ImageButton
                 android:id="@+id/ib_size_up"
                 style="@style/IconImageButton"
-                android:background="@drawable/ic_size_up"/>
+                android:background="@drawable/ic_size_up" />
 
             <ImageButton
                 android:id="@+id/ib_adjustment"
                 style="@style/IconImageButton"
-                android:background="@drawable/ic_adjustment"/>
+                android:background="@drawable/ic_adjustment" />
 
             <ImageButton
                 android:id="@+id/ib_blur"
                 style="@style/IconImageButton"
-                android:background="@drawable/ic_blur"/>
+                android:background="@drawable/ic_blur" />
 
             <ImageButton
                 android:id="@+id/ib_gallery"
                 style="@style/IconImageButton"
                 android:background="@drawable/ic_gallery"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -222,7 +218,7 @@
                         app:normalTextColor="@color/btn_bottom_item"
                         app:pressedStrokeColor="@color/btn_bottom_item"
                         app:pressedStrokeWidth="1dp"
-                        app:pressedTextColor="@color/btn_bottom_item"/>
+                        app:pressedTextColor="@color/btn_bottom_item" />
 
                 </LinearLayout>
 
@@ -242,7 +238,7 @@
                         app:normalTextColor="@color/btn_bottom_item"
                         app:pressedStrokeColor="@color/btn_bottom_item"
                         app:pressedStrokeWidth="1dp"
-                        app:pressedTextColor="@color/btn_bottom_item"/>
+                        app:pressedTextColor="@color/btn_bottom_item" />
 
                 </LinearLayout>
 
@@ -256,7 +252,7 @@
                     android:id="@+id/rv_theme"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -274,7 +270,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/godo"
-                android:text="@string/text_blur"/>
+                android:text="@string/text_blur" />
 
             <SeekBar
                 android:id="@+id/sb_blur"
@@ -284,7 +280,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
                 android:max="100"
-                android:thumb="@drawable/ic_seekbar"/>
+                android:thumb="@drawable/ic_seekbar" />
 
         </LinearLayout>
 

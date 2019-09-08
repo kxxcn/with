@@ -54,7 +54,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="bottom"
                     app:ci_drawable="@color/selected_circle_indicator"
-                    app:ci_drawable_unselected="@color/unselected_circle_indicator"/>
+                    app:ci_drawable_unselected="@color/deselected_circle_indicator"/>
 
             </FrameLayout>
 

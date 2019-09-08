@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_under_line_write"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:alpha="0.0"
+        android:src="@drawable/drawable_rectangle_timeline_mine"
+        app:layout_constraintBottom_toBottomOf="@id/tv_write"
+        app:layout_constraintEnd_toEndOf="@id/tv_write"
+        app:layout_constraintStart_toStartOf="@id/tv_write"
+        app:layout_constraintTop_toTopOf="@id/tv_write"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_write"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:fontFamily="@font/namsan"
+        android:paddingStart="0dp"
+        android:paddingEnd="10dp"
+        android:text="@string/text_write"
+        android:textColor="@android:color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_write"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/drawable_rectangle_plan_edit"
+        android:fontFamily="@font/namsan"
+        android:hint="@string/hint_write"
+        android:maxHeight="200dp"
+        android:minHeight="60dp"
+        android:padding="10dp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_write"
+        tools:ignore="Autofill,LabelFor,TextFields" />
+
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/namsan"
+        android:textColor="@color/text_allowed_count"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/et_write"
+        app:layout_constraintEnd_toEndOf="@id/et_write"
+        tools:text="0 / 500" />
+
+    <View
+        android:id="@+id/view_under_line_write"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/background_add_plan_possible"
+        app:layout_constraintBottom_toBottomOf="@id/et_write"
+        app:layout_constraintEnd_toEndOf="@id/et_write"
+        app:layout_constraintStart_toStartOf="@id/et_write" />
+
+</android.support.constraint.ConstraintLayout>

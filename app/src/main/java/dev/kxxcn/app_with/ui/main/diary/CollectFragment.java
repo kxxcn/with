@@ -29,7 +29,7 @@ import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.LayoutUtils;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
-import static dev.kxxcn.app_with.data.remote.APIPersistence.DOWNLOAD_IMAGE_URL;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.IMAGES_URL;
 import static dev.kxxcn.app_with.util.Constants.COLOR_IMGS;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
 import static dev.kxxcn.app_with.util.Constants.OPTION_SAMPLING;
@@ -99,7 +99,7 @@ public class CollectFragment extends Fragment {
             } else {
                 blurOptions = new RequestOptions().centerCrop();
             }
-            ImageProcessingHelper.setGlide(mContext, String.format(getString(R.string.param_download_image_url), DOWNLOAD_IMAGE_URL, mDiary.getGalleryName()), iv_background, blurOptions);
+            ImageProcessingHelper.setGlide(mContext, String.format(getString(R.string.param_download_image_url), IMAGES_URL, mDiary.getGalleryName()), iv_background, blurOptions);
         }
         if (mDiary.getFontStyle() != -1) {
             if (mDiary.getFontStyle() < FONTS.length) {

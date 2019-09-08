@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_app">
+
+    <TextView
+        android:id="@+id/tv_diary"
+        style="@style/WithTextView"
+        android:layout_margin="15dp"
+        android:text="@string/text_write"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/ic_add"
+        android:tint="@color/secondary_icon"
+        app:layout_constraintBottom_toBottomOf="@id/tv_diary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_diary"
+        tools:ignore="ContentDescription" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_main_diary"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="20dp"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_diary" />
+
+    <LinearLayout
+        android:id="@+id/ll_not_found_diary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/rv_main_diary"
+        app:layout_constraintEnd_toEndOf="@id/rv_main_diary"
+        app:layout_constraintStart_toStartOf="@id/rv_main_diary"
+        app:layout_constraintTop_toTopOf="@id/rv_main_diary"
+        app:layout_constraintVertical_bias="0.4"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_not_found"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            style="@style/WithTextView"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/text_not_found_diary"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_recently_plan"
+        style="@style/WithTextView"
+        android:layout_margin="15dp"
+        android:text="@string/text_recently_plan"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_main_diary" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_plan"
+        android:tint="@color/secondary_icon"
+        app:layout_constraintBottom_toBottomOf="@id/tv_recently_plan"
+        app:layout_constraintEnd_toEndOf="@id/iv_add"
+        app:layout_constraintTop_toTopOf="@id/tv_recently_plan"
+        tools:ignore="ContentDescription" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_main_plan"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layoutAnimation="@anim/layout_fall_down"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_recently_plan" />
+
+    <LinearLayout
+        android:id="@+id/ll_not_found_plan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/rv_main_plan"
+        app:layout_constraintEnd_toEndOf="@id/rv_main_plan"
+        app:layout_constraintStart_toStartOf="@id/rv_main_plan"
+        app:layout_constraintTop_toTopOf="@id/rv_main_plan"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_not_found"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            style="@style/WithTextView"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/text_not_found_plan"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

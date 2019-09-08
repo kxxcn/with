@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:background="@color/background_plan_for_this_month">
+
+    <TextView
+        android:id="@+id/tv_day"
+        style="@style/WithTextView"
+        android:layout_marginStart="20dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/tv_plan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_time"
+        tools:text="10" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        style="@style/WithTextView"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@id/tv_day"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="5PM" />
+
+    <TextView
+        android:id="@+id/tv_place"
+        style="@style/WithTextView"
+        android:layout_width="0dp"
+        android:layout_marginStart="5dp"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_time"
+        app:layout_constraintTop_toTopOf="@id/tv_time"
+        tools:text="House" />
+
+    <TextView
+        android:id="@+id/tv_plan"
+        style="@style/WithTextView"
+        android:layout_width="0dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_time"
+        app:layout_constraintTop_toBottomOf="@id/tv_time"
+        tools:text="Running" />
+
+</android.support.constraint.ConstraintLayout>

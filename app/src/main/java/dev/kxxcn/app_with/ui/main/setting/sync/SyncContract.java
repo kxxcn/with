@@ -7,15 +7,18 @@ import dev.kxxcn.app_with.ui.BaseView;
  * Created by kxxcn on 2019-03-26.
  */
 public interface SyncContract {
-	interface View extends BaseView<Presenter> {
-		void showSuccessfulSync();
 
-		void showUnsuccessfulSync(String response);
+    interface View extends BaseView<Presenter> {
+        void showSuccessfulSync();
 
-		void showFailedRequest(String throwable);
-	}
+        void showUnsuccessfulSync(String response);
 
-	interface Presenter extends BasePresenter {
-		void sync(String uniqueIdentifier, String key);
-	}
+        void showFailedRequest(String throwable);
+    }
+
+    interface Presenter extends BasePresenter {
+        void release();
+
+        void sync(String uniqueIdentifier, String key);
+    }
 }

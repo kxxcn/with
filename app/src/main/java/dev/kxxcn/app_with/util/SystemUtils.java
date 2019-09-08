@@ -31,135 +31,136 @@ import static dev.kxxcn.app_with.util.Constants.TAG;
  * Created by kxxcn on 2018-08-13.
  */
 public class SystemUtils {
-	public static class Dlog {
-		/* ERROR */
-		public static final void e(String message) {
-			if (BuildConfig.DEBUG) Log.e(TAG, buildLogMsg(message));
-		}
 
-		/* WARNING */
-		public static final void w(String message) {
-			if (BuildConfig.DEBUG) Log.w(TAG, buildLogMsg(message));
-		}
+    private static final String WAKELOCK_TAG = "wakelock:";
 
-		/* INFORMATION */
-		public static final void i(String message) {
-			if (BuildConfig.DEBUG) Log.i(TAG, buildLogMsg(message));
-		}
+    public static String getDate() {
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat format = new SimpleDateFormat(SIMPLE_DATE_FORMAT, Locale.KOREA);
+        return format.format(date);
+    }
 
-		/* DEBUG */
-		public static final void d(String message) {
-			if (BuildConfig.DEBUG) Log.d(TAG, buildLogMsg(message));
-		}
+    public static void onFinish(Activity activity) {
+        ActivityCompat.finishAffinity(activity);
+    }
 
-		/* VERBOSE */
-		public static final void v(String message) {
-			if (BuildConfig.DEBUG) Log.v(TAG, buildLogMsg(message));
-		}
+    public static void displayError(Context context, String className, String message) {
+        Dlog.e(String.format(context.getString(R.string.format_failed_request), className, message));
+    }
 
-		private static String buildLogMsg(String message) {
-			StackTraceElement ste = Thread.currentThread().getStackTrace()[4];
+    public static void addOnGlobalLayoutListener(Activity activity, View root, MainContract.OnKeyboardListener listener) {
+        ViewTreeObserver.OnGlobalLayoutListener mGlobalListener = () -> {
+            Rect r = new Rect();
+            root.getWindowVisibleDisplayFrame(r);
 
-			StringBuilder sb = new StringBuilder();
+            int heightDiff = root.getRootView().getHeight() - (r.bottom - r.top);
 
-			sb.append("[");
-			sb.append(ste.getFileName().replace(".java", ""));
-			sb.append("::");
-			sb.append(ste.getMethodName());
-			sb.append("] ");
-			sb.append(message);
+            Rect CheckRect = new Rect();
+            Window window = activity.getWindow();
+            window.getDecorView().getWindowVisibleDisplayFrame(CheckRect);
+            int statusBarHeight = CheckRect.top;
 
-			return sb.toString();
-		}
-	}
+            int keyboardThreshold = statusBarHeight + getSoftButtonsBarHeight(activity);
 
-	public static String getDate() {
-		long now = System.currentTimeMillis();
-		Date date = new Date(now);
-		SimpleDateFormat format = new SimpleDateFormat(SIMPLE_DATE_FORMAT, Locale.KOREA);
-		return format.format(date);
-	}
+            int keyboardHeight = heightDiff - keyboardThreshold;
+            if (keyboardHeight > 0) {
+                listener.onHideKeyboard();
+            } else {
+                listener.onShowKeyboard();
+            }
+        };
+        root.getViewTreeObserver().addOnGlobalLayoutListener(mGlobalListener);
+    }
 
-	public static void onFinish(Activity activity) {
-		ActivityCompat.finishAffinity(activity);
-	}
+    private static int getSoftButtonsBarHeight(Activity activity) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int usableHeight = metrics.heightPixels;
+        activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        int realHeight = metrics.heightPixels;
+        if (realHeight > usableHeight)
+            return realHeight - usableHeight;
+        else
+            return 0;
+    }
 
-	public static void displayError(Context context, String className, String message) {
-		Dlog.e(String.format(context.getString(R.string.format_failed_request), className, message));
-	}
+    public static String getRawFile(Context context, int resource, String charsetName) {
+        String data = null;
+        InputStream is = context.getResources().openRawResource(resource);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        int i;
+        try {
+            i = is.read();
+            while (i != -1) {
+                byteArrayOutputStream.write(i);
+                i = is.read();
+            }
+            data = new String(byteArrayOutputStream.toByteArray(), charsetName);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
 
-	public static void addOnGlobalLayoutListener(Activity activity, View root, MainContract.OnKeyboardListener listener) {
-		ViewTreeObserver.OnGlobalLayoutListener mGlobalListener = () -> {
-			Rect r = new Rect();
-			root.getWindowVisibleDisplayFrame(r);
+    public static void onAcquire(Context context) {
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        if (pm != null) {
+            PowerManager.WakeLock wakeLock = pm.newWakeLock(
+                    PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, WAKELOCK_TAG
+            );
+            wakeLock.acquire(3000);
+            wakeLock.release();
+        }
+    }
 
-			int heightDiff = root.getRootView().getHeight() - (r.bottom - r.top);
+    public static void onVibrate(Context context, long time) {
+        Vibrator vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
+        if (vibrator != null) {
+            vibrator.vibrate(time);
+        }
+    }
 
-			Rect CheckRect = new Rect();
-			Window window = activity.getWindow();
-			window.getDecorView().getWindowVisibleDisplayFrame(CheckRect);
-			int statusBarHeight = CheckRect.top;
+    public static class Dlog {
+        /* ERROR */
+        public static final void e(String message) {
+            if (BuildConfig.DEBUG) Log.e(TAG, buildLogMsg(message));
+        }
 
-			int keyboardThreshold = statusBarHeight + getSoftButtonsBarHeight(activity);
+        /* WARNING */
+        public static final void w(String message) {
+            if (BuildConfig.DEBUG) Log.w(TAG, buildLogMsg(message));
+        }
 
-			int keyboardHeight = heightDiff - keyboardThreshold;
-			if (keyboardHeight != 0) {
-				listener.onHideKeyboard();
-			} else {
-				listener.onShowKeyboard();
-			}
-		};
-		root.getViewTreeObserver().addOnGlobalLayoutListener(mGlobalListener);
-	}
+        /* INFORMATION */
+        public static final void i(String message) {
+            if (BuildConfig.DEBUG) Log.i(TAG, buildLogMsg(message));
+        }
 
-	private static int getSoftButtonsBarHeight(Activity activity) {
-		DisplayMetrics metrics = new DisplayMetrics();
-		activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		int usableHeight = metrics.heightPixels;
-		activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-		int realHeight = metrics.heightPixels;
-		if (realHeight > usableHeight)
-			return realHeight - usableHeight;
-		else
-			return 0;
-	}
+        /* DEBUG */
+        public static final void d(String message) {
+            if (BuildConfig.DEBUG) Log.d(TAG, buildLogMsg(message));
+        }
 
-	public static String getRawFile(Context context, int resource, String charsetName) {
-		String data = null;
-		InputStream is = context.getResources().openRawResource(resource);
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		int i;
-		try {
-			i = is.read();
-			while (i != -1) {
-				byteArrayOutputStream.write(i);
-				i = is.read();
-			}
-			data = new String(byteArrayOutputStream.toByteArray(), charsetName);
-			is.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return data;
-	}
+        /* VERBOSE */
+        public static final void v(String message) {
+            if (BuildConfig.DEBUG) Log.v(TAG, buildLogMsg(message));
+        }
 
-	private static final String WAKELOCK_TAG = "wakelock:";
+        private static String buildLogMsg(String message) {
+            StackTraceElement ste = Thread.currentThread().getStackTrace()[4];
 
-	public static void onAcquire(Context context) {
-		PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-		if (pm != null) {
-			PowerManager.WakeLock wakeLock = pm.newWakeLock(
-					PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, WAKELOCK_TAG
-			);
-			wakeLock.acquire(3000);
-			wakeLock.release();
-		}
-	}
+            StringBuilder sb = new StringBuilder();
 
-	public static void onVibrate(Context context, long time) {
-		Vibrator vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
-		if (vibrator != null) {
-			vibrator.vibrate(time);
-		}
-	}
+            sb.append("[");
+            sb.append(ste.getFileName().replace(".java", ""));
+            sb.append("::");
+            sb.append(ste.getMethodName());
+            sb.append("] ");
+            sb.append(message);
+
+            return sb.toString();
+        }
+    }
 }

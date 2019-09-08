@@ -13,25 +13,34 @@ import dev.kxxcn.app_with.ui.BaseView;
  * Created by kxxcn on 2018-10-01.
  */
 public interface PlanContract {
-	interface View extends BaseView<Presenter> {
-		void showSuccessfulLoadPlan(List<Plan> planList, List<String> idsList);
 
-		void showFailedRequest(String throwable);
+    interface View extends BaseView<Presenter> {
+        void showSuccessfulLoadPlan(List<Plan> planList, List<String> idsList);
 
-		void showSuccessfulRemovePlan();
-	}
+        void showFailedRequest(String throwable);
 
-	interface Presenter extends BasePresenter {
-		void subscribeIds(String identifier);
+        void showSuccessfulRemovePlan();
+    }
 
-		void loadPlan(String identifier);
+    interface Presenter extends BasePresenter {
+        void subscribeIds(String identifier);
 
-		ArrayList<CalendarDay> setEvents(List<Plan> planList);
+        void loadPlan(String identifier);
 
-		void deletePlan(int id);
-	}
+        ArrayList<CalendarDay> setEvents(List<Plan> planList);
 
-	interface OnRegistrationCallback {
-		void onRegistrationCallback();
-	}
+        void deletePlan(int id);
+
+        void registerPlan(Plan plan);
+
+        void release();
+    }
+
+    interface OnRegistrationCallback {
+        void onRegistrationCallback();
+    }
+
+    interface OnClickDateCallback {
+        void onClickDate(String date);
+    }
 }

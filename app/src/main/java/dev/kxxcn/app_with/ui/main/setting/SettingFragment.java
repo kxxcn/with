@@ -42,316 +42,290 @@ import dev.kxxcn.app_with.util.threading.UiThread;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
 import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_CURRENT;
 import static dev.kxxcn.app_with.ui.main.setting.version.VersionActivity.EXTRA_LATEST;
 import static dev.kxxcn.app_with.util.Constants.DELAY_SIGN_OUT;
 import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
-import static dev.kxxcn.app_with.util.Constants.KEY_HOMOSEXUAL;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
-import static dev.kxxcn.app_with.util.Constants.KEY_MODE;
 
 /**
  * Created by kxxcn on 2018-08-13.
  */
 public class SettingFragment extends Fragment implements SettingContract.View {
 
-	private static final int REQ_PROFILE = 0;
-	private static final int REQ_LOCK = 1;
+    public static final String PREF_TOKEN = "PREF_TOKEN";
+    private static final int REQ_PROFILE = 0;
+    private static final int REQ_LOCK = 1;
+    private static final String STAT_EXIST = "0";
+    private static final String STAT_NOT_EXIST = "1";
+    @BindView(R.id.tb_lock)
+    ToggleButton tb_lock;
+    @BindView(R.id.tb_notice_with)
+    ToggleButton tb_notice_with;
+    @BindView(R.id.tb_notice)
+    ToggleButton tb_notice;
+    @BindView(R.id.tb_notice_event)
+    ToggleButton tb_notice_event;
 
-	private static final String STAT_EXIST = "0";
-	private static final String STAT_NOT_EXIST = "1";
+    @BindView(R.id.tv_version)
+    TextView tv_version;
+    @BindView(R.id.tv_sync)
+    TextView tv_sync;
 
-	public static final String PREF_TOKEN = "PREF_TOKEN";
+    @BindView(R.id.iv_new)
+    ImageView iv_new;
+    @BindView(R.id.iv_sync)
+    ImageView iv_sync;
 
-	@BindView(R.id.tb_lock)
-	ToggleButton tb_lock;
-	@BindView(R.id.tb_notice_with)
-	ToggleButton tb_notice_with;
-	@BindView(R.id.tb_notice)
-	ToggleButton tb_notice;
-	@BindView(R.id.tb_notice_event)
-	ToggleButton tb_notice_event;
+    @BindView(R.id.divider_sync)
+    View divider_sync;
 
-	@BindView(R.id.tv_version)
-	TextView tv_version;
-	@BindView(R.id.tv_sync)
-	TextView tv_sync;
+    @BindView(R.id.sv_loading)
+    SpinKitView sv_loading;
 
-	@BindView(R.id.iv_new)
-	ImageView iv_new;
-	@BindView(R.id.iv_sync)
-	ImageView iv_sync;
+    private Activity mActivity;
 
-	@BindView(R.id.divider_sync)
-	View divider_sync;
+    private Context mContext;
 
-	@BindView(R.id.sv_loading)
-	SpinKitView sv_loading;
+    private SettingContract.Presenter mPresenter;
 
-	private Activity mActivity;
+    private SharedPreferences preferences;
 
-	private Context mContext;
+    private Bundle args;
 
-	private SettingContract.Presenter mPresenter;
+    private MainContract.OnRegisteredNickname nicknameListener;
 
-	private SharedPreferences preferences;
+    private String mCurrentVersion;
+    private String mLatestVersion;
 
-	private Bundle args;
+    private boolean isResponse = false;
+    private DialogInterface.OnClickListener positiveListener = (DialogInterface dialog, int which) ->
+            mPresenter.unregisterLock(args.getString(KEY_IDENTIFIER));
+    private DialogInterface.OnClickListener negativeListener = (DialogInterface dialog, int which) ->
+            tb_lock.setToggleOn();
 
-	private MainContract.OnRegisteredNickname nicknameListener;
+    public static SettingFragment newInstance(String identifier) {
+        SettingFragment fragment = new SettingFragment();
 
-	private String mCurrentVersion;
-	private String mLatestVersion;
+        Bundle args = new Bundle();
+        args.putString(KEY_IDENTIFIER, identifier);
+        fragment.setArguments(args);
 
-	private boolean isResponse = false;
+        return fragment;
+    }
 
-	@Override
-	public void setPresenter(SettingContract.Presenter presenter) {
-		this.mPresenter = presenter;
-	}
+    @Override
+    public void setPresenter(SettingContract.Presenter presenter) {
+        this.mPresenter = presenter;
+    }
 
-	@Override
-	public void showLoadingIndicator(boolean isShowing) {
-		if (isShowing) {
-			sv_loading.setVisibility(View.VISIBLE);
-		} else {
-			sv_loading.setVisibility(View.GONE);
-		}
-	}
+    @Override
+    public void showLoadingIndicator(boolean isShowing) {
+        if (isShowing) {
+            sv_loading.setVisibility(View.VISIBLE);
+        } else {
+            sv_loading.setVisibility(View.GONE);
+        }
+    }
 
-	public static SettingFragment newInstance(int mode, boolean gender, String identifier, boolean isHomosexual) {
-		SettingFragment fragment = new SettingFragment();
+    public void setOnRegisteredNickname(MainContract.OnRegisteredNickname listener) {
+        this.nicknameListener = listener;
+    }
 
-		Bundle args = new Bundle();
-		args.putInt(KEY_MODE, mode);
-		args.putBoolean(KEY_GENDER, gender);
-		args.putString(KEY_IDENTIFIER, identifier);
-		args.putBoolean(KEY_HOMOSEXUAL, isHomosexual);
-		fragment.setArguments(args);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
 
-		return fragment;
-	}
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-	public void setOnRegisteredNickname(MainContract.OnRegisteredNickname listener) {
-		this.nicknameListener = listener;
-	}
+        new SettingPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
-	@Nullable
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_setting, container, false);
-		ButterKnife.bind(this, view);
+        args = getArguments();
 
-		new SettingPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
+        String identifier = null;
+        if (args != null) {
+            identifier = args.getString(KEY_IDENTIFIER);
+        }
 
-		args = getArguments();
+        if (identifier != null) {
+            String finalIdentifier = identifier;
+            mPresenter.getNotificationInformation(finalIdentifier);
+            mPresenter.checkVersion(mContext.getPackageName());
+            tb_lock.setOnToggleChanged(on -> {
+                if (on) {
+                    Intent intent = new Intent(mActivity, LockActivity.class);
+                    intent.putExtra(LockActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
+                    startActivityForResult(intent, REQ_LOCK);
+                } else {
+                    DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_lock), positiveListener, negativeListener);
+                }
+            });
+            tb_notice_with.setOnToggleChanged(on -> mPresenter.whetherToReceiveNotification(finalIdentifier, Constants.NotificationFilter.NOTICE_WITH, on));
+            tb_notice.setOnToggleChanged(on -> mPresenter.whetherToReceiveNotification(finalIdentifier, Constants.NotificationFilter.NOTICE, on));
+            tb_notice_event.setOnToggleChanged(on -> mPresenter.whetherToReceiveNotification(finalIdentifier, Constants.NotificationFilter.NOTICE_EVENT, on));
 
-		String identifier = null;
-		if (args != null) {
-			identifier = args.getString(KEY_IDENTIFIER);
-		}
+            preferences = mContext.getSharedPreferences(getString(R.string.app_name_en), Context.MODE_PRIVATE);
+            String newToken = preferences.getString(PREF_TOKEN, null);
+            if (newToken != null) {
+                mPresenter.updateToken(finalIdentifier, newToken);
+            }
+        }
+    }
 
-		if (identifier != null) {
-			String finalIdentifier = identifier;
-			mPresenter.getNotificationInformation(finalIdentifier);
-			mPresenter.checkVersion(mContext.getPackageName());
-			tb_lock.setOnToggleChanged(on -> {
-				if (on) {
-					Intent intent = new Intent(mActivity, LockActivity.class);
-					intent.putExtra(LockActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
-					startActivityForResult(intent, REQ_LOCK);
-				} else {
-					DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_delete_lock), positiveListener, negativeListener);
-				}
-			});
-			tb_notice_with.setOnToggleChanged(on -> mPresenter.whetherToReceiveNotification(finalIdentifier, Constants.NotificationFilter.NOTICE_WITH, on));
-			tb_notice.setOnToggleChanged(on -> mPresenter.whetherToReceiveNotification(finalIdentifier, Constants.NotificationFilter.NOTICE, on));
-			tb_notice_event.setOnToggleChanged(on -> mPresenter.whetherToReceiveNotification(finalIdentifier, Constants.NotificationFilter.NOTICE_EVENT, on));
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+        if (context instanceof Activity) {
+            mActivity = (Activity) context;
+        }
+    }
 
-			preferences = mContext.getSharedPreferences(getString(R.string.app_name_en), Context.MODE_PRIVATE);
-			String newToken = preferences.getString(PREF_TOKEN, null);
-			if (newToken != null) {
-				mPresenter.updateToken(finalIdentifier, newToken);
-			}
-		}
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.checkNewNotice(args.getString(KEY_IDENTIFIER));
+    }
 
-		initUI();
+    @OnClick({R.id.tv_profile, R.id.iv_profile})
+    public void onProfile() {
+        Intent intent = new Intent(mActivity, ProfileActivity.class);
+        intent.putExtra(ProfileActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
+        startActivityForResult(intent, REQ_PROFILE);
+    }
 
-		return view;
-	}
+    @OnClick({R.id.tv_notify, R.id.iv_notify})
+    public void onNotice() {
+        Intent intent = new Intent(mActivity, NoticeActivity.class);
+        intent.putExtra(NoticeActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
+        startActivity(intent);
+    }
 
-	@Override
-	public void onAttach(Context context) {
-		super.onAttach(context);
-		mContext = context;
-		if (context instanceof Activity) {
-			mActivity = (Activity) context;
-		}
-	}
+    @OnClick({R.id.tv_information, R.id.iv_information})
+    public void onInformation() {
+        if (isResponse) {
+            Intent intent = new Intent(mActivity, VersionActivity.class);
+            intent.putExtra(EXTRA_CURRENT, mCurrentVersion);
+            intent.putExtra(EXTRA_LATEST, mLatestVersion);
+            startActivity(intent);
+        } else {
+            Toast.makeText(mContext, getString(R.string.toast_search_version), Toast.LENGTH_SHORT).show();
+        }
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		mPresenter.checkNewNotice(args.getString(KEY_IDENTIFIER));
-	}
+    @OnClick({R.id.tv_sign_out, R.id.iv_sign_out})
+    public void onSignOut() {
+        DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_want_to_sign_out),
+                (dialog, which) -> mPresenter.signOut(args.getString(KEY_IDENTIFIER)), null);
+    }
 
-	private void initUI() {
-		if (args.getInt(KEY_MODE) == SOLO) {
-			tv_sync.setVisibility(View.GONE);
-			iv_sync.setVisibility(View.GONE);
-			divider_sync.setVisibility(View.GONE);
-		}
-	}
+    @OnClick({R.id.tv_sync, R.id.iv_sync})
+    public void showSyncActivity() {
+        Intent intent = new Intent(mActivity, SyncActivity.class);
+        intent.putExtra(SyncActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
+        startActivity(intent);
+    }
 
-	@OnClick({R.id.tv_profile, R.id.iv_profile})
-	public void onProfile() {
-		Intent intent = new Intent(mActivity, ProfileActivity.class);
-		intent.putExtra(ProfileActivity.EXTRA_MODE, args.getInt(KEY_MODE));
-		intent.putExtra(ProfileActivity.EXTRA_GENDER, args.getBoolean(KEY_GENDER));
-		intent.putExtra(ProfileActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
-		intent.putExtra(ProfileActivity.EXTRA_HOMOSEXUAL, args.getBoolean(KEY_HOMOSEXUAL));
-		startActivityForResult(intent, REQ_PROFILE);
-	}
+    @Override
+    public void showSuccessfulLoadUserInformation(ResponseSetting response) {
+        if (isAdded()) {
+            int noticeWith = response.getNoticeWith();
+            int notice = response.getNotice();
+            int noticeEvent = response.getNoticeEvent();
+            SharedPreferences preferences = mContext.getSharedPreferences(getString(R.string.app_name_en), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(MyFirebaseMessagingService.KEY_NOTICE_WITH, noticeWith);
+            editor.putInt(MyFirebaseMessagingService.KEY_NOTICE, notice);
+            editor.putInt(MyFirebaseMessagingService.KEY_NOTICE_EVENT, noticeEvent);
+            editor.apply();
+            if (noticeWith == 0) {
+                tb_notice_with.setToggleOff();
+            }
+            if (notice == 0) {
+                tb_notice.setToggleOff();
+            }
+            if (noticeEvent == 0) {
+                tb_notice_event.setToggleOff();
+            }
+            if (TextUtils.isEmpty(response.getDiaryLock())) {
+                tb_lock.setToggleOff();
+            }
+        }
+    }
 
-	@OnClick({R.id.tv_notify, R.id.iv_notify})
-	public void onNotice() {
-		Intent intent = new Intent(mActivity, NoticeActivity.class);
-		intent.putExtra(NoticeActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
-		startActivity(intent);
-	}
+    @Override
+    public void showSuccessfulUpdateNotification() {
+        mPresenter.getNotificationInformation(args.getString(KEY_IDENTIFIER));
+    }
 
-	@OnClick({R.id.tv_information, R.id.iv_information})
-	public void onInformation() {
-		if (isResponse) {
-			Intent intent = new Intent(mActivity, VersionActivity.class);
-			intent.putExtra(EXTRA_CURRENT, mCurrentVersion);
-			intent.putExtra(EXTRA_LATEST, mLatestVersion);
-			startActivity(intent);
-		} else {
-			Toast.makeText(mContext, getString(R.string.toast_search_version), Toast.LENGTH_SHORT).show();
-		}
-	}
+    @Override
+    public void showSuccessfulUpdateToken() {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(PREF_TOKEN, null);
+        editor.apply();
+    }
 
-	@OnClick({R.id.tv_sign_out, R.id.iv_sign_out})
-	public void onSignOut() {
-		DialogUtils.showAlertDialog(mContext, getString(R.string.dialog_want_to_sign_out),
-				(dialog, which) -> mPresenter.signOut(args.getString(KEY_IDENTIFIER)), null);
-	}
+    @Override
+    public void showFailedRequest(String throwable) {
+        SystemUtils.displayError(mContext, getClass().getName(), throwable);
+    }
 
-	@OnClick({R.id.tv_sync, R.id.iv_sync})
-	public void showSyncActivity() {
-		Intent intent = new Intent(mActivity, SyncActivity.class);
-		intent.putExtra(SyncActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
-		startActivity(intent);
-	}
+    @Override
+    public void showSuccessfulCheckVersion(String latestVersion) {
+        if (isAdded()) {
+            isResponse = true;
+            mLatestVersion = latestVersion;
+            try {
+                mCurrentVersion = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
+                if (mCurrentVersion.equals(latestVersion)) {
+                    UiThread.getInstance().post(() -> tv_version.setText(getString(R.string.text_latest)));
+                } else {
+                    UiThread.getInstance().post(() -> tv_version.setText(getString(R.string.text_update)));
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-	@Override
-	public void showSuccessfulLoadUserInformation(ResponseSetting response) {
-		if (isAdded()) {
-			int noticeWith = response.getNoticeWith();
-			int notice = response.getNotice();
-			int noticeEvent = response.getNoticeEvent();
-			SharedPreferences preferences = mContext.getSharedPreferences(getString(R.string.app_name_en), Context.MODE_PRIVATE);
-			SharedPreferences.Editor editor = preferences.edit();
-			editor.putInt(MyFirebaseMessagingService.KEY_NOTICE_WITH, noticeWith);
-			editor.putInt(MyFirebaseMessagingService.KEY_NOTICE, notice);
-			editor.putInt(MyFirebaseMessagingService.KEY_NOTICE_EVENT, noticeEvent);
-			editor.apply();
-			if (noticeWith == 0) {
-				tb_notice_with.setToggleOff();
-			}
-			if (notice == 0) {
-				tb_notice.setToggleOff();
-			}
-			if (noticeEvent == 0) {
-				tb_notice_event.setToggleOff();
-			}
-			if (TextUtils.isEmpty(response.getDiaryLock())) {
-				tb_lock.setToggleOff();
-			}
-		}
-	}
+    @Override
+    public void showUnsuccessfulCheckVersion() {
+        if (isAdded()) {
+            UiThread.getInstance().post(() -> tv_version.setText(getString(R.string.text_failure_load_version)));
+        }
+    }
 
-	@Override
-	public void showSuccessfulUpdateNotification() {
-		mPresenter.getNotificationInformation(args.getString(KEY_IDENTIFIER));
-	}
+    @Override
+    public void showSuccessfulSignOut(String stat) {
+        Toast.makeText(mActivity, stat, Toast.LENGTH_SHORT).show();
+        UiThread.getInstance().postDelayed(() -> SystemUtils.onFinish(mActivity), DELAY_SIGN_OUT);
+    }
 
-	@Override
-	public void showSuccessfulUpdateToken() {
-		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString(PREF_TOKEN, null);
-		editor.apply();
-	}
+    @Override
+    public void showSuccessfulCheckNewNotice(String stat) {
+        if (stat.equals(STAT_EXIST)) {
+            iv_new.setVisibility(View.VISIBLE);
+        } else if (stat.equals(STAT_NOT_EXIST)) {
+            iv_new.setVisibility(View.GONE);
+        }
+    }
 
-	@Override
-	public void showFailedRequest(String throwable) {
-		SystemUtils.displayError(mContext, getClass().getName(), throwable);
-	}
-
-	@Override
-	public void showSuccessfulCheckVersion(String latestVersion) {
-		if (isAdded()) {
-			isResponse = true;
-			mLatestVersion = latestVersion;
-			try {
-				mCurrentVersion = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
-				if (mCurrentVersion.equals(latestVersion)) {
-					UiThread.getInstance().post(() -> tv_version.setText(getString(R.string.text_latest)));
-				} else {
-					UiThread.getInstance().post(() -> tv_version.setText(getString(R.string.text_update)));
-				}
-			} catch (PackageManager.NameNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	@Override
-	public void showUnsuccessfulCheckVersion() {
-		if (isAdded()) {
-			UiThread.getInstance().post(() -> tv_version.setText(getString(R.string.text_failure_load_version)));
-		}
-	}
-
-	@Override
-	public void showSuccessfulSignOut(String stat) {
-		Toast.makeText(mActivity, stat, Toast.LENGTH_SHORT).show();
-		UiThread.getInstance().postDelayed(() -> SystemUtils.onFinish(mActivity), DELAY_SIGN_OUT);
-	}
-
-	@Override
-	public void showSuccessfulCheckNewNotice(String stat) {
-		if (stat.equals(STAT_EXIST)) {
-			iv_new.setVisibility(View.VISIBLE);
-		} else if (stat.equals(STAT_NOT_EXIST)) {
-			iv_new.setVisibility(View.GONE);
-		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			switch (requestCode) {
-				case REQ_PROFILE:
-					nicknameListener.onRegisteredNickname(args.getBoolean(KEY_GENDER) ? 0 : 1);
-					break;
-			}
-		} else if (resultCode == RESULT_CANCELED) {
-			switch (requestCode) {
-				case REQ_LOCK:
-					tb_lock.setToggleOff();
-					break;
-			}
-		}
-	}
-
-	private DialogInterface.OnClickListener positiveListener = (DialogInterface dialog, int which) ->
-			mPresenter.unregisterLock(args.getString(KEY_IDENTIFIER));
-
-	private DialogInterface.OnClickListener negativeListener = (DialogInterface dialog, int which) ->
-			tb_lock.setToggleOn();
-
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQ_PROFILE) {
+                nicknameListener.onRegisteredNickname(args.getBoolean(KEY_GENDER) ? 0 : 1);
+            }
+        } else if (resultCode == RESULT_CANCELED) {
+            if (requestCode == REQ_LOCK) {
+                tb_lock.setToggleOff();
+            }
+        }
+    }
 }
