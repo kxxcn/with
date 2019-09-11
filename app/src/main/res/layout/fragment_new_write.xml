@@ -142,10 +142,22 @@
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:background="@drawable/ic_font"
-                    android:backgroundTint="@color/tint_place"
+                    android:backgroundTint="@color/tint_font"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toStartOf="@id/ib_date"
+                    app:layout_constraintStart_toEndOf="@id/ib_weather"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <ImageButton
+                    android:id="@+id/ib_date"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_calendar"
+                    android:backgroundTint="@color/tint_calendar"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ib_weather"
+                    app:layout_constraintStart_toEndOf="@id/ib_font"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
 
@@ -178,6 +190,17 @@
                     android:background="@drawable/drawable_oval_selected"
                     android:visibility="invisible"
                     app:layout_constraintCircle="@id/ib_font"
+                    app:layout_constraintCircleAngle="180"
+                    app:layout_constraintCircleRadius="25dp"
+                    tools:ignore="ContentDescription,MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/iv_select_date"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:background="@drawable/drawable_oval_selected"
+                    android:visibility="invisible"
+                    app:layout_constraintCircle="@id/ib_date"
                     app:layout_constraintCircleAngle="180"
                     app:layout_constraintCircleRadius="25dp"
                     tools:ignore="ContentDescription,MissingConstraints" />
@@ -406,6 +429,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:src="@drawable/ic_done"
+        android:visibility="gone"
         app:backgroundTint="@android:color/white"
         app:layout_anchor="@id/rl_items"
         app:layout_anchorGravity="end" />

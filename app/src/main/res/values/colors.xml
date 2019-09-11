@@ -151,5 +151,6 @@
 
     <color name="tint_photo">#efcb9d</color>
     <color name="tint_weather">#c0b1ec</color>
-    <color name="tint_place">#ee809f</color>
+    <color name="tint_font">#ee809f</color>
+    <color name="tint_calendar">#1de9b6</color>
 </resources>

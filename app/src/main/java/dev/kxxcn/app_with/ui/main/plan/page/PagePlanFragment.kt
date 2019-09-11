@@ -62,6 +62,8 @@ class PagePlanFragment : Fragment() {
             et_plan?.text = SpannableStringBuilder(it)
             et_plan?.setSelection(it.length)
         }
+
+        et_plan.requestFocus()
     }
 
     fun setPublishSubject(_subject: PublishSubject<String>) {

@@ -50,8 +50,12 @@ class NewMainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        KeyboardUtils.hideKeyboard(this, currentFocus)
-        cl_main.openDrawer(DRAWER_GRAVITY_START)
+        when (item?.itemId) {
+            android.R.id.home -> {
+                KeyboardUtils.hideKeyboard(this, currentFocus)
+                cl_main.openDrawer(DRAWER_GRAVITY_START)
+            }
+        }
         return super.onOptionsItemSelected(item)
     }
 

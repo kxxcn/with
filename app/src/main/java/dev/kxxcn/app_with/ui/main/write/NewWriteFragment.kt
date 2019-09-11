@@ -11,14 +11,12 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
 import android.text.SpannableStringBuilder
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.view.*
 import android.widget.Toast
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -36,6 +34,8 @@ import dev.kxxcn.app_with.data.remote.RemoteDataSource
 import dev.kxxcn.app_with.ui.BasePresenter
 import dev.kxxcn.app_with.ui.main.MainContract
 import dev.kxxcn.app_with.ui.main.NewMainActivity
+import dev.kxxcn.app_with.ui.main.plan.DatePickerFragment
+import dev.kxxcn.app_with.ui.main.plan.PlanContract
 import dev.kxxcn.app_with.util.*
 import dev.kxxcn.app_with.util.Constants.*
 import dev.kxxcn.app_with.util.TransitionUtils.startAnimationEditText
@@ -50,7 +50,8 @@ import org.jetbrains.anko.sdk27.coroutines.onFocusChange
 import org.jetbrains.anko.support.v4.toast
 import java.io.File
 
-class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>, MainContract.OnKeyboardListener {
+class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>, MainContract.OnKeyboardListener,
+        PlanContract.OnClickDateCallback {
 
     private var places = arrayListOf<String?>()
 
@@ -79,6 +80,8 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
 
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
 
+    private var datePickerFragment: DatePickerFragment? = null
+
     private var options = RequestOptions()
 
     private var interstitialAd: InterstitialAd? = null
@@ -89,11 +92,26 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         setupArguments()
         setupPresenter()
         setupListener()
         initUI()
         // setupGeocode()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_write, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_register -> {
+                registerDiary()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {
@@ -216,10 +234,17 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         }
     }
 
+    override fun onClickDate(date: String?) {
+        iv_select_date.visibility = View.VISIBLE
+        diaryDate = date
+        Snackbar.make(cdl_root, SpannableStringBuilder(date), Snackbar.LENGTH_SHORT).show()
+    }
+
     private fun setupListener() {
         ib_photo.onClick { showImagePicker() }
         ib_weather.onClick { showWeatherPicker() }
         ib_font.onClick { showFontPicker() }
+        ib_date.onClick { showDatePicker() }
         // ib_place.onClick { showPlacePicker() }
         fab_register.onClick { registerDiary() }
         epv_font.setOnScrollChangedListener(object : EasyPickerView.OnScrollChangedListener {
@@ -415,6 +440,9 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         epv_font.setDataList(ArrayList(fontNameList))
 
         setMaxHeight()
+
+        datePickerFragment = DatePickerFragment()
+        datePickerFragment?.setOnClickDateListener(this)
     }
 
     private fun showImagePicker() {
@@ -480,6 +508,16 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
             iv_select_font.visibility = View.VISIBLE
             setStateBottomSheet(BottomSheetBehavior.STATE_EXPANDED)
             if (diaryStyle == -1) changeFont(0)
+        }, DELAY_PICKER)
+    }
+
+    private fun showDatePicker() {
+        KeyboardUtils.hideKeyboard(activity, et_write)
+        UiThread.getInstance().postDelayed({
+            if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
+                setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED)
+            }
+            datePickerFragment?.show(fragmentManager, DatePickerFragment::class.java.name)
         }, DELAY_PICKER)
     }
 
