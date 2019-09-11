@@ -120,6 +120,7 @@
     <string name="text_location">%sで</string>
     <string name="text_somewhere">どこか</string>
     <string name="text_from">で</string>
+    <string name="text_font">フォント</string>
     <string name="text_nickname">カップルの愛称で上部のタイトルを変更して見。</string>
     <string name="text_alias">別名で上部のタイトルを変更して見。</string>
     <string name="text_blur">写真にぼかしをしてください。</string>

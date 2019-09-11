@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
@@ -63,7 +64,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
 
     private var type = 0
     private var diaryId = 0
-    private var diaryStyle = 0
+    private var diaryStyle = -1
     private var diaryWeather = -1
     private var placePosition = 0
 
@@ -92,7 +93,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         setupPresenter()
         setupListener()
         initUI()
-        setupGeocode()
+        // setupGeocode()
     }
 
     override fun onDestroyView() {
@@ -160,20 +161,29 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     }
 
     override fun showSuccessfulLoadLocation(region: Region?) {
-        ib_place?.visibility = View.VISIBLE
-        places.add(region?.area1?.name.takeIf { it?.isNotEmpty() ?: false })
-        places.add(region?.area2?.name.takeIf { it?.isNotEmpty() ?: false })
-        places.add(region?.area3?.name.takeIf { it?.isNotEmpty() ?: false })
+        // ib_place?.visibility = View.VISIBLE
+        val name1 = region?.area1?.name
+        if (name1 != null) {
+            places.add(name1)
+        }
+        val name2 = region?.area2?.name
+        if (name2 != null) {
+            places.add(name2)
+        }
+        val name3 = region?.area3?.name
+        if (name3 != null) {
+            places.add(name3)
+        }
         if (diaryPlace != null) placePosition = places.withIndex()
                 .find { it.value == diaryPlace }
                 ?.index
                 ?: 0
-        epv_place?.setDataList(places)
+        // epv_place?.setDataList(places)
     }
 
     override fun showUnsuccessfulLoadLocation() {
-        ib_place?.visibility = View.GONE
-        iv_select_place?.visibility = View.GONE
+        // ib_place?.visibility = View.GONE
+        iv_select_font?.visibility = View.GONE
     }
 
     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
@@ -198,23 +208,27 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         isHideKeyboard = true
         if (isShowKeyboard) {
             isShowKeyboard = false
-            setMaxHeight()
+            if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
+                setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED)
+            } else {
+                setMaxHeight()
+            }
         }
-        UiThread.getInstance().postDelayed({ setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED) }, DELAY_BOTTOM_COLLAPSED)
     }
 
     private fun setupListener() {
         ib_photo.onClick { showImagePicker() }
         ib_weather.onClick { showWeatherPicker() }
-        ib_place.onClick { showPlacePicker() }
+        ib_font.onClick { showFontPicker() }
+        // ib_place.onClick { showPlacePicker() }
         fab_register.onClick { registerDiary() }
-        epv_place.setOnScrollChangedListener(object : EasyPickerView.OnScrollChangedListener {
+        epv_font.setOnScrollChangedListener(object : EasyPickerView.OnScrollChangedListener {
             override fun onScrollChanged(index: Int) {
 
             }
 
             override fun onScrollFinished(index: Int) {
-                placePosition = index
+                changeFont(index)
             }
         })
         tv_sun.onClick { selectWeather(it) }
@@ -323,11 +337,21 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     private fun initUI() {
         val context = context ?: return
         places.add(getString(R.string.text_somewhere))
-        iv_select_place.visibility = if (diaryPlace != null) View.VISIBLE else View.GONE
+        iv_select_font.visibility = if (diaryPlace != null) View.VISIBLE else View.GONE
         iv_select_weather.visibility = if (diaryWeather != -1) View.VISIBLE else View.GONE
 
         bottomSheetBehavior = BottomSheetBehavior.from(cv_bottom)
         bottomSheetBehavior?.isHideable = false
+        bottomSheetBehavior?.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) KeyboardUtils.hideKeyboard(activity, et_write)
+                setMaxHeight()
+            }
+        })
         cv_bottom.isClickable = true
         cv_bottom.run {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -386,6 +410,11 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         }
 
         interstitialAd = FullAdsHelper.getInstance(context)
+
+        val fontNameList = FONTS_NAME.map(this@NewWriteFragment::getString)
+        epv_font.setDataList(ArrayList(fontNameList))
+
+        setMaxHeight()
     }
 
     private fun showImagePicker() {
@@ -405,7 +434,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
 
     private fun <T> fetchImage(source: T?) {
         val context = context ?: return
-        ll_place.visibility = View.GONE
+        ll_font.visibility = View.GONE
         cl_weather.visibility = View.GONE
         iv_photo.visibility = View.VISIBLE
         iv_select_photo.visibility = View.VISIBLE
@@ -425,7 +454,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         KeyboardUtils.hideKeyboard(activity, et_write)
         UiThread.getInstance().postDelayed({
             iv_photo.visibility = View.GONE
-            ll_place.visibility = View.GONE
+            ll_font.visibility = View.GONE
             cl_weather.visibility = View.VISIBLE
             setStateBottomSheet(BottomSheetBehavior.STATE_EXPANDED)
             UiThread.getInstance().postDelayed({
@@ -437,8 +466,28 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
                     else -> null
                 }
                 selectWeather(findWeather)
-            }, DELAY_PLACE_PICKER)
-        }, DELAY_PLACE_PICKER)
+            }, DELAY_PICKER)
+        }, DELAY_PICKER)
+    }
+
+    private fun showFontPicker() {
+        KeyboardUtils.hideKeyboard(activity, et_write)
+        UiThread.getInstance().postDelayed({
+            iv_photo.visibility = View.GONE
+            cl_weather.visibility = View.GONE
+            ll_font.visibility = View.VISIBLE
+            iv_stick.visibility = View.VISIBLE
+            iv_select_font.visibility = View.VISIBLE
+            setStateBottomSheet(BottomSheetBehavior.STATE_EXPANDED)
+            if (diaryStyle == -1) changeFont(0)
+        }, DELAY_PICKER)
+    }
+
+    private fun changeFont(index: Int) {
+        val context = context ?: return
+        val typeface = ResourcesCompat.getFont(context, FONTS[index])
+        et_write.typeface = typeface
+        diaryStyle = index
     }
 
     private fun showPlacePicker() {
@@ -446,17 +495,17 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         UiThread.getInstance().postDelayed({
             iv_photo.visibility = View.GONE
             cl_weather.visibility = View.GONE
-            ll_place.visibility = View.VISIBLE
+            ll_font.visibility = View.VISIBLE
             iv_stick.visibility = View.VISIBLE
-            iv_select_place.visibility = View.VISIBLE
+            iv_select_font.visibility = View.VISIBLE
             setStateBottomSheet(BottomSheetBehavior.STATE_EXPANDED)
             if (diaryPlace != null) {
                 UiThread.getInstance().postDelayed({
-                    epv_place?.moveTo(placePosition)
+                    // epv_place?.moveTo(placePosition)
                     diaryPlace = null
-                }, DELAY_PLACE_PICKER)
+                }, DELAY_PICKER)
             }
-        }, DELAY_PLACE_PICKER)
+        }, DELAY_PICKER)
     }
 
     private fun registerDiary() {
@@ -527,7 +576,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
 
         private const val DEPRECATED_INT = -1
 
-        private const val DELAY_PLACE_PICKER = 200L
+        private const val DELAY_PICKER = 200L
 
         private const val DELAY_BOTTOM_COLLAPSED = 300L
 
@@ -547,7 +596,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
                 date: String? = null,
                 time: String? = null,
                 place: String? = null,
-                style: Int = 0,
+                style: Int = -1,
                 photo: String? = null,
                 weather: Int = -1
         ): NewWriteFragment {

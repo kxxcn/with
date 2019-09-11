@@ -120,6 +120,7 @@
     <string name="text_location">%s从</string>
     <string name="text_somewhere">某处</string>
     <string name="text_from">从</string>
+    <string name="text_font">字体</string>
     <string name="text_nickname">让我们将顶部标题更改为几个昵称。</string>
     <string name="text_alias">尝试将顶部标题更改为别名。</string>
     <string name="text_blur">让你的照片变得模糊。</string>

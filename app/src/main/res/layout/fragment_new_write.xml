@@ -132,18 +132,18 @@
                     android:layout_height="35dp"
                     android:background="@drawable/ic_weather"
                     android:backgroundTint="@color/tint_weather"
-                    app:layout_constraintEnd_toStartOf="@id/ib_place"
+                    app:layout_constraintEnd_toStartOf="@id/ib_font"
                     app:layout_constraintStart_toEndOf="@id/ib_photo"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
 
                 <ImageButton
-                    android:id="@+id/ib_place"
+                    android:id="@+id/ib_font"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:background="@drawable/ic_place"
+                    android:background="@drawable/ic_font"
                     android:backgroundTint="@color/tint_place"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ib_weather"
                     app:layout_constraintTop_toTopOf="parent"
@@ -168,16 +168,16 @@
                     android:visibility="invisible"
                     app:layout_constraintCircle="@id/ib_photo"
                     app:layout_constraintCircleAngle="180"
-                    app:layout_constraintCircleRadius="22dp"
+                    app:layout_constraintCircleRadius="25dp"
                     tools:ignore="ContentDescription,MissingConstraints" />
 
                 <ImageView
-                    android:id="@+id/iv_select_place"
+                    android:id="@+id/iv_select_font"
                     android:layout_width="7dp"
                     android:layout_height="7dp"
                     android:background="@drawable/drawable_oval_selected"
                     android:visibility="invisible"
-                    app:layout_constraintCircle="@id/ib_place"
+                    app:layout_constraintCircle="@id/ib_font"
                     app:layout_constraintCircleAngle="180"
                     app:layout_constraintCircleRadius="25dp"
                     tools:ignore="ContentDescription,MissingConstraints" />
@@ -372,36 +372,27 @@
             </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
-                android:id="@+id/ll_place"
+                android:id="@+id/ll_font"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cl_items"
-                android:layout_marginBottom="50dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
                 <dev.kxxcn.app_with.util.EasyPickerView
-                    android:id="@+id/epv_place"
+                    android:id="@+id/epv_font"
                     android:layout_width="wrap_content"
-                    android:layout_height="200dp"
+                    android:layout_height="250dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    app:epvMaxShowNum="3"
+                    app:epvMaxShowNum="5"
                     app:epvRecycleMode="false"
                     app:epvTextColor="@color/text_place_picker"
                     app:epvTextMaxScale="2.0"
                     app:epvTextMinAlpha="0.35"
                     app:epvTextPadding="5dp"
                     app:epvTextSize="20sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="@string/text_from"
-                    android:textColor="@color/text_place_picker"
-                    android:textSize="18sp" />
 
             </LinearLayout>
 

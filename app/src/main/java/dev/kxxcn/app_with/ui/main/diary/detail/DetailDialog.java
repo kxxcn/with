@@ -5,11 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -27,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.util.Constants;
 
 /**
  * Created by kxxcn on 2018-10-02.
@@ -36,6 +39,7 @@ public class DetailDialog extends DialogFragment {
     private static final String KEY_LETTER = "KEY_LETTER";
     private static final String KEY_PLACE = "KEY_PLACE";
     private static final String KEY_DATE = "KEY_DATE";
+    private static final String KEY_FONT = "KEY_FONT";
 
     @BindView(R.id.ttv_place)
     TyperTextView ttv_place;
@@ -52,12 +56,15 @@ public class DetailDialog extends DialogFragment {
 
     private String letter, place, date;
 
-    public static DetailDialog newInstance(String letter, String place, String date) {
+    private int fontStyle;
+
+    public static DetailDialog newInstance(String letter, String place, String date, int fontStyle) {
         DetailDialog dialog = new DetailDialog();
         Bundle args = new Bundle();
         args.putString(KEY_LETTER, letter);
         args.putString(KEY_PLACE, place);
         args.putString(KEY_DATE, date);
+        args.putInt(KEY_FONT, fontStyle);
         dialog.setArguments(args);
         return dialog;
     }
@@ -79,6 +86,7 @@ public class DetailDialog extends DialogFragment {
             letter = args.getString(KEY_LETTER);
             place = args.getString(KEY_PLACE);
             date = args.getString(KEY_DATE);
+            fontStyle = args.getInt(KEY_FONT);
         }
         initUI();
     }
@@ -118,7 +126,11 @@ public class DetailDialog extends DialogFragment {
     private void initUI() {
         if (TextUtils.isEmpty(letter) || TextUtils.isEmpty(place) || TextUtils.isEmpty(date))
             return;
-
+        if (fontStyle != -1) {
+            Typeface typeface = ResourcesCompat.getFont(mContext, Constants.FONTS[fontStyle]);
+            ttv_date.setTypeface(typeface);
+            tv_letter.setTypeface(typeface);
+        }
         try {
             String[] dates = date.split("-");
             String year = dates[0];
@@ -126,13 +138,11 @@ public class DetailDialog extends DialogFragment {
             String day = dates[2];
             String replaceDate = getString(R.string.format_date, year, month, day);
             ttv_date.animateText(replaceDate);
-            ttv_date.setAnimationListener(hTextView -> ttv_place.animateText(getString(R.string.text_location, place)));
-            ttv_place.setAnimationListener(hTextView -> {
-                        tv_letter.setText(letter);
-                        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
-                        tv_letter.startAnimation(animation);
-                    }
-            );
+            ttv_date.setAnimationListener(hTextView -> {
+                tv_letter.setText(letter);
+                Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+                tv_letter.startAnimation(animation);
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

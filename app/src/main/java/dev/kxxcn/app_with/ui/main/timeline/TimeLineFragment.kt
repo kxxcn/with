@@ -82,7 +82,7 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
         val item = adapter?.getItem(position) ?: return
         when (type) {
             TYPE_DETAIL -> {
-                val dialog = DetailDialog.newInstance(item.letter, item.letterPlace, item.letterDate)
+                val dialog = DetailDialog.newInstance(item.letter, item.letterPlace, item.letterDate, item.fontStyle)
                 dialog.show(fragmentManager, DetailDialog::class.java.name)
             }
             TYPE_EDIT -> {

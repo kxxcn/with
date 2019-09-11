@@ -120,6 +120,7 @@
     <string name="text_location">%s에서</string>
     <string name="text_somewhere">어딘가</string>
     <string name="text_from">에서</string>
+    <string name="text_font">폰트</string>
     <string name="text_nickname">커플 애칭으로 상단 타이틀을 변경해보아요.</string>
     <string name="text_alias">별명으로 상단 타이틀을 변경해보아요.</string>
     <string name="text_blur">사진에 흐림 효과를 주세요.</string>
