@@ -9,7 +9,7 @@ public class APIPersistence {
 
     //:: Production
     // public static final String SERVER_URL = "http://kxxcn.cafe24.com/with/";
-    public static final String SERVER_URL = "http://172.30.1.56:8080/with/";
+    public static final String SERVER_URL = "http://172.30.1.6:8080/with/";
 
     // public static final String NAVER_SERVER_URL = "https://openapi.naver.com/v1/";
     public static final String NAVER_SERVER_URL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/";

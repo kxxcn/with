@@ -155,6 +155,7 @@
 
     <string name="text_with">WITH</string>
     <string name="text_timeline">Timeline</string>
+    <string name="text_diary">Dairy</string>
     <string name="text_recently_plan">Recent plans</string>
     <string name="text_plan_date_time">%s %s</string>
     <string name="text_decimal_day_minus">D%d</string>

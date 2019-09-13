@@ -155,6 +155,7 @@
 
     <string name="text_with">위드</string>
     <string name="text_timeline">타임라인</string>
+    <string name="text_diary">다이어리</string>
     <string name="text_recently_plan">최근 일정</string>
     <string name="text_plan_date_time">%s %s</string>
     <string name="text_decimal_day_minus">D%d</string>

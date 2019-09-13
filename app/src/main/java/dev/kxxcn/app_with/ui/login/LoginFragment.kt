@@ -64,7 +64,9 @@ class LoginFragment : Fragment(), LoginContract.View {
             displayWidth = size.x
             val metrics = activity?.displayMetrics
             display?.getMetrics(metrics)
-            width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, metrics) + tv_introduce.width
+            if (metrics != null) {
+                width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, metrics) + tv_introduce.width
+            }
             setUpListener()
         }
     }

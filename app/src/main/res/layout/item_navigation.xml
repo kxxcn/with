@@ -49,9 +49,20 @@
         android:text="@string/text_write"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/tv_plan"
+        app:layout_constraintBottom_toTopOf="@id/tv_diary"
         app:layout_constraintStart_toStartOf="@id/tv_with"
         app:layout_constraintTop_toBottomOf="@id/tv_timeline" />
+
+    <TextView
+        android:id="@+id/tv_diary"
+        style="@style/WithTextView"
+        android:padding="10dp"
+        android:text="@string/text_diary"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_plan"
+        app:layout_constraintStart_toStartOf="@id/tv_with"
+        app:layout_constraintTop_toBottomOf="@id/tv_write" />
 
     <TextView
         android:id="@+id/tv_plan"
@@ -62,7 +73,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tv_setting"
         app:layout_constraintStart_toStartOf="@id/tv_with"
-        app:layout_constraintTop_toBottomOf="@id/tv_write" />
+        app:layout_constraintTop_toBottomOf="@id/tv_diary" />
 
     <TextView
         android:id="@+id/tv_setting"

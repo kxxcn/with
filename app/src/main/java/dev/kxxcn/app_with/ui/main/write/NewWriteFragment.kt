@@ -512,13 +512,15 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     }
 
     private fun showDatePicker() {
-        KeyboardUtils.hideKeyboard(activity, et_write)
-        UiThread.getInstance().postDelayed({
-            if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
-                setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED)
-            }
-            datePickerFragment?.show(fragmentManager, DatePickerFragment::class.java.name)
-        }, DELAY_PICKER)
+        if (datePickerFragment?.isAdded == false) {
+            KeyboardUtils.hideKeyboard(activity, et_write)
+            UiThread.getInstance().postDelayed({
+                if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
+                    setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED)
+                }
+                datePickerFragment?.show(fragmentManager, DatePickerFragment::class.java.name)
+            }, DELAY_PICKER)
+        }
     }
 
     private fun changeFont(index: Int) {
@@ -603,6 +605,8 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         private const val KEY_PHOTO = "KEY_PHOTO"
 
         private const val KEY_WEATHER = "KEY_WEATHER"
+
+        private const val EMPTY_ITEM = "EMPTY_ITEM"
 
         private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 10L
 

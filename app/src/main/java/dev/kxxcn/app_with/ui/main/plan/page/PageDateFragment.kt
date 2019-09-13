@@ -85,8 +85,10 @@ class PageDateFragment : Fragment(), PlanContract.OnClickDateCallback {
             }
         }
         et_date.onClick {
-            KeyboardUtils.hideKeyboard(activity, et_date)
-            datePickerFragment?.show(fragmentManager, DatePickerFragment::class.java.name)
+            if (datePickerFragment?.isAdded == false) {
+                KeyboardUtils.hideKeyboard(activity, et_date)
+                datePickerFragment?.show(fragmentManager, DatePickerFragment::class.java.name)
+            }
         }
     }
 
@@ -97,6 +99,8 @@ class PageDateFragment : Fragment(), PlanContract.OnClickDateCallback {
     companion object {
 
         private const val KEY_DATE = "KEY_DATE"
+
+        private const val EMPTY_ITEM = "EMPTY_ITEM"
 
         fun newInstance(date: String?): PageDateFragment {
             return PageDateFragment().apply {

@@ -155,6 +155,7 @@
 
     <string name="text_with">WITH</string>
     <string name="text_timeline">时间轴</string>
+    <string name="text_diary">日记</string>
     <string name="text_recently_plan">最近的计划</string>
     <string name="text_plan_date_time">%s %s</string>
     <string name="text_decimal_day_minus">D%d</string>

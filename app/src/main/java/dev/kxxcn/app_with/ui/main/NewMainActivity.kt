@@ -15,6 +15,7 @@ import android.view.MenuItem
 import com.google.android.gms.ads.InterstitialAd
 import dev.kxxcn.app_with.BuildConfig
 import dev.kxxcn.app_with.R
+import dev.kxxcn.app_with.ui.main.diary.NewDiaryFragment
 import dev.kxxcn.app_with.ui.main.plan.NewPlanFragment
 import dev.kxxcn.app_with.ui.main.setting.SettingFragment
 import dev.kxxcn.app_with.ui.main.timeline.TimeLineFragment
@@ -73,7 +74,8 @@ class NewMainActivity : AppCompatActivity() {
                             interstitialAd?.show()
                         },
                         null)
-            } else if (fragment is SettingFragment) {
+            } else if (fragment is SettingFragment ||
+                    fragment is NewDiaryFragment) {
                 showMainFragment()
             } else if (fragment is NewWriteFragment) {
                 if (!fragment.isExpanded()) DialogUtils.showAlertDialog(this, getString(R.string.dialog_delete_contents),
@@ -105,6 +107,7 @@ class NewMainActivity : AppCompatActivity() {
         tv_with.onClick { clickNavigationItem(it?.id) }
         tv_timeline.onClick { clickNavigationItem(it?.id) }
         tv_write.onClick { clickNavigationItem(it?.id) }
+        tv_diary.onClick { clickNavigationItem(it?.id) }
         tv_plan.onClick { clickNavigationItem(it?.id) }
         tv_setting.onClick { clickNavigationItem(it?.id) }
         tv_about.onClick { clickNavigationItem(it?.id) }
@@ -128,6 +131,7 @@ class NewMainActivity : AppCompatActivity() {
             tv_write.id -> fragment = NewWriteFragment.newInstance(
                     identifier = intent.getStringExtra(EXTRA_IDENTIFIER)
             )
+            tv_diary.id -> fragment = NewDiaryFragment.newInstance()
             tv_plan.id -> fragment = NewPlanFragment.newInstance(
                     intent.getStringExtra(EXTRA_IDENTIFIER))
             tv_setting.id -> fragment = SettingFragment.newInstance(
@@ -162,7 +166,7 @@ class NewMainActivity : AppCompatActivity() {
         fragment.enterTransition = Fade()
         fragment.exitTransition = Fade()
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fl_container, fragment).commit()
+        transaction.replace(R.id.fl_container, fragment).commitAllowingStateLoss()
     }
 
     private fun getHomeIcon(id: Int): Drawable? {
