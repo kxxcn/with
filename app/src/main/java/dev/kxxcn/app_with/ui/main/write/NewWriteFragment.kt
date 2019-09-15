@@ -117,6 +117,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     override fun onDestroyView() {
         imageDisposable?.dispose()
         imageDisposable = null
+        presenter?.release()
         super.onDestroyView()
     }
 
@@ -128,7 +129,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         val diary = Diary(
                 diaryId,
                 arguments?.getString(KEY_IDENTIFIER),
-                et_write.text.toString(),
+                et_write?.text.toString(),
                 diaryDate,
                 diaryTime,
                 places[placePosition],

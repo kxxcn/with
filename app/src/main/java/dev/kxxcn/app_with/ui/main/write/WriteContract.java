@@ -16,6 +16,7 @@ import okhttp3.MultipartBody;
 public interface WriteContract {
 
     interface View extends BaseView<Presenter> {
+
         void showSuccessfulRegister(Constants.ModeFilter filter);
 
         void showFailedRequest(String throwable);
@@ -28,6 +29,9 @@ public interface WriteContract {
     }
 
     interface Presenter extends BasePresenter {
+
+        void release();
+
         void registerDiary(Diary diary);
 
         void updateDiary(Diary diary);

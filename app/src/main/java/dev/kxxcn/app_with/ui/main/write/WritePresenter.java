@@ -34,6 +34,11 @@ public class WritePresenter implements WriteContract.Presenter {
     }
 
     @Override
+    public void release() {
+        compositeDisposable.dispose();
+    }
+
+    @Override
     public void registerDiary(Diary diary) {
         if (mWriteView == null)
             return;
