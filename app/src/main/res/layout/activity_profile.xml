@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_root"
@@ -18,13 +17,16 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                style="@style/TopTextView"
+                style="@style/WithTextView"
                 android:layout_centerInParent="true"
-                android:text="@string/text_profile"/>
+                android:text="@string/text_profile"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/ib_back"
-                style="@style/BackImageButton"/>
+                style="@style/BackImageButton"
+                tools:ignore="ContentDescription" />
 
         </RelativeLayout>
 
@@ -50,19 +52,11 @@
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/namsan"
                     android:text="@string/text_nickname"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/iv_explain"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <ImageView
-                    android:id="@+id/iv_explain"
-                    android:layout_width="0dp"
-                    android:layout_height="150dp"
-                    android:scaleType="fitXY"
-                    app:layout_constraintEnd_toEndOf="@id/tfb_me"
-                    app:layout_constraintStart_toStartOf="@id/tfb_me"
-                    app:layout_constraintTop_toBottomOf="@id/tv_explain"
-                    tools:background="@drawable/profile"/>
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@id/tfb_me"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
                     android:id="@+id/tfb_me"
@@ -72,20 +66,19 @@
                     android:layout_margin="20dp"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    app:labelText="@string/hint_nickname"
+                    app:labelText="@string/hint_my_nickname"
                     app:layout_constraintBottom_toTopOf="@id/tfb_you"
-                    app:layout_constraintTop_toBottomOf="@id/iv_explain"
+                    app:layout_constraintTop_toBottomOf="@id/tv_explain"
                     app:panelBackgroundColor="@color/tfb_panel"
                     app:primaryColor="@color/tfb_primary"
-                    app:secondaryColor="@color/tfb_secondary"
-                    tools:iconSignifier="@drawable/ic_boy">
+                    app:secondaryColor="@color/tfb_secondary">
 
                     <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                         android:id="@+id/eet_me"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/namsan"
-                        tools:text="M E"/>
+                        tools:text="M E" />
 
                 </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
@@ -95,19 +88,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
-                    app:labelText="@string/hint_nickname"
+                    app:labelText="@string/hint_your_nickname"
                     app:layout_constraintTop_toBottomOf="@id/tfb_me"
                     app:panelBackgroundColor="@color/tfb_panel"
                     app:primaryColor="@color/tfb_primary"
-                    app:secondaryColor="@color/tfb_secondary"
-                    tools:iconSignifier="@drawable/ic_girl">
+                    app:secondaryColor="@color/tfb_secondary">
 
                     <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                         android:id="@+id/eet_you"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/namsan"
-                        tools:text="Y O U"/>
+                        tools:text="Y O U" />
 
                 </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
@@ -117,6 +109,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
+                    android:visibility="gone"
                     app:iconSignifier="@drawable/ic_gender"
                     app:labelText="@string/hint_gender"
                     app:layout_constraintTop_toBottomOf="@id/tfb_you"
@@ -129,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/namsan"
-                        tools:text="남 자"/>
+                        tools:text="남 자" />
 
                 </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
@@ -144,7 +137,7 @@
                     app:buttonTextSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tfb_gender"
-                    app:progressStyle="loading"/>
+                    app:progressStyle="loading" />
 
                 <com.github.ybq.android.spinkit.SpinKitView
                     android:id="@+id/pb_registration"
@@ -153,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     app:SpinKit_Color="@color/progressbar_registration"
-                    app:SpinKit_Style="WanderingCubes"/>
+                    app:SpinKit_Style="WanderingCubes" />
 
             </android.support.constraint.ConstraintLayout>
 

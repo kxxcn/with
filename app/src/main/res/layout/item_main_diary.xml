@@ -17,7 +17,7 @@
             android:id="@+id/iv_background"
             android:layout_width="150dp"
             android:layout_height="200dp"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             tools:ignore="ContentDescription,MissingConstraints" />
 
     </android.support.constraint.ConstraintLayout>

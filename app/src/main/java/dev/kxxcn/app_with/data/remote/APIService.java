@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.diary.Profile;
 import dev.kxxcn.app_with.data.model.entry.Entry;
 import dev.kxxcn.app_with.data.model.event.Event;
 import dev.kxxcn.app_with.data.model.mode.ResponseMode;
@@ -21,6 +22,7 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -44,6 +46,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_KEY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_NOTICE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_NOTIFICATION_INFORMATION;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_PLAN;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_PROFILE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_TITLE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GSON_DATE_FORMAT;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.IS_LOCKED_USER;
@@ -54,6 +57,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_IMAGE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_LOCK;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_NICKNAME;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_PLAN;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_PROFILE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SERVER_URL;
@@ -198,6 +202,15 @@ public interface APIService {
 
     @POST(REGISTER_ENTRY)
     Single<ResponseResult> registerEntry(@Body Entry entry);
+
+    @FormUrlEncoded
+    @POST(GET_PROFILE)
+    Single<Profile> getProfile(@Field("uniqueIdentifier") String uniqueIdentifier);
+
+    @Multipart
+    @POST(REGISTER_PROFILE)
+    Single<ResponseResult> uploadProfile(@Part MultipartBody.Part image,
+                                         @Part("identifier") RequestBody identifier);
 
     class Factory {
         static APIService create() {

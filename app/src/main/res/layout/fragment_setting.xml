@@ -32,14 +32,15 @@
                 <TextView
                     android:id="@+id/tv_account"
                     style="@style/SettingTitleTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_account"
                     app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
                 <TextView
                     android:id="@+id/tv_profile"
                     style="@style/SettingContentTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_profile"
-                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@id/tv_lock"
                     app:layout_constraintTop_toBottomOf="@id/tv_account" />
 
@@ -49,7 +50,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_arrow_right"
-                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/tv_profile"
                     app:layout_constraintEnd_toEndOf="@id/tv_profile"
                     app:layout_constraintTop_toTopOf="@id/tv_profile" />
@@ -58,12 +58,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/bg_setting_row"
-                    android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/tv_profile" />
 
                 <TextView
                     android:id="@+id/tv_lock"
                     style="@style/SettingContentTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_lock"
                     app:layout_constraintBottom_toTopOf="@id/tv_notification"
                     app:layout_constraintTop_toBottomOf="@id/tv_profile" />
@@ -78,6 +78,7 @@
                 <TextView
                     android:id="@+id/tv_notification"
                     style="@style/SettingTitleTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_notification"
                     app:layout_constraintBottom_toTopOf="@id/tv_notice_with"
                     app:layout_constraintTop_toBottomOf="@id/tv_lock" />
@@ -85,6 +86,7 @@
                 <TextView
                     android:id="@+id/tv_notice_with"
                     style="@style/SettingContentTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_notice_with"
                     app:layout_constraintTop_toBottomOf="@id/tv_notification" />
 
@@ -104,6 +106,7 @@
                 <TextView
                     android:id="@+id/tv_notice"
                     style="@style/SettingContentTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_notify"
                     app:layout_constraintBottom_toTopOf="@id/tv_notice_event"
                     app:layout_constraintTop_toBottomOf="@id/tv_notice_with" />
@@ -124,6 +127,7 @@
                 <TextView
                     android:id="@+id/tv_notice_event"
                     style="@style/SettingContentTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_notice_event"
                     app:layout_constraintBottom_toTopOf="@id/tv_service"
                     app:layout_constraintTop_toBottomOf="@id/tv_notice" />
@@ -138,6 +142,7 @@
                 <TextView
                     android:id="@+id/tv_service"
                     style="@style/SettingTitleTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_service"
                     app:layout_constraintBottom_toTopOf="@id/tv_notify"
                     app:layout_constraintTop_toBottomOf="@id/tv_notice_event" />
@@ -145,6 +150,7 @@
                 <TextView
                     android:id="@+id/tv_notify"
                     style="@style/SettingContentTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_notice"
                     app:layout_constraintBottom_toTopOf="@id/tv_information"
                     app:layout_constraintTop_toBottomOf="@id/tv_service" />
@@ -178,6 +184,7 @@
                 <TextView
                     android:id="@+id/tv_information"
                     style="@style/SettingContentTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_information"
                     app:layout_constraintBottom_toTopOf="@id/tv_sync"
                     app:layout_constraintTop_toBottomOf="@id/tv_notify" />
@@ -197,6 +204,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
+                    android:fontFamily="@font/namsan"
                     android:textColor="@color/text_setting"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/tv_information"
@@ -213,6 +221,7 @@
                 <TextView
                     android:id="@+id/tv_sync"
                     style="@style/SettingContentTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_sync"
                     android:visibility="visible"
                     app:layout_constraintBottom_toTopOf="@id/tv_sign_out"
@@ -240,6 +249,7 @@
                 <TextView
                     android:id="@+id/tv_sign_out"
                     style="@style/SettingContentTextView"
+                    android:fontFamily="@font/namsan"
                     android:text="@string/text_sign_out"
                     app:layout_constraintTop_toBottomOf="@id/tv_sync" />
 

@@ -23,7 +23,8 @@
     <string name="hint_time">Please enter the time.</string>
     <string name="hint_place">Please enter a location.</string>
     <string name="hint_date">Please enter the date.</string>
-    <string name="hint_nickname">Please enter your nickname.</string>
+    <string name="hint_my_nickname">Enter my nickname.</string>
+    <string name="hint_your_nickname">Enter the nickname of the person you love.</string>
     <string name="hint_alias">Please enter a nickname.</string>
     <string name="hint_gender">Please enter my gender.</string>
     <string name="hint_name">Please enter your name.</string>
@@ -47,7 +48,7 @@
     <string name="btn_female">Female</string>
     <string name="btn_signup">Start</string>
     <string name="btn_auth">Authentication</string>
-    <string name="btn_registration">Sign up</string>
+    <string name="btn_registration">Save</string>
     <string name="btn_solo">Send alone</string>
     <string name="btn_couple">Write like</string>
 
@@ -88,6 +89,7 @@
     <string name="toast_failed_registration_entry">I failed to apply. Please try again later.</string>
     <string name="toast_registration_entry">Applied.</string>
     <string name="toast_already_registration_entry">I have already applied.</string>
+    <string name="toast_changed_profile_image">Your profile photo has been changed.</string>
 
     <string name="snack_selected_gallery">A photo was selected.</string>
 
@@ -100,7 +102,7 @@
     <string name="text_auth2">Enter the number given to your lover.</string>
     <string name="text_delete">DELETE</string>
     <string name="text_account">Account</string>
-    <string name="text_lock">Lock setting</string>
+    <string name="text_lock">Lock mode</string>
     <string name="text_profile">Edit profile</string>
     <string name="text_notification">Notification</string>
     <string name="text_notice_with">WITH notification</string>
@@ -121,7 +123,7 @@
     <string name="text_somewhere">somewhere</string>
     <string name="text_from">From</string>
     <string name="text_font">FONT</string>
-    <string name="text_nickname">Change the title at the top with the couple\'s nickname.</string>
+    <string name="text_nickname">Let\'s change the couple nickname.</string>
     <string name="text_alias">Change the title at the top with another name.</string>
     <string name="text_blur">Please blur the photo.</string>
     <string name="text_count">%d / %d</string>

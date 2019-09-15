@@ -11,7 +11,8 @@ import android.view.ViewTreeObserver
 import android.widget.Toast
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.DataRepository
-import dev.kxxcn.app_with.data.model.diary.Diary
+import dev.kxxcn.app_with.data.model.diary.Detail
+import dev.kxxcn.app_with.data.model.nickname.ResponseNickname
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
 import dev.kxxcn.app_with.ui.main.diary.detail.DetailDialog
 import dev.kxxcn.app_with.ui.main.write.NewWriteFragment
@@ -25,6 +26,8 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.ItemClick {
 
     private var selectedPosition = INVALID_POSITION
+
+    private var isMine = true
 
     private var presenter: TimeLineContract.Presenter? = null
 
@@ -53,9 +56,11 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
     }
 
     override fun showLoadingIndicator(isShowing: Boolean) {
+        fl_loading?.visibility = if (isShowing) View.VISIBLE else View.GONE
     }
 
-    override fun showSuccessfulLoadDiary(diaryList: List<Diary>) {
+    override fun showSuccessfulLoadDiary(detail: Detail) {
+        val diaryList = detail.diaryList
         if (diaryList.none { it.writer.isNotEmpty() }) {
             ll_not_found_diary.visibility = View.VISIBLE
             rv_timeline.visibility = View.GONE
@@ -64,8 +69,13 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
             rv_timeline.visibility = View.VISIBLE
             adapter?.setItems(diaryList
                     .filter { it.writer.isNotEmpty() }
-                    .sortedByDescending { it.letterDate })
+                    .sortedWith(compareBy({ it.letterDate }, { it.letterTime }))
+                    .reversed())
         }
+        val nickname = detail.nickname
+        tv_change.visibility = if (nickname.yourNickname?.trim()?.isEmpty() == true) View.GONE else View.VISIBLE
+        changeDiary(nickname)
+        tv_change.onClick { changeDiary(nickname) }
     }
 
     override fun showFailedRequest(throwable: String?) {
@@ -168,7 +178,21 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
     private fun fetchDiary() {
         val arg = arguments ?: return
         val identifier = arg.getString(Constants.KEY_IDENTIFIER) ?: return
+        isMine = true
         presenter?.getDiary(DEPRECATED_INT, identifier)
+    }
+
+    private fun changeDiary(nickname: ResponseNickname) {
+        tv_change.text = if (isMine) nickname.yourNickname else nickname.myNickname
+        adapter?.changeDiary(isMine)
+        isMine = !isMine
+        if (adapter?.itemCount == 0) {
+            ll_not_found_diary.visibility = View.VISIBLE
+            rv_timeline.visibility = View.GONE
+        } else {
+            ll_not_found_diary.visibility = View.GONE
+            rv_timeline.visibility = View.VISIBLE
+        }
     }
 
     fun isExpanded(): Boolean {

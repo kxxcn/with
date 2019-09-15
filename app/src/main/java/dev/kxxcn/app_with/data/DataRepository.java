@@ -3,6 +3,7 @@ package dev.kxxcn.app_with.data;
 import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.diary.Profile;
 import dev.kxxcn.app_with.data.model.entry.Entry;
 import dev.kxxcn.app_with.data.model.event.Event;
 import dev.kxxcn.app_with.data.model.geocode.v2.Results;
@@ -18,6 +19,7 @@ import dev.kxxcn.app_with.util.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 /**
@@ -161,5 +163,13 @@ public class DataRepository {
 
     public Single<ResponseResult> registerEntry(Entry entry) {
         return dataSource.registerEntry(entry);
+    }
+
+    public Single<Profile> getProfile(String uniqueIdentifier) {
+        return dataSource.getProfile(uniqueIdentifier);
+    }
+
+    public Single<ResponseResult> uploadProfile(MultipartBody.Part body, RequestBody identifier) {
+        return dataSource.uploadProfile(body, identifier);
     }
 }

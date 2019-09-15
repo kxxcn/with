@@ -100,13 +100,9 @@ class PageDateFragment : Fragment(), PlanContract.OnClickDateCallback {
 
         private const val KEY_DATE = "KEY_DATE"
 
-        private const val EMPTY_ITEM = "EMPTY_ITEM"
-
         fun newInstance(date: String?): PageDateFragment {
             return PageDateFragment().apply {
-                arguments = Bundle().apply {
-                    putString(KEY_DATE, date)
-                }
+                arguments = Bundle().apply { putString(KEY_DATE, date) }
             }
         }
     }

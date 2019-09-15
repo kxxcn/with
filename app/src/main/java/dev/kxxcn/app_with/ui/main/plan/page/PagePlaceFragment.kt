@@ -77,9 +77,7 @@ class PagePlaceFragment : Fragment() {
 
         fun newInstance(place: String?): PagePlaceFragment {
             return PagePlaceFragment().apply {
-                arguments = Bundle().apply {
-                    putString(KEY_PLACE, place)
-                }
+                arguments = Bundle().apply { putString(KEY_PLACE, place) }
             }
         }
     }

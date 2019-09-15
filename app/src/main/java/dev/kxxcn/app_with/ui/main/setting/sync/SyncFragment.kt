@@ -64,9 +64,7 @@ class SyncFragment : Fragment(), SyncContract.View {
         @JvmStatic
         fun newInstance(identifier: String): SyncFragment {
             return SyncFragment().apply {
-                arguments = Bundle().apply {
-                    putString(KEY_IDENTIFIER, identifier)
-                }
+                arguments = Bundle().apply { putString(KEY_IDENTIFIER, identifier) }
             }
         }
     }

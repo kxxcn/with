@@ -197,7 +197,7 @@ public class SettingFragment extends Fragment implements SettingContract.View {
     public void onProfile() {
         Intent intent = new Intent(mActivity, ProfileActivity.class);
         intent.putExtra(ProfileActivity.EXTRA_IDENTIFIER, args.getString(KEY_IDENTIFIER));
-        startActivityForResult(intent, REQ_PROFILE);
+        startActivity(intent);
     }
 
     @OnClick({R.id.tv_notify, R.id.iv_notify})

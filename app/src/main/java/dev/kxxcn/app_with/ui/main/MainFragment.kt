@@ -71,7 +71,11 @@ class MainFragment : Fragment(), NewMainContract.View {
         }
         ll_not_found_diary.visibility = View.GONE
         val filteredList = if (diaryList.size >= SIZE_OF_RECENTLY_PLAN) {
-            diaryList.subList(0, SIZE_OF_RECENTLY_PLAN)
+            diaryList
+                    .filter { it.writer.isNotEmpty() }
+                    .sortedWith(compareBy({ it.letterDate }, { it.letterTime }))
+                    .reversed()
+                    .subList(0, SIZE_OF_RECENTLY_PLAN)
         } else {
             diaryList
         }

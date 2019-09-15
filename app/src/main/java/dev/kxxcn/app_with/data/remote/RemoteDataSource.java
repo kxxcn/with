@@ -4,6 +4,7 @@ import java.util.List;
 
 import dev.kxxcn.app_with.data.DataSource;
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.diary.Profile;
 import dev.kxxcn.app_with.data.model.entry.Entry;
 import dev.kxxcn.app_with.data.model.event.Event;
 import dev.kxxcn.app_with.data.model.geocode.v2.Results;
@@ -21,6 +22,7 @@ import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 /**
@@ -260,6 +262,20 @@ public class RemoteDataSource extends DataSource {
     @Override
     public Single<ResponseResult> registerEntry(Entry entry) {
         return service.registerEntry(entry)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Single<Profile> getProfile(String uniqueIdentifier) {
+        return service.getProfile(uniqueIdentifier)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Single<ResponseResult> uploadProfile(MultipartBody.Part body, RequestBody identifier) {
+        return service.uploadProfile(body, identifier)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

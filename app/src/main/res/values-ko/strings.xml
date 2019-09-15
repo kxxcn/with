@@ -23,7 +23,8 @@
     <string name="hint_time">시간을 입력하세요.</string>
     <string name="hint_place">장소를 입력하세요.</string>
     <string name="hint_date">날짜를 입력하세요.</string>
-    <string name="hint_nickname">애칭을 입력하세요.</string>
+    <string name="hint_my_nickname">나의 애칭을 입력하세요.</string>
+    <string name="hint_your_nickname">상대방 애칭을 입력하세요.</string>
     <string name="hint_alias">별명을 입력하세요.</string>
     <string name="hint_gender">내 성별을 입력하세요.</string>
     <string name="hint_name">성함을 입력하세요.</string>
@@ -88,6 +89,7 @@
     <string name="toast_failed_registration_entry">응모를 실패했습니다. 잠시 후 다시 시도해주세요.</string>
     <string name="toast_registration_entry">응모되었습니다.</string>
     <string name="toast_already_registration_entry">이미 응모되었습니다.</string>
+    <string name="toast_changed_profile_image">프로필 사진이 변경되었습니다.</string>
 
     <string name="snack_selected_gallery">사진이 선택되었습니다.</string>
 
@@ -121,7 +123,7 @@
     <string name="text_somewhere">어딘가</string>
     <string name="text_from">에서</string>
     <string name="text_font">폰트</string>
-    <string name="text_nickname">커플 애칭으로 상단 타이틀을 변경해보아요.</string>
+    <string name="text_nickname">커플 애칭을 변경해보세요.</string>
     <string name="text_alias">별명으로 상단 타이틀을 변경해보아요.</string>
     <string name="text_blur">사진에 흐림 효과를 주세요.</string>
     <string name="text_count">%d / %d</string>

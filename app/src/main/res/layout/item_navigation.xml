@@ -60,6 +60,7 @@
         android:text="@string/text_diary"
         android:textSize="25sp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/tv_plan"
         app:layout_constraintStart_toStartOf="@id/tv_with"
         app:layout_constraintTop_toBottomOf="@id/tv_write" />

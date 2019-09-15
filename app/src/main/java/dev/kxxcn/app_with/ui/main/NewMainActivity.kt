@@ -131,7 +131,9 @@ class NewMainActivity : AppCompatActivity() {
             tv_write.id -> fragment = NewWriteFragment.newInstance(
                     identifier = intent.getStringExtra(EXTRA_IDENTIFIER)
             )
-            tv_diary.id -> fragment = NewDiaryFragment.newInstance()
+//            tv_diary.id -> fragment = NewDiaryFragment.newInstance(
+//                    intent.getStringExtra(EXTRA_IDENTIFIER)
+//            )
             tv_plan.id -> fragment = NewPlanFragment.newInstance(
                     intent.getStringExtra(EXTRA_IDENTIFIER))
             tv_setting.id -> fragment = SettingFragment.newInstance(

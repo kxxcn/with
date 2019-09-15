@@ -76,9 +76,7 @@ class PagePlanFragment : Fragment() {
 
         fun newInstance(plan: String?): PagePlanFragment {
             return PagePlanFragment().apply {
-                arguments = Bundle().apply {
-                    putString(KEY_PLAN, plan)
-                }
+                arguments = Bundle().apply { putString(KEY_PLAN, plan) }
             }
         }
     }
