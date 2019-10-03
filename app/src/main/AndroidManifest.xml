@@ -61,6 +61,9 @@
             android:name=".ui.main.event.apply.ApplyActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.main.diary.detail.DetailActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".data.remote.MyFirebaseMessagingService"

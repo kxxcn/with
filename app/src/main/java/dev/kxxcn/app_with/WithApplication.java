@@ -13,13 +13,12 @@ import dev.kxxcn.app_with.util.AppStatusHelper;
  */
 public class WithApplication extends Application {
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		FirebaseApp.initializeApp(this);
-		AppStatusHelper.init(this);
-		FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.app_topic));
-		MobileAds.initialize(this, getString(R.string.ad_id));
-	}
-
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        FirebaseApp.initializeApp(this);
+        AppStatusHelper.init(this);
+        FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.app_topic));
+        MobileAds.initialize(this, getString(R.string.ad_id));
+    }
 }

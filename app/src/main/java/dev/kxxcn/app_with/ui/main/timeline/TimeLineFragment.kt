@@ -1,5 +1,6 @@
 package dev.kxxcn.app_with.ui.main.timeline
 
+import android.content.Intent
 import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
@@ -14,7 +15,7 @@ import dev.kxxcn.app_with.data.DataRepository
 import dev.kxxcn.app_with.data.model.diary.Detail
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
-import dev.kxxcn.app_with.ui.main.diary.detail.DetailDialog
+import dev.kxxcn.app_with.ui.main.diary.detail.DetailActivity
 import dev.kxxcn.app_with.ui.main.write.NewWriteFragment
 import dev.kxxcn.app_with.util.Constants
 import dev.kxxcn.app_with.util.DialogUtils
@@ -92,8 +93,23 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
         val item = adapter?.getItem(position) ?: return
         when (type) {
             TYPE_DETAIL -> {
-                val dialog = DetailDialog.newInstance(item.letter, item.letterPlace, item.letterDate, item.fontStyle)
-                dialog.show(fragmentManager, DetailDialog::class.java.name)
+//                val dialog = DetailDialog.newInstance(
+//                        item.letter,
+//                        item.letterPlace,
+//                        item.letterDate,
+//                        item.letterTime,
+//                        item.galleryName,
+//                        item.fontStyle)
+//                dialog.show(fragmentManager, DetailDialog::class.java.name)
+                val intent = Intent(context, DetailActivity::class.java).apply {
+                    putExtra(DetailActivity.EXTRA_LETTER, item.letter)
+                    putExtra(DetailActivity.EXTRA_PLACE, item.letterPlace)
+                    putExtra(DetailActivity.EXTRA_DATE, item.letterDate)
+                    putExtra(DetailActivity.EXTRA_TIME, item.letterTime)
+                    putExtra(DetailActivity.EXTRA_PHOTO, item.galleryName)
+                    putExtra(DetailActivity.EXTRA_FONT, item.fontStyle)
+                }
+                startActivity(intent)
             }
             TYPE_EDIT -> {
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
