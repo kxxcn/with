@@ -64,8 +64,10 @@ class LoginFragment : Fragment(), LoginContract.View {
             displayWidth = size.x
             val metrics = activity?.displayMetrics
             display?.getMetrics(metrics)
-            width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, metrics) + tv_introduce.width
-            setUpListener()
+            if (metrics != null) {
+                width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, metrics) + tv_introduce.width
+            }
+            setupListener()
         }
     }
 
@@ -123,12 +125,12 @@ class LoginFragment : Fragment(), LoginContract.View {
         }
     }
 
-    private fun setUpListener() {
-        tv_start.onClick { start() }
-        ll_alone.onClick { showDialog(TYPE_ALONE) }
-        ll_together.onClick { showDialog(TYPE_TOGETHER) }
-        tv_create.onClick { showPairDialog() }
-        tv_authentication.onClick { authenticate() }
+    private fun setupListener() {
+        tv_start?.onClick { start() }
+        ll_alone?.onClick { showDialog(TYPE_ALONE) }
+        ll_together?.onClick { showDialog(TYPE_TOGETHER) }
+        tv_create?.onClick { showPairDialog() }
+        tv_authentication?.onClick { authenticate() }
     }
 
     private fun start() {

@@ -3,6 +3,7 @@ package dev.kxxcn.app_with.data;
 import java.util.List;
 
 import dev.kxxcn.app_with.data.model.diary.Diary;
+import dev.kxxcn.app_with.data.model.diary.Profile;
 import dev.kxxcn.app_with.data.model.entry.Entry;
 import dev.kxxcn.app_with.data.model.event.Event;
 import dev.kxxcn.app_with.data.model.geocode.v2.Results;
@@ -18,6 +19,7 @@ import dev.kxxcn.app_with.util.Constants;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 /**
@@ -48,6 +50,8 @@ public abstract class DataSource {
     public abstract Single<List<Plan>> getPlan(String uniqueIdentifier);
 
     public abstract Single<ResponseResult> uploadImage(MultipartBody.Part body);
+
+    public abstract Single<ResponseResult> uploadProfile(MultipartBody.Part body, RequestBody identifier);
 
     public abstract Single<ResponseBody> getImage(String fileName);
 
@@ -86,4 +90,6 @@ public abstract class DataSource {
     public abstract Single<List<Event>> fetchEvents();
 
     public abstract Single<ResponseResult> registerEntry(Entry entry);
+
+    public abstract Single<Profile> getProfile(String uniqueIdentifier);
 }

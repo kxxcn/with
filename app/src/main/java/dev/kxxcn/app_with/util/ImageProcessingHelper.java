@@ -115,6 +115,14 @@ public class ImageProcessingHelper {
         Glide.with(context).asBitmap().load(t).apply(options).listener(listener).into(view);
     }
 
+    public static <T> void setThumbnail(Context context, T t, ImageView view, RequestOptions options) {
+        GlideApp.with(context).load(t).thumbnail(0.75f).apply(options).into(view);
+    }
+
+    public static <T> void setThumbnail(Context context, T t, ImageView view, RequestListener<Drawable> listener, RequestOptions options) {
+        GlideApp.with(context).load(t).thumbnail(0.75f).apply(options).listener(listener).into(view);
+    }
+
     public static String convertToJPEG(Context context, Bitmap bitmap, String name) {
         File storage = context.getCacheDir();
 

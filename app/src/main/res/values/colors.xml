@@ -93,7 +93,7 @@
     <color name="text_allowed_count">#1de9b6</color>
     <color name="text_denied_count">#f44336</color>
     <color name="text_password_number">#e1d3d3</color>
-    <color name="text_place_picker">#1de9b6</color>
+    <color name="text_place_picker">#e1d3d3</color>
 
     <color name="selected_circle_indicator">#ffffff</color>
     <color name="deselected_circle_indicator">#84797d</color>
@@ -151,5 +151,6 @@
 
     <color name="tint_photo">#efcb9d</color>
     <color name="tint_weather">#c0b1ec</color>
-    <color name="tint_place">#ee809f</color>
+    <color name="tint_font">#ee809f</color>
+    <color name="tint_calendar">#1de9b6</color>
 </resources>

@@ -23,7 +23,8 @@
     <string name="hint_time">時間を入力してください。</string>
     <string name="hint_place">場所を入力してください。</string>
     <string name="hint_date">日付を入力してください。</string>
-    <string name="hint_nickname">愛称を入力してください。</string>
+    <string name="hint_my_nickname">私愛称を入力してください。</string>
+    <string name="hint_your_nickname">愛する人の愛称を入力してください。</string>
     <string name="hint_alias">ニックネームを入力してください。</string>
     <string name="hint_gender">私の性別を入力してください。</string>
     <string name="hint_name">お名前を入力してください。</string>
@@ -47,7 +48,7 @@
     <string name="btn_female">女</string>
     <string name="btn_signup">開始する</string>
     <string name="btn_auth">認証</string>
-    <string name="btn_registration">登録する</string>
+    <string name="btn_registration">セーブ</string>
     <string name="btn_solo">一人で送る</string>
     <string name="btn_couple">のように書く</string>
 
@@ -88,6 +89,7 @@
     <string name="toast_failed_registration_entry">応募に失敗しました。しばらくして、もう一度やり直してください。</string>
     <string name="toast_registration_entry">応募された。</string>
     <string name="toast_already_registration_entry">すでに応募しました。</string>
+    <string name="toast_changed_profile_image">プロフィール写真が変更されました。</string>
 
     <string name="snack_selected_gallery">写真が選択された。</string>
 
@@ -120,7 +122,8 @@
     <string name="text_location">%sで</string>
     <string name="text_somewhere">どこか</string>
     <string name="text_from">で</string>
-    <string name="text_nickname">カップルの愛称で上部のタイトルを変更して見。</string>
+    <string name="text_font">フォント</string>
+    <string name="text_nickname">カップル愛称を変更しましょう。</string>
     <string name="text_alias">別名で上部のタイトルを変更して見。</string>
     <string name="text_blur">写真にぼかしをしてください。</string>
     <string name="text_count">%d / %d</string>
@@ -154,6 +157,7 @@
 
     <string name="text_with">WITH</string>
     <string name="text_timeline">タイムライン</string>
+    <string name="text_diary">ダイアリー</string>
     <string name="text_recently_plan">最近の計画</string>
     <string name="text_plan_date_time">%s %s</string>
     <string name="text_decimal_day_minus">D%d</string>

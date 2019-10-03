@@ -1,18 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="20dp"
-    app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true">
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="ContentDescription" />
+
+    <com.joooonho.SelectableRoundedImageView
+        android:id="@+id/iv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        app:sriv_left_bottom_corner_radius="15dp"
+        app:sriv_left_top_corner_radius="15dp"
+        app:sriv_right_bottom_corner_radius="15dp"
+        app:sriv_right_top_corner_radius="15dp" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/drawable_rectangle_bottom_detail"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <ImageView
+            android:id="@+id/iv_stick"
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/drawable_rectangle_bottom_stick"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/iv_date"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_calendar"
+            android:tint="@color/primary_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_stick"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/iv_time"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/ic_time"
+            android:tint="@color/primary_icon"
+            app:layout_constraintStart_toStartOf="@id/iv_date"
+            app:layout_constraintTop_toBottomOf="@id/iv_date"
+            tools:ignore="ContentDescription" />
+
+        <View
+            android:id="@+id/view_divider"
+            android:layout_width="0dp"
+            android:layout_height="0.3dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/division_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_time" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/WithTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/iv_date"
+            app:layout_constraintStart_toEndOf="@id/iv_date"
+            app:layout_constraintTop_toTopOf="@id/iv_date"
+            tools:text="2019-10-03" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/WithTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/iv_time"
+            app:layout_constraintStart_toEndOf="@id/iv_time"
+            app:layout_constraintTop_toTopOf="@id/iv_time"
+            tools:text="11:00" />
+
+        <TextView
+            android:id="@+id/tv_letter"
+            style="@style/WithTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_divider"
+            tools:text="If you love photography and natural beauty, this private door-to-door waterfall tour is for you. Visit the three most beautiful waterfalls around Ubud without the hassle of self-drive: Tibumana Waterfall, nestled" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/cl_root"
@@ -50,6 +154,7 @@
                 android:layout_marginTop="5dp"
                 android:textColor="@color/secondary_icon"
                 android:textSize="15sp"
+                android:visibility="gone"
                 app:charIncrease="1"
                 app:layout_constraintStart_toStartOf="@id/ttv_date"
                 app:layout_constraintTop_toBottomOf="@id/ttv_date"
@@ -57,17 +162,16 @@
                 tools:text="어딘가에서" />
 
             <View
-                android:id="@+id/view_divider"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/seekbar_bubble"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@id/ttv_place"
                 app:layout_constraintStart_toStartOf="@id/view_line"
                 app:layout_constraintTop_toBottomOf="@id/ttv_place" />
 
             <TextView
-                android:id="@+id/tv_letter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -83,4 +187,4 @@
 
     </ScrollView>
 
-</android.support.v7.widget.CardView>
+</android.support.design.widget.CoordinatorLayout>

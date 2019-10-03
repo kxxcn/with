@@ -9,13 +9,14 @@ public class APIPersistence {
 
     //:: Production
     public static final String SERVER_URL = "http://kxxcn.cafe24.com/with/";
-    // public static final String SERVER_URL = "http://172.30.1.27:8080/with/";
+    // public static final String SERVER_URL = "http://172.30.1.15:8080/with/";
 
     // public static final String NAVER_SERVER_URL = "https://openapi.naver.com/v1/";
     public static final String NAVER_SERVER_URL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/";
     public static final String IMAGES_URL = SERVER_URL + "uploads/images/";
     public static final String THUMBS_URL = SERVER_URL + "uploads/thumbs/";
     public static final String EVENTS_URL = SERVER_URL + "uploads/events/";
+    public static final String PROFILE_URL = SERVER_URL + "uploads/profile/";
     public static final String GSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     public static final String GET_KEY = "getPairingKey.php";
@@ -32,6 +33,7 @@ public class APIPersistence {
     public static final String REGISTER_PLAN = "registerPlan.php";
     public static final String UPDATE_PLAN = "updatePlan.php";
     public static final String REGISTER_IMAGE = "uploadImage.php";
+    public static final String REGISTER_PROFILE = "uploadProfile.php";
     public static final String REMOVE_DIARY = "removeDiary.php";
     public static final String REMOVE_PLAN = "removePlan.php";
     public static final String GET_NOTIFICATION_INFORMATION = "getNotificationInformation.php";
@@ -50,6 +52,7 @@ public class APIPersistence {
     public static final String SUBSCRIBE_IDS = "getSubscribeIds.php";
     public static final String FETCH_EVENTS = "fetchEvents.php";
     public static final String REGISTER_ENTRY = "registerEntry.php";
+    public static final String GET_PROFILE = "getProfile.php";
 
     public static final String FCM_MESSAGE = "message";
     public static final String FCM_TYPE = "type";

@@ -1,13 +1,13 @@
 package dev.kxxcn.app_with.ui.main.timeline
 
-import dev.kxxcn.app_with.data.model.diary.Diary
+import dev.kxxcn.app_with.data.model.diary.Detail
 import dev.kxxcn.app_with.ui.BasePresenter
 import dev.kxxcn.app_with.ui.BaseView
 
 interface TimeLineContract {
 
     interface View : BaseView<Presenter> {
-        fun showSuccessfulLoadDiary(diaryList: List<Diary>)
+        fun showSuccessfulLoadDiary(detail: Detail)
 
         fun showFailedRequest(throwable: String?)
 

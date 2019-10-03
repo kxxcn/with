@@ -29,6 +29,7 @@ import butterknife.OnClick;
 import co.ceryle.radiorealbutton.RadioRealButton;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.DataRepository;
+import dev.kxxcn.app_with.data.model.diary.Detail;
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
@@ -278,12 +279,22 @@ public class DiaryFragment extends Fragment implements DiaryContract.View, Diary
 	}
 
 	@Override
+	public void showSuccessfulUploadProfile() {
+
+	}
+
+	@Override
 	public void showSuccessfulGetNickname(ResponseNickname responseNickname) {
 		if (args.getInt(KEY_MODE) == SOLO) {
 			tv_title.setText(responseNickname.getMyNickname());
 		} else {
 			tv_title.setText(args.getBoolean(KEY_GENDER) ? responseNickname.getMyNickname() : responseNickname.getYourNickname());
 		}
+	}
+
+	@Override
+	public void showDetails(Detail detail) {
+
 	}
 
 	public void onRegisteredDiary(int flag, String identifier) {

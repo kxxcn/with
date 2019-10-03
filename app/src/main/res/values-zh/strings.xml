@@ -23,7 +23,8 @@
     <string name="hint_time">请输入一个时间。</string>
     <string name="hint_place">请输入一个地方。</string>
     <string name="hint_date">请输入日期。</string>
-    <string name="hint_nickname">请输入昵称。</string>
+    <string name="hint_my_nickname">请输入我的昵称。</string>
+    <string name="hint_your_nickname">输入您喜欢的人的昵称。</string>
     <string name="hint_alias">请输入昵称。</string>
     <string name="hint_gender">请输入您的性别。</string>
     <string name="hint_name">请输入你的名字。</string>
@@ -47,7 +48,7 @@
     <string name="btn_female">女</string>
     <string name="btn_signup">入门</string>
     <string name="btn_auth">认证</string>
-    <string name="btn_registration">注册</string>
+    <string name="btn_registration">救</string>
     <string name="btn_solo">单独写</string>
     <string name="btn_couple">一起写</string>
 
@@ -88,6 +89,7 @@
     <string name="toast_failed_registration_entry">无法进入请稍后再试。</string>
     <string name="toast_registration_entry">它被应用了。</string>
     <string name="toast_already_registration_entry">你已经输入了。</string>
+    <string name="toast_changed_profile_image">您的个人资料照片已更改。</string>
 
     <string name="snack_selected_gallery">照片已选中</string>
 
@@ -120,7 +122,8 @@
     <string name="text_location">%s从</string>
     <string name="text_somewhere">某处</string>
     <string name="text_from">从</string>
-    <string name="text_nickname">让我们将顶部标题更改为几个昵称。</string>
+    <string name="text_font">字体</string>
+    <string name="text_nickname">改变你的情侣昵称。</string>
     <string name="text_alias">尝试将顶部标题更改为别名。</string>
     <string name="text_blur">让你的照片变得模糊。</string>
     <string name="text_count">%d / %d</string>
@@ -154,6 +157,7 @@
 
     <string name="text_with">WITH</string>
     <string name="text_timeline">时间轴</string>
+    <string name="text_diary">日记</string>
     <string name="text_recently_plan">最近的计划</string>
     <string name="text_plan_date_time">%s %s</string>
     <string name="text_decimal_day_minus">D%d</string>

@@ -23,7 +23,8 @@
     <string name="hint_time">Please enter the time.</string>
     <string name="hint_place">Please enter a location.</string>
     <string name="hint_date">Please enter the date.</string>
-    <string name="hint_nickname">Please enter your nickname.</string>
+    <string name="hint_my_nickname">Enter my nickname.</string>
+    <string name="hint_your_nickname">Enter the nickname of the person you love.</string>
     <string name="hint_alias">Please enter a nickname.</string>
     <string name="hint_gender">Please enter my gender.</string>
     <string name="hint_name">Please enter your name.</string>
@@ -47,7 +48,7 @@
     <string name="btn_female">Female</string>
     <string name="btn_signup">Start</string>
     <string name="btn_auth">Authentication</string>
-    <string name="btn_registration">Sign up</string>
+    <string name="btn_registration">Save</string>
     <string name="btn_solo">Send alone</string>
     <string name="btn_couple">Write like</string>
 
@@ -88,6 +89,7 @@
     <string name="toast_failed_registration_entry">I failed to apply. Please try again later.</string>
     <string name="toast_registration_entry">Applied.</string>
     <string name="toast_already_registration_entry">I have already applied.</string>
+    <string name="toast_changed_profile_image">Your profile photo has been changed.</string>
 
     <string name="snack_selected_gallery">A photo was selected.</string>
 
@@ -100,7 +102,7 @@
     <string name="text_auth2">Enter the number given to your lover.</string>
     <string name="text_delete">DELETE</string>
     <string name="text_account">Account</string>
-    <string name="text_lock">Lock setting</string>
+    <string name="text_lock">Lock mode</string>
     <string name="text_profile">Edit profile</string>
     <string name="text_notification">Notification</string>
     <string name="text_notice_with">WITH notification</string>
@@ -120,7 +122,8 @@
     <string name="text_location">From %s</string>
     <string name="text_somewhere">somewhere</string>
     <string name="text_from">From</string>
-    <string name="text_nickname">Change the title at the top with the couple\'s nickname.</string>
+    <string name="text_font">FONT</string>
+    <string name="text_nickname">Let\'s change the couple nickname.</string>
     <string name="text_alias">Change the title at the top with another name.</string>
     <string name="text_blur">Please blur the photo.</string>
     <string name="text_count">%d / %d</string>
@@ -154,6 +157,7 @@
 
     <string name="text_with">WITH</string>
     <string name="text_timeline">Timeline</string>
+    <string name="text_diary">Dairy</string>
     <string name="text_recently_plan">Recent plans</string>
     <string name="text_plan_date_time">%s %s</string>
     <string name="text_decimal_day_minus">D%d</string>
@@ -212,4 +216,24 @@
     <string name="text_name">Name</string>
     <string name="tv_comment_cat"><![CDATA[Free tickets for theatrical <attic cat> will be given every 10 minutes selected by lottery every week. I would like your participation. (♥ŐωŐ♥）]]></string>
     <string name="text_phone">Phone number</string>
+    <string name="text_font_1" translatable="false">Apple pie</string>
+    <string name="text_font_2" translatable="false">Banana bread</string>
+    <string name="text_font_3" translatable="false">Cupcake</string>
+    <string name="text_font_4" translatable="false">Donut</string>
+    <string name="text_font_5" translatable="false">Edair</string>
+    <string name="text_font_6" translatable="false">Proyo</string>
+    <string name="text_font_7" translatable="false">Gingerbread</string>
+    <string name="text_font_8" translatable="false">Honeycomb</string>
+    <string name="text_font_9" translatable="false">Ice Cream Sandwich</string>
+    <string name="text_font_10" translatable="false">JellyBean</string>
+    <string name="text_font_11" translatable="false">KitKat</string>
+    <string name="text_font_12" translatable="false">Lollipop</string>
+    <string name="text_font_13" translatable="false">Marshmallow</string>
+    <string name="text_font_14" translatable="false">Nougat</string>
+    <string name="text_font_15" translatable="false">Oreo</string>
+    <string name="text_font_16" translatable="false">Palmier</string>
+    <string name="text_font_17" translatable="false">Opera</string>
+    <string name="text_font_18" translatable="false">Macaron</string>
+    <string name="text_font_19" translatable="false">Gallette des rois</string>
+    <string name="text_font_20" translatable="false">Truffle</string>
 </resources>

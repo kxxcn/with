@@ -85,8 +85,10 @@ class PageDateFragment : Fragment(), PlanContract.OnClickDateCallback {
             }
         }
         et_date.onClick {
-            KeyboardUtils.hideKeyboard(activity, et_date)
-            datePickerFragment?.show(fragmentManager, DatePickerFragment::class.java.name)
+            if (datePickerFragment?.isAdded == false) {
+                KeyboardUtils.hideKeyboard(activity, et_date)
+                datePickerFragment?.show(fragmentManager, DatePickerFragment::class.java.name)
+            }
         }
     }
 
@@ -100,9 +102,7 @@ class PageDateFragment : Fragment(), PlanContract.OnClickDateCallback {
 
         fun newInstance(date: String?): PageDateFragment {
             return PageDateFragment().apply {
-                arguments = Bundle().apply {
-                    putString(KEY_DATE, date)
-                }
+                arguments = Bundle().apply { putString(KEY_DATE, date) }
             }
         }
     }

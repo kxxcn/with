@@ -37,13 +37,9 @@ class MainDiaryAdapter : RecyclerView.Adapter<MainDiaryAdapter.ViewHolder>() {
         } else if (item.galleryName.isNotEmpty()) {
             GlideApp
                     .with(context)
-                    .load(String.format(context.getString(R.string.param_download_image_url),
-                            THUMBS_URL, item.galleryName))
-                    .error(
-                            GlideApp.with(context)
-                                    .load(String.format(context.getString(R.string.param_download_image_url),
-                                            IMAGES_URL, item.galleryName))
-                    )
+                    .load(context.getString(R.string.param_download_image_url, THUMBS_URL, item.galleryName))
+                    .error(GlideApp.with(context)
+                            .load(context.getString(R.string.param_download_image_url, IMAGES_URL, item.galleryName)))
                     .apply(options)
                     .into(holder.backgroundIv)
         }

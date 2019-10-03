@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_navigation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:background="@color/primary_app">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="@id/tv_with"
+        app:layout_constraintStart_toStartOf="@id/tv_with"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/tv_with"
@@ -38,9 +49,21 @@
         android:text="@string/text_write"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/tv_plan"
+        app:layout_constraintBottom_toTopOf="@id/tv_diary"
         app:layout_constraintStart_toStartOf="@id/tv_with"
         app:layout_constraintTop_toBottomOf="@id/tv_timeline" />
+
+    <TextView
+        android:id="@+id/tv_diary"
+        style="@style/WithTextView"
+        android:padding="10dp"
+        android:text="@string/text_diary"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/tv_plan"
+        app:layout_constraintStart_toStartOf="@id/tv_with"
+        app:layout_constraintTop_toBottomOf="@id/tv_write" />
 
     <TextView
         android:id="@+id/tv_plan"
@@ -51,7 +74,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tv_setting"
         app:layout_constraintStart_toStartOf="@id/tv_with"
-        app:layout_constraintTop_toBottomOf="@id/tv_write" />
+        app:layout_constraintTop_toBottomOf="@id/tv_diary" />
 
     <TextView
         android:id="@+id/tv_setting"

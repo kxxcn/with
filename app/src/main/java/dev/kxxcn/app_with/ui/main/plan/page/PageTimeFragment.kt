@@ -109,9 +109,7 @@ class PageTimeFragment : Fragment() {
 
         fun newInstance(time: String?): PageTimeFragment {
             return PageTimeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(KEY_TIME, time)
-                }
+                arguments = Bundle().apply { putString(KEY_TIME, time) }
             }
         }
     }

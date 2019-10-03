@@ -1,21 +1,16 @@
 package dev.kxxcn.app_with.ui.main.setting.profile;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.request.RequestOptions;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.unstoppable.submitbuttonview.SubmitButton;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +21,6 @@ import dev.kxxcn.app_with.data.model.nickname.Nickname;
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.main.MainContract;
-import dev.kxxcn.app_with.util.ImageProcessingHelper;
 import dev.kxxcn.app_with.util.KeyboardUtils;
 import dev.kxxcn.app_with.util.SystemUtils;
 import dev.kxxcn.app_with.util.TransitionUtils;
@@ -58,9 +52,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
     @BindView(R.id.tv_explain)
     TextView tv_explain;
-
-    @BindView(R.id.iv_explain)
-    ImageView iv_explain;
 
     @BindView(R.id.tfb_me)
     TextFieldBoxes tfb_me;
@@ -127,28 +118,28 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
             tv_explain.setText(getString(R.string.text_alias));
             tfb_you.setVisibility(View.GONE);
             tfb_gender.setVisibility(View.GONE);
-            tfb_me.setIconSignifier(R.drawable.ic_me);
+//            tfb_me.setIconSignifier(R.drawable.ic_me);
             tfb_me.setLabelText(getString(R.string.hint_alias));
         } else {
             tfb_you.setVisibility(View.VISIBLE);
             if (getIntent().getBooleanExtra(EXTRA_HOMOSEXUAL, false)) {
                 if (getIntent().getBooleanExtra(EXTRA_GENDER, true)) {
-                    tfb_me.setIconSignifier(R.drawable.ic_girl);
-                    tfb_you.setIconSignifier(R.drawable.ic_girl);
+//                    tfb_me.setIconSignifier(R.drawable.ic_girl);
+//                    tfb_you.setIconSignifier(R.drawable.ic_girl);
                     isFemale = true;
                 } else {
-                    tfb_me.setIconSignifier(R.drawable.ic_boy);
-                    tfb_you.setIconSignifier(R.drawable.ic_boy);
+//                    tfb_me.setIconSignifier(R.drawable.ic_boy);
+//                    tfb_you.setIconSignifier(R.drawable.ic_boy);
                     isFemale = false;
                 }
             } else {
                 if (getIntent().getBooleanExtra(EXTRA_GENDER, true)) {
-                    tfb_me.setIconSignifier(R.drawable.ic_girl);
-                    tfb_you.setIconSignifier(R.drawable.ic_boy);
+//                    tfb_me.setIconSignifier(R.drawable.ic_girl);
+//                    tfb_you.setIconSignifier(R.drawable.ic_boy);
                     isFemale = true;
                 } else {
-                    tfb_me.setIconSignifier(R.drawable.ic_boy);
-                    tfb_you.setIconSignifier(R.drawable.ic_girl);
+//                    tfb_me.setIconSignifier(R.drawable.ic_boy);
+//                    tfb_you.setIconSignifier(R.drawable.ic_girl);
                     isFemale = false;
                 }
             }
@@ -159,8 +150,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         registerView(ll_root);
 
         mPresenter.getNickname(getIntent().getStringExtra(EXTRA_IDENTIFIER));
-
-        ImageProcessingHelper.setGlide(this, R.drawable.profile, iv_explain, new RequestOptions());
     }
 
     private void enableComponent(boolean enable) {
@@ -195,7 +184,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     public void onRegistration() {
         isProcessing = true;
         enableComponent(false);
-        KeyboardUtils.hideKeyboard(this, Objects.requireNonNull(getCurrentFocus()));
+        View focusedView = getCurrentFocus();
+        if (focusedView != null) {
+            KeyboardUtils.hideKeyboard(this, focusedView);
+        }
         Nickname nickname = new Nickname();
         nickname.setUniqueIdentifier(getIntent().getStringExtra(EXTRA_IDENTIFIER));
         nickname.setMyNickname(eet_me.getText().toString());
@@ -242,7 +234,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     }
 
     private void onFinish(boolean isSuccess) {
-        setResult(isSuccess ? RESULT_OK : RESULT_CANCELED, new Intent());
+        // setResult(isSuccess ? RESULT_OK : RESULT_CANCELED, new Intent());
         finish();
         TransitionUtils.fade(mActivity);
     }
@@ -250,13 +242,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     @Override
     public void onShowKeyboard() {
         tv_explain.setVisibility(View.VISIBLE);
-        iv_explain.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onHideKeyboard() {
         tv_explain.setVisibility(View.GONE);
-        iv_explain.setVisibility(View.GONE);
     }
-
 }

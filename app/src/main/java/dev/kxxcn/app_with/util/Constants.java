@@ -8,6 +8,14 @@ import dev.kxxcn.app_with.R;
  * Created by kxxcn on 2018-08-13.
  */
 public class Constants {
+
+    public static final int[] FONTS_NAME = {R.string.text_font_1, R.string.text_font_2, R.string.text_font_3,
+            R.string.text_font_4, R.string.text_font_5, R.string.text_font_6, R.string.text_font_7,
+            R.string.text_font_8, R.string.text_font_9, R.string.text_font_10, R.string.text_font_11,
+            R.string.text_font_12, R.string.text_font_13, R.string.text_font_14, R.string.text_font_15,
+            R.string.text_font_16, R.string.text_font_17, R.string.text_font_18, R.string.text_font_19,
+            R.string.text_font_20};
+
     public static final int[] FONTS = {R.font.dohyeon, R.font.flowerroad, R.font.godo, R.font.godomaum, R.font.jua,
             R.font.shinb, R.font.yanolja, R.font.nanummyeongjo, R.font.namsan, R.font.nanumsquare, R.font.dream, R.font.uhbee,
             R.font.joseonilbo, R.font.stencil, R.font.dovemayo, R.font.dongkyung, R.font.dos, R.font.namsoyoung, R.font.beojji,

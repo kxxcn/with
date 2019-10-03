@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.ablanco.zoomy.Zoomy
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.model.diary.Diary
@@ -28,11 +29,16 @@ class TimeLineAdapter(
         private val callback: TimeLineContract.ItemClick
 ) : RecyclerView.Adapter<TimeLineAdapter.ViewHolder>() {
 
-    private var mDiaryList: List<Diary>? = null
+    private var diaryList: List<Diary>? = null
+
+    private var filteredList: List<Diary>? = null
 
     private var refRecyclerView: WeakReference<RecyclerView>? = null
 
-    private val options = RequestOptions()
+    private val options = RequestOptions
+            .fitCenterTransform()
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -47,10 +53,10 @@ class TimeLineAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_timeline, parent, false), callback)
 
-    override fun getItemCount() = if (mDiaryList == null) 0 else mDiaryList!!.size
+    override fun getItemCount() = filteredList?.size ?: 0
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = mDiaryList?.get(holder.adapterPosition) ?: return
+        val item = filteredList?.get(holder.adapterPosition) ?: return
         val context = holder.itemView.context
 //        val anim = AnimationUtils.loadAnimation(context, R.anim.slide_bottom_top2)
 //        holder.itemView.startAnimation(anim)
@@ -94,7 +100,12 @@ class TimeLineAdapter(
             }
             item.galleryName.isNotEmpty() -> {
                 val galleryName = item.galleryName
-                ImageProcessingHelper.setGlide(context, String.format(context.getString(R.string.param_download_image_url), IMAGES_URL, galleryName), holder.backgroundIv, options)
+                holder.backgroundIv.layout(0, 0, 0, 0)
+                ImageProcessingHelper.setGlide(
+                        context,
+                        String.format(context.getString(R.string.param_download_image_url), IMAGES_URL, galleryName),
+                        holder.backgroundIv,
+                        options)
                 Zoomy.Builder(activity).target(holder.backgroundIv).register()
             }
             else -> {
@@ -117,14 +128,26 @@ class TimeLineAdapter(
         holder.itemView.clearAnimation()
     }
 
-    fun setItems(diaryList: List<Diary>) {
-        mDiaryList = diaryList
+    fun setItems(_diaryList: List<Diary>) {
+        diaryList = _diaryList
+        filteredList = _diaryList.filter { it.writer == identifier }
         notifyDataSetChanged()
         val recyclerView = refRecyclerView?.get()
         recyclerView?.scheduleLayoutAnimation()
     }
 
-    fun getItem(position: Int): Diary? = mDiaryList?.get(position)
+    fun changeDiary(isMine: Boolean) {
+        filteredList = if (isMine) {
+            diaryList?.filter { it.writer == identifier }
+        } else {
+            diaryList?.filter { it.writer != identifier }
+        }
+        notifyDataSetChanged()
+        val recyclerView = refRecyclerView?.get()
+        recyclerView?.scheduleLayoutAnimation()
+    }
+
+    fun getItem(position: Int): Diary? = filteredList?.get(position)
 
     class ViewHolder(itemView: View, callback: TimeLineContract.ItemClick) : RecyclerView.ViewHolder(itemView) {
         val circleIv: ImageView = itemView.findViewById(R.id.iv_circle)

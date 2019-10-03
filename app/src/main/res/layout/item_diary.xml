@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.joooonho.SelectableRoundedImageView
+        android:id="@+id/iv_diary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:sriv_left_bottom_corner_radius="15dp"
+        app:sriv_left_top_corner_radius="15dp"
+        app:sriv_right_bottom_corner_radius="15dp"
+        app:sriv_right_top_corner_radius="15dp" />
+
+</android.support.constraint.ConstraintLayout>
