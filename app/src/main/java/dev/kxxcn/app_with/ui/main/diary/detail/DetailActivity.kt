@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.view.ViewTreeObserver
 import com.bumptech.glide.load.DataSource
@@ -50,14 +51,14 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
 
     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
         pb_loading.visibility = View.GONE
-        cv_content.animate().alpha(0.8f).duration = 1000
+        cv_content.animate().alpha(0.7f).duration = 1000
         toast(R.string.text_failed_load)
         return false
     }
 
     override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
         pb_loading.visibility = View.GONE
-        cv_content.animate().alpha(0.8f).duration = 1000
+        cv_content.animate().alpha(0.7f).duration = 1000
         return false
     }
 
@@ -66,6 +67,7 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
     }
 
     private fun initUI() {
+        tv_letter.movementMethod = ScrollingMovementMethod()
         pb_loading.visibility = View.VISIBLE
         iv_background?.run {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -80,10 +82,12 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
                                     .override(iv_background.width / 2, iv_background.height / 2)
                     )
 
-                    val typeface = ResourcesCompat.getFont(this@DetailActivity, Constants.FONTS[font])
-                    tv_letter.typeface = typeface
-                    tv_time.typeface = typeface
-                    tv_date.typeface = typeface
+                    if (font != -1) {
+                        val typeface = ResourcesCompat.getFont(this@DetailActivity, Constants.FONTS[font])
+                        tv_letter.typeface = typeface
+                        tv_time.typeface = typeface
+                        tv_date.typeface = typeface
+                    }
 
                     tv_date.text = date
                     tv_time.text = time

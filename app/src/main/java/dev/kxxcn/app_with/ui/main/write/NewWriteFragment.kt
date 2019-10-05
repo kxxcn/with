@@ -71,6 +71,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
 
     private var isShowKeyboard = true
     private var isHideKeyboard = true
+    private var preventCancel = false
 
     private var bitmap: Bitmap? = null
 
@@ -122,7 +123,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     }
 
     override fun showFailedRequest(throwable: String?) {
-
+        preventCancel = false
     }
 
     override fun showSuccessfulUpload() {
@@ -167,6 +168,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
                     override fun onAnimationEnd(animation: Animator?) {
                         super.onAnimationEnd(animation)
                         interstitialAd?.show()
+                        preventCancel = false
                         activity.showMainFragment()
                     }
                 })
@@ -543,7 +545,6 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
             setStateBottomSheet(BottomSheetBehavior.STATE_EXPANDED)
             if (diaryPlace != null) {
                 UiThread.getInstance().postDelayed({
-                    // epv_place?.moveTo(placePosition)
                     diaryPlace = null
                 }, DELAY_PICKER)
             }
@@ -551,6 +552,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     }
 
     private fun registerDiary() {
+        preventCancel = true
         KeyboardUtils.hideKeyboard(activity, et_write)
         setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED)
         if (fl_loading.visibility != View.VISIBLE) {
@@ -583,7 +585,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
             setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED)
             return true
         }
-        return false
+        return preventCancel
     }
 
     companion object {
