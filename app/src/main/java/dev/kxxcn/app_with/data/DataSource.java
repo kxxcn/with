@@ -75,7 +75,7 @@ public abstract class DataSource {
 
     public abstract Single<ResponseResult> checkNewNotice(String uniqueIdentifier);
 
-    public abstract Single<List<Notice>> getNotice(String uniqueIdentifier);
+    public abstract Single<List<Notice>> getNotice(String uniqueIdentifier, String country);
 
     public abstract Single<ResponseResult> isLockedUser(String uniqueIdentifier);
 

@@ -133,8 +133,8 @@ public class DataRepository {
         return dataSource.checkNewNotice(uniqueIdentifier);
     }
 
-    public Single<List<Notice>> getNotice(String uniqueIdentifier) {
-        return dataSource.getNotice(uniqueIdentifier);
+    public Single<List<Notice>> getNotice(String uniqueIdentifier, String country) {
+        return dataSource.getNotice(uniqueIdentifier, country);
     }
 
     public Single<ResponseResult> isLockedUser(String uniqueIdentifier) {

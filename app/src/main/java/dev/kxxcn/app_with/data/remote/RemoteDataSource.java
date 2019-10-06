@@ -211,8 +211,8 @@ public class RemoteDataSource extends DataSource {
     }
 
     @Override
-    public Single<List<Notice>> getNotice(String uniqueIdentifier) {
-        return service.getNotice(uniqueIdentifier)
+    public Single<List<Notice>> getNotice(String uniqueIdentifier, String country) {
+        return service.getNotice(uniqueIdentifier, country)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

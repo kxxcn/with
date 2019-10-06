@@ -177,7 +177,8 @@ public interface APIService {
 
     @FormUrlEncoded
     @POST(GET_NOTICE)
-    Single<List<Notice>> getNotice(@Field("uniqueIdentifier") String uniqueIdentifier);
+    Single<List<Notice>> getNotice(@Field("uniqueIdentifier") String uniqueIdentifier,
+                                   @Field("country") String country);
 
     @FormUrlEncoded
     @POST(REGISTER_LOCK)
