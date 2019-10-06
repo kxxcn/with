@@ -109,7 +109,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_register -> {
-                registerDiary()
+                if (!preventCancel) registerDiary()
             }
         }
         return super.onOptionsItemSelected(item)

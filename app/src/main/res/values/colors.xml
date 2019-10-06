@@ -146,6 +146,13 @@
     <color name="background_together">#ef6363</color>
     <color name="background_select_agree">#ffff78</color>
     <color name="background_deselect_agree">#bcbfc5</color>
+    <color name="background_setting_profile">#b27cc1</color>
+    <color name="background_setting_lock">#dcbe71</color>
+    <color name="background_setting_notification">#f0937a</color>
+    <color name="background_setting_sync">#6368c3</color>
+    <color name="background_setting_notice">#bcbfc5</color>
+    <color name="background_setting_info">#4ebb7f</color>
+    <color name="background_setting_logout">#ec706c</color>
 
     <color name="text_calendar">#1de9b6</color>
 

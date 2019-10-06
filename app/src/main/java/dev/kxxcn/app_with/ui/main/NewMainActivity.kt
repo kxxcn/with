@@ -17,7 +17,7 @@ import dev.kxxcn.app_with.BuildConfig
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.ui.main.diary.NewDiaryFragment
 import dev.kxxcn.app_with.ui.main.plan.NewPlanFragment
-import dev.kxxcn.app_with.ui.main.setting.SettingFragment
+import dev.kxxcn.app_with.ui.main.setting.NewSettingFragment
 import dev.kxxcn.app_with.ui.main.timeline.TimeLineFragment
 import dev.kxxcn.app_with.ui.main.write.NewWriteFragment
 import dev.kxxcn.app_with.util.*
@@ -74,7 +74,7 @@ class NewMainActivity : AppCompatActivity() {
                             interstitialAd?.show()
                         },
                         null)
-            } else if (fragment is SettingFragment ||
+            } else if (fragment is NewSettingFragment ||
                     fragment is NewDiaryFragment) {
                 showMainFragment()
             } else if (fragment is NewWriteFragment) {
@@ -136,7 +136,7 @@ class NewMainActivity : AppCompatActivity() {
 //            )
             tv_plan.id -> fragment = NewPlanFragment.newInstance(
                     intent.getStringExtra(EXTRA_IDENTIFIER))
-            tv_setting.id -> fragment = SettingFragment.newInstance(
+            tv_setting.id -> fragment = NewSettingFragment.newInstance(
                     intent.getStringExtra(EXTRA_IDENTIFIER))
             tv_about.id -> {
             }

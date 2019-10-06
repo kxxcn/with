@@ -8,8 +8,8 @@ public class APIPersistence {
     // public static final String SERVER_URL = "http://221.152.105.76:80/with/";
 
     // Production
-    public static final String SERVER_URL = "http://kxxcn.cafe24.com/with/";
-    // public static final String SERVER_URL = "http://172.30.1.46:8080/with/";
+    //public static final String SERVER_URL = "http://kxxcn.cafe24.com/with/";
+    public static final String SERVER_URL = "http://172.30.1.58:8080/with/";
 
     // public static final String NAVER_SERVER_URL = "https://openapi.naver.com/v1/";
     public static final String NAVER_SERVER_URL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/";
@@ -57,6 +57,7 @@ public class APIPersistence {
     public static final String FCM_MESSAGE = "message";
     public static final String FCM_TYPE = "type";
     public static final String FCM_NOTIFY = "notify";
+    public static final String FCM_COUNTRY = "country";
 
     public static final String TYPE_AUTH = "authentication";
     public static final String TYPE_DIARY = "diary";
