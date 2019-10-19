@@ -4,12 +4,8 @@ package dev.kxxcn.app_with.data.remote;
  * Created by kxxcn on 2018-08-20.
  */
 public class APIPersistence {
-    // Development
-    // public static final String SERVER_URL = "http://221.152.105.76:80/with/";
-
-    // Production
-    //public static final String SERVER_URL = "http://kxxcn.cafe24.com/with/";
-    public static final String SERVER_URL = "http://172.30.1.58:8080/with/";
+    public static final String SERVER_URL = "http://kxxcn.cafe24.com/with/";
+    // public static final String SERVER_URL = "http://172.30.1.43:8080/with/";
 
     // public static final String NAVER_SERVER_URL = "https://openapi.naver.com/v1/";
     public static final String NAVER_SERVER_URL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/";
@@ -36,6 +32,8 @@ public class APIPersistence {
     public static final String REGISTER_PROFILE = "uploadProfile.php";
     public static final String REMOVE_DIARY = "removeDiary.php";
     public static final String REMOVE_PLAN = "removePlan.php";
+    public static final String REMOVE_DAY = "removeDay.php";
+    public static final String UPDATE_DAY = "updateDay.php";
     public static final String GET_NOTIFICATION_INFORMATION = "getNotificationInformation.php";
     public static final String UPDATE_RECEIVE_NOTIFICATION = "updateReceiveNotification.php";
     // public static final String CONVERT_COORD_TO_ADDRESS = "map/reversegeocode";
@@ -53,6 +51,8 @@ public class APIPersistence {
     public static final String FETCH_EVENTS = "fetchEvents.php";
     public static final String REGISTER_ENTRY = "registerEntry.php";
     public static final String GET_PROFILE = "getProfile.php";
+    public static final String GET_DAY = "getDay.php";
+    public static final String REGISTER_DAY = "registerDay.php";
 
     public static final String FCM_MESSAGE = "message";
     public static final String FCM_TYPE = "type";
@@ -63,6 +63,7 @@ public class APIPersistence {
     public static final String TYPE_DIARY = "diary";
     public static final String TYPE_PLAN = "plan";
     public static final String TYPE_NOTICE = "notice";
+    public static final String TYPE_DAY = "day";
 
     public static final int ID_NOTIFY = 0;
     public static final int DENIED_NOTIFICATION = 0;

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import dev.kxxcn.app_with.BuildConfig;
@@ -33,6 +34,7 @@ import static dev.kxxcn.app_with.util.Constants.TAG;
 public class SystemUtils {
 
     private static final String WAKELOCK_TAG = "wakelock:";
+    private static HashMap<View, ViewTreeObserver.OnGlobalLayoutListener> LISTENER_MAP = new HashMap<>();
 
     public static String getDate() {
         long now = System.currentTimeMillis();
@@ -71,6 +73,11 @@ public class SystemUtils {
             }
         };
         root.getViewTreeObserver().addOnGlobalLayoutListener(mGlobalListener);
+        LISTENER_MAP.put(root, mGlobalListener);
+    }
+
+    public static void removeOnGlobalLayoutListener(View view) {
+        view.getViewTreeObserver().removeOnGlobalLayoutListener(LISTENER_MAP.get(view));
     }
 
     private static int getSoftButtonsBarHeight(Activity activity) {

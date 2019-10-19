@@ -12,6 +12,7 @@
     <string name="ad_unit_id">ca-app-pub-1655234429103343/4743625569</string>
     <string name="ad_unit_test_id">ca-app-pub-3940256099942544/1033173712</string>
 
+    <string name="push_title">With</string>
     <string name="title">WITH</string>
     <string name="title_write">WRITE</string>
     <string name="title_you">YOU</string>
@@ -57,6 +58,7 @@
     <string name="dialog_delete_contents">書き込みをキャンセルしますか? 作成中の内容は保存されません。</string>
     <string name="dialog_delete_diary">日記を削除しますか?</string>
     <string name="dialog_delete_plan">スケジュールを削除しますか?</string>
+    <string name="dialog_delete_day">ティデイを削除しますか？</string>
     <string name="dialog_want_to_quit">WITHを終了しますか?</string>
     <string name="dialog_want_to_sign_out">記録されたデータはすべて削除されます。\nWITHを脱退しますか?</string>
     <string name="dialog_delete_lock">ロック機能を解除しますか?</string>
@@ -90,6 +92,8 @@
     <string name="toast_registration_entry">応募された。</string>
     <string name="toast_already_registration_entry">すでに応募しました。</string>
     <string name="toast_changed_profile_image">プロフィール写真が変更されました。</string>
+    <string name="toast_changed_nickname">ニックネームが変更されました。</string>
+    <string name="toast_failed_request_day">ティデイ情報読み込みに失敗しました。</string>
 
     <string name="snack_selected_gallery">写真が選択された。</string>
 
@@ -140,6 +144,8 @@
     <string name="text_input_password">パスワードを入力してください。</string>
     <string name="text_input_password_more">パスワードをもう一度入力してください。</string>
     <string name="text_cancel">キャンセル</string>
+    <string name="text_day_registration">ティデイ登録</string>
+    <string name="text_day_content">ティデイ内容を入力してください。</string>
 
     <string name="label_mon">月曜日</string>
     <string name="label_tue">火曜日</string>
@@ -216,4 +222,13 @@
     <string name="text_name">お名前</string>
     <string name="tv_comment_cat"><![CDATA[毎週抽選で選ばれた10分に演劇<屋根裏部屋の猫>無料チケットをプレゼントいたします。皆さんの多くの参加をお願いいたします。 (♥ŐωŐ♥）]]></string>
     <string name="text_phone">電話番号</string>
+    <string name="text_register_decimal_day">ティデイを登録して大切な日を共有します。</string>
+    <string name="text_date_count">日数</string>
+    <string name="text_date_type0">1日から開始します。</string>
+    <string name="text_date_type1">D-0、 D+0などで開始します。</string>
+    <string name="text_calculate_date">%1$d日</string>
+
+    <string name="push_content_diary">新しい[日記]が登録されました。</string>
+    <string name="push_content_plan">新しい[日程]が登録されました。</string>
+    <string name="push_content_day">新しい[D-Day]が登録されました。</string>
 </resources>

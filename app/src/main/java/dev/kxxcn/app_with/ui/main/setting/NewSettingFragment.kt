@@ -4,16 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewCompat
 import android.text.SpannableStringBuilder
+import android.transition.TransitionInflater
+import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.DataRepository
+import dev.kxxcn.app_with.data.model.nickname.ResponseNickname
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting
+import dev.kxxcn.app_with.data.model.share.ShareElement
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
 import dev.kxxcn.app_with.ui.main.setting.SettingFragment.PREF_TOKEN
+import dev.kxxcn.app_with.ui.main.setting.lock.LockFragment
 import dev.kxxcn.app_with.ui.main.setting.notice.NoticeActivity
+import dev.kxxcn.app_with.ui.main.setting.notification.NotificationFragment
+import dev.kxxcn.app_with.ui.main.setting.profile.ProfileFragment
 import dev.kxxcn.app_with.ui.main.setting.sync.SyncActivity
 import dev.kxxcn.app_with.ui.main.setting.version.VersionActivity
 import dev.kxxcn.app_with.util.Constants.DELAY_SIGN_OUT
@@ -47,6 +55,12 @@ class NewSettingFragment : Fragment(), SettingContract.View {
         setupListener()
         checkToken()
         checkVersion()
+        checkProfile()
+    }
+
+    override fun onDestroyView() {
+        presenter?.release()
+        super.onDestroyView()
     }
 
     override fun showSuccessfulLoadUserInformation(response: ResponseSetting?) {
@@ -89,6 +103,14 @@ class NewSettingFragment : Fragment(), SettingContract.View {
     override fun showSuccessfulCheckNewNotice(stat: String?) {
     }
 
+    override fun setProfileSetting(r: ResponseNickname?) {
+        cl_profile.visibility = if (r?.yourNickname?.trim().isNullOrEmpty()) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+    }
+
     override fun setPresenter(_presenter: SettingContract.Presenter?) {
         presenter = _presenter
     }
@@ -127,6 +149,10 @@ class NewSettingFragment : Fragment(), SettingContract.View {
         presenter?.checkVersion(context?.packageName)
     }
 
+    private fun checkProfile() {
+        presenter?.fetchNickname(identifier)
+    }
+
     private fun showNotice() {
         val intent = Intent(context, NoticeActivity::class.java)
         intent.putExtra(NoticeActivity.EXTRA_IDENTIFIER, identifier)
@@ -145,15 +171,54 @@ class NewSettingFragment : Fragment(), SettingContract.View {
     }
 
     private fun showProfile() {
+        val fragment = WrapFragment.newInstance(
+                ProfileFragment::class.java.name,
+                R.drawable.ic_setting_profile,
+                getString(R.string.text_profile),
+                R.color.background_setting_profile,
+                identifier
+        )
 
+        replaceFragment(
+                fragment,
+                ShareElement(iv_profile_bg, getString(R.string.transition_bg)),
+                ShareElement(iv_profile_icon, getString(R.string.transition_icon)),
+                ShareElement(tv_profile_title, getString(R.string.transition_title))
+        )
     }
 
     private fun showLock() {
+        val fragment = WrapFragment.newInstance(
+                LockFragment::class.java.name,
+                R.drawable.ic_setting_lock,
+                getString(R.string.text_lock),
+                R.color.background_setting_lock,
+                identifier
+        )
 
+        replaceFragment(
+                fragment,
+                ShareElement(iv_lock_bg, getString(R.string.transition_bg)),
+                ShareElement(iv_lock_icon, getString(R.string.transition_icon)),
+                ShareElement(tv_lock_title, getString(R.string.transition_title))
+        )
     }
 
     private fun showNotification() {
+        val fragment = WrapFragment.newInstance(
+                NotificationFragment::class.java.name,
+                R.drawable.ic_setting_notification,
+                getString(R.string.text_notification),
+                R.color.background_setting_notification,
+                identifier
+        )
 
+        replaceFragment(
+                fragment,
+                ShareElement(iv_notification_bg, getString(R.string.transition_bg)),
+                ShareElement(iv_notification_icon, getString(R.string.transition_icon)),
+                ShareElement(tv_notification_title, getString(R.string.transition_title))
+        )
     }
 
     private fun showSynchronization() {
@@ -183,7 +248,29 @@ class NewSettingFragment : Fragment(), SettingContract.View {
         }
     }
 
+    private fun replaceFragment(fragment: Fragment, vararg element: ShareElement) {
+        val enterTransitionSet = TransitionSet()
+        enterTransitionSet.addTransition(
+                TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        )
+        enterTransitionSet.duration = DURATION
+        fragment.sharedElementEnterTransition = enterTransitionSet
+
+        val transaction = fragmentManager?.beginTransaction() ?: return
+        for (i in element.indices) {
+            val view = element[i].view
+            val transitionName = element[i].transitionName
+            ViewCompat.setTransitionName(view, transitionName)
+            transaction.addSharedElement(view, transitionName)
+        }
+        transaction
+                .replace(R.id.fl_container, fragment)
+                .commitAllowingStateLoss()
+    }
+
     companion object {
+
+        const val DURATION = 300L
 
         fun newInstance(identifier: String): NewSettingFragment {
             return NewSettingFragment().apply {

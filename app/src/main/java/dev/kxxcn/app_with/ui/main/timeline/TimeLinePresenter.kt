@@ -50,17 +50,6 @@ class TimeLinePresenter(
                 }, {
                     view.showFailedRequest(it.message)
                 })
-
-//        val disposable = dataRepository.getDiary(flag, uniqueIdentifier)
-//                .map<List<Diary>> { diaryList ->
-//                    diaryList.sortWith(Comparator { d1, d2 -> d2.letterDate.compareTo(d1.letterDate) })
-//                    diaryList
-//                }
-//                .subscribe({
-//                    view.showSuccessfulLoadDiary(it)
-//                }, {
-//                    view.showFailedRequest(it.message)
-//                })
         compositeDisposable.add(disposable)
     }
 

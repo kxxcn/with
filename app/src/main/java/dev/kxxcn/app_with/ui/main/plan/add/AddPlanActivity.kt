@@ -20,6 +20,9 @@ import dev.kxxcn.app_with.util.TransitionUtils
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_add_plan.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast
@@ -141,7 +144,9 @@ class AddPlanActivity : AppCompatActivity(), AddPlanContract.View {
     }
 
     override fun showFailedRequest(throwable: String?) {
-        toast(getString(R.string.toast_failed_registration_plan))
+        GlobalScope.launch(Dispatchers.Main) {
+            toast(R.string.toast_failed_registration_plan)
+        }
     }
 
     private fun initUI() {

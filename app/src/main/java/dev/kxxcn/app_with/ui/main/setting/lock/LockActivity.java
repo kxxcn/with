@@ -130,5 +130,4 @@ public class LockActivity extends AppCompatActivity implements LockContract.View
     public void onCancel() {
         onBackPressed();
     }
-
 }

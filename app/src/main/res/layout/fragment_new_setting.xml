@@ -49,6 +49,7 @@
                     tools:ignore="ContentDescription" />
 
                 <ImageView
+                    android:id="@+id/iv_profile_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_setting_profile"
@@ -60,6 +61,7 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
+                    android:id="@+id/tv_profile_title"
                     style="@style/WithTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -90,6 +92,7 @@
                     tools:ignore="ContentDescription" />
 
                 <ImageView
+                    android:id="@+id/iv_lock_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_setting_lock"
@@ -101,6 +104,7 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
+                    android:id="@+id/tv_lock_title"
                     style="@style/WithTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -131,6 +135,7 @@
                     tools:ignore="ContentDescription" />
 
                 <ImageView
+                    android:id="@+id/iv_notification_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_setting_notification"
@@ -142,6 +147,7 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
+                    android:id="@+id/tv_notification_title"
                     style="@style/WithTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -215,7 +221,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_setting_notice"
+                    android:src="@drawable/ic_speaker"
                     android:tint="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="@id/iv_notice_bg"
                     app:layout_constraintEnd_toEndOf="@id/iv_notice_bg"
@@ -316,10 +322,20 @@
                     app:layout_constraintStart_toEndOf="@id/iv_logout_bg"
                     app:layout_constraintTop_toTopOf="@id/iv_logout_bg" />
 
+
             </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>
 
     </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

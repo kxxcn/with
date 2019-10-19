@@ -113,13 +113,14 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
     @Override
     public void showLockScreen() {
-        clMain.setVisibility(View.GONE);
-        clPassword.setVisibility(View.VISIBLE);
+        UiThread.getInstance().postDelayed(() -> {
+            clMain.setVisibility(View.GONE);
+            clPassword.setVisibility(View.VISIBLE);
+        }, 1000);
     }
 
     @Override
     public void showMainActivity(int gender) {
-        // Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         Intent intent = new Intent(SplashActivity.this, NewMainActivity.class);
         intent.putExtra(MainActivity.EXTRA_GENDER, gender);
         intent.putExtra(MainActivity.EXTRA_IDENTIFIER, mUniqueIdentifier);

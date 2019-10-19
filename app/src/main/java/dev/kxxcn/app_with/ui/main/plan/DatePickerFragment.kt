@@ -17,6 +17,7 @@ import dev.kxxcn.app_with.util.Constants.ANIMATE_DURATION_LONG
 import kotlinx.android.synthetic.main.fragment_date_picker.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import java.util.*
 
 
 class DatePickerFragment : BottomSheetDialogFragment() {
@@ -70,8 +71,11 @@ class DatePickerFragment : BottomSheetDialogFragment() {
             })
         }
 
+        tv_title.text = Calendar.getInstance().get(Calendar.YEAR).toString()
+
         mcv_date.setTitleFormatter { calendarDay -> String.format(getString(dev.kxxcn.app_with.R.string.format_month), calendarDay.month.toString()) }
         mcv_date.selectedDate = CalendarDay.today()
+        mcv_date.setOnMonthChangedListener { _, date -> tv_title.text = date.year.toString() }
 
         fl_close.onClick { closeDatePicker() }
         tv_choice.onClick {

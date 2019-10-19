@@ -1,6 +1,7 @@
 package dev.kxxcn.app_with.ui.main.setting.lock;
 
 import dev.kxxcn.app_with.data.DataRepository;
+import dev.kxxcn.app_with.util.threading.UiThread;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -9,8 +10,11 @@ import io.reactivex.disposables.Disposable;
  */
 public class LockPresenter implements LockContract.Presenter {
 
-    private StringBuilder mPasswordBuilder = new StringBuilder();
+    private static final int DELAY = 500;
 
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private StringBuilder mPasswordBuilder = new StringBuilder();
     private String mPasswordRepo;
 
     private boolean isFirst;
@@ -28,11 +32,6 @@ public class LockPresenter implements LockContract.Presenter {
 
     @Override
     public void registerLock(String uniqueIdentifier) {
-        if (mLockView == null)
-            return;
-
-        CompositeDisposable compositeDisposable = new CompositeDisposable();
-
         Disposable disposable = mDataRepository.registerLock(uniqueIdentifier, mPasswordBuilder.toString())
                 .subscribe(
                         responseResult -> {
@@ -53,10 +52,13 @@ public class LockPresenter implements LockContract.Presenter {
         mPasswordBuilder.append(charSequence);
         if (mPasswordBuilder.length() == 4) {
             if (isFirst) {
-                mLockView.showSecondInputScreen();
-                isFirst = false;
-                mPasswordRepo = mPasswordBuilder.toString();
-                mPasswordBuilder = new StringBuilder();
+                UiThread.getInstance().postDelayed(() -> {
+                    mLockView.showSecondInputScreen();
+                    isFirst = false;
+                    mPasswordRepo = mPasswordBuilder.toString();
+                    mPasswordBuilder = new StringBuilder();
+                    mLockView.drawPasswordIcon(-1);
+                }, DELAY);
             } else {
                 isFirst = true;
                 verifyPassword(mPasswordBuilder.toString());
@@ -75,7 +77,8 @@ public class LockPresenter implements LockContract.Presenter {
 
     private void verifyPassword(String password) {
         if (mPasswordRepo.equals(password)) {
-            mLockView.completeVerify();
+            UiThread.getInstance().postDelayed(() -> mLockView.completeVerify(), DELAY);
+            mLockView.drawPasswordIcon(mPasswordRepo.length());
         } else {
             mLockView.showInvalidPassword();
             mPasswordRepo = null;

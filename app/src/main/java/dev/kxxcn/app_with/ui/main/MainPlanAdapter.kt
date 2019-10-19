@@ -11,8 +11,8 @@ import com.bumptech.glide.request.RequestOptions
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.model.plan.Plan
 import dev.kxxcn.app_with.util.ImageProcessingHelper
+import dev.kxxcn.app_with.util.Utils.Companion.getDDay
 import java.lang.ref.WeakReference
-import java.util.*
 
 class MainPlanAdapter(context: Context?) : RecyclerView.Adapter<MainPlanAdapter.ViewHolder>() {
 
@@ -45,14 +45,18 @@ class MainPlanAdapter(context: Context?) : RecyclerView.Adapter<MainPlanAdapter.
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         try {
+            val ctx = holder.itemView.context ?: return
             val date = mPlanList?.get(position)?.date?.split(REGEX_DATE)
-            setBackgroundMonthTextView(Integer.parseInt(date?.get(1)), holder.monthIv)
+            val month = date?.get(1)
+            if (month != null) {
+                setBackgroundMonthTextView(Integer.parseInt(month), holder.monthIv)
+            }
             holder.planTv.text = mPlanList?.get(position)?.plan
             holder.dateTimeTv.text = String.format(mContext!!.getString(R.string.text_plan_date_time),
                     mPlanList?.get(position)?.date, mPlanList?.get(position)?.time)
             holder.placeTv.text = mPlanList?.get(position)?.place
             if (date != null) {
-                holder.decimalDayTv.text = getDDay(date[0].toInt(), date[1].toInt() - 1, date[2].toInt())
+                holder.decimalDayTv.text = getDDay(ctx, date[0].toInt(), date[1].toInt() - 1, date[2].toInt())
             }
         } catch (e: ArrayIndexOutOfBoundsException) {
             e.printStackTrace()
@@ -68,23 +72,6 @@ class MainPlanAdapter(context: Context?) : RecyclerView.Adapter<MainPlanAdapter.
 
     private fun setBackgroundMonthTextView(month: Int, monthIv: ImageView) {
         ImageProcessingHelper.setGlide(mContext, resourcesOfMonth[month - 1], monthIv, option)
-    }
-
-    private fun getDDay(year: Int, month: Int, day: Int): String {
-        val today = Calendar.getInstance()
-        val decimalDay = Calendar.getInstance()
-        decimalDay.set(year, month, day)
-        val longDecimalDay = decimalDay.timeInMillis / (24 * 60 * 60 * 1000)
-        val longToday = today.timeInMillis / (24 * 60 * 60 * 1000)
-
-        val count = (longToday - longDecimalDay).toInt()
-        if (count > 0) {
-            return String.format(mContext?.getString(R.string.text_decimal_day_plus).toString(), count)
-        } else if (count == 0) {
-            return mContext?.getString(R.string.text_decimal_day).toString()
-        }
-
-        return String.format(mContext?.getString(R.string.text_decimal_day_minus).toString(), count)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

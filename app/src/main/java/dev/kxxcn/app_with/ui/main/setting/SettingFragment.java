@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.DataRepository;
+import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
 import dev.kxxcn.app_with.data.remote.MyFirebaseMessagingService;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
@@ -269,6 +270,11 @@ public class SettingFragment extends Fragment implements SettingContract.View {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(PREF_TOKEN, null);
         editor.apply();
+    }
+
+    @Override
+    public void setProfileSetting(ResponseNickname r) {
+        
     }
 
     @Override

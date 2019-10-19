@@ -17,173 +17,159 @@ import io.reactivex.disposables.Disposable;
  */
 public class SettingPresenter implements SettingContract.Presenter {
 
-	private static final String SEPARATOR = ".htlgb";
+    public static final String URI_PLAY_STORE = "https://play.google.com/store/apps/details?id=";
+    private static final String SEPARATOR = ".htlgb";
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private SettingContract.View mSettingView;
+    private DataRepository mDataRepository;
 
-	public static final String URI_PLAY_STORE = "https://play.google.com/store/apps/details?id=";
+    public SettingPresenter(SettingContract.View settingView, DataRepository dataRepository) {
+        this.mSettingView = settingView;
+        this.mDataRepository = dataRepository;
+        mSettingView.setPresenter(this);
+    }
 
-	private SettingContract.View mSettingView;
-	private DataRepository mDataRepository;
+    @Override
+    public void release() {
+        compositeDisposable.dispose();
+    }
 
-	public SettingPresenter(SettingContract.View settingView, DataRepository dataRepository) {
-		this.mSettingView = settingView;
-		this.mDataRepository = dataRepository;
-		mSettingView.setPresenter(this);
-	}
+    @Override
+    public void getNotificationInformation(String identifier) {
+        Disposable disposable = mDataRepository.getNotificationInformation(identifier)
+                .subscribe(
+                        responseSetting -> {
+                            mSettingView.showSuccessfulLoadUserInformation(responseSetting);
+                            compositeDisposable.dispose();
+                        },
+                        throwable -> {
+                            mSettingView.showFailedRequest(throwable.getMessage());
+                            compositeDisposable.dispose();
+                        }
+                );
 
-	@Override
-	public void getNotificationInformation(String identifier) {
-		if (mSettingView == null)
-			return;
+        compositeDisposable.add(disposable);
+    }
 
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
+    @Override
+    public void whetherToReceiveNotification(String identifier, Constants.NotificationFilter notificationFilter, boolean on) {
+        if (mSettingView == null)
+            return;
 
-		Disposable disposable = mDataRepository.getNotificationInformation(identifier)
-				.subscribe(
-						responseSetting -> {
-							mSettingView.showSuccessfulLoadUserInformation(responseSetting);
-							compositeDisposable.dispose();
-						},
-						throwable -> {
-							mSettingView.showFailedRequest(throwable.getMessage());
-							compositeDisposable.dispose();
-						}
-				);
+        Disposable disposable = mDataRepository.updateReceiveNotification(identifier, notificationFilter, on)
+                .subscribe(() -> mSettingView.showSuccessfulUpdateNotification());
 
-		compositeDisposable.add(disposable);
-	}
+        compositeDisposable.add(disposable);
+    }
 
-	@Override
-	public void whetherToReceiveNotification(String identifier, Constants.NotificationFilter notificationFilter, boolean on) {
-		if (mSettingView == null)
-			return;
+    @Override
+    public void updateToken(String identifier, String token) {
+        Disposable disposable = mDataRepository.updateToken(identifier, token)
+                .subscribe(responseResult -> {
+                    if (responseResult.getRc() == 200) {
+                        mSettingView.showSuccessfulUpdateToken();
+                    } else if (responseResult.getRc() == 201) {
+                        mSettingView.showFailedRequest(responseResult.getStat());
+                    }
+                    compositeDisposable.dispose();
+                }, throwable -> {
+                    mSettingView.showFailedRequest(throwable.getMessage());
+                    compositeDisposable.dispose();
+                });
 
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(disposable);
+    }
 
-		Disposable disposable = mDataRepository.updateReceiveNotification(identifier, notificationFilter, on)
-				.subscribe(() -> mSettingView.showSuccessfulUpdateNotification());
+    @Override
+    public void checkVersion(String packageName) {
+        new Thread() {
+            @Override
+            public void run() {
+                if (mSettingView == null) {
+                    return;
+                }
+                try {
+                    Document doc = Jsoup.connect(URI_PLAY_STORE + packageName).get();
 
-		compositeDisposable.add(disposable);
-	}
+                    Elements Version = doc.select(SEPARATOR).eq(7);
 
-	@Override
-	public void updateToken(String identifier, String token) {
-		if (mSettingView == null)
-			return;
+                    for (Element mElement : Version) {
+                        mSettingView.showSuccessfulCheckVersion(mElement.text().trim());
+                    }
+                } catch (IOException ex) {
+                    mSettingView.showUnsuccessfulCheckVersion();
+                    ex.printStackTrace();
+                }
+            }
+        }.start();
+    }
 
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
+    @Override
+    public void signOut(String identifier) {
+        mSettingView.showLoadingIndicator(true);
 
-		Disposable disposable = mDataRepository.updateToken(identifier, token)
-				.subscribe(responseResult -> {
-					if (responseResult.getRc() == 200) {
-						mSettingView.showSuccessfulUpdateToken();
-					} else if (responseResult.getRc() == 201) {
-						mSettingView.showFailedRequest(responseResult.getStat());
-					}
-					compositeDisposable.dispose();
-				}, throwable -> {
-					mSettingView.showFailedRequest(throwable.getMessage());
-					compositeDisposable.dispose();
-				});
+        Disposable disposable = mDataRepository.signOut(identifier)
+                .subscribe(responseResult -> {
+                            mSettingView.showLoadingIndicator(false);
+                            if (responseResult.getRc() == 200) {
+                                mSettingView.showSuccessfulSignOut(responseResult.getStat());
+                            } else if (responseResult.getRc() == 201) {
+                                mSettingView.showFailedRequest(responseResult.getStat());
+                            }
+                            compositeDisposable.dispose();
+                        },
+                        throwable -> {
+                            mSettingView.showLoadingIndicator(false);
+                            mSettingView.showFailedRequest(throwable.getMessage());
+                            compositeDisposable.dispose();
+                        });
 
-		compositeDisposable.add(disposable);
-	}
+        compositeDisposable.add(disposable);
+    }
 
-	@Override
-	public void checkVersion(String packageName) {
-		new Thread() {
-			@Override
-			public void run() {
-				if (mSettingView == null) {
-					return;
-				}
-				try {
-					Document doc = Jsoup.connect(URI_PLAY_STORE + packageName).get();
+    @Override
+    public void checkNewNotice(String identifier) {
+        Disposable disposable = mDataRepository.checkNewNotice(identifier)
+                .subscribe(responseResult -> {
+                            if (responseResult.getRc() == 200) {
+                                mSettingView.showSuccessfulCheckNewNotice(responseResult.getStat());
+                            } else if (responseResult.getRc() == 201) {
+                                mSettingView.showFailedRequest(responseResult.getStat());
+                            }
+                            compositeDisposable.dispose();
+                        },
+                        throwable -> {
+                            mSettingView.showFailedRequest(throwable.getMessage());
+                            compositeDisposable.dispose();
+                        });
 
-					Elements Version = doc.select(SEPARATOR).eq(7);
+        compositeDisposable.add(disposable);
+    }
 
-					for (Element mElement : Version) {
-						mSettingView.showSuccessfulCheckVersion(mElement.text().trim());
-					}
-				} catch (IOException ex) {
-					mSettingView.showUnsuccessfulCheckVersion();
-					ex.printStackTrace();
-				}
-			}
-		}.start();
-	}
+    @Override
+    public void unregisterLock(String identifier) {
+        Disposable disposable = mDataRepository.unregisterLock(identifier)
+                .subscribe(responseResult -> {
+                            if (responseResult.getRc() == 200) {
+                            } else if (responseResult.getRc() == 201) {
+                            }
+                        },
+                        throwable -> {
+                            mSettingView.showFailedRequest(throwable.getMessage());
+                            compositeDisposable.dispose();
+                        }
+                );
 
-	@Override
-	public void signOut(String identifier) {
-		if (mSettingView == null)
-			return;
+        compositeDisposable.add(disposable);
+    }
 
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
+    @Override
+    public void fetchNickname(String uniqueIdentifier) {
+        Disposable disposable = mDataRepository.getTitle(uniqueIdentifier)
+                .subscribe(r -> mSettingView.setProfileSetting(r), error -> {
 
-		mSettingView.showLoadingIndicator(true);
+                });
 
-		Disposable disposable = mDataRepository.signOut(identifier)
-				.subscribe(responseResult -> {
-							mSettingView.showLoadingIndicator(false);
-							if (responseResult.getRc() == 200) {
-								mSettingView.showSuccessfulSignOut(responseResult.getStat());
-							} else if (responseResult.getRc() == 201) {
-								mSettingView.showFailedRequest(responseResult.getStat());
-							}
-							compositeDisposable.dispose();
-						},
-						throwable -> {
-							mSettingView.showLoadingIndicator(false);
-							mSettingView.showFailedRequest(throwable.getMessage());
-							compositeDisposable.dispose();
-						});
-
-		compositeDisposable.add(disposable);
-	}
-
-	@Override
-	public void checkNewNotice(String identifier) {
-		if (mSettingView == null)
-			return;
-
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
-
-		Disposable disposable = mDataRepository.checkNewNotice(identifier)
-				.subscribe(responseResult -> {
-							if (responseResult.getRc() == 200) {
-								mSettingView.showSuccessfulCheckNewNotice(responseResult.getStat());
-							} else if (responseResult.getRc() == 201) {
-								mSettingView.showFailedRequest(responseResult.getStat());
-							}
-							compositeDisposable.dispose();
-						},
-						throwable -> {
-							mSettingView.showFailedRequest(throwable.getMessage());
-							compositeDisposable.dispose();
-						});
-
-		compositeDisposable.add(disposable);
-	}
-
-	@Override
-	public void unregisterLock(String identifier) {
-		if (mSettingView == null)
-			return;
-
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
-
-		Disposable disposable = mDataRepository.unregisterLock(identifier)
-				.subscribe(responseResult -> {
-							if (responseResult.getRc() == 200) {
-							} else if (responseResult.getRc() == 201) {
-							}
-						},
-						throwable -> {
-							mSettingView.showFailedRequest(throwable.getMessage());
-							compositeDisposable.dispose();
-						}
-				);
-
-		compositeDisposable.add(disposable);
-	}
-
+        compositeDisposable.add(disposable);
+    }
 }

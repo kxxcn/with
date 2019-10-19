@@ -21,7 +21,7 @@ public class Constants {
             R.font.joseonilbo, R.font.stencil, R.font.dovemayo, R.font.dongkyung, R.font.dos, R.font.namsoyoung, R.font.beojji,
             R.font.ham};
 
-    public static final int[] COLOR_IMGS = {R.drawable.color_1, R.drawable.color_2, R.drawable.color_3, R.drawable.color_4, R.drawable.color_5,
+    public static final int[] COLOR_IMAGES = {R.drawable.color_1, R.drawable.color_2, R.drawable.color_3, R.drawable.color_4, R.drawable.color_5,
             R.drawable.color_6, R.drawable.color_7, R.drawable.color_8, R.drawable.color_9, R.drawable.color_10, R.drawable.color_11,
             R.drawable.color_12, R.drawable.color_13, R.drawable.color_14, R.drawable.color_15, R.drawable.color_16, R.drawable.color_17,
             R.drawable.color_18, R.drawable.color_19, R.drawable.color_20, R.drawable.color_21};
@@ -31,10 +31,22 @@ public class Constants {
             R.color.color_12, R.color.color_13, R.color.color_14, R.color.color_15, R.color.color_16, R.color.color_17,
             R.color.color_18, R.color.color_19, R.color.color_20, R.color.color_21};
 
-    public static final int[] FONT_IMGS = {R.drawable.font_1, R.drawable.font_2, R.drawable.font_3, R.drawable.font_4, R.drawable.font_5,
+    public static final int[] FONT_IMAGES = {R.drawable.font_1, R.drawable.font_2, R.drawable.font_3, R.drawable.font_4, R.drawable.font_5,
             R.drawable.font_6, R.drawable.font_7, R.drawable.font_8, R.drawable.font_9, R.drawable.font_10, R.drawable.font_11,
             R.drawable.font_12, R.drawable.font_13, R.drawable.font_14, R.drawable.font_15, R.drawable.font_16, R.drawable.font_17,
             R.drawable.font_18, R.drawable.font_19, R.drawable.font_20};
+
+    public static final int[] ICON_IMAGES = {R.drawable.ic_day_0, R.drawable.ic_day_1, R.drawable.ic_day_2, R.drawable.ic_day_3,
+            R.drawable.ic_day_4, R.drawable.ic_day_5, R.drawable.ic_day_6, R.drawable.ic_day_7, R.drawable.ic_day_8, R.drawable.ic_day_9,
+            R.drawable.ic_day_10, R.drawable.ic_day_11, R.drawable.ic_day_12, R.drawable.ic_day_13, R.drawable.ic_day_14, R.drawable.ic_day_15,
+            R.drawable.ic_day_16, R.drawable.ic_day_17, R.drawable.ic_day_18, R.drawable.ic_day_19, R.drawable.ic_day_20, R.drawable.ic_day_21,
+            R.drawable.ic_day_22, R.drawable.ic_day_23, R.drawable.ic_day_24, R.drawable.ic_day_25, R.drawable.ic_day_26, R.drawable.ic_day_27,
+            R.drawable.ic_day_28, R.drawable.ic_day_29};
+
+    public static final int[] DAY_COLORS = {R.color.day_background0, R.color.day_background1, R.color.day_background2, R.color.day_background3,
+            R.color.day_background4, R.color.day_background5, R.color.day_background6, R.color.day_background7, R.color.day_background8,
+            R.color.day_background9, R.color.day_background10, R.color.day_background11, R.color.day_background12, R.color.day_background13,
+            R.color.day_background14, R.color.day_background15, R.color.day_background16};
 
     public static final int[] COLOR_DEFAULT = {R.drawable.color_default};
 
@@ -69,6 +81,7 @@ public class Constants {
     public static final int WEATHER_CLOUD = 1;
     public static final int WEATHER_RAIN = 2;
     public static final int WEATHER_SNOW = 3;
+    public static final int REQ_REGISTRATION_DAY = 10000;
 
     public static final long ANIMATE_DURATION_SHORT = 200;
     public static final long ANIMATE_DURATION_LONG = 500;

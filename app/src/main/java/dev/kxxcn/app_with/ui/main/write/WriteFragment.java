@@ -85,9 +85,9 @@ import static dev.kxxcn.app_with.ui.login.mode.ModeFragment.SOLO;
 import static dev.kxxcn.app_with.util.Constants.ACCESS_COARSE_LOCATION;
 import static dev.kxxcn.app_with.util.Constants.ACCESS_FINE_LOCATION;
 import static dev.kxxcn.app_with.util.Constants.COLOR_DEFAULT;
-import static dev.kxxcn.app_with.util.Constants.COLOR_IMGS;
+import static dev.kxxcn.app_with.util.Constants.COLOR_IMAGES;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
-import static dev.kxxcn.app_with.util.Constants.FONT_IMGS;
+import static dev.kxxcn.app_with.util.Constants.FONT_IMAGES;
 import static dev.kxxcn.app_with.util.Constants.KEY_GENDER;
 import static dev.kxxcn.app_with.util.Constants.KEY_HOMOSEXUAL;
 import static dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER;
@@ -368,8 +368,8 @@ public class WriteFragment extends Fragment implements WriteContract.View, MainC
 
         interstitialAd = FullAdsHelper.getInstance(mContext);
 
-        colorBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.PRIMARY, COLOR_IMGS, null, 0, 0);
-        fontBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.FONT, FONT_IMGS, null, 0, 0);
+        colorBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.PRIMARY, COLOR_IMAGES, null, 0, 0);
+        fontBitmapList = ImageProcessingHelper.convertToBitmap(mContext, Constants.TypeFilter.FONT, FONT_IMAGES, null, 0, 0);
 
         default_font_size = et_write.getTextSize();
         et_write.setTextColor(getResources().getColor(R.color.default_font));

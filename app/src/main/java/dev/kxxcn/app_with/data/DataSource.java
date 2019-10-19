@@ -2,6 +2,7 @@ package dev.kxxcn.app_with.data;
 
 import java.util.List;
 
+import dev.kxxcn.app_with.data.model.decimal.DecimalDay;
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.model.diary.Profile;
 import dev.kxxcn.app_with.data.model.entry.Entry;
@@ -92,4 +93,12 @@ public abstract class DataSource {
     public abstract Single<ResponseResult> registerEntry(Entry entry);
 
     public abstract Single<Profile> getProfile(String uniqueIdentifier);
+
+    public abstract Single<ResponseResult> registerDay(DecimalDay day);
+
+    public abstract Single<List<DecimalDay>> getDay(String uniqueIdentifier);
+
+    public abstract Single<ResponseResult> removeDay(int id);
+
+    public abstract Single<ResponseResult> updateDay(DecimalDay day);
 }

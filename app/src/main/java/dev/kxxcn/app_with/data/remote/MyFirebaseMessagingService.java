@@ -28,6 +28,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.FCM_NOTIFY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.FCM_TYPE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.ID_NOTIFY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.TYPE_AUTH;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.TYPE_DAY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.TYPE_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.TYPE_NOTICE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.TYPE_PLAN;
@@ -76,7 +77,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         builder.setSmallIcon(R.mipmap.ic_launcher_foreground);
-        builder.setContentTitle(message);
+        builder.setContentTitle(getString(R.string.push_title));
+        builder.setContentText(getContentText(type, message));
         builder.setContentIntent(pendingIntent);
 
         if (manager != null) {
@@ -113,6 +115,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             builder = new NotificationCompat.Builder(this);
         }
         return builder;
+    }
+
+    private String getContentText(String type, String message) {
+        String contextText = null;
+        switch (type) {
+            case TYPE_DIARY:
+                contextText = getString(R.string.push_content_diary);
+                break;
+            case TYPE_PLAN:
+                contextText = getString(R.string.push_content_plan);
+                break;
+            case TYPE_NOTICE:
+                contextText = message;
+                break;
+            case TYPE_DAY:
+                contextText = getString(R.string.push_content_day);
+                break;
+            default:
+                break;
+        }
+        return contextText;
     }
 
     private boolean checkAllowedNotification(String type, String country) {

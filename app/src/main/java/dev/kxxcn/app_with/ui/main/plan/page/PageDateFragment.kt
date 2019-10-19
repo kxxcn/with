@@ -47,11 +47,11 @@ class PageDateFragment : Fragment(), PlanContract.OnClickDateCallback {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         if (isVisibleToUser) {
             val date = arguments?.getString(KEY_DATE)
-            if (date?.isEmpty() == true) {
+            if (date.isNullOrEmpty()) {
                 datePickerFragment?.show(fragmentManager, DatePickerFragment::class.java.name)
             } else {
                 et_date?.text = SpannableStringBuilder(date)
-                et_date?.setSelection(date?.length ?: 0)
+                et_date?.setSelection(date.length)
             }
         }
     }
