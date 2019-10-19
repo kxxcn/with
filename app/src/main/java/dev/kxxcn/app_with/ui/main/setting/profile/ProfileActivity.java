@@ -149,7 +149,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
 
         registerView(ll_root);
 
-        mPresenter.getNickname(getIntent().getStringExtra(EXTRA_IDENTIFIER));
+        mPresenter.fetchNickname(getIntent().getStringExtra(EXTRA_IDENTIFIER));
     }
 
     private void enableComponent(boolean enable) {
@@ -193,7 +193,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
         nickname.setMyNickname(eet_me.getText().toString());
         nickname.setYourNickname(eet_you.getText().toString());
         nickname.setFemale(isFemale);
-        mPresenter.onRegisterNickname(nickname);
+        mPresenter.updateNickname(nickname);
     }
 
     @OnClick({R.id.tfb_gender, R.id.eet_gender})
@@ -214,7 +214,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileContrac
     }
 
     @Override
-    public void showSuccessfulGetNickname(ResponseNickname responseNickname) {
+    public void setNickname(ResponseNickname responseNickname) {
         enableComponent(true);
         eet_me.setText(responseNickname.getMyNickname());
         eet_you.setText(responseNickname.getYourNickname());

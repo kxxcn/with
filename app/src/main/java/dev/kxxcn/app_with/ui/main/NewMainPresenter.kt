@@ -43,6 +43,10 @@ class NewMainPresenter(val view: NewMainContract.View, val dataRepository: DataR
                     planList.sortWith(Comparator { d1, d2 -> d2.date.compareTo(d1.date) })
                     planList
                 }
+                .doOnSubscribe { view.showLoadingIndicator(true) }
+                .doOnDispose { view.showLoadingIndicator(false) }
+                .doOnSuccess { view.showLoadingIndicator(false) }
+                .doOnError { view.showLoadingIndicator(false) }
                 .subscribe({ planList ->
                     view.showSuccessfulLoadPlan(planList, mIdsList)
                 }, { throwable ->

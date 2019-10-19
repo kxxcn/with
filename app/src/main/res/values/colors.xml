@@ -92,8 +92,9 @@
     <color name="text_notice_date">#616161</color>
     <color name="text_allowed_count">#1de9b6</color>
     <color name="text_denied_count">#f44336</color>
-    <color name="text_password_number">#e1d3d3</color>
+    <color name="text_password_number">#000000</color>
     <color name="text_place_picker">#e1d3d3</color>
+    <color name="text_day">#ec706c</color>
 
     <color name="selected_circle_indicator">#ffffff</color>
     <color name="deselected_circle_indicator">#84797d</color>
@@ -131,6 +132,7 @@
     <color name="primary_app">#f3f6f8</color>
     <color name="primary_icon">#bcbfc5</color>
     <color name="primary_text">#404358</color>
+    <color name="primary_status">#bdbdbd</color>
 
     <color name="secondary_icon">#7a7c85</color>
 
@@ -146,6 +148,13 @@
     <color name="background_together">#ef6363</color>
     <color name="background_select_agree">#ffff78</color>
     <color name="background_deselect_agree">#bcbfc5</color>
+    <color name="background_setting_profile">#b27cc1</color>
+    <color name="background_setting_lock">#dcbe71</color>
+    <color name="background_setting_notification">#f0937a</color>
+    <color name="background_setting_sync">#6368c3</color>
+    <color name="background_setting_notice">#bcbfc5</color>
+    <color name="background_setting_info">#4ebb7f</color>
+    <color name="background_setting_logout">#ec706c</color>
 
     <color name="text_calendar">#1de9b6</color>
 
@@ -153,4 +162,22 @@
     <color name="tint_weather">#c0b1ec</color>
     <color name="tint_font">#ee809f</color>
     <color name="tint_calendar">#1de9b6</color>
+
+    <color name="day_background0">#FFADC5</color>
+    <color name="day_background1">#B8F3B8</color>
+    <color name="day_background2">#CCD1FF</color>
+    <color name="day_background3">#FFDDA6</color>
+    <color name="day_background4">#A8C8F9</color>
+    <color name="day_background5">#C8EE9D</color>
+    <color name="day_background6">#EBE5E4</color>
+    <color name="day_background7">#9197B5</color>
+    <color name="day_background8">#2ED7D2</color>
+    <color name="day_background9">#D3F3ED</color>
+    <color name="day_background10">#F7B9D9</color>
+    <color name="day_background11">#c45fdd</color>
+    <color name="day_background12">#e782ff</color>
+    <color name="day_background13">#ad9aee</color>
+    <color name="day_background14">#cd853f</color>
+    <color name="day_background15">#d79f59</color>
+    <color name="day_background16">#a05c37</color>
 </resources>

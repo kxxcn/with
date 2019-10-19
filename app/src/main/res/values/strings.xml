@@ -3,6 +3,7 @@
     <string name="app_name_en">with</string>
     <string name="app_developer">ⓒ k x x c n</string>
     <string name="app_topic">admin</string>
+    <string name="app_topic_debug" translatable="false">admin_debug</string>
 
     <string name="email_address">kxxcn.dev@gmail.com</string>
     <string name="email_subject">[WITH] Contact us</string>
@@ -12,6 +13,7 @@
     <string name="ad_unit_id">ca-app-pub-1655234429103343/4743625569</string>
     <string name="ad_unit_test_id">ca-app-pub-3940256099942544/1033173712</string>
 
+    <string name="push_title">With</string>
     <string name="title">WITH</string>
     <string name="title_write">WRITE</string>
     <string name="title_you">YOU</string>
@@ -24,7 +26,7 @@
     <string name="hint_place">Please enter a location.</string>
     <string name="hint_date">Please enter the date.</string>
     <string name="hint_my_nickname">Enter my nickname.</string>
-    <string name="hint_your_nickname">Enter the nickname of the person you love.</string>
+    <string name="hint_your_nickname">Enter your nickname for loved ones.</string>
     <string name="hint_alias">Please enter a nickname.</string>
     <string name="hint_gender">Please enter my gender.</string>
     <string name="hint_name">Please enter your name.</string>
@@ -57,6 +59,7 @@
     <string name="dialog_delete_contents">Do you want to cancel writing? The contents being created are not saved.</string>
     <string name="dialog_delete_diary">Do you want to delete the diary?</string>
     <string name="dialog_delete_plan">Do you want to delete the schedule?</string>
+    <string name="dialog_delete_day">Do you want to delete the D-Day?</string>
     <string name="dialog_want_to_quit">Do you want to exit WITH?</string>
     <string name="dialog_want_to_sign_out">All recorded data will be deleted. \nDo you want to leave WITH?</string>
     <string name="dialog_delete_lock">Do you want to release the lock function?</string>
@@ -90,6 +93,8 @@
     <string name="toast_registration_entry">Applied.</string>
     <string name="toast_already_registration_entry">I have already applied.</string>
     <string name="toast_changed_profile_image">Your profile photo has been changed.</string>
+    <string name="toast_changed_nickname">Nickname changed.</string>
+    <string name="toast_failed_request_day">Failed to read the D-Day information.</string>
 
     <string name="snack_selected_gallery">A photo was selected.</string>
 
@@ -140,6 +145,8 @@
     <string name="text_input_password">Please enter your password.</string>
     <string name="text_input_password_more">Please enter your password again.</string>
     <string name="text_cancel">Cancel</string>
+    <string name="text_day_registration">D-Day Registration</string>
+    <string name="text_day_content">Please enter your content.</string>
 
     <string name="label_mon">MON</string>
     <string name="label_tue">TUE</string>
@@ -166,6 +173,7 @@
     <string name="text_timeline_date">%d/%d</string>
     <string name="text_not_exist_time_information">There is no time information.</string>
     <string name="text_plan">Plan</string>
+    <string name="text_dday">D-Day</string>
     <string name="text_write">Writing</string>
     <string name="text_setting">Setting</string>
     <string name="text_register">Registration</string>
@@ -216,6 +224,7 @@
     <string name="text_name">Name</string>
     <string name="tv_comment_cat"><![CDATA[Free tickets for theatrical <attic cat> will be given every 10 minutes selected by lottery every week. I would like your participation. (♥ŐωŐ♥）]]></string>
     <string name="text_phone">Phone number</string>
+    <string name="text_register_decimal_day">Register D-Day and share important days.</string>
     <string name="text_font_1" translatable="false">Apple pie</string>
     <string name="text_font_2" translatable="false">Banana bread</string>
     <string name="text_font_3" translatable="false">Cupcake</string>
@@ -236,4 +245,16 @@
     <string name="text_font_18" translatable="false">Macaron</string>
     <string name="text_font_19" translatable="false">Gallette des rois</string>
     <string name="text_font_20" translatable="false">Truffle</string>
+    <string name="text_date_count">Number of days</string>
+    <string name="text_date_type0">Start on day 1.</string>
+    <string name="text_date_type1">Start with D-0, D+0, etc.</string>
+    <string name="text_calculate_date">%1$d</string>
+
+    <string name="transition_bg" translatable="false">transition_bg</string>
+    <string name="transition_icon" translatable="false">transition_icon</string>
+    <string name="transition_title" translatable="false">transition_title</string>
+
+    <string name="push_content_diary">New [Diary] has been registered.</string>
+    <string name="push_content_plan">New [Plan] has been registered.</string>
+    <string name="push_content_day">New [D-Day] has been registered.</string>
 </resources>

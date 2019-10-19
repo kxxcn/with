@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
+import dev.kxxcn.app_with.data.model.decimal.DecimalDay;
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.model.diary.Profile;
 import dev.kxxcn.app_with.data.model.entry.Entry;
@@ -40,6 +41,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.AUTHENTICATE_KEY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.CHECK_MODE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.CHECK_NEW_NOTICE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.FETCH_EVENTS;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_DAY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_IMAGE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_KEY;
@@ -51,6 +53,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.GET_TITLE;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.GSON_DATE_FORMAT;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.IS_LOCKED_USER;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.IS_REGISTERED_USER;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_DAY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_ENTRY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_IMAGE;
@@ -58,6 +61,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_LOCK;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_NICKNAME;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REGISTER_PROFILE;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_DAY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.REMOVE_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SERVER_URL;
@@ -66,6 +70,7 @@ import static dev.kxxcn.app_with.data.remote.APIPersistence.SIGN_UP;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SUBSCRIBE_IDS;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.SYNC;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UNREGISTER_LOCK;
+import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_DAY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_DIARY;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_PLAN;
 import static dev.kxxcn.app_with.data.remote.APIPersistence.UPDATE_RECEIVE_NOTIFICATION;
@@ -177,7 +182,8 @@ public interface APIService {
 
     @FormUrlEncoded
     @POST(GET_NOTICE)
-    Single<List<Notice>> getNotice(@Field("uniqueIdentifier") String uniqueIdentifier);
+    Single<List<Notice>> getNotice(@Field("uniqueIdentifier") String uniqueIdentifier,
+                                   @Field("country") String country);
 
     @FormUrlEncoded
     @POST(REGISTER_LOCK)
@@ -211,6 +217,20 @@ public interface APIService {
     @POST(REGISTER_PROFILE)
     Single<ResponseResult> uploadProfile(@Part MultipartBody.Part image,
                                          @Part("identifier") RequestBody identifier);
+
+    @POST(REGISTER_DAY)
+    Single<ResponseResult> registerDay(@Body DecimalDay day);
+
+    @FormUrlEncoded
+    @POST(GET_DAY)
+    Single<List<DecimalDay>> getDay(@Field("uniqueIdentifier") String uniqueIdentifier);
+
+    @FormUrlEncoded
+    @POST(REMOVE_DAY)
+    Single<ResponseResult> removeDay(@Field("id") int id);
+
+    @POST(UPDATE_DAY)
+    Single<ResponseResult> updateDay(@Body DecimalDay day);
 
     class Factory {
         static APIService create() {

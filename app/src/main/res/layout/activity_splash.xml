@@ -66,6 +66,7 @@
         android:id="@+id/cl_password"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/primary_app"
         android:visibility="gone">
 
         <View
@@ -80,9 +81,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/nanummyeongjo"
+            android:fontFamily="@font/namsan"
             android:text="@string/text_input_password"
             android:textColor="@color/text_password_number"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@id/iv_pass_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +99,8 @@
             app:layout_constraintEnd_toStartOf="@id/iv_pass_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/view_top"
-            app:layout_constraintVertical_bias="0.6" />
+            app:layout_constraintVertical_bias="0.6"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/iv_pass_2"
@@ -106,7 +109,8 @@
             android:background="@drawable/drawable_circle_empty"
             app:layout_constraintEnd_toStartOf="@id/iv_pass_3"
             app:layout_constraintStart_toEndOf="@id/iv_pass_1"
-            app:layout_constraintTop_toTopOf="@id/iv_pass_1" />
+            app:layout_constraintTop_toTopOf="@id/iv_pass_1"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/iv_pass_3"
@@ -115,7 +119,8 @@
             android:background="@drawable/drawable_circle_empty"
             app:layout_constraintEnd_toStartOf="@id/iv_pass_4"
             app:layout_constraintStart_toEndOf="@id/iv_pass_2"
-            app:layout_constraintTop_toTopOf="@id/iv_pass_1" />
+            app:layout_constraintTop_toTopOf="@id/iv_pass_1"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/iv_pass_4"
@@ -124,7 +129,8 @@
             android:background="@drawable/drawable_circle_empty"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_pass_3"
-            app:layout_constraintTop_toTopOf="@id/iv_pass_1" />
+            app:layout_constraintTop_toTopOf="@id/iv_pass_1"
+            tools:ignore="ContentDescription" />
 
         <View
             android:id="@+id/view_bottom"
@@ -221,7 +227,9 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/text_cancel"
-                    android:textColor="@color/text_password_number" />
+                    android:textColor="@color/text_password_number"
+                    android:textSize="18sp"
+                    tools:ignore="NestedWeights" />
 
                 <TextView
                     android:id="@+id/tv_number_0"
@@ -239,7 +247,9 @@
                         android:id="@+id/iv_erase"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_erase" />
+                        android:src="@drawable/ic_erase"
+                        android:tint="@android:color/black"
+                        tools:ignore="ContentDescription" />
 
                 </LinearLayout>
 

@@ -20,7 +20,7 @@ public class ProfilePresenter implements ProfileContract.Presenter {
 	}
 
 	@Override
-	public void getNickname(String uniqueIdentifier) {
+	public void fetchNickname(String uniqueIdentifier) {
 		if (mProfileView == null)
 			return;
 
@@ -31,7 +31,7 @@ public class ProfilePresenter implements ProfileContract.Presenter {
 		Disposable disposable = mDataRepository.getTitle(uniqueIdentifier)
 				.subscribe(responseTitle -> {
 							mProfileView.showLoadingIndicator(false);
-							mProfileView.showSuccessfulGetNickname(responseTitle);
+							mProfileView.setNickname(responseTitle);
 							compositeDisposable.dispose();
 						},
 						throwable -> {
@@ -44,7 +44,7 @@ public class ProfilePresenter implements ProfileContract.Presenter {
 	}
 
 	@Override
-	public void onRegisterNickname(Nickname nickname) {
+	public void updateNickname(Nickname nickname) {
 		if (mProfileView == null)
 			return;
 

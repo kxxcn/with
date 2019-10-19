@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen
+import com.ethanhua.skeleton.Skeleton
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.DataRepository
 import dev.kxxcn.app_with.data.model.diary.Diary
@@ -35,6 +37,9 @@ class MainFragment : Fragment(), NewMainContract.View {
 
     private var planAdapter: MainPlanAdapter? = null
 
+    private var diaryLoading: RecyclerViewSkeletonScreen? = null
+    private var planLoading: RecyclerViewSkeletonScreen? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
@@ -49,6 +54,17 @@ class MainFragment : Fragment(), NewMainContract.View {
         rv_main_plan.adapter = planAdapter
         rv_main_plan.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager(context).orientation))
 
+        diaryLoading = Skeleton.bind(rv_main_diary)
+                .adapter(diaryAdapter)
+                .load(R.layout.item_skeleton_diary)
+                .show()
+
+        planLoading = Skeleton.bind(rv_main_plan)
+                .adapter(planAdapter)
+                .load(R.layout.item_skeleton_plan)
+                .angle(20)
+                .show()
+
         NewMainPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()))
 
         setupListener()
@@ -61,7 +77,13 @@ class MainFragment : Fragment(), NewMainContract.View {
     }
 
     override fun showLoadingIndicator(isShowing: Boolean) {
-
+        if (isShowing) {
+            diaryLoading?.show()
+            planLoading?.show()
+        } else {
+            diaryLoading?.hide()
+            planLoading?.hide()
+        }
     }
 
     override fun showSuccessfulLoadDiary(diaryList: List<Diary>) {
@@ -70,18 +92,16 @@ class MainFragment : Fragment(), NewMainContract.View {
             return
         }
         ll_not_found_diary.visibility = View.GONE
-        val filteredList = if (diaryList.size >= SIZE_OF_RECENTLY_PLAN) {
-            diaryList
-                    .filter { it.writer.isNotEmpty() }
-                    .sortedWith(compareBy({ it.letterDate }, { it.letterTime }))
+
+        val filteredList = diaryList.filter { it.writer.isNotEmpty() }
+        val planList = if (filteredList.size >= SIZE_OF_RECENTLY_PLAN) {
+            filteredList.sortedWith(compareBy({ it.letterDate }, { it.letterTime }))
                     .reversed()
                     .subList(0, SIZE_OF_RECENTLY_PLAN)
         } else {
-            diaryList
+            filteredList
         }
-        diaryAdapter?.setItems(filteredList
-                .filter { it.writer.isNotEmpty() }
-                .sortedByDescending { it.letterDate })
+        diaryAdapter?.setItems(planList.sortedByDescending { it.letterDate })
     }
 
     override fun showSuccessfulLoadPlan(planList: List<Plan>, idsList: List<String>) {
@@ -107,7 +127,7 @@ class MainFragment : Fragment(), NewMainContract.View {
                         getString(R.string.param_download_image_url, EVENTS_URL, it.image),
                         it.type
                 )
-                dialog.show(fragmentManager, EventDialog::class.java.name)
+                fragmentManager?.beginTransaction()?.add(dialog, EventDialog::class.java.name)?.commitAllowingStateLoss()
             }
         }
     }

@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/primary_app</item>
+        <item name="android:statusBarColor">@color/primary_status</item>
     </style>
 
     <style name="VerticalLinearLayout">
@@ -233,7 +233,7 @@
         <item name="tbAsDefaultOn">true</item>
         <item name="tbBorderWidth">1dp</item>
         <item name="tbOffBorderColor">@color/toggle_off</item>
-        <item name="tbOnColor">@color/toggle_on</item>
+        <item name="tbOnColor">@color/background_setting_notification</item>
     </style>
 
     <style name="BackImageButton" parent="Base.Widget.AppCompat.ImageButton">
@@ -249,7 +249,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/text_password_number</item>
-        <item name="android:fontFamily">@font/yanolja</item>
+        <item name="android:fontFamily">@font/namsan</item>
         <item name="android:textSize">23sp</item>
         <item name="android:layout_weight">1</item>
     </style>

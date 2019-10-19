@@ -105,3 +105,8 @@ qingmei2 - RxImagePicker
 https://github.com/qingmei2/RxImagePicker
 Copyright (c) 2018 qingmei2
 MIT License
+
+ShimmerLayout
+https://github.com/team-supercharge/ShimmerLayout
+Copyright 2017 Supercharge
+Apache License 2.0

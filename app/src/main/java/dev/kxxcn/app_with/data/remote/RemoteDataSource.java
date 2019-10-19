@@ -3,6 +3,7 @@ package dev.kxxcn.app_with.data.remote;
 import java.util.List;
 
 import dev.kxxcn.app_with.data.DataSource;
+import dev.kxxcn.app_with.data.model.decimal.DecimalDay;
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.model.diary.Profile;
 import dev.kxxcn.app_with.data.model.entry.Entry;
@@ -211,8 +212,8 @@ public class RemoteDataSource extends DataSource {
     }
 
     @Override
-    public Single<List<Notice>> getNotice(String uniqueIdentifier) {
-        return service.getNotice(uniqueIdentifier)
+    public Single<List<Notice>> getNotice(String uniqueIdentifier, String country) {
+        return service.getNotice(uniqueIdentifier, country)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -276,6 +277,34 @@ public class RemoteDataSource extends DataSource {
     @Override
     public Single<ResponseResult> uploadProfile(MultipartBody.Part body, RequestBody identifier) {
         return service.uploadProfile(body, identifier)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Single<ResponseResult> registerDay(DecimalDay day) {
+        return service.registerDay(day)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Single<List<DecimalDay>> getDay(String uniqueIdentifier) {
+        return service.getDay(uniqueIdentifier)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Single<ResponseResult> removeDay(int id) {
+        return service.removeDay(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Single<ResponseResult> updateDay(DecimalDay day) {
+        return service.updateDay(day)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

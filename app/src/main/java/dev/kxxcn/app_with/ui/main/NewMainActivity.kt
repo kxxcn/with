@@ -15,15 +15,18 @@ import android.view.MenuItem
 import com.google.android.gms.ads.InterstitialAd
 import dev.kxxcn.app_with.BuildConfig
 import dev.kxxcn.app_with.R
+import dev.kxxcn.app_with.ui.main.decimal.DecimalFragment
 import dev.kxxcn.app_with.ui.main.diary.NewDiaryFragment
 import dev.kxxcn.app_with.ui.main.plan.NewPlanFragment
-import dev.kxxcn.app_with.ui.main.setting.SettingFragment
+import dev.kxxcn.app_with.ui.main.setting.NewSettingFragment
+import dev.kxxcn.app_with.ui.main.setting.WrapFragment
 import dev.kxxcn.app_with.ui.main.timeline.TimeLineFragment
 import dev.kxxcn.app_with.ui.main.write.NewWriteFragment
 import dev.kxxcn.app_with.util.*
 import kotlinx.android.synthetic.main.activity_main_new.*
 import kotlinx.android.synthetic.main.item_navigation.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
+
 
 class NewMainActivity : AppCompatActivity() {
 
@@ -61,6 +64,7 @@ class NewMainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        invalidateOptionsMenu()
         if (cl_main.isDrawerOpen(DRAWER_GRAVITY_START)) {
             cl_main.closeDrawer(DRAWER_GRAVITY_START)
         } else {
@@ -74,8 +78,9 @@ class NewMainActivity : AppCompatActivity() {
                             interstitialAd?.show()
                         },
                         null)
-            } else if (fragment is SettingFragment ||
-                    fragment is NewDiaryFragment) {
+            } else if (fragment is NewSettingFragment ||
+                    fragment is NewDiaryFragment ||
+                    fragment is DecimalFragment) {
                 showMainFragment()
             } else if (fragment is NewWriteFragment) {
                 if (!fragment.isExpanded()) DialogUtils.showAlertDialog(this, getString(R.string.dialog_delete_contents),
@@ -88,6 +93,9 @@ class NewMainActivity : AppCompatActivity() {
                 if (!fragment.isExpanded()) {
                     showMainFragment()
                 }
+            } else if (fragment is WrapFragment) {
+                replaceFragment(NewSettingFragment.newInstance(
+                        intent.getStringExtra(EXTRA_IDENTIFIER)))
             }
         }
     }
@@ -97,7 +105,7 @@ class NewMainActivity : AppCompatActivity() {
         val size = Point()
         displayMetrics.getSize(size)
         val params = cl_navigation.layoutParams
-        params.width = (size.x * 0.65).toInt()
+        params.width = (size.x * 0.8).toInt()
         cl_navigation.layoutParams = params
 
         replaceFragment(MainFragment.newInstance(
@@ -107,7 +115,7 @@ class NewMainActivity : AppCompatActivity() {
         tv_with.onClick { clickNavigationItem(it?.id) }
         tv_timeline.onClick { clickNavigationItem(it?.id) }
         tv_write.onClick { clickNavigationItem(it?.id) }
-        tv_diary.onClick { clickNavigationItem(it?.id) }
+        tv_dday.onClick { clickNavigationItem(it?.id) }
         tv_plan.onClick { clickNavigationItem(it?.id) }
         tv_setting.onClick { clickNavigationItem(it?.id) }
         tv_about.onClick { clickNavigationItem(it?.id) }
@@ -115,6 +123,7 @@ class NewMainActivity : AppCompatActivity() {
     }
 
     private fun clickNavigationItem(id: Int?) {
+        invalidateOptionsMenu()
         if (selectedNavId == id) {
             cl_main.closeDrawer(DRAWER_GRAVITY_START)
             return
@@ -131,12 +140,12 @@ class NewMainActivity : AppCompatActivity() {
             tv_write.id -> fragment = NewWriteFragment.newInstance(
                     identifier = intent.getStringExtra(EXTRA_IDENTIFIER)
             )
-//            tv_diary.id -> fragment = NewDiaryFragment.newInstance(
-//                    intent.getStringExtra(EXTRA_IDENTIFIER)
-//            )
+            tv_dday.id -> fragment = DecimalFragment.newInstance(
+                    intent.getStringExtra(EXTRA_IDENTIFIER)
+            )
             tv_plan.id -> fragment = NewPlanFragment.newInstance(
                     intent.getStringExtra(EXTRA_IDENTIFIER))
-            tv_setting.id -> fragment = SettingFragment.newInstance(
+            tv_setting.id -> fragment = NewSettingFragment.newInstance(
                     intent.getStringExtra(EXTRA_IDENTIFIER))
             tv_about.id -> {
             }

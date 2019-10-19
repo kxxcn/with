@@ -12,6 +12,7 @@
     <string name="ad_unit_id">ca-app-pub-1655234429103343/4743625569</string>
     <string name="ad_unit_test_id">ca-app-pub-3940256099942544/1033173712</string>
 
+    <string name="push_title">위드</string>
     <string name="title">WITH</string>
     <string name="title_write">WRITE</string>
     <string name="title_you">YOU</string>
@@ -57,6 +58,7 @@
     <string name="dialog_delete_contents">글쓰기를 취소하시겠습니까? 작성중인 내용은 저장되지 않습니다.</string>
     <string name="dialog_delete_diary">일기를 삭제하시겠습니까?</string>
     <string name="dialog_delete_plan">일정을 삭제하시겠습니까?</string>
+    <string name="dialog_delete_day">디데이를 삭제하시겠습니까?</string>
     <string name="dialog_want_to_quit">위드를 종료하시겠습니까?</string>
     <string name="dialog_want_to_sign_out">기록하신 데이터는 모두 삭제됩니다.\n위드를 탈퇴하시겠습니까?</string>
     <string name="dialog_delete_lock">잠금 기능을 해제하시겠습니까?</string>
@@ -90,6 +92,8 @@
     <string name="toast_registration_entry">응모되었습니다.</string>
     <string name="toast_already_registration_entry">이미 응모되었습니다.</string>
     <string name="toast_changed_profile_image">프로필 사진이 변경되었습니다.</string>
+    <string name="toast_changed_nickname">닉네임이 변경되었습니다.</string>
+    <string name="toast_failed_request_day">디데이 불러오기를 실패했습니다.</string>
 
     <string name="snack_selected_gallery">사진이 선택되었습니다.</string>
 
@@ -140,6 +144,8 @@
     <string name="text_input_password">비밀번호를 입력하세요.</string>
     <string name="text_input_password_more">비밀번호를 한번 더 입력하세요.</string>
     <string name="text_cancel">취소</string>
+    <string name="text_day_registration">디데이 등록</string>
+    <string name="text_day_content">디데이 내용을 입력하세요.</string>
 
     <string name="label_mon">월</string>
     <string name="label_tue">화</string>
@@ -166,6 +172,7 @@
     <string name="text_timeline_date">%d/%d</string>
     <string name="text_not_exist_time_information">시간정보가 없습니다.</string>
     <string name="text_plan">일정</string>
+    <string name="text_dday">디데이</string>
     <string name="text_write">글쓰기</string>
     <string name="text_setting">설정</string>
     <string name="text_register">등록</string>
@@ -216,4 +223,13 @@
     <string name="text_name">성함</string>
     <string name="tv_comment_cat"><![CDATA[매주 추첨을 통해 선정된 10분에게 연극 <옥탑방 고양이> 무료 관람권을 선물로 드립니다. 여러분들의 많은 참여 부탁드립니다. (♥ŐωŐ♥)]]></string>
     <string name="text_phone">전화번호</string>
+    <string name="text_register_decimal_day">디데이를 등록하고 소중한 날을 공유하세요.</string>
+    <string name="text_date_count">날짜수</string>
+    <string name="text_date_type0">1일부터 시작해요.</string>
+    <string name="text_date_type1">D-0, D+0 등으로 시작해요.</string>
+    <string name="text_calculate_date">%1$d일</string>
+
+    <string name="push_content_diary">새 [일기]가 등록되었어요.</string>
+    <string name="push_content_plan">새 [일정]이 등록되었어요.</string>
+    <string name="push_content_day">새 [디데이]가 등록되었어요.</string>
 </resources>

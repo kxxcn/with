@@ -1,5 +1,6 @@
 package dev.kxxcn.app_with.ui.main.setting;
 
+import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
 import dev.kxxcn.app_with.ui.BasePresenter;
 import dev.kxxcn.app_with.ui.BaseView;
@@ -25,9 +26,13 @@ public interface SettingContract {
 		void showSuccessfulSignOut(String stat);
 
 		void showSuccessfulCheckNewNotice(String stat);
+
+		void setProfileSetting(ResponseNickname r);
 	}
 
 	interface Presenter extends BasePresenter {
+		void release();
+
 		void getNotificationInformation(String identifier);
 
 		void whetherToReceiveNotification(String identifier, Constants.NotificationFilter notificationFilter, boolean on);
@@ -41,5 +46,7 @@ public interface SettingContract {
 		void checkNewNotice(String identifier);
 
 		void unregisterLock(String identifier);
+
+		void fetchNickname(String uniqueIdentifier);
 	}
 }

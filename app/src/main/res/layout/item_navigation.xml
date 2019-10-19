@@ -9,6 +9,7 @@
     android:background="@color/primary_app">
 
     <ImageView
+        android:id="@+id/iv_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -17,6 +18,17 @@
         app:layout_constraintStart_toStartOf="@id/tv_with"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
+
+    <dev.kxxcn.app_with.util.DecimalView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/tv_with"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_icon" />
 
     <TextView
         android:id="@+id/tv_with"
@@ -29,6 +41,7 @@
         app:layout_constraintBottom_toTopOf="@id/tv_timeline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
@@ -49,21 +62,9 @@
         android:text="@string/text_write"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/tv_diary"
-        app:layout_constraintStart_toStartOf="@id/tv_with"
-        app:layout_constraintTop_toBottomOf="@id/tv_timeline" />
-
-    <TextView
-        android:id="@+id/tv_diary"
-        style="@style/WithTextView"
-        android:padding="10dp"
-        android:text="@string/text_diary"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/tv_plan"
         app:layout_constraintStart_toStartOf="@id/tv_with"
-        app:layout_constraintTop_toBottomOf="@id/tv_write" />
+        app:layout_constraintTop_toBottomOf="@id/tv_timeline" />
 
     <TextView
         android:id="@+id/tv_plan"
@@ -72,9 +73,20 @@
         android:text="@string/text_plan"
         android:textSize="25sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_dday"
+        app:layout_constraintStart_toStartOf="@id/tv_with"
+        app:layout_constraintTop_toBottomOf="@id/tv_write" />
+
+    <TextView
+        android:id="@+id/tv_dday"
+        style="@style/WithTextView"
+        android:padding="10dp"
+        android:text="@string/text_dday"
+        android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tv_setting"
         app:layout_constraintStart_toStartOf="@id/tv_with"
-        app:layout_constraintTop_toBottomOf="@id/tv_diary" />
+        app:layout_constraintTop_toBottomOf="@id/tv_plan" />
 
     <TextView
         android:id="@+id/tv_setting"
@@ -85,7 +97,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/tv_with"
-        app:layout_constraintTop_toBottomOf="@id/tv_plan" />
+        app:layout_constraintTop_toBottomOf="@id/tv_dday" />
 
     <TextView
         android:id="@+id/tv_about"

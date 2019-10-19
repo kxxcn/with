@@ -10,17 +10,17 @@ import dev.kxxcn.app_with.ui.BaseView;
  * Created by kxxcn on 2018-12-26.
  */
 public interface NoticeContract {
-	interface View extends BaseView<Presenter> {
-		void showSuccessfulLoadNotice(List<Notice> noticeList);
+    interface View extends BaseView<Presenter> {
+        void showSuccessfulLoadNotice(List<Notice> noticeList);
 
-		void showFailedRequest(String throwable);
-	}
+        void showFailedRequest(String throwable);
+    }
 
-	interface Presenter extends BasePresenter {
-		void getNotice(String identifier);
-	}
+    interface Presenter extends BasePresenter {
+        void getNotice(String identifier, String country);
+    }
 
-	interface OnNoticeClickListener {
-		void onNoticeClick(int position);
-	}
+    interface OnNoticeClickListener {
+        void onNoticeClick(int position);
+    }
 }

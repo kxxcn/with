@@ -64,6 +64,10 @@
         <activity
             android:name=".ui.main.diary.detail.DetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.decimal.AddDecimalActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <service
             android:name=".data.remote.MyFirebaseMessagingService"

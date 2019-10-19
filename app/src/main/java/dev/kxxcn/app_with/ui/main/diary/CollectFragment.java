@@ -30,7 +30,7 @@ import dev.kxxcn.app_with.util.LayoutUtils;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static dev.kxxcn.app_with.data.remote.APIPersistence.IMAGES_URL;
-import static dev.kxxcn.app_with.util.Constants.COLOR_IMGS;
+import static dev.kxxcn.app_with.util.Constants.COLOR_IMAGES;
 import static dev.kxxcn.app_with.util.Constants.FONTS;
 import static dev.kxxcn.app_with.util.Constants.OPTION_SAMPLING;
 
@@ -89,7 +89,7 @@ public class CollectFragment extends Fragment {
 
     private void initUI() {
         if (mDiary.getPrimaryPosition() != -1) {
-            iv_background.setBackgroundResource(COLOR_IMGS[mDiary.getPrimaryPosition()]);
+            iv_background.setBackgroundResource(COLOR_IMAGES[mDiary.getPrimaryPosition()]);
         } else if (!TextUtils.isEmpty(mDiary.getGalleryName())) {
             RequestOptions blurOptions;
             if (mDiary.getGalleryBlur() != 0) {

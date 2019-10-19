@@ -9,37 +9,37 @@ import io.reactivex.disposables.Disposable;
  */
 public class NoticePresenter implements NoticeContract.Presenter {
 
-	private NoticeContract.View mNoticeView;
-	private DataRepository mDataRepository;
+    private NoticeContract.View mNoticeView;
+    private DataRepository mDataRepository;
 
-	public NoticePresenter(NoticeContract.View noticeView, DataRepository dataRepository) {
-		this.mNoticeView = noticeView;
-		this.mDataRepository = dataRepository;
-		mNoticeView.setPresenter(this);
-	}
+    public NoticePresenter(NoticeContract.View noticeView, DataRepository dataRepository) {
+        this.mNoticeView = noticeView;
+        this.mDataRepository = dataRepository;
+        mNoticeView.setPresenter(this);
+    }
 
-	@Override
-	public void getNotice(String identifier) {
-		if (mNoticeView == null)
-			return;
+    @Override
+    public void getNotice(String identifier, String country) {
+        if (mNoticeView == null)
+            return;
 
-		CompositeDisposable compositeDisposable = new CompositeDisposable();
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-		mNoticeView.showLoadingIndicator(true);
+        mNoticeView.showLoadingIndicator(true);
 
-		Disposable disposable = mDataRepository.getNotice(identifier)
-				.subscribe(noticeList -> {
-							mNoticeView.showLoadingIndicator(false);
-							mNoticeView.showSuccessfulLoadNotice(noticeList);
-							compositeDisposable.dispose();
-						},
-						throwable -> {
-							mNoticeView.showLoadingIndicator(false);
-							mNoticeView.showFailedRequest(throwable.getMessage());
-							compositeDisposable.dispose();
-						});
+        Disposable disposable = mDataRepository.getNotice(identifier, country)
+                .subscribe(noticeList -> {
+                            mNoticeView.showLoadingIndicator(false);
+                            mNoticeView.showSuccessfulLoadNotice(noticeList);
+                            compositeDisposable.dispose();
+                        },
+                        throwable -> {
+                            mNoticeView.showLoadingIndicator(false);
+                            mNoticeView.showFailedRequest(throwable.getMessage());
+                            compositeDisposable.dispose();
+                        });
 
-		compositeDisposable.add(disposable);
-	}
+        compositeDisposable.add(disposable);
+    }
 
 }

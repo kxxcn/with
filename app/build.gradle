@@ -10,8 +10,8 @@ android {
         applicationId "dev.kxxcn.app_with"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 42
-        versionName "5.0.6"
+        versionCode 45
+        versionName "5.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -198,6 +198,12 @@ dependencies {
      * Zoomy
      */
     implementation 'com.ablanco.zoomy:zoomy:1.1.0'
+
+    /**
+     * Skeleton
+     */
+    implementation 'com.ethanhua:skeleton:1.1.2'
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {

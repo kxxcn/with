@@ -18,7 +18,11 @@ public class WithApplication extends Application {
         super.onCreate();
         FirebaseApp.initializeApp(this);
         AppStatusHelper.init(this);
-        FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.app_topic));
+        if (BuildConfig.DEBUG) {
+            FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.app_topic_debug));
+        } else {
+            FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.app_topic));
+        }
         MobileAds.initialize(this, getString(R.string.ad_id));
     }
 }

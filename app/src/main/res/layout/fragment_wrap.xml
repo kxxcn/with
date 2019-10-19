@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/cl_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:transitionName="@string/transition_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/background_setting_notification"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="20dp"
+        android:tint="@android:color/white"
+        android:transitionName="@string/transition_icon"
+        app:layout_constraintBottom_toBottomOf="@id/iv_background"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_setting_notification" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/WithTextView"
+        android:layout_marginStart="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:transitionName="@string/transition_title"
+        app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+        app:layout_constraintStart_toEndOf="@id/iv_icon"
+        app:layout_constraintTop_toTopOf="@id/iv_icon"
+        tools:text="Notification" />
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_background" />
+
+</android.support.constraint.ConstraintLayout>

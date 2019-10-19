@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_register"
-        android:icon="@drawable/ic_done"
+        android:icon="@drawable/ic_success"
         android:title="@string/text_register"
-        app:iconTint="@color/primary_icon"
         app:showAsAction="always" />
 </menu>

@@ -2,6 +2,7 @@ package dev.kxxcn.app_with.data;
 
 import java.util.List;
 
+import dev.kxxcn.app_with.data.model.decimal.DecimalDay;
 import dev.kxxcn.app_with.data.model.diary.Diary;
 import dev.kxxcn.app_with.data.model.diary.Profile;
 import dev.kxxcn.app_with.data.model.entry.Entry;
@@ -133,8 +134,8 @@ public class DataRepository {
         return dataSource.checkNewNotice(uniqueIdentifier);
     }
 
-    public Single<List<Notice>> getNotice(String uniqueIdentifier) {
-        return dataSource.getNotice(uniqueIdentifier);
+    public Single<List<Notice>> getNotice(String uniqueIdentifier, String country) {
+        return dataSource.getNotice(uniqueIdentifier, country);
     }
 
     public Single<ResponseResult> isLockedUser(String uniqueIdentifier) {
@@ -171,5 +172,21 @@ public class DataRepository {
 
     public Single<ResponseResult> uploadProfile(MultipartBody.Part body, RequestBody identifier) {
         return dataSource.uploadProfile(body, identifier);
+    }
+
+    public Single<ResponseResult> registerDay(DecimalDay day) {
+        return dataSource.registerDay(day);
+    }
+
+    public Single<List<DecimalDay>> getDay(String uniqueIdentifier) {
+        return dataSource.getDay(uniqueIdentifier);
+    }
+
+    public Single<ResponseResult> removeDay(int id) {
+        return dataSource.removeDay(id);
+    }
+
+    public Single<ResponseResult> updateDay(DecimalDay day) {
+        return dataSource.updateDay(day);
     }
 }
