@@ -44,7 +44,9 @@ public class SystemUtils {
     }
 
     public static void onFinish(Activity activity) {
-        ActivityCompat.finishAffinity(activity);
+        if (activity != null) {
+            ActivityCompat.finishAffinity(activity);
+        }
     }
 
     public static void displayError(Context context, String className, String message) {

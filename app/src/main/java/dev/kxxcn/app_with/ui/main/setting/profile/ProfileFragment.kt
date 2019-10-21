@@ -77,7 +77,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     }
 
     override fun showLoadingIndicator(isShowing: Boolean) {
-        fl_loading.visibility = if (isShowing) View.VISIBLE else View.GONE
+        fl_loading?.visibility = if (isShowing) View.VISIBLE else View.GONE
     }
 
     override fun showResultsOfNicknameRequest(isSuccess: Boolean) {
