@@ -108,7 +108,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         fragment.setEnterTransition(new Fade());
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fl_container, fragment).commit();
+                .replace(R.id.fl_container, fragment).commitAllowingStateLoss();
     }
 
     @Override
