@@ -160,7 +160,7 @@ class AddDecimalActivity : AppCompatActivity(), AddDecimalContract.View, PlanCon
         display.getSize(size)
         screenHeight = size.y
 
-        if (!editMode) tv_date.text = Utils.convertTimeToDate(Calendar.getInstance().timeInMillis)
+        if (!editMode) tv_date.text = Utils.convertTimeToDate(Calendar.getInstance().timeInMillis, Utils.TYPE_DATE)
 
         calculateDay()
     }

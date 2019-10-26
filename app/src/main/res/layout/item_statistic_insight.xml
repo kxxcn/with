@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/namsan"
+            android:text="@string/text_insight"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <at.grabner.circleprogress.CircleProgressView
+            android:id="@+id/cpv_year"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="20dp"
+            app:cpv_autoTextSize="true"
+            app:cpv_barColor="@color/bg_cpv_year"
+            app:cpv_barWidth="3dp"
+            app:cpv_innerContourSize="0dp"
+            app:cpv_maxValue="100"
+            app:cpv_outerContourSize="0dp"
+            app:cpv_rimColor="@color/bg_cpv_year_light"
+            app:cpv_rimWidth="1dp"
+            app:cpv_seekMode="false"
+            app:cpv_showUnit="true"
+            app:cpv_textColor="@android:color/black"
+            app:cpv_textScale="1"
+            app:cpv_unit="%"
+            app:cpv_unitColor="@android:color/black"
+            app:cpv_unitPosition="right_bottom"
+            app:cpv_unitScale="1"
+            app:cpv_value="0"
+            app:layout_constraintEnd_toStartOf="@id/cpv_month"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <at.grabner.circleprogress.CircleProgressView
+            android:id="@+id/cpv_month"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:cpv_autoTextSize="true"
+            app:cpv_barColor="@color/bg_cpv_month"
+            app:cpv_barWidth="3dp"
+            app:cpv_innerContourSize="0dp"
+            app:cpv_maxValue="100"
+            app:cpv_outerContourSize="0dp"
+            app:cpv_rimColor="@color/bg_cpv_month_light"
+            app:cpv_rimWidth="1dp"
+            app:cpv_seekMode="false"
+            app:cpv_showUnit="true"
+            app:cpv_textColor="@android:color/black"
+            app:cpv_textScale="1"
+            app:cpv_unit="%"
+            app:cpv_unitColor="@android:color/black"
+            app:cpv_unitPosition="right_bottom"
+            app:cpv_unitScale="1"
+            app:cpv_value="0"
+            app:layout_constraintEnd_toStartOf="@id/cpv_week"
+            app:layout_constraintStart_toEndOf="@id/cpv_year"
+            app:layout_constraintTop_toTopOf="@id/cpv_year" />
+
+        <at.grabner.circleprogress.CircleProgressView
+            android:id="@+id/cpv_week"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:cpv_autoTextSize="true"
+            app:cpv_barColor="@color/bg_cpv_week"
+            app:cpv_barWidth="3dp"
+            app:cpv_innerContourSize="0dp"
+            app:cpv_maxValue="100"
+            app:cpv_outerContourSize="0dp"
+            app:cpv_rimColor="@color/bg_cpv_week_light"
+            app:cpv_rimWidth="1dp"
+            app:cpv_seekMode="false"
+            app:cpv_showUnit="true"
+            app:cpv_textColor="@android:color/black"
+            app:cpv_textScale="1"
+            app:cpv_unit="%"
+            app:cpv_unitColor="@android:color/black"
+            app:cpv_unitPosition="right_bottom"
+            app:cpv_unitScale="1"
+            app:cpv_value="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cpv_month"
+            app:layout_constraintTop_toTopOf="@id/cpv_year" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/namsan"
+            android:text="YEAR"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/cpv_year"
+            app:layout_constraintStart_toStartOf="@id/cpv_year"
+            app:layout_constraintTop_toBottomOf="@id/cpv_year" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/namsan"
+            android:text="MONTH"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/cpv_month"
+            app:layout_constraintStart_toStartOf="@id/cpv_month"
+            app:layout_constraintTop_toBottomOf="@id/cpv_month" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/namsan"
+            android:text="WEEK"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/cpv_week"
+            app:layout_constraintStart_toStartOf="@id/cpv_week"
+            app:layout_constraintTop_toBottomOf="@id/cpv_week" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.v7.widget.CardView>

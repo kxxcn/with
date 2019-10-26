@@ -70,6 +70,13 @@
     <color name="bg_cloud">#e28478</color>
     <color name="bg_rain">#cb8fca</color>
     <color name="bg_snow">#63d3b5</color>
+    <color name="bg_statistic">#ffb2c5</color>
+    <color name="bg_cpv_year">#3d87e9</color>
+    <color name="bg_cpv_year_light">#74a6e8</color>
+    <color name="bg_cpv_month">#eed873</color>
+    <color name="bg_cpv_month_light">#f0e3aa</color>
+    <color name="bg_cpv_week">#dc98bb</color>
+    <color name="bg_cpv_week_light">#ebccdc</color>
 
     <color name="btn_start">#727171</color>
     <color name="btn_auth">#0cad7b</color>
@@ -157,27 +164,24 @@
     <color name="background_setting_logout">#ec706c</color>
 
     <color name="text_calendar">#1de9b6</color>
+    <color name="text_statistic_total">#f0937a</color>
 
     <color name="tint_photo">#efcb9d</color>
     <color name="tint_weather">#c0b1ec</color>
     <color name="tint_font">#ee809f</color>
     <color name="tint_calendar">#1de9b6</color>
 
-    <color name="day_background0">#FFADC5</color>
-    <color name="day_background1">#B8F3B8</color>
-    <color name="day_background2">#CCD1FF</color>
-    <color name="day_background3">#FFDDA6</color>
-    <color name="day_background4">#A8C8F9</color>
-    <color name="day_background5">#C8EE9D</color>
-    <color name="day_background6">#EBE5E4</color>
-    <color name="day_background7">#9197B5</color>
-    <color name="day_background8">#2ED7D2</color>
-    <color name="day_background9">#D3F3ED</color>
-    <color name="day_background10">#F7B9D9</color>
-    <color name="day_background11">#c45fdd</color>
-    <color name="day_background12">#e782ff</color>
-    <color name="day_background13">#ad9aee</color>
-    <color name="day_background14">#cd853f</color>
-    <color name="day_background15">#d79f59</color>
-    <color name="day_background16">#a05c37</color>
+    <color name="day_background0">#f8b4b7</color>
+    <color name="day_background1">#ffcab5</color>
+    <color name="day_background2">#b0d3f3</color>
+    <color name="day_background3">#bfc4f6</color>
+    <color name="day_background4">#74d4d7</color>
+    <color name="day_background5">#ffbed2</color>
+    <color name="day_background6">#b9df9a</color>
+    <color name="day_background7">#ffdb5f</color>
+    <color name="day_background8">#d2b4e6</color>
+    <color name="day_background9">#92d8e2</color>
+    <color name="day_background10">#c0e2f7</color>
+
+    <color name="bar_background">#3f5ff9</color>
 </resources>

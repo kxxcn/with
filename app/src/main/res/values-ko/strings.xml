@@ -228,8 +228,15 @@
     <string name="text_date_type0">1일부터 시작해요.</string>
     <string name="text_date_type1">D-0, D+0 등으로 시작해요.</string>
     <string name="text_calculate_date">%1$d일</string>
+    <string name="text_statistic">통계</string>
+    <string name="text_statistic_so_far">지금까지</string>
+    <string name="text_statistic_written">개의 일기를 작성했어요.</string>
 
     <string name="push_content_diary">새 [일기]가 등록되었어요.</string>
     <string name="push_content_plan">새 [일정]이 등록되었어요.</string>
     <string name="push_content_day">새 [디데이]가 등록되었어요.</string>
+
+    <string name="toast_insight_year">전체 일기 중 %1$d년에 작성한 일기 비율입니다.</string>
+    <string name="toast_insight_month">%1$d년 일기 중 %2$d월에 작성한 일기 비율입니다.</string>
+    <string name="toast_insight_week">%1$d월 일기 중 이번 주에 작성한 일기 비율입니다.</string>
 </resources>

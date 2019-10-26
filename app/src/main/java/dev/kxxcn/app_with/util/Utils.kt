@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.util.Constants.DAY_COLORS
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -13,6 +14,11 @@ import java.util.*
 class Utils {
 
     companion object {
+
+        private val FORMAT = DecimalFormat("#,###")
+
+        val TYPE_DATE = 0
+        val TYPE_DATE_TIME = 1
 
         fun getCurrentTime(): String {
             val calendar = Calendar.getInstance()
@@ -36,8 +42,8 @@ class Utils {
             }
         }
 
-        fun convertTimeToDate(time: Long): String {
-            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        fun convertTimeToDate(time: Long, type: Int): String {
+            val simpleDateFormat = SimpleDateFormat(if (type == TYPE_DATE) "yyyy-MM-dd" else "yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             return simpleDateFormat.format(time)
         }
 
@@ -71,6 +77,8 @@ class Utils {
         }
 
         fun getDayBackgroundColor() = DAY_COLORS[Random().nextInt(DAY_COLORS.size)]
+
+        fun convertSize(size: Int): String = FORMAT.format(size)
     }
 }
 

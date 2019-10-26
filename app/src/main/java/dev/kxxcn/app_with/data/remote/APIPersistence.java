@@ -4,6 +4,7 @@ package dev.kxxcn.app_with.data.remote;
  * Created by kxxcn on 2018-08-20.
  */
 public class APIPersistence {
+
     public static final String SERVER_URL = "http://kxxcn.cafe24.com/with/";
     // public static final String SERVER_URL = "http://172.30.1.43:8080/with/";
 

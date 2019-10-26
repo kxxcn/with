@@ -20,6 +20,7 @@ import dev.kxxcn.app_with.ui.main.diary.NewDiaryFragment
 import dev.kxxcn.app_with.ui.main.plan.NewPlanFragment
 import dev.kxxcn.app_with.ui.main.setting.NewSettingFragment
 import dev.kxxcn.app_with.ui.main.setting.WrapFragment
+import dev.kxxcn.app_with.ui.main.statistics.StatisticsFragment
 import dev.kxxcn.app_with.ui.main.timeline.TimeLineFragment
 import dev.kxxcn.app_with.ui.main.write.NewWriteFragment
 import dev.kxxcn.app_with.util.*
@@ -80,7 +81,8 @@ class NewMainActivity : AppCompatActivity() {
                         null)
             } else if (fragment is NewSettingFragment ||
                     fragment is NewDiaryFragment ||
-                    fragment is DecimalFragment) {
+                    fragment is DecimalFragment ||
+                    fragment is StatisticsFragment) {
                 showMainFragment()
             } else if (fragment is NewWriteFragment) {
                 if (!fragment.isExpanded()) DialogUtils.showAlertDialog(this, getString(R.string.dialog_delete_contents),
@@ -117,6 +119,7 @@ class NewMainActivity : AppCompatActivity() {
         tv_write.onClick { clickNavigationItem(it?.id) }
         tv_dday.onClick { clickNavigationItem(it?.id) }
         tv_plan.onClick { clickNavigationItem(it?.id) }
+        tv_statistic.onClick { clickNavigationItem(it?.id) }
         tv_setting.onClick { clickNavigationItem(it?.id) }
         tv_about.onClick { clickNavigationItem(it?.id) }
         tv_support.onClick { clickNavigationItem(it?.id) }
@@ -145,9 +148,13 @@ class NewMainActivity : AppCompatActivity() {
             )
             tv_plan.id -> fragment = NewPlanFragment.newInstance(
                     intent.getStringExtra(EXTRA_IDENTIFIER))
+            tv_statistic.id -> fragment = StatisticsFragment.newInstance(
+                    intent.getStringExtra(EXTRA_IDENTIFIER)
+            )
             tv_setting.id -> fragment = NewSettingFragment.newInstance(
                     intent.getStringExtra(EXTRA_IDENTIFIER))
             tv_about.id -> {
+
             }
             tv_support.id -> {
                 sendEmail()

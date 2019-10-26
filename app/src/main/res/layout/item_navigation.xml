@@ -84,9 +84,20 @@
         android:text="@string/text_dday"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/tv_setting"
+        app:layout_constraintBottom_toTopOf="@id/tv_statistic"
         app:layout_constraintStart_toStartOf="@id/tv_with"
         app:layout_constraintTop_toBottomOf="@id/tv_plan" />
+
+    <TextView
+        android:id="@+id/tv_statistic"
+        style="@style/WithTextView"
+        android:padding="10dp"
+        android:text="@string/text_statistic"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_setting"
+        app:layout_constraintStart_toStartOf="@id/tv_with"
+        app:layout_constraintTop_toBottomOf="@id/tv_dday" />
 
     <TextView
         android:id="@+id/tv_setting"
@@ -97,7 +108,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/tv_with"
-        app:layout_constraintTop_toBottomOf="@id/tv_dday" />
+        app:layout_constraintTop_toBottomOf="@id/tv_statistic" />
 
     <TextView
         android:id="@+id/tv_about"

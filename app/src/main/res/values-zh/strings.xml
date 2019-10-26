@@ -231,4 +231,8 @@
     <string name="push_content_diary">新[日记]已被注册。</string>
     <string name="push_content_plan">新[计划]已注册。</string>
     <string name="push_content_day">新的[D-Day]已注册。</string>
+
+    <string name="toast_insight_year">%1$d年在整个日记中创建的日记的百分比。</string>
+    <string name="toast_insight_month">%1$d年%2$d月的日记百分比。</string>
+    <string name="toast_insight_week">本周在%1$d月的日记中创建的日记的百分比。</string>
 </resources>

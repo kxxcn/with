@@ -147,13 +147,13 @@
     <string name="text_day_registration">ティデイ登録</string>
     <string name="text_day_content">ティデイ内容を入力してください。</string>
 
-    <string name="label_mon">月曜日</string>
-    <string name="label_tue">火曜日</string>
-    <string name="label_wed">水曜日</string>
-    <string name="label_thu">木曜日</string>
-    <string name="label_fri">金曜日</string>
-    <string name="label_sat">土曜日</string>
-    <string name="label_sun">日曜日</string>
+    <string name="label_mon">月</string>
+    <string name="label_tue">火</string>
+    <string name="label_wed">水</string>
+    <string name="label_thu">木</string>
+    <string name="label_fri">金</string>
+    <string name="label_sat">土</string>
+    <string name="label_sun">日</string>
 
     <string name="param_download_image_url">%s%s.jpg</string>
     <string name="param_geocode">%e,%e</string>
@@ -227,8 +227,15 @@
     <string name="text_date_type0">1日から開始します。</string>
     <string name="text_date_type1">D-0、 D+0などで開始します。</string>
     <string name="text_calculate_date">%1$d日</string>
+    <string name="text_statistic">統計</string>
+    <string name="text_statistic_so_far">今まで</string>
+    <string name="text_statistic_written">つの日記を作成しました。</string>
 
     <string name="push_content_diary">新しい[日記]が登録されました。</string>
     <string name="push_content_plan">新しい[日程]が登録されました。</string>
     <string name="push_content_day">新しい[D-Day]が登録されました。</string>
+
+    <string name="toast_insight_year">全体日記の中で、%1$d年に作成した日記の割合です。</string>
+    <string name="toast_insight_month">%1$d年の日記の中で、%2$d月に作成した日記の割合です。</string>
+    <string name="toast_insight_week">%1$d月の日記の中で、今週に作成した日記の割合です。</string>
 </resources>

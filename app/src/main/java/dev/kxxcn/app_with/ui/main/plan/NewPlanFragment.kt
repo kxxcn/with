@@ -232,12 +232,12 @@ class NewPlanFragment : Fragment(), PlanContract.View {
                     .defaultSelectedDate(Calendar.getInstance())
                     .build()
 
-            selectedDate = Utils.convertTimeToDate(Calendar.getInstance().timeInMillis)
+            selectedDate = Utils.convertTimeToDate(Calendar.getInstance().timeInMillis, Utils.TYPE_DATE)
 
             hCalendar?.calendarListener = object : HorizontalCalendarListener() {
                 override fun onDateSelected(date: Calendar, position: Int) {
                     findDate = date
-                    selectedDate = Utils.convertTimeToDate(date.timeInMillis)
+                    selectedDate = Utils.convertTimeToDate(date.timeInMillis, Utils.TYPE_DATE)
                     tv_date.text = String.format(getString(R.string.text_plan_date), date.get(Calendar.DAY_OF_MONTH))
                     month = date.get(Calendar.MONTH) + 1
                     tv_plan_for_this_month.text = String.format(getString(R.string.text_plan_count_this_month),

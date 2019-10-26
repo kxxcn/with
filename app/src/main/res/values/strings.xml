@@ -249,6 +249,12 @@
     <string name="text_date_type0">Start on day 1.</string>
     <string name="text_date_type1">Start with D-0, D+0, etc.</string>
     <string name="text_calculate_date">%1$d</string>
+    <string name="text_total">Total</string>
+    <string name="text_statistic">Statistic</string>
+    <string name="text_statistic_so_far">I have written</string>
+    <string name="text_statistic_written">diary so far.</string>
+    <string name="text_insight">Insight</string>
+    <string name="text_analysis">Analysis</string>
 
     <string name="transition_bg" translatable="false">transition_bg</string>
     <string name="transition_icon" translatable="false">transition_icon</string>
@@ -257,4 +263,8 @@
     <string name="push_content_diary">New [Diary] has been registered.</string>
     <string name="push_content_plan">New [Plan] has been registered.</string>
     <string name="push_content_day">New [D-Day] has been registered.</string>
+
+    <string name="toast_insight_year">Percentage of diaries created in %1$d in the entire diary.</string>
+    <string name="toast_insight_month">Percentage of diaries created in %2$d of the %1$d diary.</string>
+    <string name="toast_insight_week">Percentage of diaries created this week in the diary in %1$d.</string>
 </resources>
