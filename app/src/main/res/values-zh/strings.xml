@@ -155,6 +155,14 @@
     <string name="label_sat">土</string>
     <string name="label_sun">日</string>
 
+    <string name="analysis_mon">月</string>
+    <string name="analysis_tue">火</string>
+    <string name="analysis_wed">水</string>
+    <string name="analysis_thu">木</string>
+    <string name="analysis_fri">金</string>
+    <string name="analysis_sat">土</string>
+    <string name="analysis_sun">日</string>
+
     <string name="param_download_image_url">%s%s.jpg</string>
     <string name="param_geocode">%e,%e</string>
 
@@ -227,6 +235,8 @@
     <string name="text_date_type0">从第一天开始</string>
     <string name="text_date_type1">以D-0， D+0等开头。</string>
     <string name="text_calculate_date">%1$d</string>
+    <string name="text_attendance_month">共%1$d天</string>
+    <string name="text_attendance_days">%1$d天</string>
 
     <string name="push_content_diary">新[日记]已被注册。</string>
     <string name="push_content_plan">新[计划]已注册。</string>

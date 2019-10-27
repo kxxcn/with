@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="10dp"
@@ -14,22 +15,33 @@
         android:layout_height="wrap_content"
         android:padding="20dp">
 
+        <ImageView
+            android:id="@+id/ic_icon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_insight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:fontFamily="@font/namsan"
             android:text="@string/text_insight"
             android:textColor="@android:color/black"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/ic_icon"
+            app:layout_constraintStart_toEndOf="@id/ic_icon"
+            app:layout_constraintTop_toTopOf="@id/ic_icon" />
 
         <at.grabner.circleprogress.CircleProgressView
             android:id="@+id/cpv_year"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             app:cpv_autoTextSize="true"
             app:cpv_barColor="@color/bg_cpv_year"
             app:cpv_barWidth="3dp"

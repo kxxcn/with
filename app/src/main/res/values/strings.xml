@@ -156,6 +156,14 @@
     <string name="label_sat">SAT</string>
     <string name="label_sun">SUN</string>
 
+    <string name="analysis_mon">M</string>
+    <string name="analysis_tue">T</string>
+    <string name="analysis_wed">W</string>
+    <string name="analysis_thu">T</string>
+    <string name="analysis_fri">F</string>
+    <string name="analysis_sat">S</string>
+    <string name="analysis_sun">S</string>
+
     <string name="param_download_image_url">%s%s.jpg</string>
     <string name="param_geocode">%e,%e</string>
 
@@ -249,12 +257,15 @@
     <string name="text_date_type0">Start on day 1.</string>
     <string name="text_date_type1">Start with D-0, D+0, etc.</string>
     <string name="text_calculate_date">%1$d</string>
-    <string name="text_total">Total</string>
-    <string name="text_statistic">Statistic</string>
     <string name="text_statistic_so_far">I have written</string>
     <string name="text_statistic_written">diary so far.</string>
-    <string name="text_insight">Insight</string>
-    <string name="text_analysis">Analysis</string>
+    <string name="text_total" translatable="false">Total</string>
+    <string name="text_statistic" translatable="false">Statistic</string>
+    <string name="text_insight" translatable="false">Insight</string>
+    <string name="text_analysis" translatable="false">Analysis</string>
+    <string name="text_attendance" translatable="false">Attendance</string>
+    <string name="text_attendance_month">Total %1$d days</string>
+    <string name="text_attendance_days">%1$d days</string>
 
     <string name="transition_bg" translatable="false">transition_bg</string>
     <string name="transition_icon" translatable="false">transition_icon</string>

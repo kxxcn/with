@@ -565,9 +565,11 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
                     presenter?.uploadImage(MultipartBody.Part.createFormData("upload", file.name, reqFile))
                 } else {
                     toast(R.string.toast_choice_gallery)
+                    preventCancel = false
                 }
             } else {
                 toast(R.string.toast_write_diary)
+                preventCancel = false
             }
         }
     }

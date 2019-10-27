@@ -10,8 +10,8 @@ android {
         applicationId "dev.kxxcn.app_with"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 46
-        versionName "5.1.1"
+        versionCode 47
+        versionName "5.1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -214,6 +214,11 @@ dependencies {
      * MPAndroidChart
      */
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    /**
+     * Progress Wheel View
+     */
+    implementation 'com.zekapp.library:progreswheelview:1.1.5'
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {

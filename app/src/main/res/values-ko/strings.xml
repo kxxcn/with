@@ -155,6 +155,14 @@
     <string name="label_sat">토</string>
     <string name="label_sun">일</string>
 
+    <string name="analysis_mon">월</string>
+    <string name="analysis_tue">화</string>
+    <string name="analysis_wed">수</string>
+    <string name="analysis_thu">목</string>
+    <string name="analysis_fri">금</string>
+    <string name="analysis_sat">토</string>
+    <string name="analysis_sun">일</string>
+
     <string name="param_download_image_url">%s%s.jpg</string>
     <string name="param_geocode">%e,%e</string>
 
@@ -231,6 +239,8 @@
     <string name="text_statistic">통계</string>
     <string name="text_statistic_so_far">지금까지</string>
     <string name="text_statistic_written">개의 일기를 작성했어요.</string>
+    <string name="text_attendance_month">전체 %1$d일</string>
+    <string name="text_attendance_days">%1$d일</string>
 
     <string name="push_content_diary">새 [일기]가 등록되었어요.</string>
     <string name="push_content_plan">새 [일정]이 등록되었어요.</string>

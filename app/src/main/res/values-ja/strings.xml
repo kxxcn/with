@@ -155,6 +155,14 @@
     <string name="label_sat">土</string>
     <string name="label_sun">日</string>
 
+    <string name="analysis_mon">月</string>
+    <string name="analysis_tue">火</string>
+    <string name="analysis_wed">水</string>
+    <string name="analysis_thu">木</string>
+    <string name="analysis_fri">金</string>
+    <string name="analysis_sat">土</string>
+    <string name="analysis_sun">日</string>
+
     <string name="param_download_image_url">%s%s.jpg</string>
     <string name="param_geocode">%e,%e</string>
 
@@ -230,6 +238,8 @@
     <string name="text_statistic">統計</string>
     <string name="text_statistic_so_far">今まで</string>
     <string name="text_statistic_written">つの日記を作成しました。</string>
+    <string name="text_attendance_month">合計%1$d日</string>
+    <string name="text_attendance_days">%1$d日</string>
 
     <string name="push_content_diary">新しい[日記]が登録されました。</string>
     <string name="push_content_plan">新しい[日程]が登録されました。</string>

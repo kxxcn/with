@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import at.grabner.circleprogress.CircleProgressView
+import com.app.progresviews.ProgressWheel
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -147,6 +148,23 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 h.barChart.data = barData
                 h.barChart.animateY(1000)
                 h.barChart.invalidate()
+
+                val attendanceList = item.diary.filter {
+                    val date = it.letterDate.split("-")
+                    date[1].toInt() == Calendar.getInstance().get(Calendar.MONTH) + 1
+                }.distinctBy {
+                    val date = it.letterDate.split("-")
+                    date[2]
+                }
+
+                val calendar = Calendar.getInstance()
+                val dayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH).toDouble()
+                val attendance = attendanceList.size.toDouble()
+                val tmp = attendance / dayOfMonth * 100
+                val percent = 360 * tmp / 100
+                h.attendance.setPercentage(percent.toInt())
+                h.attendance.setStepCountText(ctx.getString(R.string.text_attendance_days, attendance.toInt()))
+                h.attendance.setDefText(ctx.getString(R.string.text_attendance_month, dayOfMonth.toInt()))
             }
         }
     }
@@ -230,6 +248,7 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     ) : RecyclerView.ViewHolder(itemView) {
 
         val barChart: BarChart = itemView.findViewById(R.id.bc_analysis)
+        val attendance: ProgressWheel = itemView.findViewById(R.id.pw_attendance)
 
         init {
             barChart.setPinchZoom(false)
@@ -269,14 +288,14 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     ) : ValueFormatter() {
         override fun getFormattedValue(value: Float): String {
             return when (value.toInt()) {
-                Calendar.SUNDAY -> context.getString(R.string.label_sun)
-                Calendar.MONDAY -> context.getString(R.string.label_mon)
-                Calendar.TUESDAY -> context.getString(R.string.label_tue)
-                Calendar.WEDNESDAY -> context.getString(R.string.label_wed)
-                Calendar.THURSDAY -> context.getString(R.string.label_thu)
-                Calendar.FRIDAY -> context.getString(R.string.label_fri)
-                Calendar.SATURDAY -> context.getString(R.string.label_sat)
-                else -> context.getString(R.string.label_sun)
+                Calendar.SUNDAY -> context.getString(R.string.analysis_sun)
+                Calendar.MONDAY -> context.getString(R.string.analysis_mon)
+                Calendar.TUESDAY -> context.getString(R.string.analysis_tue)
+                Calendar.WEDNESDAY -> context.getString(R.string.analysis_wed)
+                Calendar.THURSDAY -> context.getString(R.string.analysis_thu)
+                Calendar.FRIDAY -> context.getString(R.string.analysis_fri)
+                Calendar.SATURDAY -> context.getString(R.string.analysis_sat)
+                else -> context.getString(R.string.analysis_sun)
             }
         }
     }
