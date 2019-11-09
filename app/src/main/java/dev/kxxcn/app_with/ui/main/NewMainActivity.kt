@@ -1,5 +1,6 @@
 package dev.kxxcn.app_with.ui.main
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Point
 import android.graphics.PorterDuff
@@ -54,6 +55,17 @@ class NewMainActivity : AppCompatActivity() {
         initUI()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val preferences = getSharedPreferences(getString(R.string.app_name_en), Context.MODE_PRIVATE)
+        val firstTime = preferences.getLong(KEY_FIRST_TIME, 0)
+        if (firstTime == 0L) {
+            val editor = preferences.edit()
+            editor.putLong(KEY_FIRST_TIME, System.currentTimeMillis())
+            editor.apply()
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
@@ -74,10 +86,7 @@ class NewMainActivity : AppCompatActivity() {
             if (fragment is MainFragment) {
                 DialogUtils.showAlertDialog(this,
                         getString(R.string.dialog_want_to_quit),
-                        { _, _ ->
-                            SystemUtils.onFinish(this)
-                            interstitialAd?.show()
-                        },
+                        { _, _ -> SystemUtils.finishOrReview(this, interstitialAd) },
                         null)
             } else if (fragment is NewSettingFragment ||
                     fragment is NewDiaryFragment ||
@@ -218,5 +227,6 @@ class NewMainActivity : AppCompatActivity() {
         const val DRAWER_GRAVITY_START = Gravity.START
         const val EXTRA_IDENTIFIER = "IDENTIFIER"
         const val EXTRA_GENDER = "GENDER"
+        const val KEY_FIRST_TIME = "KEY_FIRST_TIME"
     }
 }

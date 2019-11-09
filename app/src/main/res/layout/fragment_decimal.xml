@@ -41,34 +41,46 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
-        tools:ignore="UseCompoundDrawables">
+        tools:ignore="UseCompoundDrawables"
+        tools:visibility="visible">
 
         <ImageView
-            android:id="@+id/iv_not_found"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_not_found"
-            app:layout_constraintBottom_toTopOf="@id/tv_not_found"
+            android:id="@+id/iv_no_data_bg"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:alpha="0.3"
+            android:background="@drawable/drawable_circle_no_data"
+            app:layout_constraintBottom_toTopOf="@id/tv_no_data"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.4"
             app:layout_constraintVertical_chainStyle="packed"
             tools:ignore="ContentDescription" />
 
+        <ImageView
+            android:id="@+id/iv_no_data"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_no_data"
+            app:layout_constraintBottom_toBottomOf="@id/iv_no_data_bg"
+            app:layout_constraintEnd_toEndOf="@id/iv_no_data_bg"
+            app:layout_constraintStart_toStartOf="@id/iv_no_data_bg"
+            app:layout_constraintTop_toTopOf="@id/iv_no_data_bg"
+            tools:ignore="ContentDescription" />
+
         <TextView
-            android:id="@+id/tv_not_found"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/tv_no_data"
+            style="@style/WithTextView"
+            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:paddingTop="20dp"
             android:text="@string/text_register_decimal_day"
-            android:textColor="@android:color/black"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_not_found" />
+            app:layout_constraintTop_toBottomOf="@id/iv_no_data_bg" />
 
     </android.support.constraint.ConstraintLayout>
 

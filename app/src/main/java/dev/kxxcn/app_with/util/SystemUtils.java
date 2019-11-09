@@ -2,7 +2,10 @@ package dev.kxxcn.app_with.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
@@ -12,19 +15,25 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import dev.kxxcn.app_with.BuildConfig;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.ui.main.MainContract;
+import dev.kxxcn.app_with.ui.main.NewMainActivity;
 
 import static android.content.Context.VIBRATOR_SERVICE;
+import static dev.kxxcn.app_with.ui.main.setting.SettingPresenter.URI_PLAY_STORE;
 import static dev.kxxcn.app_with.util.Constants.SIMPLE_DATE_FORMAT;
 import static dev.kxxcn.app_with.util.Constants.TAG;
 
@@ -46,6 +55,44 @@ public class SystemUtils {
     public static void onFinish(Activity activity) {
         if (activity != null) {
             ActivityCompat.finishAffinity(activity);
+        }
+    }
+
+    public static void finishOrReview(Context ctx, InterstitialAd interstitialAd) {
+        SharedPreferences preferences = ctx.getSharedPreferences(
+                ctx.getString(R.string.app_name_en),
+                Context.MODE_PRIVATE);
+        long firstTime = preferences.getLong(NewMainActivity.KEY_FIRST_TIME, 0);
+        long currentTime = System.currentTimeMillis();
+        long reviewTime = currentTime - firstTime;
+        if (TimeUnit.MILLISECONDS.toDays(reviewTime) >= 7) {
+            DialogUtils.showAlertDialog(
+                    ctx,
+                    ctx.getString(R.string.dialog_review_message),
+                    ctx.getString(R.string.text_review),
+                    ctx.getString(R.string.text_cancel),
+                    (dialog, which) -> {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTimeInMillis(currentTime);
+                        int year = calendar.get(Calendar.YEAR);
+                        calendar.set(Calendar.YEAR, year + 1);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putLong(NewMainActivity.KEY_FIRST_TIME, calendar.getTimeInMillis());
+                        editor.commit();
+                        onFinish((Activity) ctx);
+                        goMarket(ctx);
+                    },
+                    (dialog, which) -> {
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putLong(NewMainActivity.KEY_FIRST_TIME, currentTime);
+                        editor.commit();
+                        onFinish((Activity) ctx);
+                        interstitialAd.show();
+                    }
+            );
+        } else {
+            onFinish((Activity) ctx);
+            interstitialAd.show();
         }
     }
 
@@ -128,6 +175,16 @@ public class SystemUtils {
         Vibrator vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
         if (vibrator != null) {
             vibrator.vibrate(time);
+        }
+    }
+
+    private static void goMarket(Context ctx) {
+        String packageName = ctx.getPackageName();
+        try {
+            ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));
+        } catch (android.content.ActivityNotFoundException e) {
+            ctx.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(URI_PLAY_STORE + packageName)));
+            e.printStackTrace();
         }
     }
 

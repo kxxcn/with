@@ -17,10 +17,10 @@ class IconAdapter(
     private var selectedPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_icon, parent, false),
-                callback
-        )
+        val context = parent.context
+        val inflater = LayoutInflater.from(context)
+        val view = inflater.inflate(R.layout.item_icon, parent, false)
+        return ViewHolder(view, callback)
     }
 
     override fun getItemCount() = ICON_IMAGES.size

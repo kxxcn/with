@@ -17,8 +17,8 @@ class Utils {
 
         private val FORMAT = DecimalFormat("#,###")
 
-        val TYPE_DATE = 0
-        val TYPE_DATE_TIME = 1
+        const val TYPE_DATE = 0
+        const val TYPE_DATE_TIME = 1
 
         fun getCurrentTime(): String {
             val calendar = Calendar.getInstance()

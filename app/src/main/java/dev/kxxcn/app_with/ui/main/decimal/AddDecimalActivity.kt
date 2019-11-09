@@ -167,7 +167,11 @@ class AddDecimalActivity : AppCompatActivity(), AddDecimalContract.View, PlanCon
 
     private fun setupListener() {
         iv_back.onClick { dismissActivity() }
-        ll_date.onClick { datePickerFragment?.show(supportFragmentManager, DatePickerFragment::class.java.name) }
+        ll_date.onClick {
+            if (datePickerFragment?.isAdded == false) {
+                datePickerFragment?.show(supportFragmentManager, DatePickerFragment::class.java.name)
+            }
+        }
         tv_register.onClick { if (!preventCancel) registerDecimalDay() }
         ll_day_type0.onClick { selectType(it) }
         ll_day_type1.onClick { selectType(it) }

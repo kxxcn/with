@@ -65,6 +65,7 @@
     <string name="dialog_delete_lock">Do you want to release the lock function?</string>
     <string name="dialog_use_alone">Do you write alone?</string>
     <string name="dialog_use_together">Do you write together?</string>
+    <string name="dialog_review_message">Is WITH useful to you?\nPlease leave a review for other users.\n\nwe expect your good evaluation :D</string>
 
     <string name="toast_checking_album">The album is being inquired.</string>
     <string name="toast_choice_gender">Please select a gender.</string>
@@ -266,6 +267,7 @@
     <string name="text_attendance" translatable="false">Attendance</string>
     <string name="text_attendance_month">Total %1$d days</string>
     <string name="text_attendance_days">%1$d days</string>
+    <string name="text_review">Review</string>
 
     <string name="transition_bg" translatable="false">transition_bg</string>
     <string name="transition_icon" translatable="false">transition_icon</string>

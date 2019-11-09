@@ -64,6 +64,7 @@
     <string name="dialog_delete_lock">ロック機能を解除しますか?</string>
     <string name="dialog_use_alone">一人で書きますか?</string>
     <string name="dialog_use_together">一緒に書きますか?</string>
+    <string name="dialog_review_message">このアプリを気に入ってくださったら評価をお願いします。良い評価をお待ちしています！</string>
 
     <string name="toast_checking_album">アルバムを照会中です。</string>
     <string name="toast_choice_gender">性別を選択してください。</string>
@@ -240,6 +241,7 @@
     <string name="text_statistic_written">つの日記を作成しました。</string>
     <string name="text_attendance_month">合計%1$d日</string>
     <string name="text_attendance_days">%1$d日</string>
+    <string name="text_review">評価</string>
 
     <string name="push_content_diary">新しい[日記]が登録されました。</string>
     <string name="push_content_plan">新しい[日程]が登録されました。</string>

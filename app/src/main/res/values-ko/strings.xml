@@ -64,6 +64,7 @@
     <string name="dialog_delete_lock">잠금 기능을 해제하시겠습니까?</string>
     <string name="dialog_use_alone">혼자 쓰시겠습니까?</string>
     <string name="dialog_use_together">함께 쓰시겠습니까?</string>
+    <string name="dialog_review_message">유용하게 사용하고 계신가요?\n다른 사용자를 위해 리뷰를 남겨주세요.\n\n좋은 평가 부탁드립니다 :D</string>
 
     <string name="toast_checking_album">사진첩을 조회 중입니다.</string>
     <string name="toast_choice_gender">성별을 선택하세요.</string>
@@ -241,6 +242,7 @@
     <string name="text_statistic_written">개의 일기를 작성했어요.</string>
     <string name="text_attendance_month">전체 %1$d일</string>
     <string name="text_attendance_days">%1$d일</string>
+    <string name="text_review">리뷰</string>
 
     <string name="push_content_diary">새 [일기]가 등록되었어요.</string>
     <string name="push_content_plan">새 [일정]이 등록되었어요.</string>

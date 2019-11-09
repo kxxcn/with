@@ -64,6 +64,7 @@
     <string name="dialog_delete_lock">你想解锁吗?</string>
     <string name="dialog_use_alone">你想单独使用它吗?</string>
     <string name="dialog_use_together">你想一起使用吗?</string>
+    <string name="dialog_review_message">WITH对你有帮助吗？\n请留下评论吧！\n期待你的好评。</string>
 
     <string name="toast_checking_album">您正在查看您的相册。</string>
     <string name="toast_choice_gender">请选择性别</string>
@@ -237,6 +238,7 @@
     <string name="text_calculate_date">%1$d</string>
     <string name="text_attendance_month">共%1$d天</string>
     <string name="text_attendance_days">%1$d天</string>
+    <string name="text_review">评论</string>
 
     <string name="push_content_diary">新[日记]已被注册。</string>
     <string name="push_content_plan">新[计划]已注册。</string>
