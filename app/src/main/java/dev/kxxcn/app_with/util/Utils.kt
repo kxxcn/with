@@ -1,11 +1,16 @@
 package dev.kxxcn.app_with.util
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.DisplayMetrics
+import android.view.View
 import android.widget.EditText
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.util.Constants.DAY_COLORS
+import org.jetbrains.anko.windowManager
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -79,6 +84,25 @@ class Utils {
         fun getDayBackgroundColor() = DAY_COLORS[Random().nextInt(DAY_COLORS.size)]
 
         fun convertSize(size: Int): String = FORMAT.format(size)
+
+        fun capture(view: View): Bitmap {
+            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            view.draw(canvas)
+            return bitmap
+        }
+
+        fun dpToPx(ctx: Context, dp: Int): Int {
+            val metrics = DisplayMetrics()
+            ctx.windowManager.defaultDisplay.getMetrics(metrics)
+            return dp * metrics.densityDpi
+        }
+
+        fun pxToDp(ctx: Context, px: Int): Int {
+            val metrics = DisplayMetrics()
+            ctx.windowManager.defaultDisplay.getMetrics(metrics)
+            return metrics.densityDpi
+        }
     }
 }
 

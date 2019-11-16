@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.Toast
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.DataRepository
@@ -185,10 +185,10 @@ class NewPlanFragment : Fragment(), PlanContract.View {
         }
 
         ll_plan_detail.run {
-            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    animateViewHeight = ll_plan_detail.measuredHeight
+                    animateViewHeight = ll_plan_detail?.measuredHeight ?: Utils.dpToPx(context, 130)
                 }
             })
         }
@@ -205,7 +205,7 @@ class NewPlanFragment : Fragment(), PlanContract.View {
         bottomSheetBehavior = BottomSheetBehavior.from(cv_bottom)
         bottomSheetBehavior?.peekHeight = 0
         cv_bottom?.run {
-            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
                     layoutParams = cv_bottom.layoutParams.apply {
@@ -223,7 +223,7 @@ class NewPlanFragment : Fragment(), PlanContract.View {
         val startDate = Calendar.getInstance()
         startDate.add(Calendar.MONTH, -2)
         val endDate = Calendar.getInstance()
-        endDate.add(Calendar.MONTH, 2)
+        endDate.add(Calendar.YEAR, startDate.get(Calendar.YEAR) + 100)
 
         if (hCalendar == null) {
             hCalendar = HorizontalCalendar.Builder(view, R.id.hcv_calendar)

@@ -102,6 +102,7 @@
     <color name="text_password_number">#000000</color>
     <color name="text_place_picker">#e1d3d3</color>
     <color name="text_day">#ec706c</color>
+    <color name="text_share_day">#fcf3f2</color>
 
     <color name="selected_circle_indicator">#ffffff</color>
     <color name="deselected_circle_indicator">#84797d</color>

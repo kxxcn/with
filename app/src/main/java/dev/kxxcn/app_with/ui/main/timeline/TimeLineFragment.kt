@@ -93,14 +93,6 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
         val item = adapter?.getItem(position) ?: return
         when (type) {
             TYPE_DETAIL -> {
-//                val dialog = DetailDialog.newInstance(
-//                        item.letter,
-//                        item.letterPlace,
-//                        item.letterDate,
-//                        item.letterTime,
-//                        item.galleryName,
-//                        item.fontStyle)
-//                dialog.show(fragmentManager, DetailDialog::class.java.name)
                 val intent = Intent(context, DetailActivity::class.java).apply {
                     putExtra(DetailActivity.EXTRA_LETTER, item.letter)
                     putExtra(DetailActivity.EXTRA_PLACE, item.letterPlace)
@@ -112,6 +104,10 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
                 startActivity(intent)
             }
             TYPE_EDIT -> {
+                if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+                    return
+                }
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
                 selectedPosition = position
             }
@@ -176,6 +172,7 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
 
         bottomSheetBehavior = BottomSheetBehavior.from(cv_bottom)
         bottomSheetBehavior?.peekHeight = 0
+        bottomSheetBehavior?.isHideable = false
         cv_bottom?.run {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {

@@ -96,6 +96,7 @@
     <string name="toast_changed_profile_image">Your profile photo has been changed.</string>
     <string name="toast_changed_nickname">Nickname changed.</string>
     <string name="toast_failed_request_day">Failed to read the D-Day information.</string>
+    <string name="toast_success_diary_share">Saved in the album.</string>
 
     <string name="snack_selected_gallery">A photo was selected.</string>
 

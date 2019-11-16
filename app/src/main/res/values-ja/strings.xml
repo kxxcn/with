@@ -95,6 +95,7 @@
     <string name="toast_changed_profile_image">プロフィール写真が変更されました。</string>
     <string name="toast_changed_nickname">ニックネームが変更されました。</string>
     <string name="toast_failed_request_day">ティデイ情報読み込みに失敗しました。</string>
+    <string name="toast_success_diary_share">アルバムに保存された。</string>
 
     <string name="snack_selected_gallery">写真が選択された。</string>
 
