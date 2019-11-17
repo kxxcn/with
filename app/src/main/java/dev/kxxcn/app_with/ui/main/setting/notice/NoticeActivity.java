@@ -16,7 +16,7 @@ import butterknife.OnClick;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.model.notice.Notice;
-import dev.kxxcn.app_with.data.remote.MyFirebaseMessagingService;
+import dev.kxxcn.app_with.data.remote.MessagingService;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.util.SwipeViewPager;
 import dev.kxxcn.app_with.util.SystemUtils;
@@ -65,16 +65,16 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
         String country = null;
         switch (Locale.getDefault().getCountry()) {
             case "KR":
-                country = MyFirebaseMessagingService.COUNTRY_KO;
+                country = MessagingService.COUNTRY_KO;
                 break;
             case "US":
-                country = MyFirebaseMessagingService.COUNTRY_US;
+                country = MessagingService.COUNTRY_US;
                 break;
             case "JP":
-                country = MyFirebaseMessagingService.COUNTRY_JP;
+                country = MessagingService.COUNTRY_JP;
                 break;
             case "CN":
-                country = MyFirebaseMessagingService.COUNTRY_CN;
+                country = MessagingService.COUNTRY_CN;
                 break;
         }
         mPresenter.getNotice(getIntent().getStringExtra(EXTRA_IDENTIFIER), country);
@@ -116,5 +116,4 @@ public class NoticeActivity extends AppCompatActivity implements NoticeContract.
             vp_notice.setCurrentItem(NoticePagerAdapter.SUBJECT);
         }
     }
-
 }

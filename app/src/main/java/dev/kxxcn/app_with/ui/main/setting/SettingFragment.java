@@ -28,7 +28,7 @@ import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.data.DataRepository;
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname;
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting;
-import dev.kxxcn.app_with.data.remote.MyFirebaseMessagingService;
+import dev.kxxcn.app_with.data.remote.MessagingService;
 import dev.kxxcn.app_with.data.remote.RemoteDataSource;
 import dev.kxxcn.app_with.ui.main.MainContract;
 import dev.kxxcn.app_with.ui.main.setting.lock.LockActivity;
@@ -241,9 +241,9 @@ public class SettingFragment extends Fragment implements SettingContract.View {
             int noticeEvent = response.getNoticeEvent();
             SharedPreferences preferences = mContext.getSharedPreferences(getString(R.string.app_name_en), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt(MyFirebaseMessagingService.KEY_NOTICE_WITH, noticeWith);
-            editor.putInt(MyFirebaseMessagingService.KEY_NOTICE, notice);
-            editor.putInt(MyFirebaseMessagingService.KEY_NOTICE_EVENT, noticeEvent);
+            editor.putInt(MessagingService.KEY_NOTICE_WITH, noticeWith);
+            editor.putInt(MessagingService.KEY_NOTICE, notice);
+            editor.putInt(MessagingService.KEY_NOTICE_EVENT, noticeEvent);
             editor.apply();
             if (noticeWith == 0) {
                 tb_notice_with.setToggleOff();

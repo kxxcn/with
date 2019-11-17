@@ -97,6 +97,7 @@
     <string name="toast_changed_nickname">Nickname changed.</string>
     <string name="toast_failed_request_day">Failed to read the D-Day information.</string>
     <string name="toast_success_diary_share">Saved in the album.</string>
+    <string name="toast_sign_out_greeting">Thank you for using [WITH].</string>
 
     <string name="snack_selected_gallery">A photo was selected.</string>
 
@@ -266,6 +267,7 @@
     <string name="text_insight" translatable="false">Insight</string>
     <string name="text_analysis" translatable="false">Analysis</string>
     <string name="text_attendance" translatable="false">Attendance</string>
+    <string name="text_weather" translatable="false">Weather</string>
     <string name="text_attendance_month">Total %1$d days</string>
     <string name="text_attendance_days">%1$d days</string>
     <string name="text_review">Review</string>

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
-import android.text.SpannableStringBuilder
 import android.transition.TransitionInflater
 import android.transition.TransitionSet
 import android.view.LayoutInflater
@@ -96,7 +95,7 @@ class NewSettingFragment : Fragment(), SettingContract.View {
     }
 
     override fun showSuccessfulSignOut(stat: String?) {
-        toast(SpannableStringBuilder(stat))
+        toast(R.string.toast_sign_out_greeting)
         UiThread.getInstance().postDelayed({ SystemUtils.onFinish(activity) }, DELAY_SIGN_OUT.toLong())
     }
 

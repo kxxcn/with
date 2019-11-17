@@ -56,6 +56,8 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
     private SplashContract.Presenter mPresenter;
 
+    private String mAction;
+
     private String mUniqueIdentifier;
 
     private RequestOptions mOptions = new RequestOptions();
@@ -76,6 +78,11 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            mAction = intent.getAction();
+        }
 
         new SplashPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()));
 
@@ -122,6 +129,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
     @Override
     public void showMainActivity(int gender) {
         Intent intent = new Intent(SplashActivity.this, NewMainActivity.class);
+        intent.setAction(mAction);
         intent.putExtra(MainActivity.EXTRA_GENDER, gender);
         intent.putExtra(MainActivity.EXTRA_IDENTIFIER, mUniqueIdentifier);
         startActivity(intent);

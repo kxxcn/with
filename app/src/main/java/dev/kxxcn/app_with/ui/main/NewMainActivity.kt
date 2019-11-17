@@ -32,6 +32,8 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class NewMainActivity : AppCompatActivity() {
 
+    private var action: String? = null
+
     private var selectedNavId: Int = 0
 
     private var interstitialAd: InterstitialAd? = null
@@ -41,6 +43,8 @@ class NewMainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_new)
         TransitionUtils.fade(this)
         setSupportActionBar(tb_main)
+
+        action = intent.action
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
@@ -119,9 +123,31 @@ class NewMainActivity : AppCompatActivity() {
         params.width = (size.x * 0.8).toInt()
         cl_navigation.layoutParams = params
 
-        replaceFragment(MainFragment.newInstance(
-                intent.getStringExtra(EXTRA_IDENTIFIER),
-                intent.getIntExtra(EXTRA_GENDER, 0)))
+        val f: Fragment = when (action) {
+            ACTION_DIARY -> {
+                TimeLineFragment.newInstance(
+                        intent.getStringExtra(EXTRA_IDENTIFIER),
+                        intent.getIntExtra(EXTRA_GENDER, 0))
+            }
+            ACTION_PLAN -> {
+                NewPlanFragment.newInstance(
+                        intent.getStringExtra(EXTRA_IDENTIFIER)
+                )
+            }
+            ACTION_NOTICE -> {
+                NewSettingFragment.newInstance(
+                        intent.getStringExtra(EXTRA_IDENTIFIER)
+                )
+            }
+            else -> {
+                MainFragment.newInstance(
+                        intent.getStringExtra(EXTRA_IDENTIFIER),
+                        intent.getIntExtra(EXTRA_GENDER, 0)
+                )
+            }
+        }
+
+        replaceFragment(f)
 
         tv_with.onClick { clickNavigationItem(it?.id) }
         tv_timeline.onClick { clickNavigationItem(it?.id) }
@@ -223,6 +249,10 @@ class NewMainActivity : AppCompatActivity() {
     }
 
     companion object {
+
+        const val ACTION_DIARY = "ACTION_DIARY"
+        const val ACTION_PLAN = "ACTION_PLAN"
+        const val ACTION_NOTICE = "ACTION_NOTICE"
 
         const val DRAWER_GRAVITY_START = Gravity.START
         const val EXTRA_IDENTIFIER = "IDENTIFIER"

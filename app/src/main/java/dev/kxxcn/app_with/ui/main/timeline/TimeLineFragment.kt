@@ -28,7 +28,7 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
 
     private var selectedPosition = INVALID_POSITION
 
-    private var isMine = true
+    private var isMine = false
 
     private var presenter: TimeLineContract.Presenter? = null
 
@@ -196,7 +196,7 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
     }
 
     private fun changeDiary(nickname: ResponseNickname) {
-        tv_change.text = if (isMine) nickname.yourNickname else nickname.myNickname
+        tv_change.text = if (isMine) nickname.myNickname else nickname.yourNickname
         adapter?.changeDiary(isMine)
         isMine = !isMine
         if (adapter?.itemCount == 0) {

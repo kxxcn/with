@@ -185,4 +185,9 @@
     <color name="day_background10">#c0e2f7</color>
 
     <color name="bar_background">#3f5ff9</color>
+
+    <color name="chart_sun">#3d87e9</color>
+    <color name="chart_cloud">#f0c731</color>
+    <color name="chart_rain">#8fd2d3</color>
+    <color name="chart_snow">#e07821</color>
 </resources>

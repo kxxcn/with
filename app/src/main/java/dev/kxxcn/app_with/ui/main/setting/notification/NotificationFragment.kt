@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.DataRepository
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting
-import dev.kxxcn.app_with.data.remote.MyFirebaseMessagingService
+import dev.kxxcn.app_with.data.remote.MessagingService
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
 import dev.kxxcn.app_with.ui.main.setting.NewSettingFragment
 import dev.kxxcn.app_with.util.Constants
@@ -60,9 +60,9 @@ class NotificationFragment : Fragment(), NotificationContract.View {
                 getString(R.string.app_name_en),
                 Context.MODE_PRIVATE)
                 .edit()?.apply {
-                    putInt(MyFirebaseMessagingService.KEY_NOTICE_WITH, noticeWith)
-                    putInt(MyFirebaseMessagingService.KEY_NOTICE, notice)
-                    putInt(MyFirebaseMessagingService.KEY_NOTICE_EVENT, noticeEvent)
+                    putInt(MessagingService.KEY_NOTICE_WITH, noticeWith)
+                    putInt(MessagingService.KEY_NOTICE, notice)
+                    putInt(MessagingService.KEY_NOTICE_EVENT, noticeEvent)
                     apply()
                 }
         noticeWith.takeIf { it == 0 }?.let { tb_notice_with.setToggleOff() }

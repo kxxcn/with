@@ -96,6 +96,7 @@
     <string name="toast_changed_nickname">닉네임이 변경되었습니다.</string>
     <string name="toast_failed_request_day">디데이 불러오기를 실패했습니다.</string>
     <string name="toast_success_diary_share">사진첩에 저장되었습니다.</string>
+    <string name="toast_sign_out_greeting">[위드]를 이용해 주셔서 감사합니다.</string>
 
     <string name="snack_selected_gallery">사진이 선택되었습니다.</string>
 

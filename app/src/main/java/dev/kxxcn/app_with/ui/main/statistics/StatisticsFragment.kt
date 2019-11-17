@@ -39,7 +39,7 @@ class StatisticsFragment : Fragment(), StatisticContract.View {
     override fun setDiary(detail: Detail) {
         val nickname = detail.nickname
         tv_change.visibility = if (nickname.yourNickname?.trim()?.isEmpty() == true) View.GONE else View.VISIBLE
-        tv_change.text = if (isMine) nickname.yourNickname else nickname.myNickname
+        tv_change.text = if (isMine) nickname.myNickname else nickname.yourNickname
         adapter?.setItems(detail.diaryList, identifier, isMine)
         tv_change.onClick { changeItems(nickname) }
     }
@@ -72,7 +72,7 @@ class StatisticsFragment : Fragment(), StatisticContract.View {
 
     private fun changeItems(nickname: ResponseNickname) {
         isMine = !isMine
-        tv_change.text = if (isMine) nickname.yourNickname else nickname.myNickname
+        tv_change.text = if (isMine) nickname.myNickname else nickname.yourNickname
         adapter?.changeItems(identifier, isMine)
     }
 

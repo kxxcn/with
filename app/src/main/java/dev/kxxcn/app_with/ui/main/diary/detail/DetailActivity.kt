@@ -171,7 +171,7 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
                                     Paint()
                             )
 
-                            val height = rHeight / 3.toFloat() + DEFAULT_HEIGHT / 8
+                            val height = (rHeight / 2.5).toFloat() + DEFAULT_HEIGHT / 8
                             drawMultiLineText(c, rWidth, height)
 
                             c.drawRect(
@@ -207,10 +207,10 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
                             c.drawText(
                                     day,
                                     0f,
-                                    rHeight / 3.toFloat(),
+                                    (rHeight / 2.5).toFloat(),
                                     Paint().apply {
                                         color = ContextCompat.getColor(this@DetailActivity, R.color.text_share_day)
-                                        textSize = 400f
+                                        textSize = 300f
                                         typeface = ResourcesCompat.getFont(this@DetailActivity, R.font.stencil)
                                     }
                             )
@@ -288,39 +288,35 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
     }
 
     private fun drawMultiLineText(c: Canvas, baseWidth: Int, baseHeight: Float) {
-        var height = baseHeight
-        val letterArray = this@DetailActivity.letter?.split("\n")?.toMutableList()
-        letterArray?.forEach {
-            val paint = TextPaint().apply {
-                color = Color.BLACK
-                textSize = 30f
-                if (font != -1) {
-                    typeface = ResourcesCompat.getFont(this@DetailActivity, FONTS[font])
-                }
+        val letter = letter ?: return
+        val paint = TextPaint().apply {
+            color = Color.BLACK
+            textSize = 30f
+            if (font != -1) {
+                typeface = ResourcesCompat.getFont(this@DetailActivity, FONTS[font])
             }
-            val textLayout = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                StaticLayout(
-                        it,
-                        paint,
-                        baseWidth - TEXT_MARGIN,
-                        Layout.Alignment.ALIGN_NORMAL,
-                        1.0f,
-                        0.0f,
-                        true
-                )
-            } else {
-                StaticLayout.Builder.obtain(it,
-                        0,
-                        it.length,
-                        paint,
-                        baseWidth - TEXT_MARGIN).build()
-            }
-            c.save()
-            c.translate(50f, height)
-            textLayout.draw(c)
-            c.restore()
-            height += textLayout.height
         }
+        val textLayout = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            StaticLayout(
+                    letter,
+                    paint,
+                    baseWidth - TEXT_MARGIN,
+                    Layout.Alignment.ALIGN_NORMAL,
+                    1.0f,
+                    0.0f,
+                    true
+            )
+        } else {
+            StaticLayout.Builder.obtain(letter,
+                    0,
+                    letter.length,
+                    paint,
+                    baseWidth - TEXT_MARGIN).build()
+        }
+        c.save()
+        c.translate(50f, baseHeight)
+        textLayout.draw(c)
+        c.restore()
     }
 
     private fun getDownloadDirPath(): String {

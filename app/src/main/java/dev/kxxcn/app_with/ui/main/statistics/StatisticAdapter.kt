@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import at.grabner.circleprogress.CircleProgressView
+import com.app.progresviews.ProgressLine
 import com.app.progresviews.ProgressWheel
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
@@ -17,6 +18,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.model.diary.Diary
+import dev.kxxcn.app_with.util.Constants
 import dev.kxxcn.app_with.util.RoundedBarChartRender
 import dev.kxxcn.app_with.util.Utils
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -40,6 +42,9 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
             TYPE_ANALYSIS -> {
                 AnalysisHolder(inflater.inflate(R.layout.item_statistic_analysis, parent, false))
+            }
+            TYPE_WEATHER -> {
+                WeatherHolder(inflater.inflate(R.layout.item_statistic_weather, parent, false))
             }
             else -> {
                 TotalHolder(inflater.inflate(R.layout.item_statistic_total, parent, false))
@@ -166,6 +171,29 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 h.attendance.setStepCountText(ctx.getString(R.string.text_attendance_days, attendance.toInt()))
                 h.attendance.setDefText(ctx.getString(R.string.text_attendance_month, dayOfMonth.toInt()))
             }
+            is WeatherHolder -> {
+                val total = item.diary.size
+                val sizeOfSun = item.diary.filter { it.letterWeather == Constants.WEATHER_SUN }.size
+                val sizeOfCloud = item.diary.filter { it.letterWeather == Constants.WEATHER_CLOUD }.size
+                val sizeOfRain = item.diary.filter { it.letterWeather == Constants.WEATHER_RAIN }.size
+                val sizeOfSnow = item.diary.filter { it.letterWeather == Constants.WEATHER_SNOW }.size
+                h.sunPl.setmValueText(sizeOfSun)
+                h.cloudPl.setmValueText(sizeOfCloud)
+                h.rainPl.setmValueText(sizeOfRain)
+                h.snowPl.setmValueText(sizeOfSnow)
+
+                if (total == 0) {
+                    h.sunPl.setmPercentage(0)
+                    h.cloudPl.setmPercentage(0)
+                    h.rainPl.setmPercentage(0)
+                    h.snowPl.setmPercentage(0)
+                } else {
+                    h.sunPl.setmPercentage((sizeOfSun.toDouble() / total.toDouble() * 100).toInt())
+                    h.cloudPl.setmPercentage((sizeOfCloud.toDouble() / total.toDouble() * 100).toInt())
+                    h.rainPl.setmPercentage((sizeOfRain.toDouble() / total.toDouble() * 100).toInt())
+                    h.snowPl.setmPercentage((sizeOfSnow.toDouble() / total.toDouble() * 100).toInt())
+                }
+            }
         }
     }
 
@@ -186,6 +214,7 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         items.add(StatisticItem(TYPE_TOTAL, filteredList))
         items.add(StatisticItem(TYPE_INSIGHT, filteredList))
         items.add(StatisticItem(TYPE_ANALYSIS, filteredList))
+        items.add(StatisticItem(TYPE_WEATHER, filteredList))
         return items
     }
 
@@ -283,6 +312,16 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    class WeatherHolder(
+            itemView: View
+    ) : RecyclerView.ViewHolder(itemView) {
+
+        val sunPl: ProgressLine = itemView.findViewById(R.id.pl_sun)
+        val cloudPl: ProgressLine = itemView.findViewById(R.id.pl_cloud)
+        val rainPl: ProgressLine = itemView.findViewById(R.id.pl_rain)
+        val snowPl: ProgressLine = itemView.findViewById(R.id.pl_snow)
+    }
+
     class DayValueFormatter(
             private val context: Context
     ) : ValueFormatter() {
@@ -309,5 +348,7 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private const val TYPE_INSIGHT = 1
 
         private const val TYPE_ANALYSIS = 2
+
+        private const val TYPE_WEATHER = 3
     }
 }

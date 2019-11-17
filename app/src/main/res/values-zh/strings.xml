@@ -98,6 +98,7 @@
     <string name="text_day_registration">D-Day 报名</string>
     <string name="text_day_content">请输入。</string>
     <string name="toast_success_diary_share">保存到相册。</string>
+    <string name="toast_sign_out_greeting">感谢您使用[WITH]。</string>
 
     <string name="snack_selected_gallery">照片已选中</string>
 
