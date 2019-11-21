@@ -152,8 +152,8 @@
     <color name="background_bottom_write">#402e6b</color>
     <color name="background_oval_selected">#f44336</color>
     <color name="background_start">#62d7c7</color>
-    <color name="background_alone">#f1b036</color>
-    <color name="background_together">#ef6363</color>
+    <color name="background_alone">#b0d3f3</color>
+    <color name="background_together">#f8b4b7</color>
     <color name="background_select_agree">#ffff78</color>
     <color name="background_deselect_agree">#bcbfc5</color>
     <color name="background_setting_profile">#b27cc1</color>

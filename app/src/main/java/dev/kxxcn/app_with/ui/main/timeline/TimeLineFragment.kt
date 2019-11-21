@@ -196,8 +196,9 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
     }
 
     private fun changeDiary(nickname: ResponseNickname) {
+        val isAlone = nickname.yourNickname?.trim()?.isEmpty() == true
         tv_change.text = if (isMine) nickname.myNickname else nickname.yourNickname
-        adapter?.changeDiary(isMine)
+        adapter?.changeDiary(isMine, isAlone)
         isMine = !isMine
         if (adapter?.itemCount == 0) {
             ll_not_found_diary.visibility = View.VISIBLE

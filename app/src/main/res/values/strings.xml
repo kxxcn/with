@@ -148,7 +148,7 @@
     <string name="text_input_password">Please enter your password.</string>
     <string name="text_input_password_more">Please enter your password again.</string>
     <string name="text_cancel">Cancel</string>
-    <string name="text_day_registration">D-Day Registration</string>
+    <string name="text_day_registration">D-Day</string>
     <string name="text_day_content">Please enter your content.</string>
 
     <string name="label_mon">MON</string>

@@ -136,11 +136,15 @@ class TimeLineAdapter(
         recyclerView?.scheduleLayoutAnimation()
     }
 
-    fun changeDiary(isMine: Boolean) {
-        filteredList = if (isMine) {
+    fun changeDiary(isMine: Boolean, isAlone: Boolean) {
+        filteredList = if (isAlone) {
             diaryList?.filter { it.writer == identifier }
         } else {
-            diaryList?.filter { it.writer != identifier }
+            if (isMine) {
+                diaryList?.filter { it.writer == identifier }
+            } else {
+                diaryList?.filter { it.writer != identifier }
+            }
         }
         notifyDataSetChanged()
         val recyclerView = refRecyclerView?.get()

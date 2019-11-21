@@ -139,6 +139,11 @@ class NewMainActivity : AppCompatActivity() {
                         intent.getStringExtra(EXTRA_IDENTIFIER)
                 )
             }
+            ACTION_DAY -> {
+                DecimalFragment.newInstance(
+                        intent.getStringExtra(EXTRA_IDENTIFIER)
+                )
+            }
             else -> {
                 MainFragment.newInstance(
                         intent.getStringExtra(EXTRA_IDENTIFIER),
@@ -253,6 +258,7 @@ class NewMainActivity : AppCompatActivity() {
         const val ACTION_DIARY = "ACTION_DIARY"
         const val ACTION_PLAN = "ACTION_PLAN"
         const val ACTION_NOTICE = "ACTION_NOTICE"
+        const val ACTION_DAY = "ACTION_DAY"
 
         const val DRAWER_GRAVITY_START = Gravity.START
         const val EXTRA_IDENTIFIER = "IDENTIFIER"

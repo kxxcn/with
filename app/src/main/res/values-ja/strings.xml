@@ -147,7 +147,7 @@
     <string name="text_input_password">パスワードを入力してください。</string>
     <string name="text_input_password_more">パスワードをもう一度入力してください。</string>
     <string name="text_cancel">キャンセル</string>
-    <string name="text_day_registration">ティデイ登録</string>
+    <string name="text_day_registration">D-Day</string>
     <string name="text_day_content">ティデイ内容を入力してください。</string>
 
     <string name="label_mon">月</string>

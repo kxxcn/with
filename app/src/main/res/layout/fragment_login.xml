@@ -72,7 +72,8 @@
         android:id="@+id/cl_intro"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="visible"
+        tools:visibility="gone">
 
         <TextView
             android:id="@+id/tv_top"
@@ -127,7 +128,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        tools:visibility="visible">
 
         <EditText
             android:id="@+id/et_write"
@@ -168,12 +170,14 @@
         <TextView
             android:id="@+id/tv_auth"
             style="@style/WithTextView"
+            android:layout_width="0dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
             android:text="@string/text_auth_number"
             android:textColor="@android:color/black"
             android:textSize="35sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/tv_authentication"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -121,11 +121,13 @@ class MessagingService : FirebaseMessagingService() {
         return isAllowed
     }
 
-    private fun getAction(type: String?): String {
+    private fun getAction(type: String?): String? {
         return when (type) {
             TYPE_DIARY -> NewMainActivity.ACTION_DIARY
             TYPE_PLAN -> NewMainActivity.ACTION_PLAN
             TYPE_NOTICE -> NewMainActivity.ACTION_NOTICE
+            TYPE_DAY -> NewMainActivity.ACTION_DAY
+            TYPE_AUTH -> null
             else -> NewMainActivity.ACTION_DIARY
         }
     }
