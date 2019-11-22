@@ -15,6 +15,8 @@ import dev.kxxcn.app_with.data.DataRepository
 import dev.kxxcn.app_with.data.model.diary.Detail
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
+import dev.kxxcn.app_with.ui.main.NewMainActivity
+import dev.kxxcn.app_with.ui.main.NewMainContract
 import dev.kxxcn.app_with.ui.main.diary.detail.DetailActivity
 import dev.kxxcn.app_with.ui.main.write.NewWriteFragment
 import dev.kxxcn.app_with.util.Constants
@@ -24,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_timeline.*
 import kotlinx.android.synthetic.main.fragment_timeline.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
-class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.ItemClick {
+class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.ItemClick, NewMainContract.Expandable {
 
     private var selectedPosition = INVALID_POSITION
 
@@ -72,11 +74,11 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
                     .filter { it.writer.isNotEmpty() }
                     .sortedWith(compareBy({ it.letterDate }, { it.letterTime }))
                     .reversed())
+            val nickname = detail.nickname
+            tv_change.visibility = if (nickname.yourNickname?.trim()?.isEmpty() == true) View.GONE else View.VISIBLE
+            changeDiary(nickname)
+            tv_change.onClick { changeDiary(nickname) }
         }
-        val nickname = detail.nickname
-        tv_change.visibility = if (nickname.yourNickname?.trim()?.isEmpty() == true) View.GONE else View.VISIBLE
-        changeDiary(nickname)
-        tv_change.onClick { changeDiary(nickname) }
     }
 
     override fun showFailedRequest(throwable: String?) {
@@ -120,6 +122,9 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
     }
 
     private fun showEditView() {
+        val activity = activity
+                as? NewMainActivity
+                ?: return
         if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
         }
@@ -140,9 +145,7 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
                 item.galleryName,
                 item.letterWeather
         )
-        fragmentManager?.beginTransaction()
-                ?.replace(R.id.fl_container, fragment)
-                ?.commit()
+        activity.replaceFragment(fragment, R.id.bmv_write)
     }
 
     private fun showDeleteDialog() {
@@ -191,7 +194,6 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
     private fun fetchDiary() {
         val arg = arguments ?: return
         val identifier = arg.getString(Constants.KEY_IDENTIFIER) ?: return
-        isMine = true
         presenter?.getDiary(DEPRECATED_INT, identifier)
     }
 
@@ -209,7 +211,7 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
         }
     }
 
-    fun isExpanded(): Boolean {
+    override fun isExpanded(): Boolean {
         if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
             return true

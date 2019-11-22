@@ -60,7 +60,7 @@
     <string name="dialog_delete_plan">일정을 삭제하시겠습니까?</string>
     <string name="dialog_delete_day">디데이를 삭제하시겠습니까?</string>
     <string name="dialog_want_to_quit">위드를 종료하시겠습니까?</string>
-    <string name="dialog_want_to_sign_out">기록하신 데이터는 모두 삭제됩니다.\n위드를 탈퇴하시겠습니까?</string>
+    <string name="dialog_want_to_sign_out">기록하신 데이터는 모두 삭제됩니다.\n[위드]를 탈퇴하시겠습니까?</string>
     <string name="dialog_delete_lock">잠금 기능을 해제하시겠습니까?</string>
     <string name="dialog_use_alone">혼자 쓰시겠습니까?</string>
     <string name="dialog_use_together">함께 쓰시겠습니까?</string>
@@ -118,6 +118,7 @@
     <string name="text_service">서비스 정보</string>
     <string name="text_notice">공지사항</string>
     <string name="text_information">위드 앱 정보</string>
+    <string name="text_contact">문의하기</string>
     <string name="text_sync">연동하기</string>
     <string name="text_sign_out">탈퇴하기</string>
     <string name="text_latest">최신 버전 사용 중</string>
@@ -174,6 +175,7 @@
 
     <string name="text_with">위드</string>
     <string name="text_timeline">타임라인</string>
+    <string name="text_records">기록</string>
     <string name="text_diary">다이어리</string>
     <string name="text_recently_plan">최근 일정</string>
     <string name="text_plan_date_time">%s %s</string>

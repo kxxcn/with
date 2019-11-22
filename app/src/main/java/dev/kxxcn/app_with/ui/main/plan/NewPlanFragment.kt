@@ -14,6 +14,7 @@ import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.DataRepository
 import dev.kxxcn.app_with.data.model.plan.Plan
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
+import dev.kxxcn.app_with.ui.main.NewMainContract
 import dev.kxxcn.app_with.ui.main.plan.add.AddPlanActivity
 import dev.kxxcn.app_with.util.Constants
 import dev.kxxcn.app_with.util.Constants.ANIMATE_DURATION_SHORT
@@ -31,7 +32,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class NewPlanFragment : Fragment(), PlanContract.View {
+class NewPlanFragment : Fragment(), PlanContract.View, NewMainContract.Expandable {
 
     private lateinit var presenter: PlanContract.Presenter
 
@@ -310,7 +311,7 @@ class NewPlanFragment : Fragment(), PlanContract.View {
         anim.start()
     }
 
-    fun isExpanded(): Boolean {
+    override fun isExpanded(): Boolean {
         if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
             return true

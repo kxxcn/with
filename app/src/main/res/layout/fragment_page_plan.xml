@@ -45,6 +45,8 @@
         android:ellipsize="end"
         android:fontFamily="@font/namsan"
         android:hint="@string/hint_plan"
+        android:imeOptions="actionDone"
+        android:inputType="text"
         android:maxLines="1"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"

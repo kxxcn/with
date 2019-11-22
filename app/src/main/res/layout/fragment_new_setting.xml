@@ -284,6 +284,47 @@
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp">
+
+                <ImageView
+                    android:id="@+id/iv_contact_bg"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/drawable_rectangle_setting"
+                    android:tint="@color/background_setting_contact"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_setting_contact"
+                    android:tint="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_contact_bg"
+                    app:layout_constraintEnd_toEndOf="@id/iv_contact_bg"
+                    app:layout_constraintStart_toStartOf="@id/iv_contact_bg"
+                    app:layout_constraintTop_toTopOf="@id/iv_contact_bg"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    style="@style/WithTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/text_contact"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/iv_contact_bg"
+                    app:layout_constraintStart_toEndOf="@id/iv_contact_bg"
+                    app:layout_constraintTop_toTopOf="@id/iv_contact_bg" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
                 android:id="@+id/cl_sign_out"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

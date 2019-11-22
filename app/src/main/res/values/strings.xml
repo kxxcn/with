@@ -61,7 +61,7 @@
     <string name="dialog_delete_plan">Do you want to delete the schedule?</string>
     <string name="dialog_delete_day">Do you want to delete the D-Day?</string>
     <string name="dialog_want_to_quit">Do you want to exit WITH?</string>
-    <string name="dialog_want_to_sign_out">All recorded data will be deleted. \nDo you want to leave WITH?</string>
+    <string name="dialog_want_to_sign_out">All recorded data will be deleted. \nDo you want to leave [WITH]?</string>
     <string name="dialog_delete_lock">Do you want to release the lock function?</string>
     <string name="dialog_use_alone">Do you write alone?</string>
     <string name="dialog_use_together">Do you write together?</string>
@@ -118,7 +118,8 @@
     <string name="text_notice_event">Receive event information</string>
     <string name="text_service">Service information</string>
     <string name="text_notice">Notice</string>
-    <string name="text_information">WITH app information</string>
+    <string name="text_information">Information</string>
+    <string name="text_contact">Contact</string>
     <string name="text_sync">Sync</string>
     <string name="text_sign_out">Sign out</string>
     <string name="text_latest">Using the latest version</string>
@@ -175,6 +176,7 @@
 
     <string name="text_with">WITH</string>
     <string name="text_timeline">Timeline</string>
+    <string name="text_records">Records</string>
     <string name="text_diary">Dairy</string>
     <string name="text_recently_plan">Recent plans</string>
     <string name="text_plan_date_time">%s %s</string>
@@ -186,7 +188,7 @@
     <string name="text_plan">Plan</string>
     <string name="text_dday">D-Day</string>
     <string name="text_write">Writing</string>
-    <string name="text_setting">Setting</string>
+    <string name="text_setting">Settings</string>
     <string name="text_register">Registration</string>
     <string name="text_register_plan">Create plan</string>
     <string name="text_register_place">Location registration</string>

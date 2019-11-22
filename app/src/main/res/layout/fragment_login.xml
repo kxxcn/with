@@ -14,57 +14,73 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_intro">
+        app:layout_constraintTop_toBottomOf="@id/cl_intro"
+        tools:visibility="visible">
 
-        <LinearLayout
-            android:id="@+id/ll_alone"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/background_alone"
-            android:gravity="center">
+            android:background="@color/day_background0">
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_alone"
-                tools:ignore="ContentDescription" />
+            <LinearLayout
+                android:id="@+id/ll_alone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/drawable_rectangle_alone"
+                android:gravity="center">
 
-            <TextView
-                style="@style/WithTextView"
-                android:gravity="center_vertical"
-                android:paddingStart="30dp"
-                android:paddingEnd="0dp"
-                android:text="@string/text_use_alone"
-                android:textColor="@android:color/white"
-                android:textSize="40sp" />
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_alone"
+                    tools:ignore="ContentDescription" />
 
-        </LinearLayout>
+                <TextView
+                    style="@style/WithTextView"
+                    android:gravity="center_vertical"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/text_use_alone"
+                    android:textColor="@android:color/white"
+                    android:textSize="40sp" />
 
-        <LinearLayout
-            android:id="@+id/ll_together"
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/background_together"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:background="@color/day_background2">
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_together"
-                tools:ignore="ContentDescription" />
+            <LinearLayout
+                android:id="@+id/ll_together"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/drawable_rectangle_together"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <TextView
-                style="@style/WithTextView"
-                android:gravity="center_vertical"
-                android:paddingStart="30dp"
-                android:paddingEnd="0dp"
-                android:text="@string/text_use_together"
-                android:textColor="@android:color/white"
-                android:textSize="40sp" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_together"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    style="@style/WithTextView"
+                    android:gravity="center_vertical"
+                    android:paddingStart="30dp"
+                    android:paddingEnd="0dp"
+                    android:text="@string/text_use_together"
+                    android:textColor="@android:color/white"
+                    android:textSize="40sp" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -128,8 +144,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"
-        tools:ignore="MissingConstraints"
-        tools:visibility="visible">
+        tools:ignore="MissingConstraints">
 
         <EditText
             android:id="@+id/et_write"

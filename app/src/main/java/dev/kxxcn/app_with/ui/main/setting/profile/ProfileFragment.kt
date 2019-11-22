@@ -81,7 +81,9 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     }
 
     override fun showResultsOfNicknameRequest(isSuccess: Boolean) {
-        toast(R.string.toast_changed_nickname)
+        if (isAdded) {
+            toast(R.string.toast_changed_nickname)
+        }
     }
 
     private fun alphaAnimation(vararg views: View) {

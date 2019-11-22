@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/tv_diary"
         style="@style/WithTextView"
-        android:layout_margin="15dp"
+        android:layout_marginStart="10dp"
         android:text="@string/text_write"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -31,7 +31,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_main_diary"
         android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_marginTop="20dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
@@ -125,60 +125,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_recently_plan" />
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/ll_not_found_plan"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/rv_main_plan"
-        app:layout_constraintEnd_toEndOf="@id/rv_main_plan"
-        app:layout_constraintStart_toStartOf="@id/rv_main_plan"
-        app:layout_constraintTop_toTopOf="@id/rv_main_plan"
-        tools:ignore="UseCompoundDrawables"
-        tools:visibility="visible">
-
-        <ImageView
-            android:id="@+id/iv_no_data_bg2"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:alpha="0.3"
-            android:background="@drawable/drawable_circle_no_data"
-            app:layout_constraintBottom_toTopOf="@id/tv_no_data2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/iv_no_data2"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_no_data"
-            app:layout_constraintBottom_toBottomOf="@id/iv_no_data_bg2"
-            app:layout_constraintEnd_toEndOf="@id/iv_no_data_bg2"
-            app:layout_constraintStart_toStartOf="@id/iv_no_data_bg2"
-            app:layout_constraintTop_toTopOf="@id/iv_no_data_bg2"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/tv_no_data2"
-            style="@style/WithTextView"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="@string/text_not_found_plan"
-            android:textColor="@color/day_background2"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_no_data_bg2" />
-
-    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -68,6 +68,7 @@
             android:name=".ui.main.decimal.AddDecimalActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.main.WrapFragmentActivity" />
 
         <service
             android:name=".data.remote.MessagingService"

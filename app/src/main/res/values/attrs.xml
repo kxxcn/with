@@ -3,50 +3,54 @@
     <declare-styleable name="StateButton">
 
         <!--text color-->
-        <attr name="normalTextColor" format="color|reference"/>
-        <attr name="pressedTextColor" format="color|reference"/>
-        <attr name="unableTextColor" format="color|reference"/>
+        <attr name="normalTextColor" format="color|reference" />
+        <attr name="pressedTextColor" format="color|reference" />
+        <attr name="unableTextColor" format="color|reference" />
 
         <!--stroke width and color, dash width, dash gap-->
-        <attr name="strokeDashWidth" format="dimension|reference"/>
-        <attr name="strokeDashGap" format="dimension|reference"/>
-        <attr name="normalStrokeWidth" format="dimension|reference"/>
-        <attr name="pressedStrokeWidth" format="dimension|reference"/>
-        <attr name="unableStrokeWidth" format="dimension|reference"/>
-        <attr name="normalStrokeColor" format="color|reference"/>
-        <attr name="pressedStrokeColor" format="color|reference"/>
-        <attr name="unableStrokeColor" format="color|reference"/>
+        <attr name="strokeDashWidth" format="dimension|reference" />
+        <attr name="strokeDashGap" format="dimension|reference" />
+        <attr name="normalStrokeWidth" format="dimension|reference" />
+        <attr name="pressedStrokeWidth" format="dimension|reference" />
+        <attr name="unableStrokeWidth" format="dimension|reference" />
+        <attr name="normalStrokeColor" format="color|reference" />
+        <attr name="pressedStrokeColor" format="color|reference" />
+        <attr name="unableStrokeColor" format="color|reference" />
 
         <!--background color-->
-        <attr name="normalBackgroundColor" format="color|reference"/>
-        <attr name="pressedBackgroundColor" format="color|reference"/>
-        <attr name="unableBackgroundColor" format="color|reference"/>
+        <attr name="normalBackgroundColor" format="color|reference" />
+        <attr name="pressedBackgroundColor" format="color|reference" />
+        <attr name="unableBackgroundColor" format="color|reference" />
 
         <!--background radius-->
-        <attr name="radius" format="dimension|reference"/>
-        <attr name="round" format="boolean|reference"/>
+        <attr name="radius" format="dimension|reference" />
+        <attr name="round" format="boolean|reference" />
 
         <!--animation duration-->
-        <attr name="animationDuration" format="integer|reference"/>
+        <attr name="animationDuration" format="integer|reference" />
 
     </declare-styleable>
 
     <declare-styleable name="StateImageView">
-        <attr name="normalBackground" format="color|reference"/>
-        <attr name="pressedBackground" format="color|reference"/>
-        <attr name="unableBackground" format="color|reference"/>
+        <attr name="normalBackground" format="color|reference" />
+        <attr name="pressedBackground" format="color|reference" />
+        <attr name="unableBackground" format="color|reference" />
 
         <!--animation duration-->
-        <attr name="AnimationDuration" format="integer|reference"/>
+        <attr name="AnimationDuration" format="integer|reference" />
     </declare-styleable>
 
     <declare-styleable name="EasyPickerView">
-        <attr name="epvTextSize" format="dimension"/>
-        <attr name="epvTextColor" format="color"/>
-        <attr name="epvTextPadding" format="dimension"/>
-        <attr name="epvTextMaxScale" format="float"/>
-        <attr name="epvTextMinAlpha" format="float"/>
-        <attr name="epvRecycleMode" format="boolean"/>
-        <attr name="epvMaxShowNum" format="integer"/>
+        <attr name="epvTextSize" format="dimension" />
+        <attr name="epvTextColor" format="color" />
+        <attr name="epvTextPadding" format="dimension" />
+        <attr name="epvTextMaxScale" format="float" />
+        <attr name="epvTextMinAlpha" format="float" />
+        <attr name="epvRecycleMode" format="boolean" />
+        <attr name="epvMaxShowNum" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="BottomMenuView">
+        <attr name="bmv_icon" format="reference" />
     </declare-styleable>
 </resources>

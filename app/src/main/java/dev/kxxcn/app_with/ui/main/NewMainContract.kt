@@ -29,4 +29,9 @@ interface NewMainContract {
 
         fun fetchEvents()
     }
+
+    interface Expandable {
+
+        fun isExpanded(): Boolean
+    }
 }

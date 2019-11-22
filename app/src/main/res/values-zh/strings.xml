@@ -60,7 +60,7 @@
     <string name="dialog_delete_plan">您确定要删除此活动吗?</string>
     <string name="dialog_delete_day">您要删除D-Day吗？</string>
     <string name="dialog_want_to_quit">你想退出杂草吗?</string>
-    <string name="dialog_want_to_sign_out">您的所有录制数据都将被删除。\n您确定要离开WITH吗?</string>
+    <string name="dialog_want_to_sign_out">您的所有录制数据都将被删除。\n您确定要离开[WITH]吗?</string>
     <string name="dialog_delete_lock">你想解锁吗?</string>
     <string name="dialog_use_alone">你想单独使用它吗?</string>
     <string name="dialog_use_together">你想一起使用吗?</string>
@@ -120,6 +120,7 @@
     <string name="text_service">服务信息</string>
     <string name="text_notice">通知</string>
     <string name="text_information">杂草应用信息</string>
+    <string name="text_contact">联络我们</string>
     <string name="text_sync">互通</string>
     <string name="text_sign_out">离开</string>
     <string name="text_latest">使用最新版本</string>
@@ -174,6 +175,7 @@
 
     <string name="text_with">WITH</string>
     <string name="text_timeline">时间轴</string>
+    <string name="text_records">记录</string>
     <string name="text_diary">日记</string>
     <string name="text_recently_plan">最近的计划</string>
     <string name="text_plan_date_time">%s %s</string>

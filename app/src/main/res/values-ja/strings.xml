@@ -60,7 +60,7 @@
     <string name="dialog_delete_plan">スケジュールを削除しますか?</string>
     <string name="dialog_delete_day">ティデイを削除しますか？</string>
     <string name="dialog_want_to_quit">WITHを終了しますか?</string>
-    <string name="dialog_want_to_sign_out">記録されたデータはすべて削除されます。\nWITHを脱退しますか?</string>
+    <string name="dialog_want_to_sign_out">記録されたデータはすべて削除されます。\n[WITH]を脱退しますか?</string>
     <string name="dialog_delete_lock">ロック機能を解除しますか?</string>
     <string name="dialog_use_alone">一人で書きますか?</string>
     <string name="dialog_use_together">一緒に書きますか?</string>
@@ -118,6 +118,7 @@
     <string name="text_service">サービス情報</string>
     <string name="text_notice">お知らせ</string>
     <string name="text_information">WITHアプリ情報</string>
+    <string name="text_contact">お問い合わせ</string>
     <string name="text_sync">連動する</string>
     <string name="text_sign_out">脱退する</string>
     <string name="text_latest">最新バージョンを使用中</string>
@@ -174,6 +175,7 @@
 
     <string name="text_with">WITH</string>
     <string name="text_timeline">タイムライン</string>
+    <string name="text_records">記録</string>
     <string name="text_diary">ダイアリー</string>
     <string name="text_recently_plan">最近の計画</string>
     <string name="text_plan_date_time">%s %s</string>

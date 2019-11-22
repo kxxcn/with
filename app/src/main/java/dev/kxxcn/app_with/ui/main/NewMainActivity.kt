@@ -1,20 +1,13 @@
 package dev.kxxcn.app_with.ui.main
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Point
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.transition.Fade
 import android.view.Gravity
-import android.view.MenuItem
+import android.view.View
 import com.google.android.gms.ads.InterstitialAd
-import dev.kxxcn.app_with.BuildConfig
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.ui.main.decimal.DecimalFragment
 import dev.kxxcn.app_with.ui.main.diary.NewDiaryFragment
@@ -26,37 +19,32 @@ import dev.kxxcn.app_with.ui.main.timeline.TimeLineFragment
 import dev.kxxcn.app_with.ui.main.write.NewWriteFragment
 import dev.kxxcn.app_with.util.*
 import kotlinx.android.synthetic.main.activity_main_new.*
-import kotlinx.android.synthetic.main.item_navigation.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 class NewMainActivity : AppCompatActivity() {
+
+    private lateinit var identifier: String
 
     private var action: String? = null
 
-    private var selectedNavId: Int = 0
+    private var gender: Int = 0
 
     private var interstitialAd: InterstitialAd? = null
+
+    private lateinit var bottomMenuList: List<BottomMenuView>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_new)
         TransitionUtils.fade(this)
-        setSupportActionBar(tb_main)
-
-        action = intent.action
-
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowTitleEnabled(false)
-            setHomeAsUpIndicator(getHomeIcon(R.drawable.ic_menu))
-        }
-
-        selectedNavId = tv_with.id
 
         interstitialAd = FullAdsHelper.getInstance(this)
 
-        initUI()
+        setupArguments()
+        setupListener()
+        setupLayout()
     }
 
     override fun onResume() {
@@ -70,187 +58,158 @@ class NewMainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            android.R.id.home -> {
-                KeyboardUtils.hideKeyboard(this, currentFocus)
-                cl_main.openDrawer(DRAWER_GRAVITY_START)
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onBackPressed() {
-        invalidateOptionsMenu()
-        if (cl_main.isDrawerOpen(DRAWER_GRAVITY_START)) {
-            cl_main.closeDrawer(DRAWER_GRAVITY_START)
-        } else {
-            val manager = supportFragmentManager
-            val fragment = manager?.findFragmentById(R.id.fl_container)
-            if (fragment is MainFragment) {
-                DialogUtils.showAlertDialog(this,
-                        getString(R.string.dialog_want_to_quit),
-                        { _, _ -> SystemUtils.finishOrReview(this, interstitialAd) },
-                        null)
-            } else if (fragment is NewSettingFragment ||
-                    fragment is NewDiaryFragment ||
-                    fragment is DecimalFragment ||
-                    fragment is StatisticsFragment) {
-                showMainFragment()
-            } else if (fragment is NewWriteFragment) {
-                if (!fragment.isExpanded()) DialogUtils.showAlertDialog(this, getString(R.string.dialog_delete_contents),
-                        { _, _ -> showMainFragment() }, null)
-            } else if (fragment is TimeLineFragment) {
-                if (!fragment.isExpanded()) {
-                    showMainFragment()
-                }
-            } else if (fragment is NewPlanFragment) {
-                if (!fragment.isExpanded()) {
-                    showMainFragment()
-                }
-            } else if (fragment is WrapFragment) {
-                replaceFragment(NewSettingFragment.newInstance(
-                        intent.getStringExtra(EXTRA_IDENTIFIER)))
-            }
-        }
-    }
-
-    private fun initUI() {
-        val displayMetrics = windowManager.defaultDisplay
-        val size = Point()
-        displayMetrics.getSize(size)
-        val params = cl_navigation.layoutParams
-        params.width = (size.x * 0.8).toInt()
-        cl_navigation.layoutParams = params
-
-        val f: Fragment = when (action) {
-            ACTION_DIARY -> {
-                TimeLineFragment.newInstance(
-                        intent.getStringExtra(EXTRA_IDENTIFIER),
-                        intent.getIntExtra(EXTRA_GENDER, 0))
-            }
-            ACTION_PLAN -> {
-                NewPlanFragment.newInstance(
-                        intent.getStringExtra(EXTRA_IDENTIFIER)
-                )
-            }
-            ACTION_NOTICE -> {
-                NewSettingFragment.newInstance(
-                        intent.getStringExtra(EXTRA_IDENTIFIER)
-                )
-            }
-            ACTION_DAY -> {
-                DecimalFragment.newInstance(
-                        intent.getStringExtra(EXTRA_IDENTIFIER)
-                )
-            }
-            else -> {
-                MainFragment.newInstance(
-                        intent.getStringExtra(EXTRA_IDENTIFIER),
-                        intent.getIntExtra(EXTRA_GENDER, 0)
-                )
-            }
-        }
-
-        replaceFragment(f)
-
-        tv_with.onClick { clickNavigationItem(it?.id) }
-        tv_timeline.onClick { clickNavigationItem(it?.id) }
-        tv_write.onClick { clickNavigationItem(it?.id) }
-        tv_dday.onClick { clickNavigationItem(it?.id) }
-        tv_plan.onClick { clickNavigationItem(it?.id) }
-        tv_statistic.onClick { clickNavigationItem(it?.id) }
-        tv_setting.onClick { clickNavigationItem(it?.id) }
-        tv_about.onClick { clickNavigationItem(it?.id) }
-        tv_support.onClick { clickNavigationItem(it?.id) }
-    }
-
-    private fun clickNavigationItem(id: Int?) {
-        invalidateOptionsMenu()
-        if (selectedNavId == id) {
-            cl_main.closeDrawer(DRAWER_GRAVITY_START)
+        val menuFragment = supportFragmentManager.findFragmentById(R.id.fl_menu)
+        if (menuFragment != null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left)
+                    .remove(menuFragment)
+                    .commitAllowingStateLoss()
             return
         }
-        selectedNavId = id ?: return
-        var fragment: Fragment? = null
-        when (selectedNavId) {
-            tv_with.id -> fragment = MainFragment.newInstance(
-                    intent.getStringExtra(EXTRA_IDENTIFIER),
-                    intent.getIntExtra(EXTRA_GENDER, 0))
-            tv_timeline.id -> fragment = TimeLineFragment.newInstance(
-                    intent.getStringExtra(EXTRA_IDENTIFIER),
-                    intent.getIntExtra(EXTRA_GENDER, 0))
-            tv_write.id -> fragment = NewWriteFragment.newInstance(
-                    identifier = intent.getStringExtra(EXTRA_IDENTIFIER)
-            )
-            tv_dday.id -> fragment = DecimalFragment.newInstance(
-                    intent.getStringExtra(EXTRA_IDENTIFIER)
-            )
-            tv_plan.id -> fragment = NewPlanFragment.newInstance(
-                    intent.getStringExtra(EXTRA_IDENTIFIER))
-            tv_statistic.id -> fragment = StatisticsFragment.newInstance(
-                    intent.getStringExtra(EXTRA_IDENTIFIER)
-            )
-            tv_setting.id -> fragment = NewSettingFragment.newInstance(
-                    intent.getStringExtra(EXTRA_IDENTIFIER))
-            tv_about.id -> {
 
+        val fragment = currentFragment()
+        if (fragment is MainFragment) {
+            DialogUtils.showAlertDialog(this,
+                    getString(R.string.dialog_want_to_quit),
+                    { _, _ -> SystemUtils.finishOrReview(this, interstitialAd) },
+                    null)
+        } else if (fragment is NewSettingFragment ||
+                fragment is NewDiaryFragment ||
+                fragment is DecimalFragment ||
+                fragment is StatisticsFragment) {
+            showMainFragment()
+        } else if (fragment is NewMainContract.Expandable) {
+            if (!fragment.isExpanded()) {
+                if (fragment is NewWriteFragment) {
+                    DialogUtils.showAlertDialog(
+                            this,
+                            getString(R.string.dialog_delete_contents),
+                            { _, _ -> showMainFragment() },
+                            null
+                    )
+                } else {
+                    showMainFragment()
+                }
             }
-            tv_support.id -> {
-                sendEmail()
-            }
+        } else if (fragment is WrapFragment) {
+            replaceFragment(NewSettingFragment.newInstance(identifier))
         }
-        if (supportFragmentManager.findFragmentById(R.id.fl_container) is NewWriteFragment) {
-            DialogUtils.showAlertDialog(this, getString(R.string.dialog_delete_contents),
-                    { _, _ ->
-                        replaceFragment(fragment ?: return@showAlertDialog)
-                        cl_main.closeDrawer(DRAWER_GRAVITY_START)
-                    }, { _, _ -> selectedNavId = tv_write.id })
+    }
+
+    private fun setupArguments() {
+        intent.run {
+            this@NewMainActivity.action = action
+            identifier = getStringExtra(EXTRA_IDENTIFIER)
+            gender = getIntExtra(EXTRA_GENDER, 0)
+        }
+    }
+
+    private fun setupListener() {
+        bmv_home.onClick { clickBottomMenu(it) }
+        bmv_time.onClick { clickBottomMenu(it) }
+        bmv_write.onClick { clickBottomMenu(it) }
+        bmv_plan.onClick { clickBottomMenu(it) }
+        bmv_record.onClick { clickBottomMenu(it) }
+        tv_register.onClick { registerDiary() }
+        iv_menu.onClick { openMenu() }
+    }
+
+    private fun setupLayout() {
+        bottomMenuList = listOf(bmv_home, bmv_time, bmv_write, bmv_plan, bmv_record)
+
+        val (f, id) = when (action) {
+            ACTION_DIARY -> TimeLineFragment.newInstance(identifier, gender) to R.id.bmv_time
+            ACTION_PLAN -> NewPlanFragment.newInstance(identifier) to R.id.bmv_plan
+            ACTION_NOTICE -> NewSettingFragment.newInstance(identifier) to 0
+            ACTION_DAY -> DecimalFragment.newInstance(identifier) to 0
+            else -> MainFragment.newInstance(identifier, gender) to R.id.bmv_home
+        }
+
+        val fragment = f as? Fragment ?: return
+        replaceFragment(fragment, id)
+    }
+
+    private fun clickBottomMenu(v: View?) {
+        v ?: return
+
+        val current = currentFragment()
+        if (current is NewMainContract.Expandable) {
+            if (current.isExpanded()) return
+        }
+
+        val currentMenu = bottomMenuList.first { it.isActive() }
+        if (currentMenu.id == v.id) return
+
+        val fragment = when (v.id) {
+            R.id.bmv_home -> MainFragment.newInstance(identifier, gender)
+            R.id.bmv_time -> TimeLineFragment.newInstance(identifier, gender)
+            R.id.bmv_write -> NewWriteFragment.newInstance(identifier = identifier)
+            R.id.bmv_plan -> NewPlanFragment.newInstance(identifier)
+            else -> MainFragment.newInstance(identifier, gender)
+        } as? Fragment ?: return
+
+        KeyboardUtils.hideKeyboard(this, currentFocus)
+
+        if (currentFragment() is NewWriteFragment) {
+            DialogUtils.showAlertDialog(
+                    this,
+                    getString(R.string.dialog_delete_contents),
+                    { _, _ -> replaceFragment(fragment, v.id) },
+                    null
+            )
         } else {
-            replaceFragment(fragment ?: return)
-            cl_main.closeDrawer(DRAWER_GRAVITY_START)
+            replaceFragment(fragment, v.id)
         }
+    }
+
+    private fun currentFragment(): Fragment? {
+        return supportFragmentManager.findFragmentById(R.id.fl_container)
+    }
+
+    private fun registerDiary() {
+        val f = currentFragment()
+                as? NewWriteFragment
+                ?: return
+        f.registerDiary()
+    }
+
+    private fun openMenu() {
+        val current = currentFragment()
+        if (current is NewMainContract.Expandable) {
+            if (current.isExpanded()) return
+        }
+
+        KeyboardUtils.hideKeyboard(this, currentFocus)
+
+        val f = MenuFragment().apply {
+            arguments = Bundle().apply {
+                putString(MenuFragment.KEY_IDENTIFIER, identifier)
+            }
+        }
+        supportFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left)
+                .replace(R.id.fl_menu, f)
+                .commitAllowingStateLoss()
     }
 
     fun showMainFragment() {
-        selectedNavId = tv_with.id
-        replaceFragment(MainFragment.newInstance(
-                intent.getStringExtra(EXTRA_IDENTIFIER),
-                intent.getIntExtra(EXTRA_GENDER, 0)))
+        replaceFragment(MainFragment.newInstance(identifier, gender), R.id.bmv_home)
     }
 
-    fun replaceFragment(fragment: Fragment) {
-        // changeActionBarIcon()
+    fun replaceFragment(fragment: Fragment, id: Int? = 0) {
+        tv_register.visibility = if (fragment is NewWriteFragment) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        bottomMenuList.forEach { it.active(it.id == id) }
         fragment.enterTransition = Fade()
         fragment.exitTransition = Fade()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fl_container, fragment).commitAllowingStateLoss()
-    }
-
-    private fun getHomeIcon(id: Int): Drawable? {
-        val menuIcon = ContextCompat.getDrawable(this, id)
-        menuIcon?.setColorFilter(ContextCompat.getColor(this, R.color.primary_icon), PorterDuff.Mode.SRC_ATOP)
-        return menuIcon
-    }
-
-    private fun changeActionBarIcon() {
-        supportActionBar?.apply {
-            setHomeAsUpIndicator(getHomeIcon(if (selectedNavId == tv_with.id) R.drawable.ic_menu else R.drawable.ic_back))
-        }
-    }
-
-    private fun sendEmail() {
-        startActivity(Intent(Intent.ACTION_SEND).apply {
-            type = "plain/Text"
-            val emails = arrayOf(getString(R.string.email_address))
-            putExtra(Intent.EXTRA_EMAIL, emails)
-            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
-            putExtra(Intent.EXTRA_TEXT, getString(R.string.email_text,
-                    Build.DEVICE,
-                    Build.VERSION.SDK_INT,
-                    BuildConfig.VERSION_NAME))
-            type = "message/rfc822"
-        })
     }
 
     companion object {

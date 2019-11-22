@@ -16,7 +16,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
 import android.text.SpannableStringBuilder
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -34,6 +37,7 @@ import dev.kxxcn.app_with.data.remote.RemoteDataSource
 import dev.kxxcn.app_with.ui.BasePresenter
 import dev.kxxcn.app_with.ui.main.MainContract
 import dev.kxxcn.app_with.ui.main.NewMainActivity
+import dev.kxxcn.app_with.ui.main.NewMainContract
 import dev.kxxcn.app_with.ui.main.plan.DatePickerFragment
 import dev.kxxcn.app_with.ui.main.plan.PlanContract
 import dev.kxxcn.app_with.util.*
@@ -41,6 +45,7 @@ import dev.kxxcn.app_with.util.Constants.*
 import dev.kxxcn.app_with.util.TransitionUtils.startAnimationEditText
 import dev.kxxcn.app_with.util.threading.UiThread
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_new_write.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -49,9 +54,10 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.sdk27.coroutines.onFocusChange
 import org.jetbrains.anko.support.v4.toast
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>, MainContract.OnKeyboardListener,
-        PlanContract.OnClickDateCallback {
+        PlanContract.OnClickDateCallback, NewMainContract.Expandable {
 
     private var places = arrayListOf<String?>()
 
@@ -78,6 +84,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     private var presenter: WriteContract.Presenter? = null
 
     private var imageDisposable: Disposable? = null
+    private var viewDisposable: Disposable? = null
 
     private var bottomSheetBehavior: BottomSheetBehavior<View>? = null
 
@@ -87,13 +94,14 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
 
     private var interstitialAd: InterstitialAd? = null
 
+    private val viewSubject = PublishSubject.create<View>()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_new_write, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
         setupArguments()
         setupPresenter()
         setupListener()
@@ -101,23 +109,11 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         // setupGeocode()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_write, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.menu_register -> {
-                if (!preventCancel) registerDiary()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onDestroyView() {
         imageDisposable?.dispose()
+        viewDisposable?.dispose()
         imageDisposable = null
+        viewDisposable = null
         presenter?.release()
         super.onDestroyView()
     }
@@ -247,7 +243,10 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         ib_photo.onClick { showImagePicker() }
         ib_weather.onClick { showWeatherPicker() }
         ib_font.onClick { showFontPicker() }
-        ib_date.onClick { showDatePicker() }
+        ib_date.onClick {
+            it ?: return@onClick
+            viewSubject.onNext(it)
+        }
         // ib_place.onClick { showPlacePicker() }
         fab_register.onClick { registerDiary() }
         epv_font.setOnScrollChangedListener(object : EasyPickerView.OnScrollChangedListener {
@@ -263,6 +262,11 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         tv_cloud.onClick { selectWeather(it) }
         tv_rain.onClick { selectWeather(it) }
         tv_snow.onClick { selectWeather(it) }
+        viewDisposable = viewSubject
+                .throttleFirst(1, TimeUnit.SECONDS)
+                .subscribe {
+                    showDatePicker()
+                }
     }
 
     private fun selectWeather(view: View?) {
@@ -516,15 +520,14 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     }
 
     private fun showDatePicker() {
-        if (datePickerFragment?.isAdded == false) {
-            KeyboardUtils.hideKeyboard(activity, et_write)
-            UiThread.getInstance().postDelayed({
-                if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
-                    setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED)
-                }
-                datePickerFragment?.show(fragmentManager, DatePickerFragment::class.java.name)
-            }, DELAY_PICKER)
-        }
+        if (datePickerFragment?.isVisible == true) return
+        KeyboardUtils.hideKeyboard(activity, et_write)
+        UiThread.getInstance().postDelayed({
+            if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
+                setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED)
+            }
+            datePickerFragment?.show(fragmentManager, DatePickerFragment::class.java.name)
+        }, DELAY_PICKER)
     }
 
     private fun changeFont(index: Int) {
@@ -551,25 +554,27 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         }, DELAY_PICKER)
     }
 
-    private fun registerDiary() {
-        preventCancel = true
-        KeyboardUtils.hideKeyboard(activity, et_write)
-        setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED)
-        if (fl_loading.visibility != View.VISIBLE) {
-            if (et_write.text.isNotEmpty()) {
-                if (bitmap != null) {
-                    fab_register.visibility = View.GONE
-                    diaryPhoto = presenter?.getGalleryName(arguments?.getString(KEY_IDENTIFIER))
-                    val file = File(ImageProcessingHelper.convertToJPEG(context, bitmap, diaryPhoto))
-                    val reqFile = RequestBody.create(MediaType.parse("image/jpg"), file)
-                    presenter?.uploadImage(MultipartBody.Part.createFormData("upload", file.name, reqFile))
+    fun registerDiary() {
+        if (!preventCancel) {
+            preventCancel = true
+            KeyboardUtils.hideKeyboard(activity, et_write)
+            setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED)
+            if (fl_loading.visibility != View.VISIBLE) {
+                if (et_write.text.isNotEmpty()) {
+                    if (bitmap != null) {
+                        fab_register.visibility = View.GONE
+                        diaryPhoto = presenter?.getGalleryName(arguments?.getString(KEY_IDENTIFIER))
+                        val file = File(ImageProcessingHelper.convertToJPEG(context, bitmap, diaryPhoto))
+                        val reqFile = RequestBody.create(MediaType.parse("image/jpg"), file)
+                        presenter?.uploadImage(MultipartBody.Part.createFormData("upload", file.name, reqFile))
+                    } else {
+                        toast(R.string.toast_choice_gallery)
+                        preventCancel = false
+                    }
                 } else {
-                    toast(R.string.toast_choice_gallery)
+                    toast(R.string.toast_write_diary)
                     preventCancel = false
                 }
-            } else {
-                toast(R.string.toast_write_diary)
-                preventCancel = false
             }
         }
     }
@@ -582,7 +587,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         et_write?.maxHeight = (cv_bottom.y - et_write.y).toInt() - 30
     }
 
-    fun isExpanded(): Boolean {
+    override fun isExpanded(): Boolean {
         if (bottomSheetBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
             setStateBottomSheet(BottomSheetBehavior.STATE_COLLAPSED)
             return true

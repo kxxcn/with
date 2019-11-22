@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -52,7 +51,6 @@ class MainFragment : Fragment(), NewMainContract.View {
 
         planAdapter = MainPlanAdapter(context)
         rv_main_plan.adapter = planAdapter
-        rv_main_plan.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager(context).orientation))
 
         diaryLoading = Skeleton.bind(rv_main_diary)
                 .adapter(diaryAdapter)
@@ -105,11 +103,6 @@ class MainFragment : Fragment(), NewMainContract.View {
     }
 
     override fun showSuccessfulLoadPlan(planList: List<Plan>, idsList: List<String>) {
-        if (planList.isEmpty()) {
-            ll_not_found_plan.visibility = View.VISIBLE
-            return
-        }
-        ll_not_found_plan.visibility = View.GONE
         val filteredList = if (planList.size >= SIZE_OF_RECENTLY_PLAN) {
             planList.subList(0, SIZE_OF_RECENTLY_PLAN)
         } else {
@@ -137,8 +130,7 @@ class MainFragment : Fragment(), NewMainContract.View {
     }
 
     override fun showFailedRequest(throwable: String?, type: Int) {
-        val view = if (type == TYPE_PLAN) ll_not_found_plan else ll_not_found_diary
-        view.visibility = View.VISIBLE
+        ll_not_found_diary.visibility = View.VISIBLE
         SystemUtils.displayError(context, javaClass.name, throwable)
     }
 

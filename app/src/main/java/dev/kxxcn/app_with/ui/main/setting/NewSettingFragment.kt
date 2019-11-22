@@ -2,6 +2,7 @@ package dev.kxxcn.app_with.ui.main.setting
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
@@ -10,6 +11,7 @@ import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dev.kxxcn.app_with.BuildConfig
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.DataRepository
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname
@@ -131,6 +133,7 @@ class NewSettingFragment : Fragment(), SettingContract.View {
         cl_notice.onClick { v -> clickItem(v) }
         cl_info.onClick { v -> clickItem(v) }
         cl_sign_out.onClick { v -> clickItem(v) }
+        cl_contact.onClick { sendEmail() }
     }
 
     private fun checkToken() {
@@ -245,6 +248,20 @@ class NewSettingFragment : Fragment(), SettingContract.View {
             R.id.cl_info -> showInformation()
             R.id.cl_sign_out -> signOut()
         }
+    }
+
+    private fun sendEmail() {
+        startActivity(Intent(Intent.ACTION_SEND).apply {
+            type = "plain/Text"
+            val emails = arrayOf(getString(R.string.email_address))
+            putExtra(Intent.EXTRA_EMAIL, emails)
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.email_text,
+                    Build.DEVICE,
+                    Build.VERSION.SDK_INT,
+                    BuildConfig.VERSION_NAME))
+            type = "message/rfc822"
+        })
     }
 
     private fun replaceFragment(fragment: Fragment, vararg element: ShareElement) {

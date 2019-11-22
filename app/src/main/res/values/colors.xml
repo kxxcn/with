@@ -77,6 +77,11 @@
     <color name="bg_cpv_month_light">#f0e3aa</color>
     <color name="bg_cpv_week">#dc98bb</color>
     <color name="bg_cpv_week_light">#ebccdc</color>
+    <color name="bg_bottom_select">#ecebfa</color>
+    <color name="bg_bottom_menu">#ffffff</color>
+    <color name="bg_write_add">#63d3b5</color>
+    <color name="bg_bottom_menu_selected">#5955d6</color>
+    <color name="bg_bottom_menu_unselected">#8b899e</color>
 
     <color name="btn_start">#727171</color>
     <color name="btn_auth">#0cad7b</color>
@@ -162,6 +167,7 @@
     <color name="background_setting_sync">#6368c3</color>
     <color name="background_setting_notice">#bcbfc5</color>
     <color name="background_setting_info">#4ebb7f</color>
+    <color name="background_setting_contact">#d2b4e6</color>
     <color name="background_setting_logout">#ec706c</color>
 
     <color name="text_calendar">#1de9b6</color>
