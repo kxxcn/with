@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.ui.main.MainContract
+import dev.kxxcn.app_with.ui.main.setting.profile.ProfileFragment
 import dev.kxxcn.app_with.util.SystemUtils
 import kotlinx.android.synthetic.main.fragment_wrap.*
 import org.jetbrains.anko.backgroundColor
@@ -72,6 +73,14 @@ class WrapFragment : Fragment(), MainContract.OnKeyboardListener {
 
     override fun onHideKeyboard() {
         iv_background?.visibility = View.GONE
+    }
+
+    fun updateNickname() {
+        val fragment = childFragmentManager
+                .findFragmentById(fl_container.id)
+                as? ProfileFragment
+                ?: return
+        fragment.updateNickname()
     }
 
     companion object {

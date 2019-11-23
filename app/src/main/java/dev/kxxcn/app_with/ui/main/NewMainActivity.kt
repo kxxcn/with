@@ -139,8 +139,12 @@ class NewMainActivity : AppCompatActivity() {
             if (current.isExpanded()) return
         }
 
-        val currentMenu = bottomMenuList.first { it.isActive() }
-        if (currentMenu.id == v.id) return
+        try {
+            val currentMenu = bottomMenuList.first { it.isActive() }
+            if (currentMenu.id == v.id) return
+        } catch (e: NoSuchElementException) {
+            e.printStackTrace()
+        }
 
         val fragment = when (v.id) {
             R.id.bmv_home -> MainFragment.newInstance(identifier, gender)

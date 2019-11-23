@@ -18,6 +18,7 @@ import dev.kxxcn.app_with.data.model.nickname.ResponseNickname
 import dev.kxxcn.app_with.data.model.setting.ResponseSetting
 import dev.kxxcn.app_with.data.model.share.ShareElement
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
+import dev.kxxcn.app_with.ui.main.WrapFragmentActivity
 import dev.kxxcn.app_with.ui.main.setting.SettingFragment.PREF_TOKEN
 import dev.kxxcn.app_with.ui.main.setting.lock.LockFragment
 import dev.kxxcn.app_with.ui.main.setting.notice.NoticeActivity
@@ -173,6 +174,12 @@ class NewSettingFragment : Fragment(), SettingContract.View {
     }
 
     private fun showProfile() {
+        val activity = activity
+                as? WrapFragmentActivity
+                ?: return
+
+        activity.visibilityEditButton(true)
+
         val fragment = WrapFragment.newInstance(
                 ProfileFragment::class.java.name,
                 R.drawable.ic_setting_profile,

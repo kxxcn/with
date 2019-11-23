@@ -3,6 +3,7 @@ package dev.kxxcn.app_with.ui.main
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.ui.main.setting.NewSettingFragment
 import dev.kxxcn.app_with.ui.main.setting.WrapFragment
@@ -26,6 +27,7 @@ class WrapFragmentActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val f = currentFragment()
         if (f is WrapFragment) {
+            visibilityEditButton(false)
             replaceFragment(NewSettingFragment.newInstance(identifier))
         } else {
             super.onBackPressed()
@@ -41,6 +43,7 @@ class WrapFragmentActivity : AppCompatActivity() {
 
     private fun setupListener() {
         iv_back.onClick { onBackPressed() }
+        tv_register.onClick { editProfile() }
     }
 
     private fun setupLayout() {
@@ -62,6 +65,17 @@ class WrapFragmentActivity : AppCompatActivity() {
                 .beginTransaction()
                 .replace(R.id.fl_container, f)
                 .commitAllowingStateLoss()
+    }
+
+    private fun editProfile() {
+        val fragment = currentFragment()
+                as? WrapFragment
+                ?: return
+        fragment.updateNickname()
+    }
+
+    fun visibilityEditButton(isShowing: Boolean) {
+        tv_register?.visibility = if (isShowing) View.VISIBLE else View.GONE
     }
 
     companion object {

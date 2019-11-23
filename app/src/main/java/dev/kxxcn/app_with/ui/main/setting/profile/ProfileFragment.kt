@@ -3,12 +3,15 @@ package dev.kxxcn.app_with.ui.main.setting.profile
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.SpannableStringBuilder
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.DataRepository
 import dev.kxxcn.app_with.data.model.nickname.Nickname
 import dev.kxxcn.app_with.data.model.nickname.ResponseNickname
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
+import dev.kxxcn.app_with.ui.main.WrapFragmentActivity
 import dev.kxxcn.app_with.ui.main.setting.NewSettingFragment
 import dev.kxxcn.app_with.util.KeyboardUtils
 import dev.kxxcn.app_with.util.threading.UiThread
@@ -30,7 +33,6 @@ class ProfileFragment : Fragment(), ProfileContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
 
         identifier = arguments?.getString(KEY_IDENTIFIER)
 
@@ -40,20 +42,6 @@ class ProfileFragment : Fragment(), ProfileContract.View {
             alphaAnimation(cl_parent)
             presenter?.fetchNickname(identifier)
         }, NewSettingFragment.DURATION)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu_write, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.menu_register -> {
-                updateNickname()
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun showFailedRequest(throwable: String?) {
@@ -83,6 +71,9 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     override fun showResultsOfNicknameRequest(isSuccess: Boolean) {
         if (isAdded) {
             toast(R.string.toast_changed_nickname)
+            UiThread.getInstance().postDelayed({
+                finish()
+            }, 1000)
         }
     }
 
@@ -92,7 +83,15 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         }
     }
 
-    private fun updateNickname() = GlobalScope.launch(Dispatchers.Main) {
+    private fun finish() {
+        val activity = activity
+                as? WrapFragmentActivity
+                ?: return
+
+        activity.onBackPressed()
+    }
+
+    fun updateNickname() = GlobalScope.launch(Dispatchers.Main) {
         val nickname = Nickname()
         if (et_me.text.isNullOrEmpty()) {
             toast(R.string.hint_my_nickname)

@@ -6,17 +6,51 @@
     android:layout_height="match_parent"
     android:background="@color/primary_app">
 
-    <ImageView
-        android:id="@+id/iv_back"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_margin="10dp"
-        android:padding="10dp"
-        android:src="@drawable/ic_back"
-        android:tint="@color/primary_icon"
+    <FrameLayout
+        android:id="@+id/ll_top_parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/primary_app"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_back"
+            android:tint="@color/primary_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/drawable_rectangle_start"
+            android:paddingStart="20dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="5dp"
+            android:text="@string/text_register"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/iv_menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_menu"
+            tools:visibility="visible" />
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/fl_container"
@@ -25,6 +59,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_back" />
+        app:layout_constraintTop_toBottomOf="@id/ll_top_parent" />
 
 </android.support.constraint.ConstraintLayout>
