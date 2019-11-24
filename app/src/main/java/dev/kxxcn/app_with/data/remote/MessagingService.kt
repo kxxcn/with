@@ -87,16 +87,14 @@ class MessagingService : FirebaseMessagingService() {
     }
 
     private fun getContentText(type: String, message: String?): String? {
-        var contextText: String? = null
-        when (type) {
-            TYPE_DIARY -> contextText = getString(R.string.push_content_diary)
-            TYPE_PLAN -> contextText = getString(R.string.push_content_plan)
-            TYPE_NOTICE -> contextText = message
-            TYPE_DAY -> contextText = getString(R.string.push_content_day)
-            else -> {
-            }
+        return when (type) {
+            TYPE_DIARY -> getString(R.string.push_content_diary)
+            TYPE_PLAN -> getString(R.string.push_content_plan)
+            TYPE_NOTICE -> message
+            TYPE_DAY -> getString(R.string.push_content_day)
+            TYPE_AUTH -> getString(R.string.push_content_auth)
+            else -> getString(R.string.push_content_diary)
         }
-        return contextText
     }
 
     private fun checkAllowedNotification(type: String, country: String?): Boolean {

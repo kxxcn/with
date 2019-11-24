@@ -34,4 +34,9 @@ interface NewMainContract {
 
         fun isExpanded(): Boolean
     }
+
+    interface Initializable {
+
+        fun initUI()
+    }
 }

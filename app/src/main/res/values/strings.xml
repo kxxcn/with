@@ -281,6 +281,7 @@
     <string name="push_content_diary">New [Diary] has been registered.</string>
     <string name="push_content_plan">New [Plan] has been registered.</string>
     <string name="push_content_day">New [D-Day] has been registered.</string>
+    <string name="push_content_auth">Welcome to [With].</string>
 
     <string name="toast_insight_year">Percentage of diaries created in %1$d in the entire diary.</string>
     <string name="toast_insight_month">Percentage of diaries created in %2$d of the %1$d diary.</string>

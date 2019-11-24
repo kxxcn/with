@@ -11,6 +11,7 @@ import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.iid.FirebaseInstanceId
 import dev.kxxcn.app_with.BuildConfig
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.DataRepository
@@ -30,8 +31,8 @@ import dev.kxxcn.app_with.util.Constants.DELAY_SIGN_OUT
 import dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER
 import dev.kxxcn.app_with.util.DialogUtils
 import dev.kxxcn.app_with.util.SystemUtils
-import dev.kxxcn.app_with.util.threading.UiThread
 import kotlinx.android.synthetic.main.fragment_new_setting.*
+import kotlinx.coroutines.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.toast
 
@@ -98,8 +99,18 @@ class NewSettingFragment : Fragment(), SettingContract.View {
     }
 
     override fun showSuccessfulSignOut(stat: String?) {
-        toast(R.string.toast_sign_out_greeting)
-        UiThread.getInstance().postDelayed({ SystemUtils.onFinish(activity) }, DELAY_SIGN_OUT.toLong())
+        GlobalScope.launch {
+            try {
+                withContext(Dispatchers.Main) {
+                    toast(R.string.toast_sign_out_greeting)
+                }
+                FirebaseInstanceId.getInstance().deleteInstanceId()
+                delay(DELAY_SIGN_OUT.toLong())
+                SystemUtils.onFinish(activity)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun showSuccessfulCheckNewNotice(stat: String?) {

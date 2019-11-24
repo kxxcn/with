@@ -18,7 +18,6 @@ import dev.kxxcn.app_with.data.model.plan.Plan
 import dev.kxxcn.app_with.data.remote.APIPersistence.EVENTS_URL
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
 import dev.kxxcn.app_with.ui.main.event.EventDialog
-import dev.kxxcn.app_with.ui.main.write.NewWriteFragment
 import dev.kxxcn.app_with.util.Constants.KEY_GENDER
 import dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER
 import dev.kxxcn.app_with.util.SystemUtils
@@ -26,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_main.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
-class MainFragment : Fragment(), NewMainContract.View {
+class MainFragment : Fragment(), NewMainContract.View, NewMainContract.Initializable {
 
     private lateinit var presenter: NewMainContract.Presenter
 
@@ -135,17 +134,11 @@ class MainFragment : Fragment(), NewMainContract.View {
     }
 
     private fun setupListener() {
-        iv_add.onClick {
-            val activity = activity as? NewMainActivity ?: return@onClick
-            val identifier = mArgs?.getString(KEY_IDENTIFIER) ?: return@onClick
-            activity.replaceFragment(NewWriteFragment.newInstance(
-                    identifier = identifier
-            ))
-        }
+        iv_add.onClick { openWrite() }
     }
 
     @SuppressLint("DefaultLocale")
-    private fun initUI() {
+    override fun initUI() {
         mArgs = arguments ?: return
         presenter.subscribeIds(mArgs?.getString(KEY_IDENTIFIER))
         presenter.getDiary(DEPRECATED_INT, mArgs?.getString(KEY_IDENTIFIER))
@@ -157,6 +150,11 @@ class MainFragment : Fragment(), NewMainContract.View {
                 presenter.fetchEvents()
             }
         }
+    }
+
+    private fun openWrite() {
+        val activity = activity as? NewMainActivity ?: return
+        activity.openWrite()
     }
 
     companion object {

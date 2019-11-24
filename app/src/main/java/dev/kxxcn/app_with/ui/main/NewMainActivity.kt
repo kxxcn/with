@@ -1,6 +1,7 @@
 package dev.kxxcn.app_with.ui.main
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -58,6 +59,18 @@ class NewMainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQ_DIARY_REGISTRATION -> {
+                val f = currentFragment()
+                        as? NewMainContract.Initializable
+                        ?: return
+                f.initUI()
+            }
+        }
+    }
+
     override fun onBackPressed() {
         val menuFragment = supportFragmentManager.findFragmentById(R.id.fl_menu)
         if (menuFragment != null) {
@@ -109,15 +122,15 @@ class NewMainActivity : AppCompatActivity() {
     private fun setupListener() {
         bmv_home.onClick { clickBottomMenu(it) }
         bmv_time.onClick { clickBottomMenu(it) }
-        bmv_write.onClick { clickBottomMenu(it) }
         bmv_plan.onClick { clickBottomMenu(it) }
         bmv_record.onClick { clickBottomMenu(it) }
         tv_register.onClick { registerDiary() }
         iv_menu.onClick { openMenu() }
+        iv_write.onClick { openWrite() }
     }
 
     private fun setupLayout() {
-        bottomMenuList = listOf(bmv_home, bmv_time, bmv_write, bmv_plan, bmv_record)
+        bottomMenuList = listOf(bmv_home, bmv_time, bmv_plan, bmv_record)
 
         val (f, id) = when (action) {
             ACTION_DIARY -> TimeLineFragment.newInstance(identifier, gender) to R.id.bmv_time
@@ -149,7 +162,6 @@ class NewMainActivity : AppCompatActivity() {
         val fragment = when (v.id) {
             R.id.bmv_home -> MainFragment.newInstance(identifier, gender)
             R.id.bmv_time -> TimeLineFragment.newInstance(identifier, gender)
-            R.id.bmv_write -> NewWriteFragment.newInstance(identifier = identifier)
             R.id.bmv_plan -> NewPlanFragment.newInstance(identifier)
             else -> MainFragment.newInstance(identifier, gender)
         } as? Fragment ?: return
@@ -199,7 +211,18 @@ class NewMainActivity : AppCompatActivity() {
                 .commitAllowingStateLoss()
     }
 
-    fun showMainFragment() {
+    fun openWrite(i: Intent? = null) {
+        val className = NewWriteFragment::class.java.name
+        val intent = i
+                ?: Intent(this, WrapFragmentActivity::class.java).apply {
+                    putExtra(WrapFragmentActivity.EXTRA_CLASS_NAME, className)
+                    putExtra(WrapFragmentActivity.EXTRA_IDENTIFIER, identifier)
+                }
+
+        startActivityForResult(intent, REQ_DIARY_REGISTRATION)
+    }
+
+    private fun showMainFragment() {
         replaceFragment(MainFragment.newInstance(identifier, gender), R.id.bmv_home)
     }
 
@@ -217,6 +240,8 @@ class NewMainActivity : AppCompatActivity() {
     }
 
     companion object {
+
+        private const val REQ_DIARY_REGISTRATION = 1000
 
         const val ACTION_DIARY = "ACTION_DIARY"
         const val ACTION_PLAN = "ACTION_PLAN"

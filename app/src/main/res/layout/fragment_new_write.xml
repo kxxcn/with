@@ -448,25 +448,4 @@
 
     </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/fl_success"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="bottom"
-        android:background="@color/background_add_plan_possible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lav_done"
-        style="@style/FillConstraintParent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        app:lottie_autoPlay="false"
-        app:lottie_fileName="done.json"
-        app:lottie_loop="false"
-        tools:ignore="MissingConstraints" />
-
 </android.support.design.widget.CoordinatorLayout>

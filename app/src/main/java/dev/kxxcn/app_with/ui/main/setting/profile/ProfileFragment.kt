@@ -25,6 +25,8 @@ class ProfileFragment : Fragment(), ProfileContract.View {
 
     private var identifier: String? = null
 
+    private var preventCancel = false
+
     private var presenter: ProfileContract.Presenter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -70,10 +72,10 @@ class ProfileFragment : Fragment(), ProfileContract.View {
 
     override fun showResultsOfNicknameRequest(isSuccess: Boolean) {
         if (isAdded) {
-            toast(R.string.toast_changed_nickname)
-            UiThread.getInstance().postDelayed({
-                finish()
-            }, 1000)
+            val activity = activity
+                    as? WrapFragmentActivity
+                    ?: return
+            activity.successfulRegistration { finish() }
         }
     }
 
@@ -84,6 +86,8 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     }
 
     private fun finish() {
+        preventCancel = false
+
         val activity = activity
                 as? WrapFragmentActivity
                 ?: return
@@ -91,23 +95,27 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         activity.onBackPressed()
     }
 
-    fun updateNickname() = GlobalScope.launch(Dispatchers.Main) {
-        val nickname = Nickname()
-        if (et_me.text.isNullOrEmpty()) {
-            toast(R.string.hint_my_nickname)
-            return@launch
+    fun updateNickname(): Boolean {
+        GlobalScope.launch(Dispatchers.Main) {
+            val nickname = Nickname()
+            if (et_me.text.isNullOrEmpty()) {
+                toast(R.string.hint_my_nickname)
+                return@launch
+            }
+            if (et_you.text.isNullOrEmpty()) {
+                toast(R.string.hint_your_nickname)
+                return@launch
+            }
+            preventCancel = true
+            nickname.uniqueIdentifier = identifier
+            nickname.setMyNickname(et_me.text.toString())
+            nickname.setYourNickname(et_you.text.toString())
+            nickname.setFemale(false)
+            presenter?.updateNickname(nickname)
+            val currentFocus = activity?.currentFocus ?: return@launch
+            KeyboardUtils.hideKeyboard(activity, currentFocus)
         }
-        if (et_you.text.isNullOrEmpty()) {
-            toast(R.string.hint_your_nickname)
-            return@launch
-        }
-        nickname.uniqueIdentifier = identifier
-        nickname.setMyNickname(et_me.text.toString())
-        nickname.setYourNickname(et_you.text.toString())
-        nickname.setFemale(false)
-        presenter?.updateNickname(nickname)
-        val currentFocus = activity?.currentFocus ?: return@launch
-        KeyboardUtils.hideKeyboard(activity, currentFocus)
+        return preventCancel
     }
 
     companion object {

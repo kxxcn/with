@@ -1,11 +1,9 @@
 package dev.kxxcn.app_with.ui.main.write
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Point
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -26,7 +24,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.google.android.gms.ads.InterstitialAd
 import com.qingmei2.rximagepicker.core.RxImagePicker
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.DataRepository
@@ -36,8 +33,8 @@ import dev.kxxcn.app_with.data.remote.APIPersistence
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
 import dev.kxxcn.app_with.ui.BasePresenter
 import dev.kxxcn.app_with.ui.main.MainContract
-import dev.kxxcn.app_with.ui.main.NewMainActivity
 import dev.kxxcn.app_with.ui.main.NewMainContract
+import dev.kxxcn.app_with.ui.main.WrapFragmentActivity
 import dev.kxxcn.app_with.ui.main.plan.DatePickerFragment
 import dev.kxxcn.app_with.ui.main.plan.PlanContract
 import dev.kxxcn.app_with.util.*
@@ -91,8 +88,6 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     private var datePickerFragment: DatePickerFragment? = null
 
     private var options = RequestOptions()
-
-    private var interstitialAd: InterstitialAd? = null
 
     private val viewSubject = PublishSubject.create<View>()
 
@@ -150,27 +145,12 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     }
 
     override fun showSuccessfulRegister(filter: ModeFilter?) {
-        val activity = activity as? NewMainActivity ?: return
-        val display = activity.windowManager?.defaultDisplay
-        val size = Point()
-        display?.getSize(size)
-        val animator = TransitionUtils.setAnimationSlideLayout(fl_success, size.y)
-        animator.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
-                super.onAnimationEnd(animation)
-                lav_done?.visibility = View.VISIBLE
-                lav_done?.playAnimation()
-                lav_done?.addAnimatorListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator?) {
-                        super.onAnimationEnd(animation)
-                        interstitialAd?.show()
-                        preventCancel = false
-                        activity.showMainFragment()
-                    }
-                })
-            }
-        })
-        animator.start()
+        val activity = activity as? WrapFragmentActivity ?: return
+        activity.successfulRegistration {
+            preventCancel = false
+            activity.setResult(Activity.RESULT_OK)
+            activity.finish()
+        }
     }
 
     override fun setPresenter(_presenter: WriteContract.Presenter?) {
@@ -441,8 +421,6 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
             et_write.text = SpannableStringBuilder(it)
         }
 
-        interstitialAd = FullAdsHelper.getInstance(context)
-
         val fontNameList = FONTS_NAME.map(this@NewWriteFragment::getString)
         epv_font.setDataList(ArrayList(fontNameList))
 
@@ -554,7 +532,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         }, DELAY_PICKER)
     }
 
-    fun registerDiary() {
+    fun registerDiary(): Boolean {
         if (!preventCancel) {
             preventCancel = true
             KeyboardUtils.hideKeyboard(activity, et_write)
@@ -577,6 +555,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
                 }
             }
         }
+        return preventCancel
     }
 
     private fun setStateBottomSheet(state: Int) {
@@ -597,25 +576,25 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
 
     companion object {
 
-        private const val KEY_TYPE = "KEY_TYPE"
+        const val KEY_TYPE = "KEY_TYPE"
 
-        private const val KEY_IDENTIFIER = "KEY_IDENTIFIER"
+        const val KEY_IDENTIFIER = "KEY_IDENTIFIER"
 
-        private const val KEY_ID = "KEY_ID"
+        const val KEY_ID = "KEY_ID"
 
-        private const val KEY_CONTENT = "KEY_CONTENT"
+        const val KEY_CONTENT = "KEY_CONTENT"
 
-        private const val KEY_DATE = "KEY_DATE"
+        const val KEY_DATE = "KEY_DATE"
 
-        private const val KEY_TIME = "KEY_TIME"
+        const val KEY_TIME = "KEY_TIME"
 
-        private const val KEY_PLACE = "KEY_PLACE"
+        const val KEY_PLACE = "KEY_PLACE"
 
-        private const val KEY_STYLE = "KEY_STYLE"
+        const val KEY_STYLE = "KEY_STYLE"
 
-        private const val KEY_PHOTO = "KEY_PHOTO"
+        const val KEY_PHOTO = "KEY_PHOTO"
 
-        private const val KEY_WEATHER = "KEY_WEATHER"
+        const val KEY_WEATHER = "KEY_WEATHER"
 
         private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 10L
 

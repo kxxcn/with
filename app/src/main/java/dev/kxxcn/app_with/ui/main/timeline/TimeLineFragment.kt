@@ -17,6 +17,7 @@ import dev.kxxcn.app_with.data.model.nickname.ResponseNickname
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
 import dev.kxxcn.app_with.ui.main.NewMainActivity
 import dev.kxxcn.app_with.ui.main.NewMainContract
+import dev.kxxcn.app_with.ui.main.WrapFragmentActivity
 import dev.kxxcn.app_with.ui.main.diary.detail.DetailActivity
 import dev.kxxcn.app_with.ui.main.write.NewWriteFragment
 import dev.kxxcn.app_with.util.Constants
@@ -26,7 +27,8 @@ import kotlinx.android.synthetic.main.fragment_timeline.*
 import kotlinx.android.synthetic.main.fragment_timeline.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
-class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.ItemClick, NewMainContract.Expandable {
+class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.ItemClick,
+        NewMainContract.Expandable, NewMainContract.Initializable {
 
     private var selectedPosition = INVALID_POSITION
 
@@ -133,19 +135,21 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
         val item = adapter?.getItem(selectedPosition).takeIf { selectedPosition > INVALID_POSITION }
                 ?: return
         selectedPosition = INVALID_POSITION
-        val fragment = NewWriteFragment.newInstance(
-                NewWriteFragment.TYPE_UPDATE,
-                identifier,
-                item.id,
-                item.letter,
-                item.letterDate,
-                item.letterTime,
-                item.letterPlace,
-                item.fontStyle,
-                item.galleryName,
-                item.letterWeather
-        )
-        activity.replaceFragment(fragment, R.id.bmv_write)
+        val intent = Intent(context, WrapFragmentActivity::class.java).apply {
+            val className = NewWriteFragment::class.java.name
+            putExtra(WrapFragmentActivity.EXTRA_CLASS_NAME, className)
+            putExtra(WrapFragmentActivity.EXTRA_IDENTIFIER, identifier)
+            putExtra(NewWriteFragment.KEY_TYPE, NewWriteFragment.TYPE_UPDATE)
+            putExtra(NewWriteFragment.KEY_ID, item.id)
+            putExtra(NewWriteFragment.KEY_CONTENT, item.letter)
+            putExtra(NewWriteFragment.KEY_DATE, item.letterDate)
+            putExtra(NewWriteFragment.KEY_TIME, item.letterTime)
+            putExtra(NewWriteFragment.KEY_PLACE, item.letterPlace)
+            putExtra(NewWriteFragment.KEY_STYLE, item.fontStyle)
+            putExtra(NewWriteFragment.KEY_PHOTO, item.galleryName)
+            putExtra(NewWriteFragment.KEY_WEATHER, item.letterWeather)
+        }
+        activity.openWrite(intent)
     }
 
     private fun showDeleteDialog() {
@@ -165,7 +169,7 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
         presenter?.deleteDiary(item.id)
     }
 
-    private fun initUI() {
+    override fun initUI() {
         val activity = activity ?: return
         val arg = arguments ?: return
         val identifier = arg.getString(Constants.KEY_IDENTIFIER) ?: return

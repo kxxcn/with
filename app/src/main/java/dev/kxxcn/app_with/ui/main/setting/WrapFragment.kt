@@ -75,12 +75,12 @@ class WrapFragment : Fragment(), MainContract.OnKeyboardListener {
         iv_background?.visibility = View.GONE
     }
 
-    fun updateNickname() {
+    fun updateNickname(): Boolean {
         val fragment = childFragmentManager
                 .findFragmentById(fl_container.id)
                 as? ProfileFragment
-                ?: return
-        fragment.updateNickname()
+                ?: return false
+        return fragment.updateNickname()
     }
 
     companion object {

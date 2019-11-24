@@ -102,12 +102,14 @@
             android:visibility="gone"
             app:bmv_icon="@drawable/ic_bottom_record" />
 
-        <dev.kxxcn.app_with.util.BottomMenuView
-            android:id="@+id/bmv_write"
+        <ImageView
+            android:id="@+id/iv_write"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            app:bmv_icon="@drawable/ic_bottom_write" />
+            android:src="@drawable/selector_menu_write"
+            tools:ignore="ContentDescription" />
 
     </LinearLayout>
 

@@ -250,6 +250,7 @@
     <string name="push_content_diary">新しい[日記]が登録されました。</string>
     <string name="push_content_plan">新しい[日程]が登録されました。</string>
     <string name="push_content_day">新しい[D-Day]が登録されました。</string>
+    <string name="push_content_auth">[With]にようこそ。</string>
 
     <string name="toast_insight_year">全体日記の中で、%1$d年に作成した日記の割合です。</string>
     <string name="toast_insight_month">%1$d年の日記の中で、%2$d月に作成した日記の割合です。</string>

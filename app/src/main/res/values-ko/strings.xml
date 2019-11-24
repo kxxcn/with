@@ -251,6 +251,7 @@
     <string name="push_content_diary">새 [일기]가 등록되었어요.</string>
     <string name="push_content_plan">새 [일정]이 등록되었어요.</string>
     <string name="push_content_day">새 [디데이]가 등록되었어요.</string>
+    <string name="push_content_auth">[위드]에 오신 것을 환영합니다.</string>
 
     <string name="toast_insight_year">전체 일기 중 %1$d년에 작성한 일기 비율입니다.</string>
     <string name="toast_insight_month">%1$d년 일기 중 %2$d월에 작성한 일기 비율입니다.</string>
