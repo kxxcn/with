@@ -273,6 +273,9 @@
     <string name="text_attendance_month">Total %1$d days</string>
     <string name="text_attendance_days">%1$d days</string>
     <string name="text_review">Review</string>
+    <string name="text_notify_used">Notify</string>
+    <string name="text_vibrate_used">Vibrate</string>
+    <string name="text_sound_used">Sound</string>
 
     <string name="transition_bg" translatable="false">transition_bg</string>
     <string name="transition_icon" translatable="false">transition_icon</string>

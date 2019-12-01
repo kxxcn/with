@@ -236,6 +236,25 @@
         <item name="tbOnColor">@color/background_setting_notification</item>
     </style>
 
+    <style name="NotifyBigToggleButton">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="tbAsDefaultOn">true</item>
+        <item name="tbBorderWidth">1dp</item>
+        <item name="tbOffBorderColor">@color/toggle_off</item>
+        <item name="tbOnColor">@color/background_setting_notification</item>
+    </style>
+
+    <style name="NotifySmallToggleButton">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="tbAsDefaultOn">true</item>
+        <item name="tbBorderWidth">1dp</item>
+        <item name="tbOffBorderColor">@color/toggle_off</item>
+        <item name="tbOnColor">@color/background_setting_notification</item>
+    </style>
+
+
     <style name="BackImageButton" parent="Base.Widget.AppCompat.ImageButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

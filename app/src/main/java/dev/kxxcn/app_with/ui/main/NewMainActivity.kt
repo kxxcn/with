@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.transition.Fade
-import android.view.Gravity
 import android.view.View
 import com.google.android.gms.ads.InterstitialAd
 import dev.kxxcn.app_with.R
@@ -135,8 +134,6 @@ class NewMainActivity : AppCompatActivity() {
         val (f, id) = when (action) {
             ACTION_DIARY -> TimeLineFragment.newInstance(identifier, gender) to R.id.bmv_time
             ACTION_PLAN -> NewPlanFragment.newInstance(identifier) to R.id.bmv_plan
-            ACTION_NOTICE -> NewSettingFragment.newInstance(identifier) to 0
-            ACTION_DAY -> DecimalFragment.newInstance(identifier) to 0
             else -> MainFragment.newInstance(identifier, gender) to R.id.bmv_home
         }
 
@@ -226,7 +223,7 @@ class NewMainActivity : AppCompatActivity() {
         replaceFragment(MainFragment.newInstance(identifier, gender), R.id.bmv_home)
     }
 
-    fun replaceFragment(fragment: Fragment, id: Int? = 0) {
+    private fun replaceFragment(fragment: Fragment, id: Int? = 0) {
         tv_register.visibility = if (fragment is NewWriteFragment) {
             View.VISIBLE
         } else {
@@ -237,6 +234,15 @@ class NewMainActivity : AppCompatActivity() {
         fragment.exitTransition = Fade()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fl_container, fragment).commitAllowingStateLoss()
+
+        if (action == ACTION_DAY) {
+            action = null
+            val intent = Intent(this, WrapFragmentActivity::class.java).apply {
+                putExtra(WrapFragmentActivity.EXTRA_CLASS_NAME, DecimalFragment::class.java.name)
+                putExtra(WrapFragmentActivity.EXTRA_IDENTIFIER, identifier)
+            }
+            startActivity(intent)
+        }
     }
 
     companion object {
@@ -248,7 +254,6 @@ class NewMainActivity : AppCompatActivity() {
         const val ACTION_NOTICE = "ACTION_NOTICE"
         const val ACTION_DAY = "ACTION_DAY"
 
-        const val DRAWER_GRAVITY_START = Gravity.START
         const val EXTRA_IDENTIFIER = "IDENTIFIER"
         const val EXTRA_GENDER = "GENDER"
         const val KEY_FIRST_TIME = "KEY_FIRST_TIME"

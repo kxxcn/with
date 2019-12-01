@@ -243,6 +243,9 @@
     <string name="text_attendance_month">共%1$d天</string>
     <string name="text_attendance_days">%1$d天</string>
     <string name="text_review">评论</string>
+    <string name="text_notify_used">通知</string>
+    <string name="text_vibrate_used">震动</string>
+    <string name="text_sound_used">响铃</string>
 
     <string name="push_content_diary">新[日记]已被注册。</string>
     <string name="push_content_plan">新[计划]已注册。</string>

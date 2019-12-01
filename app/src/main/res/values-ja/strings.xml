@@ -246,6 +246,9 @@
     <string name="text_attendance_month">合計%1$d日</string>
     <string name="text_attendance_days">%1$d日</string>
     <string name="text_review">評価</string>
+    <string name="text_notify_used">通知使用</string>
+    <string name="text_vibrate_used">バイブレーション</string>
+    <string name="text_sound_used">サウンド</string>
 
     <string name="push_content_diary">新しい[日記]が登録されました。</string>
     <string name="push_content_plan">新しい[日程]が登録されました。</string>

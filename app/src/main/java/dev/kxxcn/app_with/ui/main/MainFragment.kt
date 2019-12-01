@@ -21,6 +21,7 @@ import dev.kxxcn.app_with.ui.main.event.EventDialog
 import dev.kxxcn.app_with.util.Constants.KEY_GENDER
 import dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER
 import dev.kxxcn.app_with.util.SystemUtils
+import dev.kxxcn.app_with.util.preference.PreferenceUtils
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
@@ -110,6 +111,10 @@ class MainFragment : Fragment(), NewMainContract.View, NewMainContract.Initializ
         planAdapter?.setItems(filteredList)
     }
 
+    override fun showSuccessfulUpdateToken() {
+        PreferenceUtils.newToken = null
+    }
+
     override fun showEvents(eventList: List<Event>) {
         val identifier = mArgs?.getString(KEY_IDENTIFIER) ?: return
         eventList.forEach {
@@ -150,11 +155,19 @@ class MainFragment : Fragment(), NewMainContract.View, NewMainContract.Initializ
                 presenter.fetchEvents()
             }
         }
+
+        checkToken()
     }
 
     private fun openWrite() {
         val activity = activity as? NewMainActivity ?: return
         activity.openWrite()
+    }
+
+    private fun checkToken() {
+        val identifier = mArgs?.getString(KEY_IDENTIFIER) ?: return
+        val token = PreferenceUtils.newToken ?: return
+        presenter.updateToken(identifier, token)
     }
 
     companion object {

@@ -1,26 +1,25 @@
 package dev.kxxcn.app_with.ui.main.setting.notification
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.zcw.togglebutton.ToggleButton
 import dev.kxxcn.app_with.R
-import dev.kxxcn.app_with.data.DataRepository
-import dev.kxxcn.app_with.data.model.setting.ResponseSetting
-import dev.kxxcn.app_with.data.remote.MessagingService
-import dev.kxxcn.app_with.data.remote.RemoteDataSource
 import dev.kxxcn.app_with.ui.main.setting.NewSettingFragment
-import dev.kxxcn.app_with.util.Constants
+import dev.kxxcn.app_with.util.NotificationUtils
+import dev.kxxcn.app_with.util.Utils
+import dev.kxxcn.app_with.util.preference.PreferenceUtils
 import dev.kxxcn.app_with.util.threading.UiThread
 import kotlinx.android.synthetic.main.fragment_notification.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
 
-class NotificationFragment : Fragment(), NotificationContract.View {
+class NotificationFragment : Fragment() {
 
     private var identifier: String? = null
-
-    private var presenter: NotificationContract.Presenter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_notification, container, false)
@@ -31,62 +30,144 @@ class NotificationFragment : Fragment(), NotificationContract.View {
 
         identifier = arguments?.getString(KEY_IDENTIFIER)
 
-        NotificationPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()))
+        setupLayout()
         setupListener()
 
         UiThread.getInstance().postDelayed({
-            alphaAnimation(tv_notice_with,
-                    tb_notice_with,
-                    tv_notice,
-                    tb_notice,
-                    tv_notice_event,
-                    tb_notice_event)
+            val visibleView = if (Utils.isGreaterThanOrEqualToOreo()) {
+                ll_upper_parent.visibility = View.VISIBLE
+                ll_lower_parent.visibility = View.GONE
+                ll_upper_parent
+            } else {
+                ll_lower_parent.visibility = View.VISIBLE
+                ll_upper_parent.visibility = View.GONE
+                ll_lower_parent
+            }
+            alphaAnimation(visibleView)
         }, NewSettingFragment.DURATION)
-
-        presenter?.fetchNotificationConfig(identifier)
     }
 
-    override fun onDestroyView() {
-        presenter?.release()
-        super.onDestroyView()
-    }
-
-    override fun updateNotificationConfig(config: ResponseSetting) {
-        val context = context ?: return
-        val noticeWith = config.noticeWith
-        val notice = config.notice
-        val noticeEvent = config.noticeEvent
-        context.getSharedPreferences(
-                getString(R.string.app_name_en),
-                Context.MODE_PRIVATE)
-                .edit()?.apply {
-                    putInt(MessagingService.KEY_NOTICE_WITH, noticeWith)
-                    putInt(MessagingService.KEY_NOTICE, notice)
-                    putInt(MessagingService.KEY_NOTICE_EVENT, noticeEvent)
-                    apply()
-                }
-        noticeWith.takeIf { it == 0 }?.let { tb_notice_with.setToggleOff() }
-        notice.takeIf { it == 0 }?.let { tb_notice.setToggleOff() }
-        noticeEvent.takeIf { it == 0 }?.let { tb_notice_event.setToggleOff() }
-    }
-
-    override fun setPresenter(_presenter: NotificationContract.Presenter?) {
-        presenter = _presenter
-    }
-
-    override fun showLoadingIndicator(isShowing: Boolean) {
-        pb_loading.visibility = if (isShowing) View.VISIBLE else View.GONE
+    private fun setupLayout() {
+        toggle(tb_notice_used, PreferenceUtils.notifyNotice)
+        toggle(tb_diary_used, PreferenceUtils.notifyDiary)
+        toggle(tb_plan_used, PreferenceUtils.notifyPlan)
+        toggle(tb_day_used, PreferenceUtils.notifyDay)
+        toggle(tb_notice_vibrate, PreferenceUtils.notifyNoticeVibrate)
+        toggle(tb_notice_sound, PreferenceUtils.notifyNoticeSound)
+        toggle(tb_diary_vibrate, PreferenceUtils.notifyDiaryVibrate)
+        toggle(tb_diary_sound, PreferenceUtils.notifyDiarySound)
+        toggle(tb_plan_vibrate, PreferenceUtils.notifyPlanVibrate)
+        toggle(tb_plan_sound, PreferenceUtils.notifyPlanSound)
+        toggle(tb_day_vibrate, PreferenceUtils.notifyDayVibrate)
+        toggle(tb_day_sound, PreferenceUtils.notifyDaySound)
     }
 
     private fun setupListener() {
-        tb_notice_with.setOnToggleChanged { presenter?.changeStatus(identifier, Constants.NotificationFilter.NOTICE_WITH, it) }
-        tb_notice.setOnToggleChanged { presenter?.changeStatus(identifier, Constants.NotificationFilter.NOTICE, it) }
-        tb_notice_event.setOnToggleChanged { presenter?.changeStatus(identifier, Constants.NotificationFilter.NOTICE_EVENT, it) }
+        fl_notify_notice.onClick { settingNotification(it) }
+        fl_notify_diary.onClick { settingNotification(it) }
+        fl_notify_plan.onClick { settingNotification(it) }
+        fl_notify_day.onClick { settingNotification(it) }
+        tb_notice_used.apply { setOnToggleChanged { settingNotification(this, it) } }
+        tb_diary_used.apply { setOnToggleChanged { settingNotification(this, it) } }
+        tb_plan_used.apply { setOnToggleChanged { settingNotification(this, it) } }
+        tb_day_used.apply { setOnToggleChanged { settingNotification(this, it) } }
+        tb_notice_vibrate.apply { setOnToggleChanged { settingNotification(this, it) } }
+        tb_notice_sound.apply { setOnToggleChanged { settingNotification(this, it) } }
+        tb_diary_vibrate.apply { setOnToggleChanged { settingNotification(this, it) } }
+        tb_diary_sound.apply { setOnToggleChanged { settingNotification(this, it) } }
+        tb_plan_vibrate.apply { setOnToggleChanged { settingNotification(this, it) } }
+        tb_plan_sound.apply { setOnToggleChanged { settingNotification(this, it) } }
+        tb_day_vibrate.apply { setOnToggleChanged { settingNotification(this, it) } }
+        tb_day_sound.apply { setOnToggleChanged { settingNotification(this, it) } }
+    }
+
+    private fun toggle(v: ToggleButton, on: Boolean) {
+        if (on) {
+            v.toggleOn()
+        } else {
+            v.setToggleOff()
+        }
     }
 
     private fun alphaAnimation(vararg views: View) {
-        views.forEach {
-            it.animate().alpha(1.0f).duration = DURATION
+        views.forEach { it.animate().alpha(1.0f).duration = DURATION }
+    }
+
+    private fun settingNotification(v: View?, on: Boolean? = null) {
+        v ?: return
+        if (Utils.isGreaterThanOrEqualToOreo()) {
+            val activity = activity ?: return
+            val channelId = when (v.id) {
+                R.id.fl_notify_diary -> NotificationUtils.CHANNEL_DIARY
+                R.id.fl_notify_plan -> NotificationUtils.CHANNEL_PLAN
+                R.id.fl_notify_day -> NotificationUtils.CHANNEL_DAY
+                R.id.fl_notify_notice -> NotificationUtils.CHANNEL_NOTICE
+                else -> NotificationUtils.CHANNEL_DIARY
+            }
+            val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+            intent.putExtra(Settings.EXTRA_CHANNEL_ID, channelId)
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, activity.packageName)
+            startActivity(intent)
+        } else {
+            on ?: return
+            when (v.id) {
+                R.id.tb_notice_used -> {
+                    if (on) {
+                        tb_notice_vibrate.setToggleOn(true)
+                        tb_notice_sound.setToggleOn(true)
+                    } else {
+                        tb_notice_vibrate.setToggleOff(true)
+                        tb_notice_sound.setToggleOff(true)
+                    }
+                    tb_notice_vibrate.isEnabled = on
+                    tb_notice_sound.isEnabled = on
+                    PreferenceUtils.notifyNotice = on
+                }
+                R.id.tb_diary_used -> {
+                    if (on) {
+                        tb_diary_vibrate.setToggleOn(true)
+                        tb_diary_sound.setToggleOn(true)
+                    } else {
+                        tb_diary_vibrate.setToggleOff(true)
+                        tb_diary_sound.setToggleOff(true)
+                    }
+                    tb_diary_vibrate.isEnabled = on
+                    tb_diary_sound.isEnabled = on
+                    PreferenceUtils.notifyDiary = on
+                }
+                R.id.tb_plan_used -> {
+                    if (on) {
+                        tb_plan_vibrate.setToggleOn(true)
+                        tb_plan_sound.setToggleOn(true)
+                    } else {
+                        tb_plan_vibrate.setToggleOff(true)
+                        tb_plan_sound.setToggleOff(true)
+                    }
+                    tb_plan_vibrate.isEnabled = on
+                    tb_plan_sound.isEnabled = on
+                    PreferenceUtils.notifyPlan = on
+                }
+                R.id.tb_day_used -> {
+                    if (on) {
+                        tb_day_vibrate.setToggleOn(true)
+                        tb_day_sound.setToggleOn(true)
+                    } else {
+                        tb_day_vibrate.setToggleOff(true)
+                        tb_day_sound.setToggleOff(true)
+                    }
+                    tb_day_vibrate.isEnabled = on
+                    tb_day_sound.isEnabled = on
+                    PreferenceUtils.notifyDay = on
+                }
+                R.id.tb_notice_vibrate -> PreferenceUtils.notifyNoticeVibrate = on
+                R.id.tb_notice_sound -> PreferenceUtils.notifyNoticeSound = on
+                R.id.tb_diary_vibrate -> PreferenceUtils.notifyDiaryVibrate = on
+                R.id.tb_diary_sound -> PreferenceUtils.notifyDiarySound = on
+                R.id.tb_plan_vibrate -> PreferenceUtils.notifyPlanVibrate = on
+                R.id.tb_plan_sound -> PreferenceUtils.notifyPlanSound = on
+                R.id.tb_day_vibrate -> PreferenceUtils.notifyDayVibrate = on
+                R.id.tb_day_sound -> PreferenceUtils.notifyDaySound = on
+            }
         }
     }
 

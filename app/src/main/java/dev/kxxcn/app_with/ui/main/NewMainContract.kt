@@ -13,6 +13,8 @@ interface NewMainContract {
 
         fun showSuccessfulLoadPlan(planList: List<Plan>, idsList: List<String>)
 
+        fun showSuccessfulUpdateToken()
+
         fun showFailedRequest(throwable: String?, type: Int)
 
         fun showEvents(eventList: List<Event>)
@@ -28,6 +30,8 @@ interface NewMainContract {
         fun getDiary(flag: Int, uniqueIdentifier: String?)
 
         fun fetchEvents()
+
+        fun updateToken(identifier: String, token: String)
     }
 
     interface Expandable {

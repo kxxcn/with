@@ -247,6 +247,9 @@
     <string name="text_attendance_month">전체 %1$d일</string>
     <string name="text_attendance_days">%1$d일</string>
     <string name="text_review">리뷰</string>
+    <string name="text_notify_used">알림 사용</string>
+    <string name="text_vibrate_used">진동</string>
+    <string name="text_sound_used">소리</string>
 
     <string name="push_content_diary">새 [일기]가 등록되었어요.</string>
     <string name="push_content_plan">새 [일정]이 등록되었어요.</string>

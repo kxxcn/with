@@ -1,6 +1,5 @@
 package dev.kxxcn.app_with.ui.main.setting
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -20,7 +19,6 @@ import dev.kxxcn.app_with.data.model.setting.ResponseSetting
 import dev.kxxcn.app_with.data.model.share.ShareElement
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
 import dev.kxxcn.app_with.ui.main.WrapFragmentActivity
-import dev.kxxcn.app_with.ui.main.setting.SettingFragment.PREF_TOKEN
 import dev.kxxcn.app_with.ui.main.setting.lock.LockFragment
 import dev.kxxcn.app_with.ui.main.setting.notice.NoticeActivity
 import dev.kxxcn.app_with.ui.main.setting.notification.NotificationFragment
@@ -31,6 +29,7 @@ import dev.kxxcn.app_with.util.Constants.DELAY_SIGN_OUT
 import dev.kxxcn.app_with.util.Constants.KEY_IDENTIFIER
 import dev.kxxcn.app_with.util.DialogUtils
 import dev.kxxcn.app_with.util.SystemUtils
+import dev.kxxcn.app_with.util.preference.PreferenceUtils
 import kotlinx.android.synthetic.main.fragment_new_setting.*
 import kotlinx.coroutines.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -77,13 +76,7 @@ class NewSettingFragment : Fragment(), SettingContract.View {
     }
 
     override fun showSuccessfulUpdateToken() {
-        val preferences = context?.getSharedPreferences(
-                getString(R.string.app_name_en),
-                Context.MODE_PRIVATE)
-                ?: return
-        val editor = preferences.edit()
-        editor.putString(PREF_TOKEN, null)
-        editor.apply()
+        PreferenceUtils.newToken = null
     }
 
     override fun showSuccessfulCheckVersion(_latestVersion: String?) {
@@ -149,13 +142,8 @@ class NewSettingFragment : Fragment(), SettingContract.View {
     }
 
     private fun checkToken() {
-        val preferences = context?.getSharedPreferences(
-                getString(R.string.app_name_en),
-                Context.MODE_PRIVATE)
-                ?: return
-        val newToken = preferences.getString(PREF_TOKEN, null)
-        if (newToken != null) {
-            presenter?.updateToken(identifier, newToken)
+        if (PreferenceUtils.newToken != null) {
+            presenter?.updateToken(identifier, PreferenceUtils.newToken)
         }
     }
 

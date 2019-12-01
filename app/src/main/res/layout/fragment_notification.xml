@@ -1,74 +1,687 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_notice_with"
-        style="@style/WithTextView"
-        android:layout_margin="20dp"
-        android:alpha="0.0"
-        android:text="@string/text_notice_with"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <com.zcw.togglebutton.ToggleButton
-        android:id="@+id/tb_notice_with"
-        style="@style/SettingToggleButton"
-        android:alpha="0.0"
-        app:layout_constraintBottom_toBottomOf="@id/tv_notice_with"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_notice_with" />
+        <LinearLayout
+            android:id="@+id/ll_upper_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.0"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:alpha="1.0">
 
-    <TextView
-        android:id="@+id/tv_notice"
-        style="@style/WithTextView"
-        android:layout_marginTop="30dp"
-        android:alpha="0.0"
-        android:text="@string/text_notify"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@id/tv_notice_with"
-        app:layout_constraintTop_toBottomOf="@id/tv_notice_with" />
+            <FrameLayout
+                android:id="@+id/fl_notify_notice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/drawable_rectangle_notify_notice">
 
-    <com.zcw.togglebutton.ToggleButton
-        android:id="@+id/tb_notice"
-        style="@style/SettingToggleButton"
-        android:alpha="0.0"
-        app:layout_constraintBottom_toBottomOf="@id/tv_notice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_notice" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="@string/text_notice"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/tv_notice_event"
-        style="@style/WithTextView"
-        android:layout_marginTop="30dp"
-        android:alpha="0.0"
-        android:text="@string/text_notice_event"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@id/tv_notice_with"
-        app:layout_constraintTop_toBottomOf="@id/tv_notice" />
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_arrow_right"
+                    android:tint="@android:color/white"
+                    tools:ignore="ContentDescription" />
 
-    <com.zcw.togglebutton.ToggleButton
-        android:id="@+id/tb_notice_event"
-        style="@style/SettingToggleButton"
-        android:alpha="0.0"
-        app:layout_constraintBottom_toBottomOf="@id/tv_notice_event"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_notice_event" />
+            </FrameLayout>
 
-    <ProgressBar
-        android:id="@+id/pb_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <FrameLayout
+                android:id="@+id/fl_notify_diary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/drawable_rectangle_notify_diary">
 
-</android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="@string/text_diary"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_arrow_right"
+                    android:tint="@android:color/white"
+                    tools:ignore="ContentDescription" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_notify_plan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/drawable_rectangle_notify_plan">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="@string/text_plan"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_arrow_right"
+                    android:tint="@android:color/white"
+                    tools:ignore="ContentDescription" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_notify_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/drawable_rectangle_notify_day">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="@string/text_dday"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_arrow_right"
+                    android:tint="@android:color/white"
+                    tools:ignore="ContentDescription" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_lower_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.0"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:alpha="1.0"
+            tools:visibility="visible">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_notify_notice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/drawable_rectangle_notify_notice"
+                android:paddingBottom="20dp"
+                app:layout_constraintEnd_toStartOf="@id/cl_notify_plan"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_notify_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="@string/text_notice"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardMaxElevation="5dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_notify_notice">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp">
+
+                        <View
+                            android:id="@+id/notice_divider1"
+                            android:layout_width="5dp"
+                            android:layout_height="25dp"
+                            android:background="@color/background_add_plan_possible"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_notify_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@id/notice_divider1"
+                            app:layout_constraintStart_toEndOf="@id/notice_divider1"
+                            app:layout_constraintTop_toTopOf="@id/notice_divider1"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_notice_used"
+                            style="@style/NotifyBigToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/notice_divider1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/notice_divider1" />
+
+                        <View
+                            android:id="@+id/notice_divider2"
+                            android:layout_width="3dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@color/background_plan_for_this_month"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/notice_divider1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_vibrate_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@id/notice_divider2"
+                            app:layout_constraintStart_toEndOf="@id/notice_divider2"
+                            app:layout_constraintTop_toTopOf="@id/notice_divider2"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_notice_vibrate"
+                            style="@style/NotifySmallToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/notice_divider2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/notice_divider2" />
+
+                        <View
+                            android:id="@+id/notice_divider3"
+                            android:layout_width="3dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@color/background_plan_for_this_month"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/notice_divider2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_sound_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@id/notice_divider3"
+                            app:layout_constraintStart_toEndOf="@id/notice_divider3"
+                            app:layout_constraintTop_toTopOf="@id/notice_divider3"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_notice_sound"
+                            style="@style/NotifySmallToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/notice_divider3"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/notice_divider3" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_notify_diary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/drawable_rectangle_notify_diary"
+                android:paddingBottom="20dp"
+                app:layout_constraintEnd_toStartOf="@id/cl_notify_plan"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_notify_diary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="@string/text_diary"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardMaxElevation="5dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_notify_diary">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp">
+
+                        <View
+                            android:id="@+id/diary_divider1"
+                            android:layout_width="5dp"
+                            android:layout_height="25dp"
+                            android:background="@color/background_add_plan_possible"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_notify_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@id/diary_divider1"
+                            app:layout_constraintStart_toEndOf="@id/diary_divider1"
+                            app:layout_constraintTop_toTopOf="@id/diary_divider1"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_diary_used"
+                            style="@style/NotifyBigToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/diary_divider1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/diary_divider1" />
+
+                        <View
+                            android:id="@+id/diary_divider2"
+                            android:layout_width="3dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@color/background_plan_for_this_month"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/diary_divider1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_vibrate_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@id/diary_divider2"
+                            app:layout_constraintStart_toEndOf="@id/diary_divider2"
+                            app:layout_constraintTop_toTopOf="@id/diary_divider2"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_diary_vibrate"
+                            style="@style/NotifySmallToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/diary_divider2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/diary_divider2" />
+
+                        <View
+                            android:id="@+id/diary_divider3"
+                            android:layout_width="3dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@color/background_plan_for_this_month"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/diary_divider2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_sound_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@id/diary_divider3"
+                            app:layout_constraintStart_toEndOf="@id/diary_divider3"
+                            app:layout_constraintTop_toTopOf="@id/diary_divider3"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_diary_sound"
+                            style="@style/NotifySmallToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/diary_divider3"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/diary_divider3" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_notify_plan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/drawable_rectangle_notify_plan"
+                android:paddingBottom="20dp"
+                app:layout_constraintEnd_toStartOf="@id/cl_notify_day"
+                app:layout_constraintStart_toEndOf="@id/cl_notify_diary"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_notify_plan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="@string/text_plan"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardMaxElevation="5dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_notify_plan">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp">
+
+                        <View
+                            android:id="@+id/plan_divider1"
+                            android:layout_width="5dp"
+                            android:layout_height="25dp"
+                            android:background="@color/background_add_plan_possible"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_notify_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@id/plan_divider1"
+                            app:layout_constraintStart_toEndOf="@id/plan_divider1"
+                            app:layout_constraintTop_toTopOf="@id/plan_divider1"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_plan_used"
+                            style="@style/NotifyBigToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/plan_divider1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/plan_divider1" />
+
+                        <View
+                            android:id="@+id/plan_divider2"
+                            android:layout_width="3dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@color/background_plan_for_this_month"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/plan_divider1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_vibrate_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@id/plan_divider2"
+                            app:layout_constraintStart_toEndOf="@id/plan_divider2"
+                            app:layout_constraintTop_toTopOf="@id/plan_divider2"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_plan_vibrate"
+                            style="@style/NotifySmallToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/plan_divider2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/plan_divider2" />
+
+                        <View
+                            android:id="@+id/plan_divider3"
+                            android:layout_width="3dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@color/background_plan_for_this_month"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/plan_divider2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_sound_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@id/plan_divider3"
+                            app:layout_constraintStart_toEndOf="@id/plan_divider3"
+                            app:layout_constraintTop_toTopOf="@id/plan_divider3"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_plan_sound"
+                            style="@style/NotifySmallToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/plan_divider3"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/plan_divider3" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_notify_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/drawable_rectangle_notify_day"
+                android:paddingBottom="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cl_notify_plan"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_notify_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="@string/text_dday"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardMaxElevation="5dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_notify_day">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp">
+
+                        <View
+                            android:id="@+id/day_divider1"
+                            android:layout_width="5dp"
+                            android:layout_height="25dp"
+                            android:background="@color/background_add_plan_possible"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_notify_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="@id/day_divider1"
+                            app:layout_constraintStart_toEndOf="@id/day_divider1"
+                            app:layout_constraintTop_toTopOf="@id/day_divider1"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_day_used"
+                            style="@style/NotifyBigToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/day_divider1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/day_divider1" />
+
+                        <View
+                            android:id="@+id/day_divider2"
+                            android:layout_width="3dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@color/background_plan_for_this_month"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/day_divider1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_vibrate_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@id/day_divider2"
+                            app:layout_constraintStart_toEndOf="@id/day_divider2"
+                            app:layout_constraintTop_toTopOf="@id/day_divider2"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_day_vibrate"
+                            style="@style/NotifySmallToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/day_divider2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/day_divider2" />
+
+                        <View
+                            android:id="@+id/day_divider3"
+                            android:layout_width="3dp"
+                            android:layout_height="15dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@color/background_plan_for_this_month"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/day_divider2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/text_sound_used"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="@id/day_divider3"
+                            app:layout_constraintStart_toEndOf="@id/day_divider3"
+                            app:layout_constraintTop_toTopOf="@id/day_divider3"
+                            tools:ignore="SmallSp" />
+
+                        <com.zcw.togglebutton.ToggleButton
+                            android:id="@+id/tb_day_sound"
+                            style="@style/NotifySmallToggleButton"
+                            app:layout_constraintBottom_toBottomOf="@id/day_divider3"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/day_divider3" />
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</ScrollView>

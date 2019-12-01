@@ -21,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tv_title"
-        android:visibility="visible">
+        android:visibility="visible"
+        tools:visibility="gone">
 
         <TextView
             android:id="@+id/tv_purpose_title"

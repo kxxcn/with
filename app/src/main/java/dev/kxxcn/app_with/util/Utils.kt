@@ -3,6 +3,7 @@ package dev.kxxcn.app_with.util
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
@@ -103,6 +104,8 @@ class Utils {
             ctx.windowManager.defaultDisplay.getMetrics(metrics)
             return metrics.densityDpi
         }
+
+        fun isGreaterThanOrEqualToOreo() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
     }
 }
 

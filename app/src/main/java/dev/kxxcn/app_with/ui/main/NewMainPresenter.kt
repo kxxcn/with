@@ -77,4 +77,14 @@ class NewMainPresenter(val view: NewMainContract.View, val dataRepository: DataR
                 })
         compositeDisposable.add(disposable)
     }
+
+    override fun updateToken(identifier: String, token: String) {
+        val disposable = dataRepository.updateToken(identifier, token)
+                .subscribe({
+                    view.showSuccessfulUpdateToken()
+                }, {
+
+                })
+        compositeDisposable.add(disposable)
+    }
 }
