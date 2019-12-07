@@ -30,4 +30,18 @@
         <item>남자</item>
         <item>여자</item>
     </string-array>
+    <string-array name="background_color_list">
+        <item>background_color0</item>
+        <item>background_color1</item>
+        <item>background_color2</item>
+        <item>background_color3</item>
+        <item>background_color4</item>
+        <item>background_color5</item>
+        <item>background_color6</item>
+        <item>background_color7</item>
+        <item>background_color8</item>
+        <item>background_color9</item>
+        <item>background_color10</item>
+        <item>background_color11</item>
+    </string-array>
 </resources>

@@ -31,6 +31,7 @@ class WrapFragmentActivity : AppCompatActivity() {
     private var id: Int = 0
     private var letterStyle: Int = -1
     private var weather: Int = -1
+    private var selected: Int = 0
 
     private var preventCancel = false
 
@@ -70,6 +71,7 @@ class WrapFragmentActivity : AppCompatActivity() {
             this@WrapFragmentActivity.id = getIntExtra(NewWriteFragment.KEY_ID, 0)
             this@WrapFragmentActivity.letterStyle = getIntExtra(NewWriteFragment.KEY_STYLE, -1)
             this@WrapFragmentActivity.weather = getIntExtra(NewWriteFragment.KEY_WEATHER, -1)
+            this@WrapFragmentActivity.selected = getIntExtra(NewWriteFragment.KEY_SELECTED, 0)
             this@WrapFragmentActivity.letter = getStringExtra(NewWriteFragment.KEY_CONTENT)
             this@WrapFragmentActivity.letterDate = getStringExtra(NewWriteFragment.KEY_DATE)
             this@WrapFragmentActivity.letterTime = getStringExtra(NewWriteFragment.KEY_TIME)
@@ -96,6 +98,7 @@ class WrapFragmentActivity : AppCompatActivity() {
                 putInt(NewWriteFragment.KEY_ID, id)
                 putInt(NewWriteFragment.KEY_STYLE, letterStyle)
                 putInt(NewWriteFragment.KEY_WEATHER, weather)
+                putInt(NewWriteFragment.KEY_SELECTED, selected)
                 putString(NewWriteFragment.KEY_CONTENT, letter)
                 putString(NewWriteFragment.KEY_DATE, letterDate)
                 putString(NewWriteFragment.KEY_TIME, letterTime)

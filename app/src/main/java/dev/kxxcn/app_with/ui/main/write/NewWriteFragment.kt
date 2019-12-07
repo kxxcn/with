@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -71,10 +72,12 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     private var diaryStyle = -1
     private var diaryWeather = -1
     private var placePosition = 0
+    private var selected = 0
 
     private var isShowKeyboard = true
     private var isHideKeyboard = true
     private var preventCancel = false
+    private var isBasic = true
 
     private var bitmap: Bitmap? = null
 
@@ -118,26 +121,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     }
 
     override fun showSuccessfulUpload() {
-        val diary = Diary(
-                diaryId,
-                arguments?.getString(KEY_IDENTIFIER),
-                et_write?.text.toString(),
-                diaryDate,
-                diaryTime,
-                places[placePosition],
-                diaryStyle,
-                DEPRECATED_INT,
-                DEPRECATED_FLOAT,
-                DEPRECATED_INT,
-                diaryPhoto,
-                DEPRECATED_INT,
-                DEPRECATED_INT,
-                diaryWeather
-        )
-        when (type) {
-            TYPE_REGISTRATION -> presenter?.registerDiary(diary)
-            TYPE_UPDATE -> presenter?.updateDiary(diary)
-        }
+        register()
     }
 
     override fun showLoadingIndicator(isShowing: Boolean) {
@@ -220,7 +204,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     }
 
     private fun setupListener() {
-        ib_photo.onClick { showImagePicker() }
+        ib_photo.onClick { showPickerDialog() }
         ib_weather.onClick { showWeatherPicker() }
         ib_font.onClick { showFontPicker() }
         ib_date.onClick {
@@ -302,6 +286,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
             diaryStyle = getInt(KEY_STYLE)
             diaryPhoto = getString(KEY_PHOTO)
             diaryWeather = getInt(KEY_WEATHER, -1)
+            selected = getInt(KEY_SELECTED, 0)
         }
     }
 
@@ -430,20 +415,28 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         datePickerFragment?.setOnClickDateListener(this)
     }
 
-    private fun showImagePicker() {
-        val context = context ?: return
+    private fun showPickerDialog() {
         KeyboardUtils.hideKeyboard(activity, et_write)
-        if (bitmap == null) {
-            imageDisposable?.dispose()
-            imageDisposable = RxImagePicker
-                    .create()
-                    .openGallery(context)
-                    .subscribe { result ->
-                        fetchImage(result.uri)
-                    }
-        } else {
-            fetchImage(null)
-        }
+        val dialog = ColorPickerDialog.newInstance(ColorPickerDialog.TYPE_PICKER)
+        dialog.show(childFragmentManager, ColorPickerDialog::class.java.name)
+    }
+
+    fun showImagePicker() {
+        val context = context ?: return
+        imageDisposable?.dispose()
+        imageDisposable = RxImagePicker
+                .create()
+                .openGallery(context)
+                .subscribe { result ->
+                    selected = 0
+                    isBasic = true
+                    fetchImage(result.uri)
+                }
+    }
+
+    fun showColorPicker() {
+        val dialog = ColorPickerDialog.newInstance(ColorPickerDialog.TYPE_COLOR, selected)
+        dialog.show(childFragmentManager, ColorPickerDialog::class.java.name)
     }
 
     private fun <T> fetchImage(source: T?) {
@@ -540,11 +533,15 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
             if (fl_loading.visibility != View.VISIBLE) {
                 if (et_write.text.isNotEmpty()) {
                     if (bitmap != null) {
-                        fab_register.visibility = View.GONE
-                        diaryPhoto = presenter?.getGalleryName(arguments?.getString(KEY_IDENTIFIER))
-                        val file = File(ImageProcessingHelper.convertToJPEG(context, bitmap, diaryPhoto))
-                        val reqFile = RequestBody.create(MediaType.parse("image/jpg"), file)
-                        presenter?.uploadImage(MultipartBody.Part.createFormData("upload", file.name, reqFile))
+                        if (isBasic) {
+                            fab_register.visibility = View.GONE
+                            diaryPhoto = presenter?.getGalleryName(arguments?.getString(KEY_IDENTIFIER))
+                            val file = File(ImageProcessingHelper.convertToJPEG(context, bitmap, diaryPhoto))
+                            val reqFile = RequestBody.create(MediaType.parse("image/jpg"), file)
+                            presenter?.uploadImage(MultipartBody.Part.createFormData("upload", file.name, reqFile))
+                        } else {
+                            register()
+                        }
                     } else {
                         toast(R.string.toast_choice_gallery)
                         preventCancel = false
@@ -556,6 +553,29 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
             }
         }
         return preventCancel
+    }
+
+    private fun register() {
+        val diary = Diary(
+                diaryId,
+                arguments?.getString(KEY_IDENTIFIER),
+                et_write?.text.toString(),
+                diaryDate,
+                diaryTime,
+                places[placePosition],
+                diaryStyle,
+                DEPRECATED_INT,
+                DEPRECATED_FLOAT,
+                DEPRECATED_INT,
+                diaryPhoto,
+                DEPRECATED_INT,
+                DEPRECATED_INT,
+                diaryWeather
+        )
+        when (type) {
+            TYPE_REGISTRATION -> presenter?.registerDiary(diary)
+            TYPE_UPDATE -> presenter?.updateDiary(diary)
+        }
     }
 
     private fun setStateBottomSheet(state: Int) {
@@ -572,6 +592,22 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
             return true
         }
         return preventCancel
+    }
+
+    fun setColor(pos: Int, name: String) {
+        selected = pos
+        diaryPhoto = name
+        val act = activity ?: return
+        val width = Utils.screenWidth(act)
+        val createBitmap = Bitmap.createBitmap(
+                width,
+                width,
+                Bitmap.Config.ARGB_8888
+        )
+        val c = Canvas(createBitmap)
+        c.drawColor(ContextCompat.getColor(act, DAY_COLORS[pos]))
+        isBasic = false
+        fetchImage(createBitmap)
     }
 
     companion object {
@@ -595,6 +631,8 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         const val KEY_PHOTO = "KEY_PHOTO"
 
         const val KEY_WEATHER = "KEY_WEATHER"
+
+        const val KEY_SELECTED = "KEY_SELECTED"
 
         private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 10L
 
@@ -628,7 +666,8 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
                 place: String? = null,
                 style: Int = -1,
                 photo: String? = null,
-                weather: Int = -1
+                weather: Int = -1,
+                selected:Int = 0
         ): NewWriteFragment {
             return NewWriteFragment().apply {
                 val args = Bundle()
@@ -642,6 +681,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
                 args.putInt(KEY_STYLE, style)
                 args.putString(KEY_PHOTO, photo)
                 args.putInt(KEY_WEATHER, weather)
+                args.putInt(KEY_SELECTED, selected)
                 arguments = args
             }
         }

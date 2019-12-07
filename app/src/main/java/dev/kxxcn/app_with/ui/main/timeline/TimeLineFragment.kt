@@ -135,6 +135,7 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
         val item = adapter?.getItem(selectedPosition).takeIf { selectedPosition > INVALID_POSITION }
                 ?: return
         selectedPosition = INVALID_POSITION
+        val context = context ?: return
         val intent = Intent(context, WrapFragmentActivity::class.java).apply {
             val className = NewWriteFragment::class.java.name
             putExtra(WrapFragmentActivity.EXTRA_CLASS_NAME, className)
@@ -148,6 +149,15 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
             putExtra(NewWriteFragment.KEY_STYLE, item.fontStyle)
             putExtra(NewWriteFragment.KEY_PHOTO, item.galleryName)
             putExtra(NewWriteFragment.KEY_WEATHER, item.letterWeather)
+            var selected = 0
+            val colorList = context.resources.getStringArray(R.array.background_color_list)
+            for ((index, colorName) in colorList.withIndex()) {
+                if (colorName == item.galleryName) {
+                    selected = index
+                    break
+                }
+            }
+            putExtra(NewWriteFragment.KEY_SELECTED, selected)
         }
         activity.openWrite(intent)
     }

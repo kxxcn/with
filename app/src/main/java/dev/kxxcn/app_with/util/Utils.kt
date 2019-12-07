@@ -1,14 +1,17 @@
 package dev.kxxcn.app_with.util
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Point
 import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.util.Constants.DAY_COLORS
 import org.jetbrains.anko.windowManager
@@ -106,6 +109,20 @@ class Utils {
         }
 
         fun isGreaterThanOrEqualToOreo() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+
+        fun screenWidth(activity: Activity): Int {
+            val display = activity.windowManager?.defaultDisplay
+            val size = Point()
+            display?.getSize(size)
+            return size.x
+        }
+
+        fun screenHeight(activity: Activity): Int {
+            val display = activity.windowManager?.defaultDisplay
+            val size = Point()
+            display?.getSize(size)
+            return size.y
+        }
     }
 }
 
@@ -118,4 +135,8 @@ fun EditText.onChanged(cb: (String) -> Unit) {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     })
+}
+
+fun ImageView.tint(color: Int) {
+    setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN)
 }

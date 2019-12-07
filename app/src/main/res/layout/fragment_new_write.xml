@@ -115,46 +115,50 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/ib_photo"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/ic_photo"
-                    android:backgroundTint="@color/tint_photo"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_photo"
+                    android:tint="@color/tint_photo"
                     app:layout_constraintEnd_toStartOf="@id/ib_weather"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/ib_weather"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/ic_weather"
-                    android:backgroundTint="@color/tint_weather"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_weather"
+                    android:tint="@color/tint_weather"
                     app:layout_constraintEnd_toStartOf="@id/ib_font"
                     app:layout_constraintStart_toEndOf="@id/ib_photo"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/ib_font"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/ic_font"
-                    android:backgroundTint="@color/tint_font"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_font"
+                    android:tint="@color/tint_font"
                     android:visibility="visible"
                     app:layout_constraintEnd_toStartOf="@id/ib_date"
                     app:layout_constraintStart_toEndOf="@id/ib_weather"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/ib_date"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/ic_calendar"
-                    android:backgroundTint="@color/tint_calendar"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_calendar"
+                    android:tint="@color/tint_calendar"
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ib_font"
@@ -406,10 +410,10 @@
                 <dev.kxxcn.app_with.util.EasyPickerView
                     android:id="@+id/epv_font"
                     android:layout_width="wrap_content"
-                    android:layout_height="250dp"
+                    android:layout_height="350dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    app:epvMaxShowNum="5"
+                    app:epvMaxShowNum="10"
                     app:epvRecycleMode="false"
                     app:epvTextColor="@color/text_place_picker"
                     app:epvTextMaxScale="2.0"

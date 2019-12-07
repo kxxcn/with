@@ -45,7 +45,7 @@ public class Constants {
 
     public static final int[] DAY_COLORS = {R.color.day_background0, R.color.day_background1, R.color.day_background2, R.color.day_background3,
             R.color.day_background4, R.color.day_background5, R.color.day_background6, R.color.day_background7, R.color.day_background8,
-            R.color.day_background9, R.color.day_background10};
+            R.color.day_background9, R.color.day_background10, R.color.day_background11};
 
     public static final int[] COLOR_DEFAULT = {R.drawable.color_default};
 
