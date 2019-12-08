@@ -33,6 +33,7 @@ import dev.kxxcn.app_with.util.preference.PreferenceUtils
 import kotlinx.android.synthetic.main.fragment_new_setting.*
 import kotlinx.coroutines.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.sdk27.coroutines.onLongClick
 import org.jetbrains.anko.support.v4.toast
 
 class NewSettingFragment : Fragment(), SettingContract.View {
@@ -139,6 +140,12 @@ class NewSettingFragment : Fragment(), SettingContract.View {
         cl_info.onClick { v -> clickItem(v) }
         cl_sign_out.onClick { v -> clickItem(v) }
         cl_contact.onClick { sendEmail() }
+        cl_info.onLongClick { showIdentifier() }
+    }
+
+    private fun showIdentifier() {
+        val dialog = IdentifierDialog.newInstance(identifier)
+        dialog.show(fragmentManager, IdentifierDialog::class.java.name)
     }
 
     private fun checkToken() {

@@ -200,6 +200,7 @@
     <string name="text_place">地方</string>
     <string name="text_time">时间</string>
     <string name="text_choice">选择</string>
+    <string name="text_copy">复制</string>
     <string name="text_choice_date">日期选择器</string>
     <string name="text_input_date">请选择一个日期。</string>
     <string name="text_next">下一个</string>
@@ -246,6 +247,7 @@
     <string name="text_notify_used">通知</string>
     <string name="text_vibrate_used">震动</string>
     <string name="text_sound_used">响铃</string>
+    <string name="text_select_bg">选择背景</string>
 
     <string name="push_content_diary">新[日记]已被注册。</string>
     <string name="push_content_plan">新[计划]已注册。</string>
@@ -255,4 +257,5 @@
     <string name="toast_insight_year">%1$d年在整个日记中创建的日记的百分比。</string>
     <string name="toast_insight_month">%1$d年%2$d月的日记百分比。</string>
     <string name="toast_insight_week">本周在%1$d月的日记中创建的日记的百分比。</string>
+    <string name="toast_copy_completed">已复制。</string>
 </resources>

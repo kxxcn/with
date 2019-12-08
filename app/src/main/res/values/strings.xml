@@ -202,6 +202,7 @@
     <string name="text_place">Place</string>
     <string name="text_time">Time</string>
     <string name="text_choice">SELECT</string>
+    <string name="text_copy">COPY</string>
     <string name="text_choice_date">Select date</string>
     <string name="text_input_date">Please select a date.</string>
     <string name="text_next">Next</string>
@@ -276,6 +277,7 @@
     <string name="text_notify_used">Notify</string>
     <string name="text_vibrate_used">Vibrate</string>
     <string name="text_sound_used">Sound</string>
+    <string name="text_select_bg">Select background</string>
 
     <string name="transition_bg" translatable="false">transition_bg</string>
     <string name="transition_icon" translatable="false">transition_icon</string>
@@ -289,4 +291,5 @@
     <string name="toast_insight_year">Percentage of diaries created in %1$d in the entire diary.</string>
     <string name="toast_insight_month">Percentage of diaries created in %2$d of the %1$d diary.</string>
     <string name="toast_insight_week">Percentage of diaries created this week in the diary in %1$d.</string>
+    <string name="toast_copy_completed">Copied.</string>
 </resources>

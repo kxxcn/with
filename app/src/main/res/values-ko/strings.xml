@@ -201,6 +201,7 @@
     <string name="text_place">장소</string>
     <string name="text_time">시간</string>
     <string name="text_choice">선택하기</string>
+    <string name="text_copy">복사하기</string>
     <string name="text_choice_date">날짜 선택</string>
     <string name="text_input_date">날짜를 선택하세요.</string>
     <string name="text_next">다음</string>
@@ -250,6 +251,7 @@
     <string name="text_notify_used">알림 사용</string>
     <string name="text_vibrate_used">진동</string>
     <string name="text_sound_used">소리</string>
+    <string name="text_select_bg">배경 선택</string>
 
     <string name="push_content_diary">새 [일기]가 등록되었어요.</string>
     <string name="push_content_plan">새 [일정]이 등록되었어요.</string>
@@ -259,4 +261,5 @@
     <string name="toast_insight_year">전체 일기 중 %1$d년에 작성한 일기 비율입니다.</string>
     <string name="toast_insight_month">%1$d년 일기 중 %2$d월에 작성한 일기 비율입니다.</string>
     <string name="toast_insight_week">%1$d월 일기 중 이번 주에 작성한 일기 비율입니다.</string>
+    <string name="toast_copy_completed">복사되었습니다.</string>
 </resources>

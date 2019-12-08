@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/namsan"
                 android:padding="20dp"
-                android:text="배경 선택"
+                android:text="@string/text_select_bg"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -68,9 +68,9 @@
 
             <LinearLayout
                 android:id="@+id/ll_gallery"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_margin="20dp"
                 android:background="@drawable/drawable_rectangle_type_gallery"
                 android:gravity="center"
                 android:padding="20dp"
@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/namsan"
-                    android:text="사진첩"
+                    android:text="@string/btn_gallery"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />
 
@@ -91,9 +91,11 @@
 
             <LinearLayout
                 android:id="@+id/ll_background"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/drawable_rectangle_type_background"
                 android:gravity="center"
@@ -108,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/namsan"
-                    android:text="배경"
+                    android:text="@string/btn_primary"
                     android:textColor="@android:color/white"
                     android:textSize="20sp" />
 
