@@ -6,13 +6,19 @@
     android:layout_height="match_parent"
     android:background="@color/primary_app">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tb_plan"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="20dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        android:src="@drawable/ic_arrow_rotate_back"
+        android:tint="@color/primary_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <dev.kxxcn.app_with.util.SwipeViewPager
         android:id="@+id/svp_plan"
@@ -21,7 +27,7 @@
         app:layout_constraintBottom_toTopOf="@id/tv_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tb_plan" />
+        app:layout_constraintTop_toBottomOf="@id/iv_back" />
 
     <TextView
         android:id="@+id/tv_register"

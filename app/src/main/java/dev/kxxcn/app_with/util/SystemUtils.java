@@ -3,7 +3,6 @@ package dev.kxxcn.app_with.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.PowerManager;
@@ -30,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 import dev.kxxcn.app_with.BuildConfig;
 import dev.kxxcn.app_with.R;
 import dev.kxxcn.app_with.ui.main.MainContract;
-import dev.kxxcn.app_with.ui.main.NewMainActivity;
+import dev.kxxcn.app_with.util.preference.PreferenceUtils;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 import static dev.kxxcn.app_with.ui.main.setting.SettingPresenter.URI_PLAY_STORE;
@@ -59,12 +58,8 @@ public class SystemUtils {
     }
 
     public static void finishOrReview(Context ctx, InterstitialAd interstitialAd) {
-        SharedPreferences preferences = ctx.getSharedPreferences(
-                ctx.getString(R.string.app_name_en),
-                Context.MODE_PRIVATE);
-        long firstTime = preferences.getLong(NewMainActivity.KEY_FIRST_TIME, 0);
         long currentTime = System.currentTimeMillis();
-        long reviewTime = currentTime - firstTime;
+        long reviewTime = currentTime - PreferenceUtils.INSTANCE.getFirstTime();
         if (TimeUnit.MILLISECONDS.toDays(reviewTime) >= 7) {
             DialogUtils.showAlertDialog(
                     ctx,
@@ -76,16 +71,12 @@ public class SystemUtils {
                         calendar.setTimeInMillis(currentTime);
                         int year = calendar.get(Calendar.YEAR);
                         calendar.set(Calendar.YEAR, year + 1);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putLong(NewMainActivity.KEY_FIRST_TIME, calendar.getTimeInMillis());
-                        editor.commit();
+                        PreferenceUtils.INSTANCE.setFirstTime(calendar.getTimeInMillis());
                         onFinish((Activity) ctx);
                         goMarket(ctx);
                     },
                     (dialog, which) -> {
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putLong(NewMainActivity.KEY_FIRST_TIME, currentTime);
-                        editor.commit();
+                        PreferenceUtils.INSTANCE.setFirstTime(currentTime);
                         onFinish((Activity) ctx);
                         interstitialAd.show();
                     }

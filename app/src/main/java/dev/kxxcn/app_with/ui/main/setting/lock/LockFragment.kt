@@ -63,7 +63,7 @@ class LockFragment : Fragment(), LockContract.Setting.View {
 
     override fun updateLockConfig(config: ResponseSetting?) {
         if (config?.diaryLock.isNullOrEmpty()) {
-            tb_lock.setToggleOff()
+            tb_lock?.setToggleOff()
         }
     }
 
@@ -85,9 +85,9 @@ class LockFragment : Fragment(), LockContract.Setting.View {
         }
     }
 
-    private fun alphaAnimation(vararg views: View) {
+    private fun alphaAnimation(vararg views: View?) {
         views.forEach {
-            it.animate().alpha(1.0f).duration = DURATION
+            it?.animate()?.alpha(1.0f)?.duration = DURATION
         }
     }
 
