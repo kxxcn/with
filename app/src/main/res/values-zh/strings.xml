@@ -248,6 +248,14 @@
     <string name="text_vibrate_used">震动</string>
     <string name="text_sound_used">响铃</string>
     <string name="text_select_bg">选择背景</string>
+    <string name="text_guide_diary_title">记录您的回忆。</string>
+    <string name="text_guide_plan_title">分享你的周年纪念。</string>
+    <string name="text_guide_day_title">不要忘记一个特殊的日子。</string>
+    <string name="text_guide_welcome_title">欢迎使用WITH。</string>
+    <string name="text_guide_diary_des">写一对情侣日记，检查彼此的爱意。</string>
+    <string name="text_guide_plan_des">注册重要的约会和纪念日，并与亲人分享。</string>
+    <string name="text_guide_day_des">请记住重要的回忆。</string>
+    <string name="text_guide_welcome_des">祝你有美好的一天！</string>
 
     <string name="push_content_diary">新[日记]已被注册。</string>
     <string name="push_content_plan">新[计划]已注册。</string>
