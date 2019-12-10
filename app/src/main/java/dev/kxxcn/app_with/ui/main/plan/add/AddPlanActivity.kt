@@ -69,13 +69,6 @@ class AddPlanActivity : AppCompatActivity(), AddPlanContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_plan)
-        setSupportActionBar(tb_plan)
-
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowTitleEnabled(false)
-            setHomeAsUpIndicator(getHomeIcon(R.drawable.ic_back))
-        }
 
         val display = windowManager.defaultDisplay
         val size = Point()
@@ -94,12 +87,8 @@ class AddPlanActivity : AppCompatActivity(), AddPlanContract.View {
 
         interstitialAd = FullAdsHelper.getInstance(this)
 
-        initUI()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
+        setupListener()
+        setupLayout()
     }
 
     override fun onBackPressed() {
@@ -149,7 +138,11 @@ class AddPlanActivity : AppCompatActivity(), AddPlanContract.View {
         }
     }
 
-    private fun initUI() {
+    private fun setupListener() {
+        iv_back.onClick { onBackPressed() }
+    }
+
+    private fun setupLayout() {
         setClickableButton(0)
 
         compositeDisposable.add(planSubject.subscribe {

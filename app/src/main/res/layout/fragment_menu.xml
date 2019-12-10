@@ -39,11 +39,10 @@
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:src="@drawable/ic_arrow_rotate_back"
             android:tint="@android:color/white"
             tools:ignore="ContentDescription" />
 

@@ -114,11 +114,11 @@ class TimeLineAdapter(
             }
         }
 
-        holder.weatherIv.background = when {
-            item.letterWeather == WEATHER_SUN -> ContextCompat.getDrawable(context, R.drawable.ic_sun)
-            item.letterWeather == WEATHER_CLOUD -> ContextCompat.getDrawable(context, R.drawable.ic_cloud)
-            item.letterWeather == WEATHER_RAIN -> ContextCompat.getDrawable(context, R.drawable.ic_rain)
-            item.letterWeather == WEATHER_SNOW -> ContextCompat.getDrawable(context, R.drawable.ic_snow)
+        holder.weatherIv.background = when (item.letterWeather) {
+            WEATHER_SUN -> ContextCompat.getDrawable(context, R.drawable.ic_sun)
+            WEATHER_CLOUD -> ContextCompat.getDrawable(context, R.drawable.ic_cloud)
+            WEATHER_RAIN -> ContextCompat.getDrawable(context, R.drawable.ic_rain)
+            WEATHER_SNOW -> ContextCompat.getDrawable(context, R.drawable.ic_snow)
             else -> null
         }
     }
