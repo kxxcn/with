@@ -10,8 +10,8 @@ abstract class PreferenceExtension {
         PreferenceProvider.getInstance().edit().putInt(this, value).apply()
     }
 
-    fun String.putFloat(value: Float) {
-        PreferenceProvider.getInstance().edit().putFloat(this, value).apply()
+    fun String.putLong(value: Long) {
+        PreferenceProvider.getInstance().edit().putLong(this, value).apply()
     }
 
     fun String.putBoolean(value: Boolean) {
@@ -26,8 +26,8 @@ abstract class PreferenceExtension {
         return PreferenceProvider.getInstance().getInt(this, defValue)
     }
 
-    fun String.getFloat(defValue: Float): Float {
-        return PreferenceProvider.getInstance().getFloat(this, defValue)
+    fun String.getLong(defValue: Long): Long {
+        return PreferenceProvider.getInstance().getLong(this, defValue)
     }
 
     fun String.getBoolean(defValue: Boolean): Boolean {

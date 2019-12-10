@@ -86,7 +86,17 @@ object PreferenceUtils : PreferenceExtension() {
         get() = "notifyNoticeSound".getBoolean(true)
         set(value) = "notifyNoticeSound".putBoolean(value)
 
+    /**
+     * FCM Token
+     */
     var newToken: String?
         get() = "newToken".getString(null)
         set(value) = "newToken".putString(value)
+
+    /**
+     * 앱 첫 실행시간
+     */
+    var firstTime: Long
+        get() = "KEY_FIRST_TIME".getLong(0L)
+        set(value) = "KEY_FIRST_TIME".putLong(value)
 }

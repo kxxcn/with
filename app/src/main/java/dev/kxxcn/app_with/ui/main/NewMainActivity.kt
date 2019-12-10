@@ -1,6 +1,5 @@
 package dev.kxxcn.app_with.ui.main
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -18,6 +17,7 @@ import dev.kxxcn.app_with.ui.main.statistics.StatisticsFragment
 import dev.kxxcn.app_with.ui.main.timeline.TimeLineFragment
 import dev.kxxcn.app_with.ui.main.write.NewWriteFragment
 import dev.kxxcn.app_with.util.*
+import dev.kxxcn.app_with.util.preference.PreferenceUtils
 import kotlinx.android.synthetic.main.activity_main_new.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
@@ -49,12 +49,9 @@ class NewMainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val preferences = getSharedPreferences(getString(R.string.app_name_en), Context.MODE_PRIVATE)
-        val firstTime = preferences.getLong(KEY_FIRST_TIME, 0)
-        if (firstTime == 0L) {
-            val editor = preferences.edit()
-            editor.putLong(KEY_FIRST_TIME, System.currentTimeMillis())
-            editor.apply()
+        if (PreferenceUtils.firstTime == 0L) {
+            PreferenceUtils.firstTime = System.currentTimeMillis()
+            showGuide()
         }
     }
 
@@ -71,12 +68,12 @@ class NewMainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val menuFragment = supportFragmentManager.findFragmentById(R.id.fl_menu)
-        if (menuFragment != null) {
+        supportFragmentManager.findFragmentById(R.id.fl_menu)?.also {
+            if (it is GuideFragment) return
             supportFragmentManager
                     .beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left)
-                    .remove(menuFragment)
+                    .remove(it)
                     .commitAllowingStateLoss()
             return
         }
@@ -230,8 +227,11 @@ class NewMainActivity : AppCompatActivity() {
             View.GONE
         }
         bottomMenuList.forEach { it.active(it.id == id) }
-        fragment.enterTransition = Fade()
-        fragment.exitTransition = Fade()
+        fragment.apply {
+            val fade = Fade()
+            enterTransition = fade
+            exitTransition = fade
+        }
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fl_container, fragment).commitAllowingStateLoss()
 
@@ -242,6 +242,23 @@ class NewMainActivity : AppCompatActivity() {
                 putExtra(WrapFragmentActivity.EXTRA_IDENTIFIER, identifier)
             }
             startActivity(intent)
+        }
+    }
+
+    private fun showGuide() {
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fl_menu, GuideFragment())
+                .commitAllowingStateLoss()
+    }
+
+    fun closeGuide() {
+        supportFragmentManager.findFragmentById(R.id.fl_menu)?.also {
+            supportFragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+                    .remove(it)
+                    .commitAllowingStateLoss()
         }
     }
 
@@ -256,6 +273,5 @@ class NewMainActivity : AppCompatActivity() {
 
         const val EXTRA_IDENTIFIER = "IDENTIFIER"
         const val EXTRA_GENDER = "GENDER"
-        const val KEY_FIRST_TIME = "KEY_FIRST_TIME"
     }
 }
