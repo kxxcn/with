@@ -205,13 +205,13 @@
     <string name="text_copy">COPY</string>
     <string name="text_choice_date">Select date</string>
     <string name="text_input_date">Please select a date.</string>
-    <string name="text_next">Next</string>
+    <string name="text_next">NEXT</string>
     <string name="text_splash_title">W I T H</string>
     <string name="text_splash_content">We are together</string>
     <string name="text_not_found_diary">Please register your diary (๑˃̵ᴗ˂̵)و</string>
     <string name="text_not_found_plan">Please register a schedule (๑˃̵ᴗ˂̵)و</string>
     <string name="text_welcome_new">Hello.\nWelcome to WITH\nWelcome.</string>
-    <string name="text_start">Start</string>
+    <string name="text_start">START</string>
     <string name="text_create">Generate</string>
     <string name="text_auth_number">Certification number</string>
     <string name="text_use_alone">Write alone</string>
@@ -278,10 +278,19 @@
     <string name="text_vibrate_used">Vibrate</string>
     <string name="text_sound_used">Sound</string>
     <string name="text_select_bg">Select background</string>
+    <string name="text_guide_diary_title">Record your memories.</string>
+    <string name="text_guide_plan_title">Share anniversary.</string>
+    <string name="text_guide_day_title">Don\'t forget a special day.</string>
+    <string name="text_guide_welcome_title">Welcome to WITH.</string>
+    <string name="text_guide_diary_des">Write a couple diary and check each other\'s love.</string>
+    <string name="text_guide_plan_des">Register important appointments and anniversaries and share them with your loved ones.</string>
+    <string name="text_guide_day_des">Remember important memories.</string>
+    <string name="text_guide_welcome_des">Have a happy day!</string>
 
     <string name="transition_bg" translatable="false">transition_bg</string>
     <string name="transition_icon" translatable="false">transition_icon</string>
     <string name="transition_title" translatable="false">transition_title</string>
+    <string name="transition_timeline" translatable="false">transition_timeline</string>
 
     <string name="push_content_diary">New [Diary] has been registered.</string>
     <string name="push_content_plan">New [Plan] has been registered.</string>

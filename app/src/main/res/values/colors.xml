@@ -197,4 +197,7 @@
     <color name="chart_cloud">#f0c731</color>
     <color name="chart_rain">#8fd2d3</color>
     <color name="chart_snow">#e07821</color>
+
+    <color name="guide_selected_indicator">#f8b4b7</color>
+    <color name="guide_deselected_indicator">#bcbfc5</color>
 </resources>

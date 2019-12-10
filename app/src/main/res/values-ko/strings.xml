@@ -204,7 +204,7 @@
     <string name="text_copy">복사하기</string>
     <string name="text_choice_date">날짜 선택</string>
     <string name="text_input_date">날짜를 선택하세요.</string>
-    <string name="text_next">다음</string>
+    <string name="text_next">다 음</string>
     <string name="text_splash_title">W I T H</string>
     <string name="text_splash_content">우리함께</string>
     <string name="text_not_found_diary">일기를 등록해보세요 (๑˃̵ᴗ˂̵)و</string>
@@ -252,6 +252,14 @@
     <string name="text_vibrate_used">진동</string>
     <string name="text_sound_used">소리</string>
     <string name="text_select_bg">배경 선택</string>
+    <string name="text_guide_diary_title">추억을 기록하세요.</string>
+    <string name="text_guide_plan_title">기념일을 공유하세요.</string>
+    <string name="text_guide_day_title">특별한 날을 잊지 마세요.</string>
+    <string name="text_guide_welcome_title">[위드]에 오신 것을 환영합니다.</string>
+    <string name="text_guide_diary_des">커플 일기를 작성하고 서로에 대한 사랑을 확인하세요.</string>
+    <string name="text_guide_plan_des">중요한 약속 또는 기념일을 등록하고 사랑하는 사람과 공유하세요.</string>
+    <string name="text_guide_day_des">소중한 추억을 잊지 말고 기념하세요.</string>
+    <string name="text_guide_welcome_des">행복한 하루 보내세요!</string>
 
     <string name="push_content_diary">새 [일기]가 등록되었어요.</string>
     <string name="push_content_plan">새 [일정]이 등록되었어요.</string>
