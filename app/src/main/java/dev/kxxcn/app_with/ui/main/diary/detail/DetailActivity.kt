@@ -19,6 +19,8 @@ import android.text.TextPaint
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -31,7 +33,9 @@ import dev.kxxcn.app_with.data.remote.APIPersistence.THUMBS_URL
 import dev.kxxcn.app_with.util.Constants.FONTS
 import dev.kxxcn.app_with.util.GlideApp
 import dev.kxxcn.app_with.util.ImageProcessingHelper
-import jp.wasabeef.glide.transformations.BlurTransformation
+import dev.kxxcn.app_with.util.Utils
+import dev.kxxcn.app_with.util.threading.UiThread
+import dev.kxxcn.app_with.util.tint
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -68,12 +72,12 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
         }
 
         setupListener()
-        initUI()
+        setupLayout()
     }
 
     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
         fl_loading?.visibility = View.GONE
-        cv_content?.animate()?.alpha(0.7f)?.duration = 1000
+        sv_content?.animate()?.alpha(0.7f)?.duration = 400
         toast(R.string.text_failed_load)
         return false
     }
@@ -81,34 +85,42 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
     override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
         fl_loading?.visibility = View.GONE
         iv_download?.visibility = View.VISIBLE
-        cv_content?.animate()?.alpha(0.7f)?.duration = 1000
+        tv_preview?.animate()?.alpha(1f)?.duration = 400
+        val resourceWidth = resource?.minimumWidth ?: return false
+        var scale = Utils.screenWidth(this).toFloat() / resourceWidth.toFloat()
+        if (scale == 1f) {
+            val resourceHeight = resource.minimumHeight
+            scale = pv_background.height.toFloat() / resourceHeight.toFloat()
+        }
+        UiThread.getInstance().post { pv_background.scale = scale }
         return false
     }
 
     private fun setupListener() {
         iv_back.onClick { finish() }
         iv_download.onClick { downloadDiary() }
+        tv_more.onClick { moreDiary() }
     }
 
-    private fun initUI() {
+    private fun setupLayout() {
         tv_letter.movementMethod = ScrollingMovementMethod()
         fl_loading.visibility = View.VISIBLE
-        iv_background?.run {
+        pv_background?.run {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
                     ImageProcessingHelper.setGlide(
                             this@DetailActivity,
                             getString(R.string.param_download_image_url, THUMBS_URL, photo),
-                            iv_background,
+                            pv_background,
                             this@DetailActivity,
-                            options.transform(BlurTransformation(70))
-                                    .override(iv_background.width / 2, iv_background.height / 2)
+                            options
                     )
 
                     if (font != -1) {
                         val typeface = ResourcesCompat.getFont(this@DetailActivity, FONTS[font])
                         tv_letter.typeface = typeface
+                        tv_preview.typeface = typeface
                         tv_time.typeface = typeface
                         tv_date.typeface = typeface
                     }
@@ -116,6 +128,7 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
                     tv_date.text = date
                     tv_time.text = time
                     tv_letter.text = letter
+                    tv_preview.text = letter
                 }
             })
         }
@@ -344,12 +357,32 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
 
     private fun loading(isShowing: Boolean) {
         if (isShowing) {
-            fl_loading.visibility = View.VISIBLE
-            cv_content.visibility = View.GONE
+            fl_loading?.visibility = View.VISIBLE
+            sv_content?.visibility = View.GONE
         } else {
-            fl_loading.visibility = View.GONE
-            cv_content.visibility = View.VISIBLE
+            fl_loading?.visibility = View.GONE
+            sv_content?.visibility = View.VISIBLE
         }
+    }
+
+    private fun moreDiary() {
+        sv_content.visibility = View.VISIBLE
+        val anim = AnimationUtils.loadAnimation(this, R.anim.scale_up).also {
+            it.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationRepeat(animation: Animation?) {
+                }
+
+                override fun onAnimationEnd(animation: Animation?) {
+                    ll_preview.visibility = View.GONE
+                    iv_back.tint(ContextCompat.getColor(this@DetailActivity, R.color.primary_icon))
+                }
+
+                override fun onAnimationStart(animation: Animation?) {
+                }
+            })
+        }
+        ll_preview.animation = anim
+        sv_content?.animate()?.alpha(1f)?.duration = 400
     }
 
     companion object {

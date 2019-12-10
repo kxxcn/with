@@ -219,6 +219,11 @@ dependencies {
      * Progress Wheel View
      */
     implementation 'com.zekapp.library:progreswheelview:1.1.5'
+
+    /**
+     * PhotoView
+     */
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {
