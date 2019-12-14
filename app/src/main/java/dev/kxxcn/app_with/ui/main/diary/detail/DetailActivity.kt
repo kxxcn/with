@@ -22,6 +22,7 @@ import android.view.ViewTreeObserver
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
@@ -57,6 +58,8 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
     private var font: Int = 0
 
     private val options = RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +74,7 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
             font = getIntExtra(EXTRA_FONT, 0)
         }
 
+        setupPhotoView()
         setupListener()
         setupLayout()
     }
@@ -94,6 +98,10 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
         }
         UiThread.getInstance().post { pv_background.scale = scale }
         return false
+    }
+
+    private fun setupPhotoView() {
+        pv_background.maximumScale = 5f
     }
 
     private fun setupListener() {
@@ -355,7 +363,7 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
         }
     }
 
-    private fun loading(isShowing: Boolean) {
+    private fun loading(isShowing: Boolean) = GlobalScope.launch(Dispatchers.Main) {
         if (isShowing) {
             fl_loading?.visibility = View.VISIBLE
             sv_content?.visibility = View.GONE
