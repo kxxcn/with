@@ -35,12 +35,12 @@ class NotificationFragment : Fragment() {
 
         UiThread.getInstance().postDelayed({
             val visibleView = if (Utils.isGreaterThanOrEqualToOreo()) {
-                ll_upper_parent.visibility = View.VISIBLE
-                ll_lower_parent.visibility = View.GONE
+                ll_upper_parent?.visibility = View.VISIBLE
+                ll_lower_parent?.visibility = View.GONE
                 ll_upper_parent
             } else {
-                ll_lower_parent.visibility = View.VISIBLE
-                ll_upper_parent.visibility = View.GONE
+                ll_lower_parent?.visibility = View.VISIBLE
+                ll_upper_parent?.visibility = View.GONE
                 ll_lower_parent
             }
             alphaAnimation(visibleView)
