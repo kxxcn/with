@@ -19,10 +19,12 @@ import dev.kxxcn.app_with.ui.main.NewMainActivity
 import dev.kxxcn.app_with.ui.main.NewMainContract
 import dev.kxxcn.app_with.ui.main.WrapFragmentActivity
 import dev.kxxcn.app_with.ui.main.diary.detail.DetailActivity
+import dev.kxxcn.app_with.ui.main.diary.detail.LegacyDetailActivity
 import dev.kxxcn.app_with.ui.main.write.NewWriteFragment
 import dev.kxxcn.app_with.util.Constants
 import dev.kxxcn.app_with.util.DialogUtils
 import dev.kxxcn.app_with.util.SystemUtils
+import dev.kxxcn.app_with.util.preference.PreferenceUtils
 import kotlinx.android.synthetic.main.fragment_timeline.*
 import kotlinx.android.synthetic.main.fragment_timeline.view.*
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -97,7 +99,12 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
         val item = adapter?.getItem(position) ?: return
         when (type) {
             TYPE_DETAIL -> {
-                val intent = Intent(context, DetailActivity::class.java).apply {
+                val clazz = if (PreferenceUtils.typeOfDetailView == 0) {
+                    LegacyDetailActivity::class.java
+                } else {
+                    DetailActivity::class.java
+                }
+                val intent = Intent(context, clazz).apply {
                     putExtra(DetailActivity.EXTRA_LETTER, item.letter)
                     putExtra(DetailActivity.EXTRA_PLACE, item.letterPlace)
                     putExtra(DetailActivity.EXTRA_DATE, item.letterDate)

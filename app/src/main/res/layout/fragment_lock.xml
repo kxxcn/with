@@ -1,26 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:alpha="0.0">
+    android:alpha="0.0"
+    tools:alpha="1.0">
 
-    <TextView
-        android:id="@+id/tv_lock"
-        style="@style/WithTextView"
-        android:layout_margin="20dp"
-        android:text="@string/text_lock"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.zcw.togglebutton.ToggleButton
-        android:id="@+id/tb_lock"
-        style="@style/SettingToggleButton"
-        app:layout_constraintBottom_toBottomOf="@id/tv_lock"
+    <FrameLayout
+        android:id="@+id/fl_lock"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_lock" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_lock"
+            style="@style/WithTextView"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="20dp"
+            android:text="@string/text_lock"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <com.zcw.togglebutton.ToggleButton
+            android:id="@+id/tb_lock"
+            style="@style/SettingToggleButton"
+            android:layout_gravity="center_vertical|end" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fl_lock">
+
+        <TextView
+            android:id="@+id/tv_detail"
+            style="@style/WithTextView"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="20dp"
+            android:text="@string/text_type_of_detail_view"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_lock" />
+
+        <ImageView
+            android:id="@+id/tb_detail"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_arrow_right"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

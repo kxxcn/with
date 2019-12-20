@@ -286,6 +286,8 @@
     <string name="text_guide_plan_des">Register important appointments and anniversaries and share them with your loved ones.</string>
     <string name="text_guide_day_des">Remember important memories.</string>
     <string name="text_guide_welcome_des">Have a happy day!</string>
+    <string name="text_general">General</string>
+    <string name="text_type_of_detail_view">Type of diary detail view</string>
 
     <string name="transition_bg" translatable="false">transition_bg</string>
     <string name="transition_icon" translatable="false">transition_icon</string>

@@ -17,7 +17,9 @@
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:targetApi="n">
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -72,6 +74,12 @@
             android:name=".ui.main.WrapFragmentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.main.diary.detail.LegacyDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.setting.lock.DetailTypeActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".data.remote.MessagingService"

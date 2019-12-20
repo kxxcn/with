@@ -99,4 +99,11 @@ object PreferenceUtils : PreferenceExtension() {
     var firstTime: Long
         get() = "KEY_FIRST_TIME".getLong(0L)
         set(value) = "KEY_FIRST_TIME".putLong(value)
+
+    /**
+     * 일기 상세보기 화면 타입
+     */
+    var typeOfDetailView: Int
+        get() = "typeOfDetailView".getInt(0)
+        set(value) = "typeOfDetailView".putInt(value)
 }

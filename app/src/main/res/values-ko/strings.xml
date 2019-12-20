@@ -260,6 +260,8 @@
     <string name="text_guide_plan_des">중요한 약속 또는 기념일을 등록하고 사랑하는 사람과 공유하세요.</string>
     <string name="text_guide_day_des">소중한 추억을 잊지 말고 기념하세요.</string>
     <string name="text_guide_welcome_des">행복한 하루 보내세요!</string>
+    <string name="text_general">일반</string>
+    <string name="text_type_of_detail_view">일기 상세보기 화면</string>
 
     <string name="push_content_diary">새 [일기]가 등록되었어요.</string>
     <string name="push_content_plan">새 [일정]이 등록되었어요.</string>

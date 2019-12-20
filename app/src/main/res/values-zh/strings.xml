@@ -256,6 +256,8 @@
     <string name="text_guide_plan_des">注册重要的约会和纪念日，并与亲人分享。</string>
     <string name="text_guide_day_des">请记住重要的回忆。</string>
     <string name="text_guide_welcome_des">祝你有美好的一天！</string>
+    <string name="text_general">一般</string>
+    <string name="text_type_of_detail_view">日记详细信息视图的类型</string>
 
     <string name="push_content_diary">新[日记]已被注册。</string>
     <string name="push_content_plan">新[计划]已注册。</string>

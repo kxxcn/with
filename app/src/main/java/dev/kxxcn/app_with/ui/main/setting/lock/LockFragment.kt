@@ -16,6 +16,8 @@ import dev.kxxcn.app_with.ui.main.setting.notification.NotificationFragment
 import dev.kxxcn.app_with.util.DialogUtils
 import dev.kxxcn.app_with.util.threading.UiThread
 import kotlinx.android.synthetic.main.fragment_lock.*
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.support.v4.startActivity
 
 class LockFragment : Fragment(), LockContract.Setting.View {
 
@@ -68,6 +70,7 @@ class LockFragment : Fragment(), LockContract.Setting.View {
     }
 
     private fun setupListener() {
+        fl_detail.onClick { selectType() }
         tb_lock.setOnToggleChanged { status ->
             if (status) {
                 val intent = Intent(context, LockActivity::class.java).apply {
@@ -89,6 +92,10 @@ class LockFragment : Fragment(), LockContract.Setting.View {
         views.forEach {
             it?.animate()?.alpha(1.0f)?.duration = DURATION
         }
+    }
+
+    private fun selectType() {
+        startActivity<DetailTypeActivity>()
     }
 
     companion object {

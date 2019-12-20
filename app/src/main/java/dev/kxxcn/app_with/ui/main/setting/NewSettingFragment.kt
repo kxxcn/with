@@ -206,7 +206,7 @@ class NewSettingFragment : Fragment(), SettingContract.View {
         val fragment = WrapFragment.newInstance(
                 LockFragment::class.java.name,
                 R.drawable.ic_setting_lock,
-                getString(R.string.text_lock),
+                getString(R.string.text_general),
                 R.color.background_setting_lock,
                 identifier
         )

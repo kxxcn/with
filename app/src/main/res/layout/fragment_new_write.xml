@@ -20,6 +20,7 @@
             android:background="@drawable/drawable_rectangle_plan_edit"
             android:fontFamily="@font/namsan"
             android:hint="@string/hint_write"
+            android:lineSpacingExtra="5dp"
             android:maxHeight="120dp"
             android:minHeight="60dp"
             android:padding="10dp"

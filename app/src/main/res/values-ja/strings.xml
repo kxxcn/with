@@ -259,6 +259,8 @@
     <string name="text_guide_plan_des">重要な約束や記念日を登録して最愛の人と共有できます。</string>
     <string name="text_guide_day_des">大切な思い出を忘れずに記念下さい。</string>
     <string name="text_guide_welcome_des">幸せな一日を過ごす！</string>
+    <string name="text_general">一般的な</string>
+    <string name="text_type_of_detail_view">日記詳細ビューのタイプ</string>
 
     <string name="push_content_diary">新しい[日記]が登録されました。</string>
     <string name="push_content_plan">新しい[日程]が登録されました。</string>
