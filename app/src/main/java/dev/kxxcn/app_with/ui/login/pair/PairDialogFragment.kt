@@ -8,7 +8,6 @@ import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.firebase.iid.FirebaseInstanceId
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.DataRepository
@@ -18,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.support.v4.toast
 
 class PairDialogFragment : DialogFragment(), PairDialogContract.View {
 
@@ -52,7 +52,7 @@ class PairDialogFragment : DialogFragment(), PairDialogContract.View {
                     presenter?.createPairingKey(identifier, it.token, 0)
                 }
                 .addOnFailureListener {
-                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    toast(it.message.toString())
                 }
         setUpListener()
     }

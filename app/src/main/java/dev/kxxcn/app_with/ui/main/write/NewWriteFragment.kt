@@ -480,11 +480,11 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     private fun showFontPicker() {
         KeyboardUtils.hideKeyboard(activity, et_write)
         UiThread.getInstance().postDelayed({
-            iv_photo.visibility = View.GONE
-            cl_weather.visibility = View.GONE
-            ll_font.visibility = View.VISIBLE
-            iv_stick.visibility = View.VISIBLE
-            iv_select_font.visibility = View.VISIBLE
+            iv_photo?.visibility = View.GONE
+            cl_weather?.visibility = View.GONE
+            ll_font?.visibility = View.VISIBLE
+            iv_stick?.visibility = View.VISIBLE
+            iv_select_font?.visibility = View.VISIBLE
             setStateBottomSheet(BottomSheetBehavior.STATE_EXPANDED)
             if (diaryStyle == -1) changeFont(0)
         }, DELAY_PICKER)
@@ -504,7 +504,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     private fun changeFont(index: Int) {
         val context = context ?: return
         val typeface = ResourcesCompat.getFont(context, FONTS[index])
-        et_write.typeface = typeface
+        et_write?.typeface = typeface
         diaryStyle = index
     }
 
