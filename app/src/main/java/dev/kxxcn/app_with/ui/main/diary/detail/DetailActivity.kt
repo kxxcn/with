@@ -75,8 +75,8 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
         }
 
         setupPhotoView()
-        setupListener()
         setupLayout()
+        setupListener()
     }
 
     override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
@@ -95,6 +95,12 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
         if (scale == 1f) {
             val resourceHeight = resource.minimumHeight
             scale = pv_background.height.toFloat() / resourceHeight.toFloat()
+        }
+        if (scale > pv_background.maximumScale) {
+            scale = pv_background.maximumScale
+        }
+        if (scale < pv_background.minimumScale) {
+            scale = pv_background.minimumScale
         }
         UiThread.getInstance().post { pv_background.scale = scale }
         return false
@@ -383,6 +389,7 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
                 override fun onAnimationEnd(animation: Animation?) {
                     ll_preview.visibility = View.GONE
                     iv_back.tint(ContextCompat.getColor(this@DetailActivity, R.color.primary_icon))
+                    iv_download.tint(ContextCompat.getColor(this@DetailActivity, R.color.primary_icon))
                 }
 
                 override fun onAnimationStart(animation: Animation?) {
