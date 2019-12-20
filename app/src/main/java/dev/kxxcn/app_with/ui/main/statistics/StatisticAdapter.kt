@@ -10,6 +10,7 @@ import android.widget.TextView
 import at.grabner.circleprogress.CircleProgressView
 import com.app.progresviews.ProgressLine
 import com.app.progresviews.ProgressWheel
+import com.crashlytics.android.Crashlytics
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -65,12 +66,22 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val year = calendar.get(Calendar.YEAR)
                 val month = calendar.get(Calendar.MONTH) + 1
                 val yearList = item.diary.filter {
-                    val date = it.letterDate.split("-")
-                    year == date[0].toInt()
+                    try {
+                        val date = it.letterDate.split("-")
+                        year == date[0].toInt()
+                    } catch (e: Exception) {
+                        Crashlytics.logException(RuntimeException("[YEAR] Diary ID: ${it.id}"))
+                        false
+                    }
                 }
                 val monthList = item.diary.filter {
-                    val date = it.letterDate.split("-")
-                    month == date[1].toInt()
+                    try {
+                        val date = it.letterDate.split("-")
+                        month == date[1].toInt()
+                    } catch (e: Exception) {
+                        Crashlytics.logException(RuntimeException("[MONTH] Diary ID: ${it.id}"))
+                        false
+                    }
                 }
 
                 val weekStartDate = Calendar.getInstance()
