@@ -128,163 +128,165 @@ class LegacyDetailActivity : AppCompatActivity(), RequestListener<Drawable> {
 
         loading(true)
         delay(1000)
-        GlideApp.with(this@LegacyDetailActivity)
-                .asBitmap()
-                .load(getString(R.string.param_download_image_url, THUMBS_URL, photo))
-                .into(object : SimpleTarget<Bitmap>() {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        val dates = date?.split("-") ?: return
-                        val year = dates[0]
-                        val month = dates[1]
-                        val day = dates[2]
+        if (!isFinishing && !isDestroyed) {
+            GlideApp.with(this@LegacyDetailActivity)
+                    .asBitmap()
+                    .load(getString(R.string.param_download_image_url, THUMBS_URL, photo))
+                    .into(object : SimpleTarget<Bitmap>() {
+                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                            val dates = date?.split("-") ?: return
+                            val year = dates[0]
+                            val month = dates[1]
+                            val day = dates[2]
 
-                        val rWidth = resource.width
-                        val rHeight = resource.height
+                            val rWidth = resource.width
+                            val rHeight = resource.height
 
-                        val createWidth = if (rWidth < rHeight) {
-                            rWidth * 2
-                        } else {
-                            rWidth
-                        }
-                        val createHeight = if (rWidth < rHeight) {
-                            rHeight + LegacyDetailActivity.DEFAULT_HEIGHT
-                        } else {
-                            if (rHeight > LegacyDetailActivity.DEFAULT_HEIGHT) {
-                                LegacyDetailActivity.DEFAULT_HEIGHT * 5
+                            val createWidth = if (rWidth < rHeight) {
+                                rWidth * 2
                             } else {
-                                rHeight * 5
+                                rWidth
+                            }
+                            val createHeight = if (rWidth < rHeight) {
+                                rHeight + DEFAULT_HEIGHT
+                            } else {
+                                if (rHeight > DEFAULT_HEIGHT) {
+                                    DEFAULT_HEIGHT * 5
+                                } else {
+                                    rHeight * 5
+                                }
+                            }
+                            val newBitmap = Bitmap.createBitmap(
+                                    createWidth,
+                                    createHeight,
+                                    Bitmap.Config.ARGB_8888
+                            )
+                            val c = Canvas(newBitmap)
+                            c.drawColor(Color.WHITE)
+
+                            if (rWidth < rHeight) {
+                                c.drawBitmap(
+                                        resource,
+                                        (rWidth).toFloat(),
+                                        (DEFAULT_HEIGHT / 2 - DEFAULT_HEIGHT / 8).toFloat(),
+                                        Paint()
+                                )
+
+                                val height = (rHeight / 2.5).toFloat() + DEFAULT_HEIGHT / 8
+                                drawMultiLineText(c, rWidth, height)
+
+                                c.drawRect(
+                                        0f,
+                                        (rHeight + DEFAULT_HEIGHT / 8 + DEFAULT_HEIGHT / 2).toFloat(),
+                                        createWidth.toFloat(),
+                                        (rHeight + DEFAULT_HEIGHT).toFloat(),
+                                        Paint().apply {
+                                            color = ContextCompat.getColor(this@LegacyDetailActivity, R.color.day_background0)
+                                            style = Paint.Style.FILL
+                                        }
+                                )
+
+                                c.drawText(
+                                        getString(R.string.format_year_month, year, month),
+                                        DEFAULT_HEIGHT / 5.toFloat(),
+                                        (rHeight + DEFAULT_HEIGHT / 8 + DEFAULT_HEIGHT / 2 + DEFAULT_HEIGHT / 4).toFloat(),
+                                        Paint().apply {
+                                            color = Color.BLACK
+                                            textSize = 30f
+                                        }
+                                )
+                                val time = time ?: return
+                                c.drawText(
+                                        time,
+                                        createWidth - DEFAULT_HEIGHT / 2.toFloat(),
+                                        (rHeight + DEFAULT_HEIGHT / 8 + DEFAULT_HEIGHT / 2 + DEFAULT_HEIGHT / 4).toFloat(),
+                                        Paint().apply {
+                                            color = Color.BLACK
+                                            textSize = 30f
+                                        }
+                                )
+                                c.drawText(
+                                        day,
+                                        0f,
+                                        (rHeight / 2.5).toFloat(),
+                                        Paint().apply {
+                                            color = ContextCompat.getColor(this@LegacyDetailActivity, R.color.text_share_day)
+                                            textSize = 300f
+                                            typeface = ResourcesCompat.getFont(this@LegacyDetailActivity, R.font.stencil)
+                                        }
+                                )
+                            } else {
+                                c.drawText(
+                                        day,
+                                        0f,
+                                        250f,
+                                        Paint().apply {
+                                            color = ContextCompat.getColor(this@LegacyDetailActivity, R.color.text_share_day)
+                                            textSize = 300f
+                                            typeface = ResourcesCompat.getFont(this@LegacyDetailActivity, R.font.stencil)
+                                        }
+                                )
+
+                                c.drawBitmap(
+                                        resource,
+                                        0f,
+                                        300f,
+                                        Paint()
+                                )
+
+                                val height = rHeight + 350f
+                                drawMultiLineText(c, rWidth, height)
+
+                                c.drawRect(
+                                        0f,
+                                        createHeight - DEFAULT_HEIGHT / 3.toFloat(),
+                                        rWidth.toFloat(),
+                                        createHeight.toFloat(),
+                                        Paint().apply {
+                                            color = ContextCompat.getColor(this@LegacyDetailActivity, R.color.day_background0)
+                                            style = Paint.Style.FILL
+                                        }
+                                )
+
+                                c.drawText(
+                                        getString(R.string.format_year_month, year, month),
+                                        DEFAULT_HEIGHT / 5.toFloat(),
+                                        createHeight - DEFAULT_HEIGHT / 8.toFloat(),
+                                        Paint().apply {
+                                            color = Color.BLACK
+                                            textSize = 25f
+                                        }
+                                )
+                                val time = time ?: return
+                                c.drawText(
+                                        time,
+                                        rWidth - (DEFAULT_HEIGHT / 2.5).toFloat(),
+                                        createHeight - DEFAULT_HEIGHT / 8.toFloat(),
+                                        Paint().apply {
+                                            color = Color.BLACK
+                                            textSize = 25f
+                                        }
+                                )
+                            }
+
+                            try {
+                                val dir = getDownloadDirPath()
+                                val fileName = "${Calendar.getInstance().timeInMillis}-download.png"
+                                val file = getOutputMediaFile(dir, fileName) ?: return
+                                val stream = FileOutputStream(file)
+                                newBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                                stream.flush()
+                                stream.close()
+                                scan(file.path)
+                                loading(false)
+                                toast(R.string.toast_success_diary_share)
+                            } catch (e: Exception) {
+                                loading(false)
+                                e.printStackTrace()
                             }
                         }
-                        val newBitmap = Bitmap.createBitmap(
-                                createWidth,
-                                createHeight,
-                                Bitmap.Config.ARGB_8888
-                        )
-                        val c = Canvas(newBitmap)
-                        c.drawColor(Color.WHITE)
-
-                        if (rWidth < rHeight) {
-                            c.drawBitmap(
-                                    resource,
-                                    (rWidth).toFloat(),
-                                    (DEFAULT_HEIGHT / 2 - DEFAULT_HEIGHT / 8).toFloat(),
-                                    Paint()
-                            )
-
-                            val height = (rHeight / 2.5).toFloat() + DEFAULT_HEIGHT / 8
-                            drawMultiLineText(c, rWidth, height)
-
-                            c.drawRect(
-                                    0f,
-                                    (rHeight + DEFAULT_HEIGHT / 8 + DEFAULT_HEIGHT / 2).toFloat(),
-                                    createWidth.toFloat(),
-                                    (rHeight + DEFAULT_HEIGHT).toFloat(),
-                                    Paint().apply {
-                                        color = ContextCompat.getColor(this@LegacyDetailActivity, R.color.day_background0)
-                                        style = Paint.Style.FILL
-                                    }
-                            )
-
-                            c.drawText(
-                                    getString(R.string.format_year_month, year, month),
-                                    DEFAULT_HEIGHT / 5.toFloat(),
-                                    (rHeight + DEFAULT_HEIGHT / 8 + DEFAULT_HEIGHT / 2 + DEFAULT_HEIGHT / 4).toFloat(),
-                                    Paint().apply {
-                                        color = Color.BLACK
-                                        textSize = 30f
-                                    }
-                            )
-                            val time = time ?: return
-                            c.drawText(
-                                    time,
-                                    createWidth - DEFAULT_HEIGHT / 2.toFloat(),
-                                    (rHeight + DEFAULT_HEIGHT / 8 + DEFAULT_HEIGHT / 2 + DEFAULT_HEIGHT / 4).toFloat(),
-                                    Paint().apply {
-                                        color = Color.BLACK
-                                        textSize = 30f
-                                    }
-                            )
-                            c.drawText(
-                                    day,
-                                    0f,
-                                    (rHeight / 2.5).toFloat(),
-                                    Paint().apply {
-                                        color = ContextCompat.getColor(this@LegacyDetailActivity, R.color.text_share_day)
-                                        textSize = 300f
-                                        typeface = ResourcesCompat.getFont(this@LegacyDetailActivity, R.font.stencil)
-                                    }
-                            )
-                        } else {
-                            c.drawText(
-                                    day,
-                                    0f,
-                                    250f,
-                                    Paint().apply {
-                                        color = ContextCompat.getColor(this@LegacyDetailActivity, R.color.text_share_day)
-                                        textSize = 300f
-                                        typeface = ResourcesCompat.getFont(this@LegacyDetailActivity, R.font.stencil)
-                                    }
-                            )
-
-                            c.drawBitmap(
-                                    resource,
-                                    0f,
-                                    300f,
-                                    Paint()
-                            )
-
-                            val height = rHeight + 350f
-                            drawMultiLineText(c, rWidth, height)
-
-                            c.drawRect(
-                                    0f,
-                                    createHeight - DEFAULT_HEIGHT / 3.toFloat(),
-                                    rWidth.toFloat(),
-                                    createHeight.toFloat(),
-                                    Paint().apply {
-                                        color = ContextCompat.getColor(this@LegacyDetailActivity, R.color.day_background0)
-                                        style = Paint.Style.FILL
-                                    }
-                            )
-
-                            c.drawText(
-                                    getString(R.string.format_year_month, year, month),
-                                    DEFAULT_HEIGHT / 5.toFloat(),
-                                    createHeight - DEFAULT_HEIGHT / 8.toFloat(),
-                                    Paint().apply {
-                                        color = Color.BLACK
-                                        textSize = 25f
-                                    }
-                            )
-                            val time = time ?: return
-                            c.drawText(
-                                    time,
-                                    rWidth - (DEFAULT_HEIGHT / 2.5).toFloat(),
-                                    createHeight - DEFAULT_HEIGHT / 8.toFloat(),
-                                    Paint().apply {
-                                        color = Color.BLACK
-                                        textSize = 25f
-                                    }
-                            )
-                        }
-
-                        try {
-                            val dir = getDownloadDirPath()
-                            val fileName = "${Calendar.getInstance().timeInMillis}-download.png"
-                            val file = getOutputMediaFile(dir, fileName) ?: return
-                            val stream = FileOutputStream(file)
-                            newBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-                            stream.flush()
-                            stream.close()
-                            scan(file.path)
-                            loading(false)
-                            toast(R.string.toast_success_diary_share)
-                        } catch (e: Exception) {
-                            loading(false)
-                            e.printStackTrace()
-                        }
-                    }
-                })
+                    })
+        }
     }
 
     private fun drawMultiLineText(c: Canvas, baseWidth: Int, baseHeight: Float) {
