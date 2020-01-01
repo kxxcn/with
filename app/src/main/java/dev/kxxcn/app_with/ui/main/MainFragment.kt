@@ -66,7 +66,7 @@ class MainFragment : Fragment(), NewMainContract.View, NewMainContract.Initializ
         NewMainPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()))
 
         setupListener()
-        initUI()
+        setupLayout()
     }
 
     override fun onDestroyView() {
@@ -143,7 +143,7 @@ class MainFragment : Fragment(), NewMainContract.View, NewMainContract.Initializ
     }
 
     @SuppressLint("DefaultLocale")
-    override fun initUI() {
+    override fun setupLayout() {
         mArgs = arguments ?: return
         presenter.subscribeIds(mArgs?.getString(KEY_IDENTIFIER))
         presenter.getDiary(DEPRECATED_INT, mArgs?.getString(KEY_IDENTIFIER))

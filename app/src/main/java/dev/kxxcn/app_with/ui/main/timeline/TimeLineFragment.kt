@@ -50,7 +50,7 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
         super.onViewCreated(view, savedInstanceState)
         TimeLinePresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()))
         setupListener()
-        initUI()
+        setupLayout()
     }
 
     override fun onDestroyView() {
@@ -186,7 +186,7 @@ class TimeLineFragment : Fragment(), TimeLineContract.View, TimeLineContract.Ite
         presenter?.deleteDiary(item.id)
     }
 
-    override fun initUI() {
+    override fun setupLayout() {
         val activity = activity ?: return
         val arg = arguments ?: return
         val identifier = arg.getString(Constants.KEY_IDENTIFIER) ?: return

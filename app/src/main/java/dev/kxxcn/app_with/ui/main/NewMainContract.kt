@@ -41,6 +41,6 @@ interface NewMainContract {
 
     interface Initializable {
 
-        fun initUI()
+        fun setupLayout()
     }
 }

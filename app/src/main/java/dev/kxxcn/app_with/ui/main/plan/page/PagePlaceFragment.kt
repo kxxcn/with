@@ -28,9 +28,8 @@ class PagePlaceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        et_place.onChanged { subject.onNext(it) }
-
-        initUI()
+        setupListener()
+        setupLayout()
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -47,7 +46,11 @@ class PagePlaceFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun initUI() {
+    private fun setupListener() {
+        et_place.onChanged { subject.onNext(it) }
+    }
+
+    private fun setupLayout() {
         view_under_line_place.run {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {

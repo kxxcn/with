@@ -35,13 +35,9 @@ class PageDateFragment : Fragment(), PlanContract.OnClickDateCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        datePickerFragment = DatePickerFragment()
-        datePickerFragment?.setOnClickDateListener(this@PageDateFragment)
-
-        initUI()
-
-        et_date.onChanged { subject.onNext(it) }
+        setupArguments()
+        setupListener()
+        setupLayout()
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -65,7 +61,16 @@ class PageDateFragment : Fragment(), PlanContract.OnClickDateCallback {
         et_date.text = SpannableStringBuilder(date)
     }
 
-    private fun initUI() {
+    private fun setupArguments() {
+        datePickerFragment = DatePickerFragment()
+    }
+
+    private fun setupListener() {
+        datePickerFragment?.setOnClickDateListener(this@PageDateFragment)
+        et_date.onChanged { subject.onNext(it) }
+    }
+
+    private fun setupLayout() {
         view_under_line_date.run {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {

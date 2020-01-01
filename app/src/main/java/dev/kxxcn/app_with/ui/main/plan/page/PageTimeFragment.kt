@@ -33,9 +33,8 @@ class PageTimeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initUI()
-
-        et_time.onChanged { subject.onNext(it) }
+        setupListener()
+        setupLayout()
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -52,7 +51,11 @@ class PageTimeFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun initUI() {
+    private fun setupListener() {
+        et_time.onChanged { subject.onNext(it) }
+    }
+
+    private fun setupLayout() {
         view_under_line_time.run {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {

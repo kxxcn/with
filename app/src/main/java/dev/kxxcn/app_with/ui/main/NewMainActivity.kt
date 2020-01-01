@@ -62,7 +62,7 @@ class NewMainActivity : AppCompatActivity() {
                 val f = currentFragment()
                         as? NewMainContract.Initializable
                         ?: return
-                f.initUI()
+                f.setupLayout()
             }
         }
     }

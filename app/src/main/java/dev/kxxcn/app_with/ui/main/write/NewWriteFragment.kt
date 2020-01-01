@@ -1,13 +1,8 @@
 package dev.kxxcn.app_with.ui.main.write
 
 import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.Snackbar
@@ -32,7 +27,6 @@ import dev.kxxcn.app_with.data.model.diary.Diary
 import dev.kxxcn.app_with.data.model.geocode.v2.Region
 import dev.kxxcn.app_with.data.remote.APIPersistence
 import dev.kxxcn.app_with.data.remote.RemoteDataSource
-import dev.kxxcn.app_with.ui.BasePresenter
 import dev.kxxcn.app_with.ui.main.MainContract
 import dev.kxxcn.app_with.ui.main.NewMainContract
 import dev.kxxcn.app_with.ui.main.WrapFragmentActivity
@@ -103,8 +97,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         setupArguments()
         setupPresenter()
         setupListener()
-        initUI()
-        // setupGeocode()
+        setupLayout()
     }
 
     override fun onDestroyView() {
@@ -142,28 +135,19 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     }
 
     override fun showSuccessfulLoadLocation(region: Region?) {
-        // ib_place?.visibility = View.VISIBLE
-        val name1 = region?.area1?.name
-        if (name1 != null) {
-            places.add(name1)
+        region?.area1?.name?.let { places.add(it) }
+        region?.area2?.name?.let { places.add(it) }
+        region?.area3?.name?.let { places.add(it) }
+        if (diaryPlace != null) {
+            placePosition = places
+                    .withIndex()
+                    .find { it.value == diaryPlace }
+                    ?.index
+                    ?: 0
         }
-        val name2 = region?.area2?.name
-        if (name2 != null) {
-            places.add(name2)
-        }
-        val name3 = region?.area3?.name
-        if (name3 != null) {
-            places.add(name3)
-        }
-        if (diaryPlace != null) placePosition = places.withIndex()
-                .find { it.value == diaryPlace }
-                ?.index
-                ?: 0
-        // epv_place?.setDataList(places)
     }
 
     override fun showUnsuccessfulLoadLocation() {
-        // ib_place?.visibility = View.GONE
         iv_select_font?.visibility = View.GONE
     }
 
@@ -211,7 +195,6 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
             it ?: return@onClick
             viewSubject.onNext(it)
         }
-        // ib_place.onClick { showPlacePicker() }
         fab_register.onClick { registerDiary() }
         epv_font.setOnScrollChangedListener(object : EasyPickerView.OnScrollChangedListener {
             override fun onScrollChanged(index: Int) {
@@ -262,19 +245,6 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         }
     }
 
-    private fun setupGeocode() {
-        PermissionUtils.setPermissions(activity, object : BasePresenter.OnPermissionListener {
-            override fun onGranted() {
-                val query = requestLocations() ?: return
-                presenter?.convertCoordToAddress(query)
-            }
-
-            override fun onDenied(deniedPermissions: ArrayList<String>) {
-                Toast.makeText(context, getString(R.string.system_denied_location_permission), Toast.LENGTH_SHORT).show()
-            }
-        }, getString(R.string.system_denied_location_permission), ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION)
-    }
-
     private fun setupArguments() {
         arguments?.run {
             type = getInt(KEY_TYPE)
@@ -294,44 +264,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         presenter = WritePresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()))
     }
 
-    private fun requestLocations(): String? {
-        if (isAdded) {
-            val context = context ?: return null
-            val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
-                    ?: return null
-            val gpsCheck = ContextCompat.checkSelfPermission(context, ACCESS_COARSE_LOCATION)
-            if (gpsCheck != PackageManager.PERMISSION_DENIED) {
-                locationManager.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER,
-                        MIN_TIME_BW_UPDATES,
-                        MIN_DISTANCE_CHANGE_FOR_UPDATES.toFloat(),
-                        object : LocationListener {
-                            override fun onLocationChanged(location: Location) {
-
-                            }
-
-                            override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {
-
-                            }
-
-                            override fun onProviderEnabled(provider: String) {
-
-                            }
-
-                            override fun onProviderDisabled(provider: String) {
-
-                            }
-                        })
-
-                val location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                        ?: return null
-                return String.format(getString(R.string.param_geocode), location.longitude, location.latitude)
-            }
-        }
-        return null
-    }
-
-    private fun initUI() {
+    private fun setupLayout() {
         val context = context ?: return
         places.add(getString(R.string.text_somewhere))
         iv_select_font.visibility = if (diaryPlace != null) View.VISIBLE else View.GONE
@@ -356,6 +289,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
                     bottomSheetBehavior?.peekHeight = height + 20
                     diaryPhoto?.let {
+                        isBasic = !it.startsWith("background_color")
                         fetchImage(context.getString(R.string.param_download_image_url, APIPersistence.IMAGES_URL, diaryPhoto))
                     }
                 }
@@ -646,8 +580,6 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
 
         private const val DELAY_PICKER = 200L
 
-        private const val DELAY_BOTTOM_COLLAPSED = 300L
-
         private const val ALPHA_SELECT_WEATHER = 1f
 
         private const val ALPHA_DESELECT_WEATHER = 0.7f
@@ -667,7 +599,7 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
                 style: Int = -1,
                 photo: String? = null,
                 weather: Int = -1,
-                selected:Int = 0
+                selected: Int = 0
         ): NewWriteFragment {
             return NewWriteFragment().apply {
                 val args = Bundle()

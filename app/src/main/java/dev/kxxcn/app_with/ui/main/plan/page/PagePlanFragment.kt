@@ -29,9 +29,8 @@ class PagePlanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        et_plan.onChanged { subject.onNext(it) }
-
-        initUI()
+        setupListener()
+        setupLayout()
     }
 
     override fun onDestroyView() {
@@ -39,7 +38,11 @@ class PagePlanFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun initUI() {
+    private fun setupListener() {
+        et_plan.onChanged { subject.onNext(it) }
+    }
+
+    private fun setupLayout() {
         view_under_line_plan.run {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {

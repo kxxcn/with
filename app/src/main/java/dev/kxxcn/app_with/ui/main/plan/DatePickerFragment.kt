@@ -54,14 +54,14 @@ class DatePickerFragment : BottomSheetDialogFragment() {
                 }
             })
         }
-        initUI()
+        setupLayout()
     }
 
     fun setOnClickDateListener(_callback: PlanContract.OnClickDateCallback) {
         callback = _callback
     }
 
-    private fun initUI() {
+    private fun setupLayout() {
         view_divider.run {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {

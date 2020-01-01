@@ -35,9 +35,9 @@ class EventDialog : DialogFragment(), RequestListener<Drawable> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        preferences = context?.getSharedPreferences(getString(R.string.app_name_en), Context.MODE_PRIVATE)
+        setupArguments()
         setupListener()
-        initUI()
+        setupLayout()
     }
 
     override fun onStart() {
@@ -66,6 +66,10 @@ class EventDialog : DialogFragment(), RequestListener<Drawable> {
         return false
     }
 
+    private fun setupArguments() {
+        preferences = context?.getSharedPreferences(getString(R.string.app_name_en), Context.MODE_PRIVATE)
+    }
+
     private fun setupListener() {
         tv_close.onClick {
             editor = preferences?.edit()
@@ -88,7 +92,7 @@ class EventDialog : DialogFragment(), RequestListener<Drawable> {
         }
     }
 
-    private fun initUI() {
+    private fun setupLayout() {
         val args = arguments ?: return
         ImageProcessingHelper.setGlide(context, args.getString(KEY_URL), iv_event, this, RequestOptions())
     }

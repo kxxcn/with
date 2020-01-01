@@ -57,7 +57,7 @@ class NewDiaryFragment : Fragment(), DiaryContract.View, RequestListener<Drawabl
 
         setHasOptionsMenu(true)
 
-        initUI()
+        setupLayout()
         fetchDetails()
         setupListener()
     }
@@ -166,7 +166,7 @@ class NewDiaryFragment : Fragment(), DiaryContract.View, RequestListener<Drawabl
         }
     }
 
-    private fun initUI() {
+    private fun setupLayout() {
         val display = activity?.windowManager?.defaultDisplay
         val size = Point()
         display?.getSize(size)

@@ -70,10 +70,9 @@ class NewPlanFragment : Fragment(), PlanContract.View, NewMainContract.Expandabl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         PlanPresenter(this, DataRepository.getInstance(RemoteDataSource.getInstance()))
-        args = arguments
-        identifier = args?.getString(Constants.KEY_IDENTIFIER)
+        setupArguments()
         setupListener()
-        initUI()
+        setupLayout()
     }
 
     override fun onResume() {
@@ -131,6 +130,11 @@ class NewPlanFragment : Fragment(), PlanContract.View, NewMainContract.Expandabl
         isUploadedPlan = false
     }
 
+    private fun setupArguments() {
+        args = arguments
+        identifier = args?.getString(Constants.KEY_IDENTIFIER)
+    }
+
     private fun setupListener() {
         iv_edit.onClick { bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED }
         tv_edit.onClick { showEditView() }
@@ -167,7 +171,7 @@ class NewPlanFragment : Fragment(), PlanContract.View, NewMainContract.Expandabl
         presenter.deletePlan(selectedId)
     }
 
-    private fun initUI() {
+    private fun setupLayout() {
         identifier ?: return
         presenter.subscribeIds(identifier)
 
