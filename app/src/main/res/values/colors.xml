@@ -190,6 +190,12 @@
     <color name="day_background9">#92d8e2</color>
     <color name="day_background10">#c0e2f7</color>
     <color name="day_background11">#b2a1bc</color>
+    <color name="day_background12">#ef404a</color>
+    <color name="day_background13">#27aae1</color>
+    <color name="day_background14">#4eb8b9</color>
+    <color name="day_background15">#ffcc4e</color>
+    <color name="day_background16">#f79552</color>
+    <color name="day_background17">#f2728c</color>
 
     <color name="bar_background">#3f5ff9</color>
 
