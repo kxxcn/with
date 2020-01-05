@@ -62,6 +62,7 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 h.totalSize.text = Utils.convertSize(item.diary.size)
             }
             is InsightHolder -> {
+                val ctx = h.itemView.context
                 val calendar = Calendar.getInstance()
                 val year = calendar.get(Calendar.YEAR)
                 val month = calendar.get(Calendar.MONTH) + 1
@@ -70,8 +71,8 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         val date = it.letterDate.split("-")
                         year == date[0].toInt()
                     } catch (e: Exception) {
-                        Crashlytics.logException(RuntimeException("[YEAR] Diary ID: ${it.id}"))
-                        false
+                        Crashlytics.logException(RuntimeException(ctx.getString(R.string.exception_message_casting, "YEAR", it.id)))
+                        return
                     }
                 }
                 val monthList = item.diary.filter {
@@ -79,8 +80,8 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         val date = it.letterDate.split("-")
                         month == date[1].toInt()
                     } catch (e: Exception) {
-                        Crashlytics.logException(RuntimeException("[MONTH] Diary ID: ${it.id}"))
-                        false
+                        Crashlytics.logException(RuntimeException(ctx.getString(R.string.exception_message_casting, "MONTH", it.id)))
+                        return
                     }
                 }
 
@@ -97,15 +98,20 @@ class StatisticAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 weekEndDate.add(Calendar.DATE, 7 - weekEndDate.get(Calendar.DAY_OF_WEEK))
 
                 val weekList = item.diary.filter {
-                    val date = it.letterDate.split("-")
-                    val compareDate = Calendar.getInstance()
-                    compareDate.set(Calendar.YEAR, date[0].toInt())
-                    compareDate.set(Calendar.MONTH, date[1].toInt() - 1)
-                    compareDate.set(Calendar.DAY_OF_MONTH, date[2].toInt())
-                    compareDate.set(Calendar.HOUR_OF_DAY, 0)
-                    compareDate.set(Calendar.MINUTE, 0)
-                    compareDate.set(Calendar.SECOND, 0)
-                    compareDate.timeInMillis >= weekStartDate.timeInMillis && compareDate.timeInMillis <= weekEndDate.timeInMillis
+                    try {
+                        val date = it.letterDate.split("-")
+                        val compareDate = Calendar.getInstance()
+                        compareDate.set(Calendar.YEAR, date[0].toInt())
+                        compareDate.set(Calendar.MONTH, date[1].toInt() - 1)
+                        compareDate.set(Calendar.DAY_OF_MONTH, date[2].toInt())
+                        compareDate.set(Calendar.HOUR_OF_DAY, 0)
+                        compareDate.set(Calendar.MINUTE, 0)
+                        compareDate.set(Calendar.SECOND, 0)
+                        compareDate.timeInMillis >= weekStartDate.timeInMillis && compareDate.timeInMillis <= weekEndDate.timeInMillis
+                    } catch (e: Exception) {
+                        Crashlytics.logException(RuntimeException(ctx.getString(R.string.exception_message_casting, "WEEK", it.id)))
+                        return
+                    }
                 }
                 val yearPercent = if (item.diary.isNotEmpty()) {
                     (yearList.size.toDouble() / item.diary.size.toDouble() * 100).toFloat()

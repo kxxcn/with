@@ -59,7 +59,7 @@ class WrapFragmentActivity : AppCompatActivity() {
             }
             if (preventCancel) return
             KeyboardUtils.hideKeyboard(this, currentFocus)
-            super.onBackPressed()
+            finish()
         }
     }
 

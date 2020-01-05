@@ -375,11 +375,11 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
 
     private fun <T> fetchImage(source: T?) {
         val context = context ?: return
-        ll_font.visibility = View.GONE
-        cl_weather.visibility = View.GONE
-        iv_photo.visibility = View.VISIBLE
-        iv_select_photo.visibility = View.VISIBLE
-        iv_stick.visibility = View.VISIBLE
+        ll_font?.visibility = View.GONE
+        cl_weather?.visibility = View.GONE
+        iv_photo?.visibility = View.VISIBLE
+        iv_select_photo?.visibility = View.VISIBLE
+        iv_stick?.visibility = View.VISIBLE
         if (source != null) {
             ImageProcessingHelper.setGlide(
                     context,
@@ -394,9 +394,9 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
     private fun showWeatherPicker() {
         KeyboardUtils.hideKeyboard(activity, et_write)
         UiThread.getInstance().postDelayed({
-            iv_photo.visibility = View.GONE
-            ll_font.visibility = View.GONE
-            cl_weather.visibility = View.VISIBLE
+            iv_photo?.visibility = View.GONE
+            ll_font?.visibility = View.GONE
+            cl_weather?.visibility = View.VISIBLE
             setStateBottomSheet(BottomSheetBehavior.STATE_EXPANDED)
             UiThread.getInstance().postDelayed({
                 val findWeather = when (diaryWeather) {
@@ -440,23 +440,6 @@ class NewWriteFragment : Fragment(), WriteContract.View, RequestListener<Bitmap>
         val typeface = ResourcesCompat.getFont(context, FONTS[index])
         et_write?.typeface = typeface
         diaryStyle = index
-    }
-
-    private fun showPlacePicker() {
-        KeyboardUtils.hideKeyboard(activity, et_write)
-        UiThread.getInstance().postDelayed({
-            iv_photo.visibility = View.GONE
-            cl_weather.visibility = View.GONE
-            ll_font.visibility = View.VISIBLE
-            iv_stick.visibility = View.VISIBLE
-            iv_select_font.visibility = View.VISIBLE
-            setStateBottomSheet(BottomSheetBehavior.STATE_EXPANDED)
-            if (diaryPlace != null) {
-                UiThread.getInstance().postDelayed({
-                    diaryPlace = null
-                }, DELAY_PICKER)
-            }
-        }, DELAY_PICKER)
     }
 
     fun registerDiary(): Boolean {

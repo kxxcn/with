@@ -78,7 +78,7 @@ class PairDialogFragment : DialogFragment(), PairDialogContract.View {
 
     override fun showSuccessfulPairingKeyRequest(key: String) {
         GlobalScope.launch(Dispatchers.Main) {
-            ttv_key.animateText(key)
+            ttv_key?.animateText(key)
         }
     }
 
