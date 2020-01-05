@@ -30,7 +30,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import dev.kxxcn.app_with.R
-import dev.kxxcn.app_with.data.remote.APIPersistence.THUMBS_URL
+import dev.kxxcn.app_with.data.remote.APIPersistence.IMAGES_URL
 import dev.kxxcn.app_with.util.Constants.FONTS
 import dev.kxxcn.app_with.util.GlideApp
 import dev.kxxcn.app_with.util.ImageProcessingHelper
@@ -125,7 +125,7 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
                     ImageProcessingHelper.setGlide(
                             this@DetailActivity,
-                            getString(R.string.param_download_image_url, THUMBS_URL, photo),
+                            getString(R.string.param_download_image_url, IMAGES_URL, photo),
                             pv_background,
                             this@DetailActivity,
                             options
@@ -157,7 +157,7 @@ class DetailActivity : AppCompatActivity(), RequestListener<Drawable> {
         delay(1000)
         GlideApp.with(this@DetailActivity)
                 .asBitmap()
-                .load(getString(R.string.param_download_image_url, THUMBS_URL, photo))
+                .load(getString(R.string.param_download_image_url, IMAGES_URL, photo))
                 .into(object : SimpleTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         val dates = date?.split("-") ?: return

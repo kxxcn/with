@@ -11,7 +11,6 @@ public class APIPersistence {
     // public static final String NAVER_SERVER_URL = "https://openapi.naver.com/v1/";
     public static final String NAVER_SERVER_URL = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/";
     public static final String IMAGES_URL = SERVER_URL + "uploads/images/";
-    public static final String THUMBS_URL = SERVER_URL + "uploads/thumbs/";
     public static final String EVENTS_URL = SERVER_URL + "uploads/events/";
     public static final String PROFILE_URL = SERVER_URL + "uploads/profile/";
     public static final String GSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";

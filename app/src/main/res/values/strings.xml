@@ -303,4 +303,6 @@
     <string name="toast_insight_month">Percentage of diaries created in %2$d of the %1$d diary.</string>
     <string name="toast_insight_week">Percentage of diaries created this week in the diary in %1$d.</string>
     <string name="toast_copy_completed">Copied.</string>
+
+    <string name="exception_message_casting" translatable="false">[%1$s] Diary ID: %2$d</string>
 </resources>

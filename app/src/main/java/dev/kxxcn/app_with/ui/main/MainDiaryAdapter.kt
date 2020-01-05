@@ -10,8 +10,7 @@ import com.bumptech.glide.request.RequestOptions
 import dev.kxxcn.app_with.R
 import dev.kxxcn.app_with.data.model.diary.Diary
 import dev.kxxcn.app_with.data.remote.APIPersistence.IMAGES_URL
-import dev.kxxcn.app_with.data.remote.APIPersistence.THUMBS_URL
-import dev.kxxcn.app_with.util.GlideApp
+import dev.kxxcn.app_with.util.ImageProcessingHelper
 
 class MainDiaryAdapter : RecyclerView.Adapter<MainDiaryAdapter.ViewHolder>() {
 
@@ -35,13 +34,11 @@ class MainDiaryAdapter : RecyclerView.Adapter<MainDiaryAdapter.ViewHolder>() {
         if (item.primaryPosition != -1) {
             holder.backgroundIv.setBackgroundColor(ContextCompat.getColor(context, mBackgroundColors[item.primaryPosition]))
         } else if (item.galleryName.isNotEmpty()) {
-            GlideApp
-                    .with(context)
-                    .load(context.getString(R.string.param_download_image_url, THUMBS_URL, item.galleryName))
-                    .error(GlideApp.with(context)
-                            .load(context.getString(R.string.param_download_image_url, IMAGES_URL, item.galleryName)))
-                    .apply(options)
-                    .into(holder.backgroundIv)
+            ImageProcessingHelper.setGlide(
+                    context,
+                    context.getString(R.string.param_download_image_url, IMAGES_URL, item.galleryName),
+                    holder.backgroundIv,
+                    options)
         }
     }
 
